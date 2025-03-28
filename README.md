@@ -15,7 +15,7 @@
  We welcome passionate collaborators! Use the same contact info as above 🤓
 
 # *Application Utility Useage Descriptor:*
- *Our "DevUtilityAndroidV2" app has been designed as a downloadable, self-contained Android application. This app integrates an AI-driven coding interface with multi-window and split-screen support, front-end customization, and manual code editing capabilities, all accessible through the app’s interface, and has been Specifically-Tailored, for Target Device & SDK-lvl, Samsung Galaxy s9+ running Android 10+*
+ *Our "DevUtilityAndroidV2" app has been designed as a downloadable, self-contained Android application. This app integrates an AI-driven coding interface with multi-window and split-screen support, front-end customization, and manual code editing capabilities, all accessible through the app’s interface, and has been specifically-tailored for Samsung's Galaxy s9+ running Android 10+ (Target Device & SDK-Level)*
 
 # Third-Party Collaborator Credits: 
 
@@ -26,11 +26,11 @@ Anthropic
  *Our app's executable code run script was forumlated through collaboration with xAI's "Grok 3", with quality control/errors double-checking from Anthropic's "Claude 3.7", which was then brought back to Grok for entirety error/quality reworkings.*
 
  # Notable Commentary 
- For years we've tirelessly trial-run-tested dozens, if not hundreds of mobile-friendly, code-creation & output-launch product options of both AI companies, normative file programs & software on browser websites with intentions being manifesting our intellectual visions.
+ For years we've tirelessly trial-run-tested dozens, if not hundreds of mobile-friendly, code-creation & output-launch product options of both AI companies, normative file programs & browser-based-software websites with intentions of manifesting our intellectual visions.
  
-With many of established as being the well-known goto "it" sources for various/all developer needs, with some even openly marketting (falsely) with "code anything professionally" products type-promises (like Replit, Code Studio, Google-Cloud, Microsoft, Android-Studio, Github's Copilot, even Apple iOS' Shortcuts..to name just a few), with zero having conceptual feasibility for what we required for our visions...
+Among the many resources we tried being the established well-known goto "it" sources for various/all developer needs, with some even openly marketting (fraudulently) with "code anything professionally" products type-promises (like Replit, Code Studio, Google-Cloud, Microsoft, Android-Studio, Github's Copilot, Termux, UserLAnd, Al-Sultan Shell, even Apple iOS' Shortcuts..to name just a few), with zero having conceptual feasibility for what we required for bringing any our visions to life...
 
-As such-confidently we convey, that without the two mentioned industry-best collaborators, and their free-useage-tiers product metrics, this project's feasibility would have never been possible for us. We specially thank both of their respective teams. *-Make sure to check their products out!* 
+As such-confidently we convey, that without the two mentioned industry-best collaborators, and their free-useage-tiers product metrics, this project's feasibility would have never been possible for us. We especially thank both of their respective teams. *-Make sure to check their products out!* 
 
 ---
  Sincerely, 
