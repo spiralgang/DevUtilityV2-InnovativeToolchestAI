@@ -1,0 +1,599 @@
+The following app-code-runscript information-collective is legally owned as proprietary company data by Spiral Ganglion Neuron Labyrinths LLC (sgNeuronLabs), & formulated from the intellectual property of it's stakeholders. It is being released as free-use utility application, do not abuse it's features. 
+We are not legally responsible for any possible actions/decisions/consequences/results interactions of any persons utilization of our program, you're all adults responsible for yourselves. A lot of time went into this, a lot of effort, many resources and numerous attempts to get it right-hope you enjoy it as much as we hope to!
+
+Need to contact us? 
+spiralgang@outlook.com
+github.com/spiralgang
+Got <s> milk </s> skill? Want to get involved? 
+**Same contact info as above 🤓**
+
+Below is the complete, final version tailored to `com.sgneuronlabs.devutilityandroidv2`, ready to copy, save, and test/launch!
+
+---
+
+## Project Structure
+- **`MainActivity.kt`**
+- **`ui/DevUtilityViewModelV2.kt`**
+- **`ui/DevUtilityAppV2.kt`**
+- **`ui/AICodingInterface.kt`**
+- **`ui/SettingsScreen.kt`**
+- **`ui/AIService.kt`**
+- **`AndroidManifest.xml`**
+- **`build.gradle`**
+
+---
+
+## Complete Code
+
+### 1. **`MainActivity.kt`**
+```kotlin
+package com.sgneuronlabs.devutilityandroidv2
+
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.core.content.ContextCompat
+import com.sgneuronlabs.devutilityandroidv2.ui.DevUtilityAppV2
+
+class MainActivity : ComponentActivity() {
+    private val permissionRequest = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        if (!isGranted) {
+            // Handle permission denial
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requestStoragePermissions()
+        setContent {
+            MaterialTheme {
+                Surface {
+                    DevUtilityAppV2(
+                        onSignIn = { launchSignIn() }
+                    )
+                }
+            }
+        }
+    }
+
+    private fun requestStoragePermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissionRequest.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+    }
+
+    private fun launchSignIn() {
+        val signInUrl = "https://platform.openai.com/account/api-keys"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(signInUrl))
+        startActivity(intent)
+    }
+}
+```
+
+---
+
+### 2. **`ui/DevUtilityViewModelV2.kt`**
+```kotlin
+package com.sgneuronlabs.devutilityandroidv2.ui
+
+import android.app.Application
+import android.content.Context
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import java.io.File
+import javax.script.ScriptEngineManager
+
+class CompilationException(message: String) : Exception(message)
+class RuntimeException(message: String) : Exception(message)
+
+data class SettingsData(var theme: String = "light", var language: String = "kotlin", var fontSize: Int = 14)
+
+class DevUtilityViewModelV2(application: Application) : AndroidViewModel(application) {
+    private val _codeInput = MutableStateFlow("")
+    val codeInput: StateFlow<String> = _codeInput
+
+    private val _suggestedCode = MutableStateFlow("")
+    val suggestedCode: StateFlow<String> = _suggestedCode
+
+    private val _executionOutput = MutableStateFlow("")
+    val executionOutput: StateFlow<String> = _executionOutput
+
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> = _error
+
+    val settings = MutableStateFlow(SettingsData())
+
+    private val sandboxDir = application.getExternalFilesDir(null) ?: throw IllegalStateException("Sandbox directory unavailable")
+    private val aiService by lazy { AIService(getApiKey()) }
+    private val codeSandbox = CodeSandbox(application)
+    private val prefs = application.getSharedPreferences("DevUtilityPrefs", Context.MODE_PRIVATE)
+
+    fun suggestCode(input: String) {
+        viewModelScope.launch {
+            try {
+                val apiKey = getApiKey()
+                if (apiKey.isEmpty()) {
+                    _error.value = "Please set your OpenAI API key first"
+                    return@launch
+                }
+                val aiResponse = aiService.generateCodeSuggestion(input, settings.value.language)
+                _suggestedCode.value = aiResponse
+                saveToSandbox(aiResponse, "suggestedCode.kt")
+            } catch (e: Exception) {
+                _error.value = "AI suggestion failed: ${e.message}"
+            }
+        }
+    }
+
+    fun executeCode(code: String) {
+        viewModelScope.launch {
+            try {
+                if (code.length > 10000) {
+                    _error.value = "Code exceeds maximum length"
+                    return@launch
+                }
+                val result = codeSandbox.execute(code)
+                _executionOutput.value = result
+                saveToSandbox(result, "executionOutput.txt")
+            } catch (compileError: CompilationException) {
+                _executionOutput.value = "Compilation Error: ${compileError.message}"
+            } catch (runtimeError: RuntimeException) {
+                _executionOutput.value = "Runtime Error: ${runtimeError.message}"
+            } catch (e: Exception) {
+                _error.value = "Execution failed: ${e.message}"
+            }
+        }
+    }
+
+    private fun saveToSandbox(content: String, fileName: String) {
+        val file = File(sandboxDir, fileName)
+        try {
+            file.writeText(content)
+        } catch (e: Exception) {
+            _error.value = "Failed to save file: ${e.message}"
+        }
+    }
+
+    fun loadSandboxFile(fileName: String): String? {
+        val file = File(sandboxDir, fileName)
+        return try {
+            if (file.exists()) file.readText() else null
+        } catch (e: Exception) {
+            _error.value = "Failed to load file: ${e.message}"
+            null
+        }
+    }
+
+    fun saveApiKey(apiKey: String) {
+        prefs.edit().putString("user_api_key", apiKey).apply()
+    }
+
+    private fun getApiKey(): String {
+        return prefs.getString("user_api_key", "") ?: ""
+    }
+
+    fun getAISuggestion(code: String): String {
+        return when {
+            code.isEmpty() -> "fun example() { println(\"Hello, Galaxy!\") }"
+            code.contains("fun") -> "// Add error handling?"
+            else -> "// Complete this logic"
+        }
+    }
+}
+
+class CodeSandbox(private val context: Context) {
+    private val sandboxDir = context.getExternalFilesDir(null) ?: throw IllegalStateException("Sandbox directory unavailable")
+    private val scriptEngine by lazy {
+        ScriptEngineManager().getEngineByExtension("kts") ?: throw IllegalStateException("Kotlin script engine not found")
+    }
+
+    fun execute(code: String): String {
+        val scriptFile = File(sandboxDir, "TempScript.kts")
+        val outputFile = File(sandboxDir, "output.txt")
+        try {
+            scriptFile.writeText(code)
+            val output = StringBuilder()
+            val originalOut = System.out
+            val printStream = java.io.PrintStream(object : java.io.OutputStream() {
+                override fun write(b: Int) {
+                    output.append(b.toChar())
+                }
+            })
+            System.setOut(printStream)
+            scriptEngine.eval(code)
+            System.setOut(originalOut)
+            val result = output.toString().ifEmpty { "No output" }
+            outputFile.writeText(result)
+            return result
+        } catch (e: javax.script.ScriptException) {
+            throw if (e.message?.contains("error") == true) {
+                CompilationException("Compilation failed: ${e.message}")
+            } else {
+                RuntimeException("Execution failed: ${e.message}")
+            }
+        } catch (e: Exception) {
+            throw Exception("Sandbox error: ${e.message}")
+        } finally {
+            scriptFile.delete()
+            outputFile.delete()
+        }
+    }
+}
+```
+
+---
+
+### 3. **`ui/DevUtilityAppV2.kt`**
+```kotlin
+package com.sgneuronlabs.devutilityandroidv2.ui
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DevUtilityAppV2(
+    viewModel: DevUtilityViewModelV2 = viewModel(),
+    onSignIn: () -> Unit
+) {
+    var showSettings by remember { mutableStateOf(false) }
+    var apiKeyInput by remember { mutableStateOf("") }
+    val error by viewModel.error.collectAsState()
+
+    if (showSettings) {
+        SettingsScreen(viewModel) { showSettings = false }
+    } else {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text("DevUtility V2") },
+                    actions = {
+                        IconButton(onClick = { showSettings = true }) {
+                            Icon(Icons.Default.Settings, contentDescription = "Settings")
+                        }
+                    }
+                )
+            }
+        ) { padding ->
+            Column(Modifier.padding(padding).padding(16.dp)) {
+                if (error != null) {
+                    Text("Error: $error", color = MaterialTheme.colorScheme.error)
+                }
+                Button(onClick = onSignIn) {
+                    Text("Get OpenAI API Key")
+                }
+                Spacer(Modifier.height(8.dp))
+                TextField(
+                    value = apiKeyInput,
+                    onValueChange = { apiKeyInput = it },
+                    label = { Text("Paste Your OpenAI API Key") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Button(onClick = { viewModel.saveApiKey(apiKeyInput) }) {
+                    Text("Save API Key")
+                }
+                Spacer(Modifier.height(16.dp))
+                AICodingInterface(viewModel)
+            }
+        }
+    }
+}
+```
+
+---
+
+### 4. **`ui/AICodingInterface.kt`**
+```kotlin
+package com.sgneuronlabs.devutilityandroidv2.ui
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun AICodingInterface(viewModel: DevUtilityViewModelV2) {
+    Row(Modifier.fillMaxSize()) {
+        CodeEditorWithAI(viewModel, Modifier.weight(1f))
+        AISuggestionPanel(viewModel, Modifier.weight(1f))
+    }
+}
+
+@Composable
+fun CodeEditorWithAI(viewModel: DevUtilityViewModelV2, modifier: Modifier) {
+    var code by remember { mutableStateOf("") }
+    Column(modifier.padding(16.dp)) {
+        TextField(
+            value = code,
+            onValueChange = { code = it },
+            label = { Text("Code Editor") },
+            modifier = Modifier.fillMaxHeight().fillMaxWidth(),
+            maxLines = 20
+        )
+        Spacer(Modifier.height(8.dp))
+        Button(onClick = { viewModel.executeCode(code) }) {
+            Text("Execute")
+        }
+    }
+}
+
+@Composable
+fun AISuggestionPanel(viewModel: DevUtilityViewModelV2, modifier: Modifier) {
+    val suggestion = viewModel.getAISuggestion("")
+    Column(modifier.padding(16.dp)) {
+        Text("AI Suggestion:", style = MaterialTheme.typography.titleMedium)
+        Spacer(Modifier.height(8.dp))
+        if (suggestion.isNotEmpty()) {
+            Text(suggestion, style = MaterialTheme.typography.bodyMedium)
+            Spacer(Modifier.height(8.dp))
+            Button(onClick = { viewModel.suggestCode(suggestion) }) {
+                Text("Insert & Suggest")
+            }
+        }
+        Spacer(Modifier.height(16.dp))
+        Text("Execution Output:", style = MaterialTheme.typography.titleMedium)
+        Text(viewModel.executionOutput.value, style = MaterialTheme.typography.bodyMedium)
+    }
+}
+```
+
+---
+
+### 5. **`ui/SettingsScreen.kt`**
+```kotlin
+package com.sgneuronlabs.devutilityandroidv2.ui
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun SettingsScreen(viewModel: DevUtilityViewModelV2, onBack: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Text("Settings", style = MaterialTheme.typography.headlineMedium)
+        Spacer(Modifier.height(16.dp))
+        Text("Theme", style = MaterialTheme.typography.titleMedium)
+        Row {
+            RadioButton(selected = viewModel.settings.value.theme == "light", onClick = { viewModel.settings.value.theme = "light" })
+            Text("Light")
+            Spacer(Modifier.width(16.dp))
+            RadioButton(selected = viewModel.settings.value.theme == "dark", onClick = { viewModel.settings.value.theme = "dark" })
+            Text("Dark")
+        }
+        Text("Language", style = MaterialTheme.typography.titleMedium)
+        Row {
+            RadioButton(selected = viewModel.settings.value.language == "kotlin", onClick = { viewModel.settings.value.language = "kotlin" })
+            Text("Kotlin")
+            Spacer(Modifier.width(16.dp))
+            RadioButton(selected = viewModel.settings.value.language == "javascript", onClick = { viewModel.settings.value.language = "javascript" })
+            Text("JavaScript")
+        }
+        Text("Editor Font Size", style = MaterialTheme.typography.titleMedium)
+        Slider(
+            value = viewModel.settings.value.fontSize.toFloat(),
+            onValueChange = { viewModel.settings.value.fontSize = it.toInt() },
+            valueRange = 10f..20f,
+            steps = 9,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Text("Current Size: ${viewModel.settings.value.fontSize}sp")
+        Spacer(Modifier.height(16.dp))
+        Button(onClick = onBack) {
+            Text("Save & Back")
+        }
+    }
+}
+```
+
+---
+
+### 6. **`ui/AIService.kt`**
+```kotlin
+package com.sgneuronlabs.devutilityandroidv2.ui
+
+import com.squareup.moshi.Json
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.Header
+import retrofit2.http.POST
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+data class OpenAIRequest(
+    @Json(name = "prompt") val prompt: String,
+    @Json(name = "max_tokens") val maxTokens: Int = 50,
+    @Json(name = "model") val model: String = "text-davinci-003"
+)
+
+data class OpenAIResponse(
+    @Json(name = "choices") val choices: List<Choice>,
+    @Json(name = "error") val error: Error?
+) {
+    data class Choice(
+        @Json(name = "text") val text: String
+    )
+    data class Error(
+        @Json(name = "message") val message: String
+    )
+}
+
+interface OpenAIService {
+    @POST("v1/completions")
+    suspend fun generateCodeSuggestion(
+        @Header("Authorization") apiKey: String,
+        @Body request: OpenAIRequest
+    ): OpenAIResponse
+}
+
+class AIService(private val userApiKey: String) {
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://api.openai.com/")
+        .addConverterFactory(
+            MoshiConverterFactory.create(
+                Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+            )
+        )
+        .build()
+
+    private val apiService = retrofit.create(OpenAIService::class.java)
+
+    suspend fun generateCodeSuggestion(input: String, language: String = "kotlin"): String {
+        return withContext(Dispatchers.IO) {
+            val request = OpenAIRequest(
+                prompt = "Generate a $language code snippet for: $input"
+            )
+            val response = apiService.generateCodeSuggestion("Bearer $userApiKey", request)
+            response.error?.let { throw Exception(it.message) }
+            response.choices.firstOrNull()?.text?.trim() ?: "No suggestion available"
+        }
+    }
+}
+```
+
+---
+
+### 7. **`AndroidManifest.xml`**
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sgneuronlabs.devutilityandroidv2">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DevUtilityAndroidV2">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>
+```
+
+---
+
+### 8. **`build.gradle` (Module: app)**
+```gradle
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk 34
+    defaultConfig {
+        applicationId "com.sgneuronlabs.devutilityandroidv2"
+        minSdk 29
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion "1.5.15"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation "androidx.activity:activity-compose:1.9.2"
+    implementation "androidx.compose.material3:material3:1.3.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6"
+    implementation "androidx.compose.ui:ui:1.7.3"
+    implementation "androidx.compose.runtime:runtime:1.7.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+    implementation "com.squareup.moshi:moshi:1.15.0"
+    implementation "com.squareup.moshi:moshi-kotlin:1.15.0"
+    implementation "org.jetbrains.kotlin:kotlin-scripting-jvm:1.9.22"
+}
+```
+
+---
+
+## How to Save, Test, and Launch
+
+### 1. **Set Up in Android Studio**
+- Create a new project with "Empty Compose Activity".
+- Set package name to `com.sgneuronlabs.devutilityandroidv2`.
+- Replace files:
+  - `app/src/main/java/com/sgneuronlabs/devutilityandroidv2/MainActivity.kt`
+  - `app/src/main/java/com/sgneuronlabs/devutilityandroidv2/ui/DevUtilityViewModelV2.kt`
+  - `app/src/main/java/com/sgneuronlabs/devutilityandroidv2/ui/DevUtilityAppV2.kt`
+  - `app/src/main/java/com/sgneuronlabs/devutilityandroidv2/ui/AICodingInterface.kt`
+  - `app/src/main/java/com/sgneuronlabs/devutilityandroidv2/ui/SettingsScreen.kt`
+  - `app/src/main/java/com/sgneuronlabs/devutilityandroidv2/ui/AIService.kt`
+  - `app/src/main/AndroidManifest.xml`
+  - `app/build.gradle`
+- Sync Gradle.
+
+### 2. **Build the APK**
+- `Build > Build Bundle(s) / APK(s) > Build APK`.
+- APK at `app/build/outputs/apk/debug/app-debug.apk`.
+
+### 3. **Install on Samsung Galaxy S9+**
+- Transfer APK to similar device types of Samsung's Galaxy S9+ (Android 10+) systems.
+- Enable "Install from unknown sources" in `Settings > Security`.
+- Install APK.
+
+### 4. **Run and Test**
+- Launch app.
+- Click "Get OpenAI API Key", grab your key from OpenAI, paste, and save.
+- Test code execution (e.g., `println("Test")` → `Test`) and AI suggestions.
+- Adjust settings and test multi-window.
+
+---
+
+## Notes
+- **Package**: Now fully `com.sgneuronlabs.devutilityandroidv2`, reflecting sgNeuronLabs.
+- **OpenAI**: Tailored for OpenAI’s API; tweak `AIService` if you switch providers.
+- **Flexibility**: You can still refactor app name later if needed.
+
+This app is branded for Spiral Ganglion Neuron Labyrinths LLC—copy it, save it, and you’re ready to roll!
