@@ -26,13 +26,13 @@ Anthropic
  *Our app's executable code run script was forumlated through collaboration with xAI's "Grok 3", with quality control/errors double-checking from Anthropic's "Claude 3.7", which was then brought back to Grok for entirety error/quality reworkings.*
 
  # Notable Commentary 
- For years we've tirelessly trial-run-tested dozens, if not hundreds, of mobile-friendly app creation options of both AI & normative program apps & browser websites. 
+ For years we've tirelessly trial-run-tested dozens, if not hundreds of mobile-friendly, code-creation & output-launch product options of both AI companies, normative file programs & software on browser websites with intentions being manifesting our intellectual visions.
  
-Many of them the goto sources for all developer needs, with some openly marketting with "code anything professionally" products type-promises (like Replit, Code Studio, Google-Cloud, Microsoft, Android-Studio, Github's Copilot, even Apple iOS' Shortcuts..to name just a few). 
+With many of established as being the well-known goto "it" sources for various/all developer needs, with some even openly marketting (falsely) with "code anything professionally" products type-promises (like Replit, Code Studio, Google-Cloud, Microsoft, Android-Studio, Github's Copilot, even Apple iOS' Shortcuts..to name just a few), with zero having conceptual feasibility for what we required for our visions...
 
-As such-confidently we convey, that without the mentioned industry-best collaborators, and their free-useage-tiers product metrics, this project's feasibility would have never been possible for us. We specially thank both of their respective teams. *-Make sure to check their products out!* 
+As such-confidently we convey, that without the two mentioned industry-best collaborators, and their free-useage-tiers product metrics, this project's feasibility would have never been possible for us. We specially thank both of their respective teams. *-Make sure to check their products out!* 
 
 ---
-Sincerely, 
- |Spiral Ganglion Neuron Labyrinths LLC's Founder-CEO, CFO, Director-Chairman, Operations-Manager, Chief-Marketing-Executive, Software-Development-Manager. Engineer-Team-Lead, & Code-Programmer|
- ~ J.H 
+ Sincerely, 
+Spiral Ganglion Neuron Labyrinths LLC's Founder-CEO,
+  ~ J.H 
