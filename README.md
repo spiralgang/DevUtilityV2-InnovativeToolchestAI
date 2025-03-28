@@ -28,11 +28,13 @@ Anthropic
  # Notable Commentary 
  For years we've tirelessly trial-run-tested dozens, if not hundreds of mobile-friendly, code-creation & output-launch product options of both AI companies, normative file programs & browser-based-software websites with intentions of manifesting our intellectual visions.
  
-Among the many resources we tried being the established well-known goto "it" sources for various/all developer needs, with some even openly marketting (fraudulently) with "code anything professionally" products type-promises (like Replit, Code Studio, Google-Cloud, Microsoft, Android-Studio, Github's Copilot, Termux, UserLAnd, Al-Sultan Shell, even Apple iOS' Shortcuts..to name just a few), with zero having conceptual feasibility for what we required for bringing any our visions to life...
+Among the many resources we tried being the established well-known goto "it" sources for various/all developer needs, with some even openly marketting (fraudulently) "code anything professionally" products type-promises, with zero having the conceptual requirements feasibility for bringing any of our visions to life (like Replit, Code Studio, Google-Cloud, Microsoft, Android-Studio, Github's Copilot, Termux, UserLAnd, Al-Sultan Shell, even Apple iOS' Shortcuts..to name just a few)...
 
 As such-confidently we convey, that without the two mentioned industry-best collaborators, and their free-useage-tiers product metrics, this project's feasibility would have never been possible for us. We especially thank both of their respective teams. *-Make sure to check their products out!* 
 
 ---
  Sincerely, 
+
 Spiral Ganglion Neuron Labyrinths LLC's Founder-CEO,
+
   ~ J.H 
