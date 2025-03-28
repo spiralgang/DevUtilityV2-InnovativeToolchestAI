@@ -1,4 +1,6 @@
-# DevUtility-V2-DevUtilityAndroidV2-Samsung-
+# DevUtilityV2 
+# DevUtilityAndroidV2
+# com.sgneuronlabs.devutilityandroidv2 
  *The following app-code-runscript information-collective is legally owned as proprietary company data by Spiral Ganglion Neuron Labyrinths LLC (sgNeuronLabs), & formulated from the intellectual property of it's stakeholders. *It is being released as free-use utility application, so do not abuse it's features.*
  # *We are not legally responsible for any possible actions/decisions/consequences/results interactions of any person's utilization of our program, you're all adults responsible for yourselves.*
  
