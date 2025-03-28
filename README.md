@@ -15,7 +15,7 @@
  We welcome passionate collaborators! Use the same contact info as above 🤓
 
 # *Application Utility Useage Descriptor:*
- *Our "DevUtilityAndroidV2" app has been designed as a downloadable, self-contained Android application. This app integrates an AI-driven coding interface with multi-window and split-screen support, front-end customization, and manual code editing capabilities, all accessible through the app’s interface, and has been specifically-tailored for Samsung's Galaxy s9+ running Android 10+ (Target Device & SDK-Level)*
+ *Our "DevUtilityAndroidV2" program has been designed as a downloadable, self-contained Android application. This app integrates an AI-driven coding interface with multi-window and split-screen support, front-end customization, and manual code editing capabilities, all accessible through the app’s interface, and has been specifically-tailored for Samsung's Galaxy s9+ running Android 10+ (Target Device & SDK-Level)*
 
 # Third-Party Collaborator Credits: 
 
