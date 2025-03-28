@@ -27,5 +27,12 @@ Anthropic
 
  # Notable Commentary 
  For years we've tirelessly trial-run-tested dozens, if not hundreds, of mobile-friendly app creation options of both AI & normative program apps & browser websites. 
- Many of them the goto sources for all developer needs, with some openly marketting with "code anything professionally" products type-promises (like Replit, Code Studio, Google-Cloud, Microsoft, Android-Studio, Github's Copilot, even Apple iOS' Shortcuts..to name just a few). 
- As such-confidently we convey, that without the mentioned industry-best collaborators, and their free-useage-tiers product metrics, this project's feasibility would have never been possible for us. We sincerely specially thank both of their respective teams. *-Make sure to check their products out!* 
+ 
+Many of them the goto sources for all developer needs, with some openly marketting with "code anything professionally" products type-promises (like Replit, Code Studio, Google-Cloud, Microsoft, Android-Studio, Github's Copilot, even Apple iOS' Shortcuts..to name just a few). 
+
+As such-confidently we convey, that without the mentioned industry-best collaborators, and their free-useage-tiers product metrics, this project's feasibility would have never been possible for us. We specially thank both of their respective teams. *-Make sure to check their products out!* 
+
+---
+Sincerely, 
+ |Spiral Ganglion Neuron Labyrinths LLC's Founder-CEO, CFO, Director-Chairman, Operations-Manager, Chief-Marketing-Executive, Software-Development-Manager. Engineer-Team-Lead, & Code-Programmer|
+ ~ J.H 
