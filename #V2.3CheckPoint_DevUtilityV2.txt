@@ -1,4 +1,4 @@
-*The following app-code-runscript information-collective is legally owned as proprietary company data by Spiral Ganglion Neuron Labyrinths LLC (sgNeuronLabs), & formulated from the intellectual property of it's stakeholders.*
+*The following app-code-runscript information-collective is legally owned as proprietary company data by Spiral Ganglion Neuron Labyrinths™ (sgNeuronLabs™) & formulated from the intellectual property of it's stakeholders.*
 
 # Below is the complete, final version tailored to `com.sgneuronlabs.devutilityandroidv2`, ready to copy, save, and test/launch!
 
@@ -589,4 +589,4 @@ dependencies {
 - **OpenAI**: Tailored for OpenAI’s API; tweak `AIService` if you switch providers.
 - **Flexibility**: You can still refactor app name later if needed.
 
-This app is branded for Spiral Ganglion Neuron Labyrinths LLC—copy it, save it, and you’re ready to roll!
+This app is branded for Spiral Ganglion Neuron Labyrinths—copy it, save it, and you’re ready to roll!
