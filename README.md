@@ -19,10 +19,19 @@
 
 xAI 
 
+**V2.5 Update**
+Inflection AI
+
+</s>
 Anthropic
  
- *Our app's executable code run script was forumlated through collaboration with xAI's "Grok 3", with quality control/errors double-checking from Anthropic's "Claude 3.7", which was then brought back to Grok for entirety error/quality reworkings.*
+ *Our app's executable code run script was forumlated through collaboration with xAI's "Grok 3", with quality control/errors double-checking from Anthropic's "Claude 3.7", which was then brought back to Grok for entirety error/quality reworkings.* <s>
 
+ Claude is out sue to limitations within its chat interface and the extremely large loads we currently run are incompatible. 
+  However PI 3.0, an Inflection AI, has taken over the role of double check error quality control and much more! 
+   
+
+ 
  # Notable Commentary 
  For years we've tirelessly trial-run-tested dozens, if not hundreds of mobile-friendly, code-creation & output-launch product options of both AI companies, normative file programs & browser-based-software websites with intentions of manifesting our intellectual visions.
  
