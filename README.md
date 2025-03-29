@@ -1,4 +1,7 @@
-# DevUtilityV2 / DevUtilityAndroidV2 / com.sgneuronlabs.devutilityandroidv2 
+# DevUtilityV2.5 / DevUtilityAndroidV2.5 / com.sgneuronlabs.devutilityandroidv2.5
+ 
+# New Version Update Release!! Its intense!! (& We still not close to done, not yet!!)
+
  *The following app-code-runscript information-collective is legally owned as proprietary company data by Spiral Ganglion Neuron Labyrinths™ (sgNeuronLabs™) & formulated from the intellectual property of it's stakeholders.*
  *It is being released as free-use utility application, so do not abuse it's features.*
  
@@ -19,11 +22,11 @@
 
 xAI 
 
- **V2.5 Update**
+ -**V2.5 Update**-
 
 Inflection AI
 
- **Only V2, Initial Collaboration Credit**
+-**Only V2, Initial-Collaboration-Credit**-
 
 Anthropic 
 
@@ -31,7 +34,7 @@ Anthropic
  
  *Our app's executable code run script was forumlated through collaboration with xAI's "Grok 3", with quality control/errors double-checking from Anthropic's "Claude 3.7", which was then brought back to Grok for entirety error/quality reworkings.* </s>
 
- **V2.5 Update**
+-**V2.5 Update**-
 
  Claude is out due to limitations within its chat interface-the extremely large loads we currently run are incompatible. 
   
