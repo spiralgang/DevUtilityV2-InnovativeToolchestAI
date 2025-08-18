@@ -20,7 +20,10 @@ fun SettingsScreen(viewModel: DevUtilityViewModelV2, onBack: () -> Unit) {
             RadioButton(selected = viewModel.settings.value.theme == "light", onClick = { viewModel.settings.value.theme = "light" })
             Text("Light")
             Spacer(Modifier.width(16.dp))
-            RadioButton(selected = viewModel.settings.value.theme == "dark", onClick = { viewModel.settings.value.theme = "dark" })
+            RadioButton(selected = viewModel.settings.value.theme == "light", onClick = { viewModel.setTheme("light") })
+            Text("Light")
+            Spacer(Modifier.width(16.dp))
+            RadioButton(selected = viewModel.settings.value.theme == "dark", onClick = { viewModel.setTheme("dark") })
             Text("Dark")
         }
         Text("Language", style = MaterialTheme.typography.titleMedium)
