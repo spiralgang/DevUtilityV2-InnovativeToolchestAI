@@ -5,7 +5,7 @@ class AICollabLogic {
         // Implement AI collaboration logic
     }
 
-    fun applyChanges(approvedChanges: List<Any>, currentCode: String): String {
+    fun applyChanges(approvedChanges: List<AICollabManager.CodeChange>, currentCode: String): String {
         return currentCode
     }
 
