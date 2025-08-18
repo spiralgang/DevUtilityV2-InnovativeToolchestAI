@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
-    android:description="@string/accessibility_service_description"
+    android:description="@string/screen_hop_service_description"
     android:accessibilityEventTypes="typeAllMask"
-    android:accessibilityFlags="flagDefault|flagRetrieveInteractiveWindows"
+    android:accessibilityFlags="flagDefault|flagIncludeNotImportantViews|flagRetrieveInteractiveWindows"
     android:accessibilityFeedbackType="feedbackGeneric"
     android:notificationTimeout="100"
     android:packageNames=""
     android:canRetrieveWindowContent="true"
     android:canRequestTouchExplorationMode="true"
     android:canRequestFilterKeyEvents="true"
-    android:canPerformGestures="true" />
+    android:canPerformGestures="true"
+    android:settingsActivity="com.spiralgang.srirachaarmy.devutility.ui.SettingsActivity" />
