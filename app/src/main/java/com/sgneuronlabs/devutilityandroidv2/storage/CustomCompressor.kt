@@ -6,7 +6,7 @@ import java.util.zip.Inflater
 
 class CustomCompressor {
     /**
-     * Compresses the input data using a custom algorithm inspired by DEFLATE.
+     * Compresses the input data using the standard DEFLATE algorithm (via Java's Deflater).
      * @param input The data to compress.
      * @return The compressed data.
      */
