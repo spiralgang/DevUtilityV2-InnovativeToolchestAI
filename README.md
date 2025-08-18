@@ -34,14 +34,14 @@ DevUtilityAndroidV2/
 ├── app/
 │   ├── src/main/java/com/sgneuronlabs/devutilityandroidv2/
 │   │   ├── MainActivity.kt                    # Main entry point
-│   │   ├── ui/                               # UI components
-│   │   ├── ai/                               # AI-related modules
-│   │   ├── business/                         # Business logic
-│   │   ├── storage/                          # Storage and compression
-│   │   ├── db/                              # Database entities and DAOs
-│   │   ├── execution/                        # Code execution sandbox
-│   │   ├── system/                          # System utilities
-│   │   └── user/                            # User management
+│   │   ├── ui/                                # UI components
+│   │   ├── ai/                                # AI-related modules
+│   │   ├── business/                          # Business logic
+│   │   ├── storage/                           # Storage and compression
+│   │   ├── db/                                # Database entities and DAOs
+│   │   ├── execution/                         # Code execution sandbox
+│   │   ├── system/                            # System utilities
+│   │   └── user/                              # User management
 │   ├── src/test/                            # Unit tests
 │   └── src/main/res/                        # Android resources
 ├── archive/                                 # Archived original files
