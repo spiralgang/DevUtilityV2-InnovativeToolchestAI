@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- SrirachaArmy Theme Colors -->
+    <color name="sriracha_red">#D32F2F</color>
+    <color name="sriracha_orange">#FF9800</color>
+    <color name="sriracha_mild">#4CAF50</color>
+    <color name="sriracha_medium">#FF9800</color>
+    <color name="sriracha_spicy">#FF5722</color>
+    <color name="sriracha_ghost_pepper">#B71C1C</color>
+    
+    <!-- Material Design 3 Colors -->
+    <color name="purple_80">#D0BCFF</color>
+    <color name="purpleGrey_80">#CCC2DC</color>
+    <color name="pink_80">#EFB8C8</color>
+    <color name="purple_40">#6650a4</color>
+    <color name="purpleGrey_40">#625b71</color>
+    <color name="pink_40">#7D5260</color>
+    
+    <!-- System colors -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="background_dark">#121212</color>
+    <color name="surface_dark">#1F1F1F</color>
+    <color name="error">#CF6679</color>
+    
+    <!-- Bot status colors -->
+    <color name="bot_active">#4CAF50</color>
+    <color name="bot_thinking">#FF9800</color>
+    <color name="bot_error">#F44336</color>
+</resources>

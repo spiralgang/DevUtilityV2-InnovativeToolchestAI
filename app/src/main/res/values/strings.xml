@@ -1,0 +1,58 @@
+<resources>
+    <!-- App Name -->
+    <string name="app_name">DevUtility SrirachaArmy IDE</string>
+    
+    <!-- Bot Names and Personalities -->
+    <string name="ssa_name">SSA (Structure/Optimization Agent)</string>
+    <string name="ffa_name">FFA (Creative/Innovation Agent)</string>
+    <string name="agent_5s_name">5S Agent</string>
+    <string name="agent_8s_name">8S Agent</string>
+    
+    <!-- Bot Responses -->
+    <string name="ssa_response">SSA: Yo, I\'m tightening this up—here\'s the optimized version!</string>
+    <string name="ffa_response">FFA: Chill, I\'ve got a wild idea—check this out!</string>
+    <string name="agent_5s_response">I\'m your chill homie, hopping screens to stitch this up quick!</string>
+    <string name="agent_8s_response">Shit\'s real—I\'m pissed and hopping screens to crush this NOW!</string>
+    
+    <!-- WebNetCaste AI -->
+    <string name="webnetcaste_greeting">Casting the net wide, snagging clarity from the digital deep end!</string>
+    <string name="fissionfishin_active">FissionFishin\' operations active</string>
+    
+    <!-- Heat Levels -->
+    <string name="heat_mild">MILD</string>
+    <string name="heat_medium">MEDIUM</string>
+    <string name="heat_spicy">SPICY</string>
+    <string name="heat_ghost_pepper">GHOST_PEPPER</string>
+    
+    <!-- UI Elements -->
+    <string name="bot_dashboard_title">SrirachaArmy Bot Dashboard</string>
+    <string name="terminal_tab">Terminal</string>
+    <string name="editor_tab">Code Editor</string>
+    <string name="ai_assistant_tab">AI Assistant</string>
+    <string name="settings_tab">Settings</string>
+    
+    <!-- UIYI Process -->
+    <string name="tt_ccc_rccc_ldu">TT-CCC-RCCC-LDU</string>
+    <string name="pipi_preview">Preview</string>
+    <string name="pipi_implement">Implement</string>
+    <string name="pipi_push">Push</string>
+    
+    <!-- Accessibility -->
+    <string name="screen_hop_service_description">SrirachaArmy Screen-Hop Service for automated development assistance</string>
+    <string name="accessibility_permission_needed">Accessibility permission required for Screen-Hop operations</string>
+    
+    <!-- DeepSeek Integration -->
+    <string name="deepseek_api_key_hint">Enter DeepSeek API Key</string>
+    <string name="ai_model_deepseek">DeepSeek</string>
+    <string name="ai_model_local">Local TensorFlow</string>
+    
+    <!-- Error Messages -->
+    <string name="error_api_key_missing">API key not configured</string>
+    <string name="error_network_unavailable">Network unavailable</string>
+    <string name="error_bot_system_failure">Bot system failure</string>
+    
+    <!-- Success Messages -->
+    <string name="success_project_created">Project created successfully</string>
+    <string name="success_code_compiled">Code compiled successfully</string>
+    <string name="success_bot_activated">Bot activated</string>
+</resources>
