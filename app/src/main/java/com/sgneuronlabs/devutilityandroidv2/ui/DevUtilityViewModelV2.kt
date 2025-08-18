@@ -30,7 +30,15 @@ class DevUtilityViewModelV2(application: Application) : AndroidViewModel(applica
 
     val settings = MutableStateFlow(SettingsData())
 
-    private val sandboxDir = application.getExternalFilesDir(null) ?: throw IllegalStateException("Sandbox directory unavailable")
+    private val _settings = MutableStateFlow(SettingsData())
+    val settings: StateFlow<SettingsData> = _settings
+
+    /**
+     * Update the settings data in a controlled way.
+     */
+    fun updateSettings(newSettings: SettingsData) {
+        _settings.value = newSettings
+    }
     private val aiService by lazy { AIService(getApiKey()) }
     private val codeSandbox = CodeSandbox(application)
     private val prefs = application.getSharedPreferences("DevUtilityPrefs", Context.MODE_PRIVATE)
