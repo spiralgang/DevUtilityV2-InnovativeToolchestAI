@@ -1,6 +1,7 @@
 <resources>
     <!-- App Name -->
-    <string name="app_name">DevUtility SrirachaArmy IDE</string>
+    <string name="app_name">SrirachaArmy DevUtility IDE</string>
+    <string name="app_description">Comprehensive Android IDE with AI-powered development assistance</string>
     
     <!-- Bot Names and Personalities -->
     <string name="ssa_name">SSA (Structure/Optimization Agent)</string>
@@ -13,6 +14,28 @@
     <string name="ffa_response">FFA: Chill, I\'ve got a wild idea—check this out!</string>
     <string name="agent_5s_response">I\'m your chill homie, hopping screens to stitch this up quick!</string>
     <string name="agent_8s_response">Shit\'s real—I\'m pissed and hopping screens to crush this NOW!</string>
+    
+    <!-- DeepSeek Integration -->
+    <string name="deepseek_engine_initializing">Initializing DeepSeek AI Engine…</string>
+    <string name="deepseek_engine_ready">DeepSeek AI Engine Ready</string>
+    <string name="deepseek_engine_error">DeepSeek AI Engine Error</string>
+    <string name="deepseek_api_key_hint">Enter DeepSeek API Key</string>
+    <string name="ai_model_deepseek">DeepSeek</string>
+    <string name="ai_model_local">Local TensorFlow</string>
+    
+    <!-- SSH Terminal -->
+    <string name="ssh_connecting">Connecting to SSH terminal…</string>
+    <string name="ssh_connected">SSH terminal connected</string>
+    <string name="ssh_disconnected">SSH terminal disconnected</string>
+    
+    <!-- SrirachaArmy Bots -->
+    <string name="sriracha_army_initializing">Initializing SrirachaArmy ecosystem…</string>
+    <string name="sriracha_army_ready">SrirachaArmy bots ready for deployment</string>
+    <string name="bot_ai_think_module">AI Think Module</string>
+    <string name="bot_learning_bot">Learning Bot</string>
+    <string name="bot_sriracha_guidance">Sriracha Guidance System</string>
+    <string name="bot_web_net_caste">WebNetCaste AI</string>
+    <string name="bot_float_window_watcher">Float Window Watcher</string>
     
     <!-- WebNetCaste AI -->
     <string name="webnetcaste_greeting">Casting the net wide, snagging clarity from the digital deep end!</string>
@@ -30,6 +53,10 @@
     <string name="editor_tab">Code Editor</string>
     <string name="ai_assistant_tab">AI Assistant</string>
     <string name="settings_tab">Settings</string>
+    <string name="floating_window_title">DevUtility Assistant</string>
+    <string name="code_analysis">Code Analysis</string>
+    <string name="terminal_integration">Terminal Integration</string>
+    <string name="ai_assistance">AI Assistance</string>
     
     <!-- UIYI Process -->
     <string name="tt_ccc_rccc_ldu">TT-CCC-RCCC-LDU</string>
@@ -39,20 +66,24 @@
     
     <!-- Accessibility -->
     <string name="screen_hop_service_description">SrirachaArmy Screen-Hop Service for automated development assistance</string>
+    <string name="accessibility_service_description">SrirachaArmy screen automation and interaction service for advanced IDE features</string>
     <string name="accessibility_permission_needed">Accessibility permission required for Screen-Hop operations</string>
-    
-    <!-- DeepSeek Integration -->
-    <string name="deepseek_api_key_hint">Enter DeepSeek API Key</string>
-    <string name="ai_model_deepseek">DeepSeek</string>
-    <string name="ai_model_local">Local TensorFlow</string>
     
     <!-- Error Messages -->
     <string name="error_api_key_missing">API key not configured</string>
     <string name="error_network_unavailable">Network unavailable</string>
     <string name="error_bot_system_failure">Bot system failure</string>
+    <string name="error_ssh_connection">Failed to establish SSH connection</string>
+    <string name="error_ai_initialization">AI service initialization failed</string>
+    <string name="error_permission_required">Required permissions not granted</string>
     
     <!-- Success Messages -->
     <string name="success_project_created">Project created successfully</string>
     <string name="success_code_compiled">Code compiled successfully</string>
     <string name="success_bot_activated">Bot activated</string>
+    
+    <!-- Version Info -->
+    <string name="version_info">Version 2.5.0-sriracha</string>
+    <string name="build_info">SrirachaArmy DevUtility Android IDE</string>
+
 </resources>
