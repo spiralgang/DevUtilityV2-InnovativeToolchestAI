@@ -96,7 +96,7 @@ class DevUtilityViewModelV2(application: Application) : AndroidViewModel(applica
     }
 
     private fun getApiKey(): String {
-        return prefs.getString("user_api_key", "") ?: ""
+        return prefs.getString("user_api_key", "")!!
     }
 
     fun getAISuggestion(code: String): String {
