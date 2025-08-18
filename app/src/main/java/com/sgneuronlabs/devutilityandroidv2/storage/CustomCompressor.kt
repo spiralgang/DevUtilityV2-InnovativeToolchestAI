@@ -31,7 +31,7 @@ class CustomCompressor {
     }
 
     /**
-     * Decompresses the input data using a custom algorithm inspired by DEFLATE.
+     * Decompresses the input data using the standard DEFLATE algorithm via Java's Inflater.
      * @param input The compressed data.
      * @return The decompressed data.
      */
