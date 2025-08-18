@@ -34,7 +34,24 @@ fun SettingsScreen(viewModel: DevUtilityViewModelV2, onBack: () -> Unit) {
         Text("Editor Font Size", style = MaterialTheme.typography.titleMedium)
         Slider(
             value = viewModel.settings.value.fontSize.toFloat(),
-            onValueChange = { viewModel.settings.value.fontSize = it.toInt() },
+            RadioButton(selected = viewModel.settings.value.theme == "light", onClick = { viewModel.setTheme("light") })
+            Text("Light")
+            Spacer(Modifier.width(16.dp))
+            RadioButton(selected = viewModel.settings.value.theme == "dark", onClick = { viewModel.setTheme("dark") })
+            Text("Dark")
+        }
+        Text("Language", style = MaterialTheme.typography.titleMedium)
+        Row {
+            RadioButton(selected = viewModel.settings.value.language == "kotlin", onClick = { viewModel.setLanguage("kotlin") })
+            Text("Kotlin")
+            Spacer(Modifier.width(16.dp))
+            RadioButton(selected = viewModel.settings.value.language == "javascript", onClick = { viewModel.setLanguage("javascript") })
+            Text("JavaScript")
+        }
+        Text("Editor Font Size", style = MaterialTheme.typography.titleMedium)
+        Slider(
+            value = viewModel.settings.value.fontSize.toFloat(),
+            onValueChange = { viewModel.setFontSize(it.toInt()) },
             valueRange = 10f..20f,
             steps = 9,
             modifier = Modifier.padding(bottom = 8.dp)
