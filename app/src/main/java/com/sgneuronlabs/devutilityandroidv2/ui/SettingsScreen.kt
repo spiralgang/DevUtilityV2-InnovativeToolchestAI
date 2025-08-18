@@ -42,7 +42,6 @@ fun SettingsScreen(viewModel: DevUtilityViewModelV2, onBack: () -> Unit) {
             Spacer(Modifier.width(16.dp))
             RadioButton(selected = viewModel.settings.value.theme == "dark", onClick = { viewModel.setTheme("dark") })
             Text("Dark")
-        }
         Text("Language", style = MaterialTheme.typography.titleMedium)
         Row {
             RadioButton(selected = viewModel.settings.value.language == "kotlin", onClick = { viewModel.setLanguage("kotlin") })
