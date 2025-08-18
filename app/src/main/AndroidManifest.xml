@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.spiralgang.srirachaarmy.devutility">
+
+    <!-- Critical Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Hardware Features -->
+    <uses-feature android:name="android.hardware.touchscreen" android:required="true" />
+    <uses-feature android:name="android.software.live_wallpaper" android:required="false" />
+
+    <application
+        android:name=".SrirachaArmyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_sriracha_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/SrirachaArmyTheme"
+        android:resizeableActivity="true"
+        android:supportsRtl="true"
+        android:requestLegacyExternalStorage="true">
+        
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:exported="true"
+            android:screenOrientation="sensor"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- SrirachaArmy Accessibility Service -->
+        <service
+            android:name=".accessibility.SrirachaScreenHopService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <!-- Float Window Service -->
+        <service
+            android:name=".execution.FloatWindowWatcher"
+            android:exported="false" />
+
+        <!-- AI Think Module Service -->
+        <service
+            android:name=".ai.AIThinkModule"
+            android:exported="false" />
+
+    </application>
+
+</manifest>
