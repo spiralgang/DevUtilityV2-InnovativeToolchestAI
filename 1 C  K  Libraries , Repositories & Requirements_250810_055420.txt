@@ -1,0 +1,452 @@
+• 
+
+Locations and Access for Quantum AI Libraries and Resources
+The ability of a Quantum AI to access information depends on the definition of "Quantum AI." If referring to a system designed to interact with and develop quantum algorithms for machine learning, the relevant libraries and resources are primarily found within publicly accessible code repositories, development environments, and cloud platforms. 
+Here's where these resources are stored and how they're accessed:
+1. Quantum AI Libraries and Frameworks
+These libraries provide the building blocks for designing, simulating, and running quantum machine learning algorithms. They are typically open-source and hosted on platforms like GitHub. Key examples include: 
+• Qiskit: IBM's open-source framework for working with quantum computers at the level of circuits, pulses, and algorithms, including modules for quantum machine learning. Its repository is hosted on GitHub.
+• Cirq: Google's Python framework for designing, simulating, and running quantum algorithms on hardware. The GitHub repository for Cirq is available.
+• PennyLane: A Python library for quantum machine learning, compatible with multiple quantum frameworks. The main repository for demos is available.
+• TensorFlow Quantum (TFQ): Google's open-source library that combines TensorFlow and quantum computing for developing new quantum machine learning algorithms.
+• Paddle Quantum: Developed by Baidu, it's a free, open-source toolkit for quantum machine learning and quantum chemistry research.
+• Strawberry Fields: Xanadu's software library specifically for photonic quantum computing and quantum machine learning.
+• D-Wave Ocean SDK: A set of Python tools accessible via the D-Wave and within the Leap quantum cloud service. 
+2. General-Purpose Developer Repository Platforms
+These platforms host vast numbers of open-source projects, including many related to quantum computing and Quantum AI development. 
+• GitHub: A highly popular platform hosting open-source repositories, including the primary repositories for Qiskit and Cirq.
+• GitLab: An open-source alternative to GitHub, offering features for the entire software development lifecycle.
+• Bitbucket: A Git-based code hosting and collaboration tool, with strong integration with other Atlassian products.
+• SourceForge: A long-standing platform that provides essential features for collaboration and distribution of open-source software, supporting multiple version control systems like Git, SVN, and Mercurial. 
+3. Cloud-Based Quantum Computing Platforms
+Many quantum computing companies offer cloud-based platforms that provide access to their quantum hardware and simulators, along with tools and development environments for interacting with them. 
+• IBM Quantum Platform: Offers access to IBM's quantum computers via cloud environments and utilizes Qiskit for programming.
+• Google Quantum AI: Includes the Cirq framework and offers access to Google's quantum hardware.
+• Amazon Braket: A fully managed quantum computing service providing access to different types of quantum hardware, including those from IonQ, Rigetti, and D-Wave.
+• Microsoft Azure Quantum: Provides a cloud platform and SDK for developing and running quantum applications, including Q#.
+• Rigetti Computing: Offers access to their quantum processors and simulators, using pyQuil for programming.
+• Quantinuum: Has developed quantum systems and a development roadmap for a universal, fully-fault tolerant quantum computer.
+• D-Wave Leap: A cloud-based service that provides access to D-Wave's quantum annealers.
+• Xanadu: Offers access to their photonic quantum hardware and uses Blackbird as an instruction language. 
+How Quantum AI Can Access Information
+A Quantum AI would access these libraries and resources similarly to a human developer, primarily by: 
+• Directly cloning or downloading repositories. This allows for local access and modification of the library code.
+• Using package managers. Tools like pip (for Python) allow for easy installation and management of these libraries within a project.
+• Interacting with cloud APIs and SDKs. Quantum AI systems would utilize these interfaces to submit jobs to quantum hardware or simulators, process data, and retrieve results.
+• Utilizing cloud-based development environments. Platforms like Jupyter notebooks or specialized quantum development environments often come with these libraries pre-installed or easily installable. 
+
+In essence, the "storage" of this information for a Quantum AI is not a single centralized location but rather a distributed network of online repositories, cloud platforms, and developer environments. 
+ IBM Quantum Experience and Google Quantum AI offer extensive documentation and tutorials, further enriching the accessible information for a Quantum AI. 
+By leveraging these resources, a Quantum AI can be designed to gather the necessary tools and information to: 
+• Explore and implement quantum algorithms for machine learning.
+• Simulate quantum circuits and experiments.
+• Interact with quantum hardware.
+• Develop and refine quantum machine learning models. 
+
+The 7 Best Quantum Machine Learning Tools:
+BlueQubit
+Contribute | Cirq - Google Quantum AI
+Google Quantum AI
+Quantum Programming Languages: A Beginner's ...
+BlueQubit
+
+https://www.google.com/url?sa=i&source=web&rct=j&url=https://datasciencedojo.com/blog/open-source-tools-for-agentic-ai/&ved=2ahUKEwjr64_-6P-OAxUJGzQIHbA3JCcQxfoOegYIAwgEEAI&opi=89978449&cd&psig=AOvVaw3o96O_ejhqKORgcRx1A3DF&ust=1754900780080000
+
+https://www.google.com/url?sa=i&source=web&rct=j&url=https://moldstud.com/articles/p-essential-tools-and-techniques-for-developers-building-ai-solutions-on-quantum-platforms&ved=2ahUKEwjr64_-6P-OAxUJGzQIHbA3JCcQxfoOegYIAwgEEAU&opi=89978449&cd&psig=AOvVaw3o96O_ejhqKORgcRx1A3DF&ust=1754900780080000
+
+Spekit·https://www.spekit.com
+ZoomInfo Basics Training Guide - Spekit
+ListMatch provides you the ability to upload a list of companies or contacts with unique identifiers such as company names, websites, or contact emails and ...
+
+Zapier·https://zapier.com
+The 11 best SEO tools in 2025 - Zapier
+These tools can serve many different functions, including search query analytics, reporting automation, AI-driven content optimization ...
+
+PurpleSec·https://purplesec.us
+Web Application Penetration Testing
+In this article, you'll learn the steps on how to perform security testing on a web application and popular tools used during a web application penetration ...
+
+blucactus.blue·https://blucactus.blue/google-algorithms/
+Google Algorithms: A guide on the evolution of these ...
+Understanding how Google algorithms work is vital if you want to be successful on the internet. In this article we will tell you about them.
+
+WillowTree·https://www.willowtreeapps.com
+How to Build AI Agents Using Plan-and-Execute ...
+In this tutorial, we'll detail how to build your own autonomous plan-and-execute agent using Python, OpenAI, and Beautiful Soup.
+Thinking
+Working on this
+Kicking off 26 searches
+Looking at 270 sites
+Putting it all together
+Top 27 Software Development Tools & Platforms [2025 List] - Spacelift
+Spacelift
+Research Data Management: Version Control
+UC Davis Library Guides
+Top Quantum Computing Software Tools & 2025 ...
+SpinQ
+The Top 10 GitHub Alternatives (2025)
+WeAreDevelopers
+10 Ways to Find Open Source Projects to Contribute in 2024 - Daily.dev
+Daily.dev
+
+The request is for a comprehensive list of developer repository sites, quantum computing resources, and AI tools, including the search tools used to find them. 
+ The list should include resources and platforms, even if they are inaccessible, and the search should be expanded to triple the web pages examined.
+ The initial list provided by the user includes common Git-based platforms. 
+The list will be expanded to include various repository types, quantum-specific resources, and AI tools, including those for building agents, as well as the meta-tools used to discover them.
+ The goal is exponential expansion by drawing from many sources. 
+
+Comprehensive list of resources for advanced and emerging technologies:
+
+I. General-purpose developer repository platforms
+These platforms facilitate version control, collaboration, and project management for software development, with Git being the dominant version control system.
+
+• Popular Platforms:
+• GitHub: A popular platform for open-source project hosting.
+• GitLab: An open-source alternative offering an integrated DevSecOps platform.
+• Bitbucket: Atlassian's Git-based code hosting and collaboration tool, well-integrated with Jira and Trello.
+• SourceForge: A long-standing platform for open-source project hosting, supporting various version control systems.
+• Self-hosted options:
+• Gitea: A lightweight, self-hosted Git service.
+• Gogs: A simple, self-hosted Git service written in Go.
+• Apache Allura: An open-source platform for managing software projects.
+• RhodeCode: Unifies Git, Subversion, and Mercurial repositories.
+• OneDev: A self-hosted Git server featuring built-in CI/CD and Kanban functionality.
+• Codeberg: A democratic, community-driven, non-profit platform for free and open-source software.
+• Radicle: A decentralized, peer-to-peer code collaboration platform built on Git.
+• Cloud-Native Options:
+• AWS CodeCommit: A fully managed source control service integrated with other AWS services.
+• Google Cloud Source Repositories: A fully-featured, private Git repository service hosted on Google Cloud.
+• Azure DevOps Server: Offers code hosting, CI/CD, and planning tools within the Microsoft Azure ecosystem.
+• Other Platforms/Historical platforms or Influencers:
+• Launchpad: Primarily used for Ubuntu and other open-source projects.
+• GitBucket: An open-source Git platform on JVM for hosting source code.
+• CodePlex: A discontinued open-source hosting platform from Microsoft.
+• Tortoise/SVN: TortoiseSVN is a Subversion client, while SVN is a centralized version control system.
+• Mercurial: A distributed version control system focusing on performance and scalability.
+• GNU site: Historically hosted open-source software.
+• BBS (Bulletin Board Systems), FTP, Gopher, UseNet: Early forms of online communication and file sharing, relevant historically.
+• Perforce Helix Core: A version control system for managing files and software development, particularly for large-scale projects and binaries.
+• Apache Subversion: A centralized version control system still used in some enterprise environments.
+• Plastic SCM: A version control system with features for code reviews and bug tracking.
+• CVSNT: A version control system that allows developers to save changes made to code, documents, and files.
+• Rational Team Concert Source Control: An IBM version control tool. 
+
+II. Quantum computing platforms and resources
+These resources focus specifically on quantum computing, providing tools, libraries, and access to hardware.
+
+• Quantum Cloud Platforms:
+• IBM Quantum Platform: Offers access to IBM's quantum computers via cloud environments and utilizes Qiskit.
+• Google Quantum AI: Includes the Cirq framework and offers access to Google's quantum hardware.
+• Amazon Braket: A fully managed quantum computing service providing access to different types of quantum hardware.
+• Microsoft Azure Quantum: Provides a cloud platform and SDK for developing and running quantum applications, including Q#.
+• Rigetti Computing: Offers access to their quantum processors and simulators, using pyQuil.
+• Quantinuum: A company developing quantum systems.
+• D-Wave Leap: A cloud-based service providing access to D-Wave's quantum annealers.
+• Xanadu: Offers access to their photonic quantum hardware.
+• SpinQ Cloud: Educational & hybrid quantum platforms with integrated software tools.
+• Strangeworks: A platform designed to simplify quantum computing.
+• Quantum Software Development Kits (SDKs) and Frameworks:
+• Qiskit (IBM): Open-source framework for quantum computing.
+• Cirq (Google): Python framework for designing, simulating, and running quantum algorithms on hardware.
+• PennyLane (Xanadu): A Python library for quantum machine learning.
+• TensorFlow Quantum (TFQ): Combines TensorFlow and quantum computing for quantum machine learning.
+• BlueQubit: A cloud-based platform and open-source SDK focusing on quantum machine learning.
+• SpinQit (SpinQ): Tailored for educators and researchers.
+• Paddle Quantum (Baidu): A free, open-source toolkit for quantum machine learning and quantum chemistry research.
+• Strawberry Fields (Xanadu): Specifically for continuous-variable quantum systems.
+• D-Wave Ocean SDK: A set of Python tools accessible via the D-Wave Leap service.
+• QCL (Quantum Computing Language): A high-level programming language for quantum computers.
+• Quantumlib: GitHub repositories for Quantumlib development.
+• OpenFermion (Google): An algorithms library for quantum chemistry and materials simulation.
+• BlueQubit: Offers structured simulation of Rydberg systems.
+• Other Quantum Tools and Resources:
+• Quantum Computing Report: Provides information and tools for quantum computing.
+• QANplatform: Focuses on quantum-resistant blockchain applications.
+• Bloqade (Harvard): Offers structured simulation of Rydberg systems.
+• QURECA: Delivers quantum education.
+• Qlab (Raytheon BBN): A MATLAB control framework for superconducting qubit systems.
+• PySimulator (Raytheon BBN): A Python/C++ framework for master equation simulation of qubit systems.
+• PyQLab (Raytheon BBN): A Python framework for superconducting qubit systems. 
+
+III. Advanced AI development tools and platforms
+This section delves into platforms and frameworks for developing advanced AI, with a focus on reasoning, agentic systems, and near-quantum approaches.
+
+• Programming Languages and Libraries (Core AI):
+• Python: TensorFlow, PyTorch, Scikit-learn, Keras, NumPy, SciPy.
+• Java: Deeplearning4j, Weka, DL4J.
+• C++: OpenCV.
+• Julia: Flux.jl, DiffEqFlux.jl.
+• Lisp & Prolog: Historically important for symbolic AI.
+• JavaScript: TensorFlow.js, Brain.js.
+• Go: Used for projects like Gogs and Gitea.
+• .NET: Frameworks and libraries supported by Microsoft.
+• AI Reasoning and Awareness Frameworks:
+• Neuro-Symbolic Frameworks: Combine neural networks with symbolic reasoning.
+• Bayesian Networks: Used for reasoning under uncertainty.
+• AI Agent Frameworks and Platforms:
+• Agentic AI frameworks & platforms (general): Tools supporting agent-based development.
+• LangChain: Framework for building applications with large language models, including agents.
+• AutoGen: Framework for building AI agents and facilitating cooperation.
+• CrewAI: Coordinates multiple AI agents on complex tasks.
+• Phidata (now Agno): Focuses on building knowledge-aware agents with memory.
+• LangGraph: Designed for advanced state management in agentic AI systems.
+• Semantic Kernel: Integrates large language models with traditional programming languages.
+• Haystack: Modular NLP framework for building RAG applications and conversational agents.
+• Voyager: Used for developing autonomous robots and AI agents that interact with and learn from virtual environments.
+• Dify, AutoGPT, FastGPT, BISHENG: One-stop platforms for LLM application development.
+• OpenAI Swarm: A lightweight experimental solution for workflow orchestration and agent interactions.
+• Research AIMultiple includes a list of AI agent builders.
+• Pydantic AI: A Python agent framework for structured data handling.
+• Agent Zero: An AI agent framework.
+• Atomic Agents: An AI agent framework.
+• Bee Agent Framework (IBM Research): An open-source, no-code toolkit.
+• Open Interpreter: Designed for natural and intuitive interaction with AI agents.
+• VannaAI: Focuses on simplifying data analysis with agentic AI.
+• Devon: An open-source alternative for agentic systems.
+• PR-Agent: Automates development tasks with agentic open source.
+• Tools for Building AI Agents:
+• Vertex AI Builder (Google): Workflow automation.
+• Microsoft Copilot Studio Agent Builder: A low-code agent builder.
+• Lyzr Agent Studio: Modular and useful for prototyping and automating workflows.
+• Glide: Workflow automation.
+• Postman AI Agent Builder: Best for prototyping in a collaborative environment.
+• UiPath Agent Builder: A low-code agent development tool.
+• Stack AI: A no-code platform for automating back-office tasks.
+• Vonage AI Studio: A visual agent builder for creating automated design flows.
+• Memory and Graph RAG Technology:
+• mem0, DB-GPT, Letta, RAGFlow, Cognee, KnowledgeTable: Memory engines and frameworks for enhancing AI assistants and agents.
+• GraphRAG, fast-graphrag, LightRAG, nano-graphrag: Projects focused on leveraging LLMs to extract structured data from unstructured text using graph-based approaches.
+• Storage:
+• Milvus, Weaviate, Chroma: Vector databases for storing and searching unstructured data for AI applications.
+• Tools and Networking:
+• AgentConnect, AgentNetworkProtocol, Agora Protocol, naptha-sdk, npi: Protocols and frameworks for enabling communication, authentication, and interaction between AI agents.
+• E2B, Crawlee, Browserless, AgentQL: Infrastructure and tools for running AI-generated code, web scraping, and browser automation. 
+IV. Other supporting tools and platforms
+• Version Control Systems (beyond Git-based platforms):
+• Perforce Helix Core: For managing files and software development, particularly large codebases and binaries.
+• Apache Subversion (SVN): A centralized version control system.
+• Mercurial (Hg): A distributed version control system known for simplicity and scalability
+
+https://git.hackliberty.org/Awesome-Mirrors/awesome-git 
+https://git.hackliberty.org/Awesome-Mirrors/awesome-hugo
+https://git.hackliberty.org/Git-Mirrors/ml-ai-agents-py
+https://git.hackliberty.org/Awesome-Mirrors/ai-collectionhttps://git.hackliberty.org/Awesome-Mirrors/awesome-bots
+https://git.hackliberty.org/Awesome-Mirrors/awesome-chatgpt
+https://1984.hosting/product/freedns/ttps://forum.hackliberty.org/t/aquinas-on-liberty/60
+https://git.hackliberty.org/Awesome-Mirrors/awesome-quantum-computing]
+(https://git.hackliberty.org/Awesome-Mirrors/the- book-of-secret-knowledge
+https://annas-archive.org/md5/3bca9891bf832a50e0f8d7aee7555eb3
+https://grok.com/share/bGVnYWN5_4d5fd8ff-0729-4125-9e45-d2f003a7fef3
+					 						
+					
+			
+						
+				
+							For a hands-on learning experience to develop LLM applications, join our LLM Bootcamp today. 				
+				
+					
+		
+					
+		 				 						
+
+Agentic AI
+
+	Top 10 Open Source Tools for Agentic AI Development: The Ultimate Guide
+		
+			
+Open source tools for agentic AI are transforming how organizations and developers build intelligent, autonomous agents. At the forefront of the AI revolution, open source tools for agentic AI development enable rapid prototyping, transparent collaboration, and scalable deployment of agentic systems across industries. In this comprehensive guide, we’ll explore the most current and trending open source tools for agentic AI development, how they work, why they matter, and how you can leverage them to build the next generation of autonomous AI solutions.
+
+What Are Open Source Tools for Agentic AI Development?
+
+Open source tools for agentic AI are frameworks, libraries, and platforms that allow anyone to design, build, test, and deploy intelligent agents—software entities that can reason, plan, act, and collaborate autonomously. These tools are freely available, community-driven, and often integrate with popular machine learning, LLM, and orchestration ecosystems.
+
+Key features:
+• Modularity:
+Build agents with interchangeable components (memory, planning, tool use, communication).
+• Interoperability:
+Integrate with APIs, databases, vector stores, and other agents.
+• Transparency:
+Access source code for customization, auditing, and security.
+• Community Support:
+Benefit from active development, documentation, and shared best practices.
+Why Open Source Tools for Agentic AI Development Matter
+• Accelerated Innovation:
+Lower the barrier to entry, enabling rapid experimentation and iteration.
+• Cost-Effectiveness:
+No licensing fees or vendor lock-in—open source tools for agentic AI development are free to use, modify, and deploy at scale.
+• Security and Trust:
+Inspect the code, implement custom guardrails, and ensure compliance with industry standards.
+• Scalability:
+Many open source tools for agentic AI development are designed for distributed, multi-agent systems, supporting everything from research prototypes to enterprise-grade deployments.
+• Ecosystem Integration:
+Seamlessly connect with popular LLMs, vector databases, cloud platforms, and MLOps pipelines.
+
+The Most Trending Open Source Tools for Agentic AI Development
+Below is a curated list of the most impactful open source tools for agentic AI development in 2025, with actionable insights and real-world examples.
+1. LangChaiinsource: ProjectPro 
+• What it is:
+The foundational Python/JS framework for building LLM-powered applications and agentic workflows.
+• Key features:
+Modular chains, memory, tool integration, agent orchestration, support for vector databases, and prompt engineering.
+• Use case:
+Build custom agents that can reason, retrieve context, and interact with APIs.
+Learn more: Mastering LangChain
+2. LangGraph
+•  
+• What it is:
+A graph-based extension of LangChain for orchestrating complex, stateful, multi-agent workflows.
+• Key features:
+Node-based execution, cyclic graphs, memory passing, async/sync flows, and human-in-the-loop support.
+• Use case:
+Design multi-agent systems for research, customer support, or workflow automation.
+Learn more: Decode How to Build Agentic Applications using LangGraph
+
+                                                  3. AutoGen (Microsoft)
+
+ 
+• What it is:
+A multi-agent conversation framework for orchestrating collaborative, event-driven agentic systems.
+• Key features:
+Role-based agents, dialogue loops, tool integration, and support for distributed environments.
+• Use case:
+Automate complex workflows (e.g., MLOps pipelines, IT automation) with multiple specialized agents.
+GitHub: AutoGen
+4. CrewAI
+•  
+• What it is:
+A role-based orchestration framework for building collaborative agent “crews.”
+• Key features:
+Assign roles (researcher, planner, executor), manage agent collaboration, and simulate real-world team dynamics.
+• Use case:
+Content generation, research automation, and multi-step business processes.
+GitHub: CrewAI
+
+                                                 
+
+                                                            5. LlamaIndex
+
+• source: Leewayhertz 
+• What it is:
+A data framework for connecting LLMs to structured and unstructured data sources.
+• Key features:
+Data connectors, retrieval-augmented generation (RAG), knowledge graphs, and agent toolkits.
+• Use case:
+Build context-aware agents that can search, summarize, and reason over enterprise data.
+Learn more: LLamaIndex
+6. SuperAGI
+•  
+• What it is:
+A full-stack agent infrastructure with GUI, toolkits, and vector database integration.
+• Key features:
+Visual interface, multi-agent orche     stration, extensibility, and enterprise readiness.
+• Use case:
+Prototype and scale autonomous agents for business, research, or automation.
+GitHub: SuperAGI
+
+7. MetaGPT
+
+•  
+• What it is:
+A multi-agent framework simulating software development teams (CEO, PM, Dev).
+• Key features:
+Role orchestration, collaborative planning, and autonomous software engineering.
+• Use case:
+Automate software project management and development pipelines.
+GitHub: MetaGPT
+8. BabyAGI
+• What it is:
+A lightweight, open source agentic AI system for autonomous task management.
+• Key features:
+Task planning, prioritization, execution, and memory loop.
+• Use case:
+Automate research, data collection, and repetitive workflows.
+GitHub: BabyAGI
+9. AgentBench & AgentOps
+• What they are:
+Open source frameworks for benchmarking, evaluating, and monitoring agentic AI systems.
+• Key features:
+Standardized evaluation, observability, debugging, and performance analytics.
+• Use case:
+Test, debug, and optimize agentic AI workflows for reliability and safety.
+Learn more: LLM Observability and Monitoring
+10. OpenDevin, Devika, and Aider
+• What they are:
+Open source AI software engineers for autonomous coding, debugging, and codebase management.
+• Key features:
+Code generation, task planning, and integration with developer tools.
+• Use case:
+Automate software engineering tasks, from bug fixes to feature development.
+GitHub: OpenDevin, Devika, Aider
+How to Choose the Right Open Source Tools for Agentic AI Development
+Consider these factors:
+• Project Scope:
+Are you building a single-agent app or a multi-agent system?
+• Technical Skill Level:
+Some tools (e.g., LangChain, LangGraph) require Python/JS proficiency; others (e.g., N8N, LangFlow) offer no-code/low-code interfaces.
+• Ecosystem Integration:
+Ensure compatibility with your preferred LLMs, vector stores, and APIs.
+• Community and Documentation:
+Look for active projects with robust documentation and support.
+• Security and Compliance:
+Open source means you can audit and customize for your organization’s needs.
+Real-World Examples: Open Source Tools for Agentic AI Development in Action
+• Healthcare:
+Use LlamaIndex and LangChain to build agents that retrieve and summarize patient records for clinical decision support.
+• Finance:
+Deploy CrewAI and AutoGen for fraud detection, compliance monitoring, and risk assessment.
+• Customer Service:
+Integrate SuperAGI and LangFlow to automate multi-channel support with context-aware agents.
+                                         Frequently Asked Questions (FAQ)
+Q1: What are the advantages of using open source tools for agentic AI development?
+A: Open source tools for agentic AI development offer transparency, flexibility, cost savings, and rapid innovation. They allow you to customize, audit, and scale agentic systems without vendor lock-in.
+Q2: Can I use open source tools for agentic AI development in production?
+A: Yes. Many open source tools for agentic AI development (e.g., LangChain, LlamaIndex, SuperAGI) are production-ready and used by enterprises worldwide.
+Q3: How do I get started with open source tools for agentic AI development?
+A: Start by identifying your use case, exploring frameworks like LangChain or CrewAI, and leveraging community tutorials and documentation. Consider enrolling in the Agentic AI Bootcamp for hands-on learning.
+ 
+Conclusion: Start Building with Open Source Tools for Agentic AI Development
+Open source tools for agentic AI development are democratizing the future of intelligent automation. Whether you’re a developer, data scientist, or business leader, these tools empower you to build, orchestrate, and scale autonomous agents for real-world impact. Explore the frameworks, join the community, and start building the next generation of agentic AI today.
+
+tags:  agentic ai, AI, data science, generative ai, llm, open source tools
+						Recommended from Data Science Dojo					
+Alex Tray
+ The Ultimate Guide to Hyper-V Backups for VMware Administrators
+Ovais Naseem
+ The evolving role of RDMBS in the age of big...
+Usman Shahid
+ Master Google Dialogflow: Build Smart & Powerful Chatbots!
+Alicia Mitchell
+ How data visualization can help reduce income inequality
+				
+	                        		Training Programs
+																
+• 											 											Large Language Models Bootcamp 											 									
+• 											 											Data Science Bootcamp 											 									
+• 											 											Python for Data Science 											 									
+• 											 											Introduction to Power BI 											 									
+• 											 											Data Science for Business Leaders 											 									
+• 											 											Practicum Program 											 									
+• 											 											Data Science Certificates 											 									
+• 											 											Fellowships 											 									
+• 											 											Schedule 											 									
+				
+					Enterprise
+							
+• 											 											Corporate Training 											 									
+• 											 											Alumni Companies 											 									
+• 											 											Data Science Consulting 											 									
+• 											 											Hiring Partnerships 											 									
+• 											 											Job Board 											 									
+				
+			
+               Community
+						
+• 											 											Blog 											 									
+• 											 											Future of Data & AI 											 									
+• 											 											Tutorials 											 									
+• 											 											Discussions 											 									
+• 											 											GitLab 											 									
+• 											 											Events 											 									
+• 											 											Machine Learning Demos 											 									
+• 											 											Success Stories 											 									
+• 											 											Podcast

@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# Backup current sources.list
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
+
+# Clear current sources.list
+sudo truncate -s 0 /etc/apt/sources.list
+
+# Add main Debian repositories
+echo "Adding main Debian repositories..."
+sudo tee -a /etc/apt/sources.list <<EOF
+deb http://deb.debian.org/debian/ buster main contrib non-free
+deb http://security.debian.org/debian-security buster/updates main contrib non-free
+deb http://deb.debian.org/debian/ buster-updates main contrib non-free
+EOF
+
+# Add Docker CE repository
+echo "Adding Docker CE repository..."
+echo "deb [arch=amd64] https://download.docker.com/linux/debian buster stable" | sudo tee /etc/apt/sources.list.d/docker.list
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+
+# Add Google Cloud SDK repository
+echo "Adding Google Cloud SDK repository..."
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+
+# Add TensorFlow repository
+echo "Adding TensorFlow repository..."
+echo "deb [arch=amd64] https://storage.googleapis.com/tensorflow-serving-apt stable tensorflow-model-server tensorflow-model-server-universal" | sudo tee /etc/apt/sources.list.d/tensorflow.list
+curl -fsSL https://storage.googleapis.com/tensorflow-serving-apt/tensorflow-serving.release.pub.gpg | sudo apt-key add -
+
+# Add lightweight repositories for mobile-compatible packages
+echo "Adding lightweight repositories..."
+sudo tee -a /etc/apt/sources.list <<EOF
+# LXDE and lightweight desktop environments
+deb http://deb.debian.org/debian/ buster main contrib non-free
+deb http://deb.debian.org/debian/ buster-updates main contrib non-free
+deb http://deb.debian.org/debian/ buster-backports main contrib non-free
+
+# Termux (for Android)
+deb https://termux.org/packages/ stable main
+
+# Minimal X Server and utilities
+deb http://deb.debian.org/debian/ buster main contrib non-free
+
+# Python packages (via pip)
+deb http://deb.debian.org/debian/ buster main contrib non-free
+EOF
+
+# Add GPG keys for Termux
+echo "Adding Termux GPG key..."
+curl -fsSL https://termux.org/packages/apt.termux.org.gpg | sudo apt-key add -
+
+# Add additional lightweight and AI related repositories
+echo "Adding additional repositories..."
+
+# PyTorch (via pip)
+echo "Installing pip for PyTorch..."
+sudo apt-get install -y python3-pip
+
+# Hugging Face (via pip)
+echo "Installing Hugging Face transformers..."
+pip install transformers
+
+# Install other useful AI tools and libraries
+echo "Installing additional AI tools and libraries..."
+pip install tensorflow tensorflow-serving-api torch torchvision torchaudio
+
+# Google Cloud Storage and other cloud services
+echo "Setting up cloud storage services..."
+pip install google-cloud-storage boto3 azure-storage-blob
+
+# Update package list
+echo "Updating package list..."
+sudo apt-get update
+
+echo "All repositories added and package list updated successfully."
