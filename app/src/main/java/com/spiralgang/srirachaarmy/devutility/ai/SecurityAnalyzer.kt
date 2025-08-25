@@ -74,7 +74,6 @@ class SecurityAnalyzer @Inject constructor() {
             Regex("""secret\s*[=:]\s*["'][^"']+["']""", RegexOption.IGNORE_CASE),
             Regex("""token\s*[=:]\s*["'][^"']+["']""", RegexOption.IGNORE_CASE)
         )
-        
         credentialPatterns.forEach { pattern ->
             pattern.findAll(code).forEach { match ->
                 val lineNumber = getLineNumber(code, match.range.first)
