@@ -135,7 +135,25 @@ class CustomSandbox @Inject constructor() {
             
         } finally {
             // Restore original security manager
-            System.setSecurityManager(originalSecurityManager)
+    private val securityManagerLock = Any()
+    
+    /**
+     * Execute code with custom security manager
+     */
+    suspend fun <T> executeWithSecurityManager(block: suspend () -> T): T {
+        return synchronized(securityManagerLock) {
+            val originalSecurityManager = System.getSecurityManager()
+            try {
+                // Install custom security manager
+                System.setSecurityManager(customSecurityManager)
+
+                // Execute code block
+                block()
+
+            } finally {
+                // Restore original security manager
+                System.setSecurityManager(originalSecurityManager)
+            }
         }
     }
     
