@@ -95,7 +95,14 @@ class Profiler @Inject constructor() {
             // Simulate processing each line
             if (line.trim().isNotEmpty()) {
                 // Simulate some processing time
-                Thread.sleep(1)
+    private suspend fun analyzeCodePerformance(code: String, language: String) {
+        // Simulate code analysis processing
+        val lines = code.split("\n")
+        for (line in lines.take(100)) { // Limit analysis for simulation
+            // Simulate processing each line
+            if (line.trim().isNotEmpty()) {
+                // Simulate some processing time
+                delay(1)
             }
         }
     }
