@@ -261,7 +261,7 @@ class ZRAMManager @Inject constructor() {
         val compressedSize = deflater.deflate(buffer)
         deflater.end()
         
-        return@withContext buffer.copyOf(compressedSize)
+        return buffer.copyOf(compressedSize)
     }
     
     private suspend fun simulateZRAMDecompress(compressedData: ByteArray): ByteArray = withContext(Dispatchers.IO) {
