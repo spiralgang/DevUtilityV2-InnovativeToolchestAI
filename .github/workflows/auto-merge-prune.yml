@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up GitHub CLI
-        uses: cli/cli-action@v2
+        uses: cli/cli-action@v4
 
       - name: Set up Git
         run: |
