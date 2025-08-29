@@ -209,7 +209,7 @@ class LearningBot @Inject constructor(
                         suggestions.add("Based on your coding style, consider using ${pattern.metadata["preferred_construct"]}")
                     }
                     PatternType.LANGUAGE_PREFERENCE -> {
-                        val preferredLang = pattern.metadata["language"] as? String
+                        private const val LANGUAGE_KEY = "language"
                         if (preferredLang != null) {
                             suggestions.add("You seem to prefer $preferredLang. Here are some advanced $preferredLang features you might like.")
                         }
