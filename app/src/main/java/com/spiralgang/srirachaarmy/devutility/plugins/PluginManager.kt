@@ -36,7 +36,7 @@ class PluginManager @Inject constructor() {
         val category: String,
         val dependencies: List<String> = emptyList(),
         val supportedLanguages: List<String> = emptyList(),
-        val minAppVersion: String = "2.5.0",
+            val minAppVersion: String = DEFAULT_MIN_APP_VERSION, // Main class name
         val maxAppVersion: String? = null,
         val permissions: List<String> = emptyList(),
         val entryPoint: String, // Main class name
