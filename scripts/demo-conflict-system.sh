@@ -177,7 +177,10 @@ echo -e "${BLUE}🧪 System Validation${NC}"
 echo "Running comprehensive system validation..."
 echo ""
 
-if ./scripts/validate-system.sh 2>/dev/null | tail -10; then
+output=$(./scripts/validate-system.sh 2>&1)
+status=$?
+echo "$output" | tail -10
+if [ $status -eq 0 ]; then
     echo -e "${GREEN}✅ All validation tests passed!${NC}"
 else
     echo -e "${RED}❌ Some validation tests failed${NC}"
