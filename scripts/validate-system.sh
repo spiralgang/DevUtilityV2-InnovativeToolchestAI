@@ -12,7 +12,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 echo -e "${BLUE}🧪 Conflict Resolution System Validation Test${NC}"
-echo "=" * 50
+printf '=%.0s' {1..50}; echo
 
 # Test 1: Check that all scripts are executable
 echo -e "${BLUE}[TEST 1]${NC} Checking script executability..."
