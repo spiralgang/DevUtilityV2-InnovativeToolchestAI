@@ -35,7 +35,7 @@ def resolve_gitignore_conflicts(file_path: str = ".gitignore") -> bool:
                 if stripped.startswith('#'):
                     if stripped not in [c.strip() for c in comments]:
                         comments.append(stripped)
-                elif stripped != 'gitignore':  # Skip invalid entry
+                else:
                     entries.add(stripped)
         
         # Create merged .gitignore
