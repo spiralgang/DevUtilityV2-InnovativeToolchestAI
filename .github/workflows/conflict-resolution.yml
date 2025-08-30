@@ -46,8 +46,9 @@ jobs:
           echo "Checking conflicts between $SOURCE_BRANCH and $TARGET_BRANCH"
           
           # Run conflict detection
-          if python3 scripts/conflict-resolver.py --source "$SOURCE_BRANCH" --target "$TARGET_BRANCH" --report conflict-report.md; then
-            CONFLICT_COUNT=$?
+          python3 scripts/conflict-resolver.py --source "$SOURCE_BRANCH" --target "$TARGET_BRANCH" --report conflict-report.md
+          CONFLICT_COUNT=$?
+          if [ $CONFLICT_COUNT -eq 0 ]; then
             echo "conflicts=$CONFLICT_COUNT" >> $GITHUB_OUTPUT
             echo "count=$CONFLICT_COUNT" >> $GITHUB_OUTPUT
             
