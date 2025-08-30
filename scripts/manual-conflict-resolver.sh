@@ -291,7 +291,7 @@ validate_resolution() {
     print_step "Validating conflict resolution..."
     
     # Check for remaining conflict markers
-    if git grep "<<<<<<< \|>>>>>>> \|=======" HEAD -- . 2>/dev/null; then
+    if git grep "<<<<<<< \|>>>>>>> \|=======" -- . 2>/dev/null; then
         print_error "Conflict markers still found in repository!"
         return 1
     fi
