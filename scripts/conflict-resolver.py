@@ -53,16 +53,17 @@ class ConflictResolver:
         conflicted_files = []
         lines = output.split('\n')
         
+        # git merge-tree output: look for lines like "changed in both X", "added in both X", etc.
+        conflict_patterns = [
+            re.compile(r'^(changed|added|removed) in both (.+)$'),
+        ]
         for line in lines:
-            if line.startswith('<<<<<<< ') or 'CONFLICT' in line:
-                # Extract filename from conflict markers
-                if '/' in line:
-                    parts = line.split()
-                    for part in parts:
-                        if '/' in part or part.endswith(('.py', '.kt', '.java', '.js', '.json', '.md', '.gradle')):
-                            if part not in conflicted_files:
-                                conflicted_files.append(part)
-        
+            for pattern in conflict_patterns:
+                match = pattern.match(line.strip())
+                if match:
+                    file_path = match.group(2)
+                    if file_path not in conflicted_files:
+                        conflicted_files.append(file_path)
         return conflicted_files
     
     def resolve_build_file_conflicts(self, file_path: str) -> bool:
