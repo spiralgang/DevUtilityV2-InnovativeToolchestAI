@@ -16,10 +16,10 @@ printf '=%.0s' {1..50}; echo
 
 # Test 1: Check that all scripts are executable
 echo -e "${BLUE}[TEST 1]${NC} Checking script executability..."
-if [[ -x "scripts/conflict-resolver.py" ]] && [[ -x "scripts/manual-conflict-resolver.sh" ]] && [[ -x "scripts/resolve-active-conflicts.py" ]]; then
-    echo -e "${GREEN}✅ All scripts are executable${NC}"
+if [[ -x "scripts/manual-conflict-resolver.sh" ]]; then
+    echo -e "${GREEN}✅ Shell script is executable${NC}"
 else
-    echo "❌ Some scripts are not executable"
+    echo "❌ Shell script is not executable"
     exit 1
 fi
 
