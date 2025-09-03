@@ -162,7 +162,7 @@ class ZRAMManager @Inject constructor() {
             }
         } catch (e: Exception) {
             Timber.e(e, "Failed to get ZRAM stats")
-            return@withContext ZRAMStats(0, 0, 0.0f, false, 0)
+            ZRAMStats(0, 0, 0.0f, false, 0)
         }
     }
     
