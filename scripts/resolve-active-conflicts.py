@@ -7,7 +7,7 @@ Resolves conflicts in an active merge state
 import os
 import sys
 import subprocess
-import re
+import re  # Remove this line
 from typing import List
 
 def resolve_gitignore_conflicts(file_path: str = ".gitignore") -> bool:
