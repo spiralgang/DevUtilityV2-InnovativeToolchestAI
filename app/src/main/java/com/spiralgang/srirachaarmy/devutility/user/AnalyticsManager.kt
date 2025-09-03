@@ -412,7 +412,7 @@ class AnalyticsManager @Inject constructor() {
             
         } catch (e: Exception) {
             Timber.e(e, "Failed to export analytics data")
-            return@withContext ""
+            return ""
         }
     }
     
