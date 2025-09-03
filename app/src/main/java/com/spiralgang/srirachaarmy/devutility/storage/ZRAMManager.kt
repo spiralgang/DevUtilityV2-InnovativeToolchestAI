@@ -79,7 +79,7 @@ class ZRAMManager @Inject constructor() {
                     customFallbackCompressor.enable()
                 }
                 
-                return@withContext success
+                return success
             } else {
                 Timber.d("ZRAM not supported, using custom fallback compression")
                 customFallbackCompressor.enable()
