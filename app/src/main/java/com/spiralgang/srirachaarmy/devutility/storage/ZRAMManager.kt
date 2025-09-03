@@ -139,7 +139,7 @@ class ZRAMManager @Inject constructor() {
         try {
             if (isZRAMEnabled && isZRAMSupported) {
                 // Use ZRAM decompression (simulated)
-                return@withContext simulateZRAMDecompress(compressedData)
+                            return simulateZRAMDecompress(compressedData)
             } else {
                 // Use custom fallback decompressor
                 return@withContext customFallbackCompressor.decompress(compressedData)
