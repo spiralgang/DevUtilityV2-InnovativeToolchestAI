@@ -158,7 +158,7 @@ class ZRAMManager @Inject constructor() {
             if (isZRAMSupported) {
                 return@withContext simulateZRAMStats()
             } else {
-                return@withContext customFallbackCompressor.getStats()
+                customFallbackCompressor.getStats()
             }
         } catch (e: Exception) {
             Timber.e(e, "Failed to get ZRAM stats")
