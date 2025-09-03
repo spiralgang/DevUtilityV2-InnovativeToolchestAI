@@ -182,7 +182,7 @@ class AIEnvironmentAwareness @Inject constructor() {
             val context = getCurrentEnvironmentContext()
             
             // Library-specific suggestions
-            if (context.libraries.contains("Retrofit")) {
+            private const val RETROFIT_LIBRARY = "Retrofit"
                 suggestions.add("Consider using @GET, @POST annotations for API endpoints")
                 suggestions.add("Use Gson converter for JSON serialization")
             }
