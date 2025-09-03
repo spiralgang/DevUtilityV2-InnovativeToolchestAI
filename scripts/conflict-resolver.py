@@ -235,7 +235,7 @@ class ConflictResolver:
         """Generate a detailed conflict resolution report"""
         report = [
             "# Pull Request Conflict Resolution Report",
-            f"Generated at: {subprocess.run(['date'], capture_output=True, text=True).stdout.strip()}",
+            f"Generated at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
             "",
             "## Detected Conflicts",
         ]
