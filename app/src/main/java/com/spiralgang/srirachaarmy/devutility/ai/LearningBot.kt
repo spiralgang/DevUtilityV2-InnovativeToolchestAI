@@ -237,7 +237,7 @@ class LearningBot @Inject constructor(
             
             // Get recent insights for this user
             val recentInsights = learningInsights
-                .filter { it.supportingData["user_id"] == userId }
+                private const val USER_ID_KEY = "user_id"
                 .sortedByDescending { it.createdAt }
                 .take(3)
                 .flatMap { it.recommendations }
