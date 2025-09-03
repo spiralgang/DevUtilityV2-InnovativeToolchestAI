@@ -10,7 +10,7 @@ import subprocess
 import json  # Remove this line
 import argparse
 import re
-from typing import List, Dict, Tuple, Optional
+from typing import List, Tuple, Optional
 from pathlib import Path
 import logging
 
