@@ -154,7 +154,7 @@ class StorageOptimizer @Inject constructor(
             
         } catch (e: Exception) {
             Timber.e(e, "Data restoration failed for $fileName")
-            return@withContext compressedData // Return original on failure
+            return compressedData // Return original on failure
         }
     }
     
