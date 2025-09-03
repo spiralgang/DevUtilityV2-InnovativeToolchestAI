@@ -248,7 +248,7 @@ def main():
         if file_path in strategies:
             if strategies[file_path](file_path):
                 # Stage the resolved file
-                subprocess.run(["git", "add", file_path], check=True)
+                import shlex
                 resolved_count += 1
                 print(f"✅ Staged resolved file: {file_path}")
             else:
