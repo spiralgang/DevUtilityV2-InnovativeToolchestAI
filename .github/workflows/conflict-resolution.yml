@@ -30,8 +30,13 @@ jobs:
         with:
           python-version: '3.9'
       
-      - name: Make conflict resolver executable
-        run: chmod +x scripts/conflict-resolver.py
+      - name: Prepare conflict resolver
+        run: |
+          # Ensure Python script is available and has correct dependencies
+          if [ ! -f scripts/conflict-resolver.py ]; then
+            echo "Error: conflict-resolver.py not found"
+            exit 1
+          fi
       
       - name: Detect merge conflicts
         id: conflicts

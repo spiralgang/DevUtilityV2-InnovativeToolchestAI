@@ -7,7 +7,6 @@ Automated tools for detecting and resolving merge conflicts in Git repositories.
 import os
 import sys
 import subprocess
-import json  # Remove this line
 import argparse
 import re
 from typing import List, Tuple, Optional
