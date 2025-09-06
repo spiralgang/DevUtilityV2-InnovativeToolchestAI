@@ -1,5 +1,7 @@
 # Build directories
 /build
+app/build/
+.gradle/
 
 .gradle/
 build/
@@ -52,6 +54,13 @@ build-cache/
 .vscode/
 *.swp
 *.swo
+
+# Android specific
+local.properties
+*.iml
+.externalNativeBuild
+.cxx
+
 
 
 

@@ -1,8 +1,12 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+
     // id 'kotlin-kapt'  // Temporarily disabled
     // id 'dagger.hilt.android.plugin'  // Temporarily disabled
+
     id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
