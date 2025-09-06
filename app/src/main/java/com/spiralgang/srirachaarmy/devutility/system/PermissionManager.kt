@@ -16,7 +16,7 @@ import javax.inject.Singleton
  * Part of DevUtility V2.5 system privilege management
  */
 @Singleton
-class PermissionManager @Inject constructor(
+class PermissionHandler @Inject constructor(private val context: Context)
     private val context: Context
 ) {
     
