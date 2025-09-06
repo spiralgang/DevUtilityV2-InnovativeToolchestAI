@@ -39,6 +39,11 @@ class AIGuideNetCoordinator @Inject constructor(
     private val aiEnvironmentAwareness: AIEnvironmentAwareness,
     private val aiThinkModule: AIThinkModule,
     
+    // PRE-training and knowledge systems
+    private val aiPreTrainingSystem: AIPreTrainingSystem,
+    private val aiTrainingSetManager: AITrainingSetManager,
+    private val advancedTrainingConfig: AIAdvancedTrainingDatasetConfig,
+    
     // Specialized AI systems
     private val webNetCasteAI: WebNetCasteAI,
     private val learningBot: LearningBot,
@@ -106,43 +111,43 @@ class AIGuideNetCoordinator @Inject constructor(
     )
     
     /**
-     * Initialize the complete AIGuideNet system with all specialized AI components
+     * Initialize the complete AIGuideNet system with PRE-training and all specialized AI components
      */
     suspend fun initialize() = withContext(Dispatchers.IO) {
         try {
-            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Starting comprehensive AIGuideNet initialization")
+            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Starting comprehensive AIGuideNet initialization with PRE-training")
             
             Timber.d("🚀 Initializing AIGuideNet Coordinator for complete DevUtility AI ecosystem")
             
-            // Initialize core AIGuideNet components first
-            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Initializing Core AI Guidance System")
+            // Phase 1: PRE-training initialization - critical foundation
+            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Phase 1: Initializing PRE-training knowledge systems")
+            aiPreTrainingSystem.initializePreTraining()
+            
+            // Phase 2: Core AIGuideNet components
+            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Phase 2: Initializing Core AI Guidance System")
             aiGuidanceSystem.initialize()
             
             _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Initializing AI Environment Awareness")
             aiEnvironmentAwareness.initialize()
             
-            // Initialize specialized AI systems
-            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Initializing WebNetCasteAI system")
-            webNetCasteAI.initialize()
-            
-            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Initializing LearningBot system")
-            learningBot.initialize()
-            
-            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Initializing DeepSeek AI Service")
-            deepSeekAIService.initialize(aiEnvironmentAwareness.getEnvironmentContext())
-            
-            // Initialize domain-specific AI services
-            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Initializing AI Training Set Manager")
+            // Phase 3: Training systems integration
+            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Phase 3: Integrating AI Training Set Manager with PRE-knowledge")
             aiTrainingSetManager.initialize()
             
-            // Task state manager and offline AI service don't require explicit initialization
+            // Phase 4: Specialized AI systems initialization  
+            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Phase 4: Initializing specialized AI systems")
+            webNetCasteAI.initialize()
+            learningBot.initialize()
+            deepSeekAIService.initialize(aiEnvironmentAwareness.getEnvironmentContext())
             
-            // Establish inter-AI communication channels
-            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Establishing inter-AI coordination")
+            // Phase 5: Inter-AI coordination setup
+            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Phase 5: Establishing inter-AI coordination")
             establishInterAICommunication()
             
-            // Register all AI systems with the guidance system
+            // Phase 6: AI system registration and validation
+            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Phase 6: Registering AI systems and validating PRE-training")
             registerAISystemsWithGuidance()
+            validatePreTrainingIntegration()
             
             // Verify comprehensive system capabilities
             val capabilities = assessComprehensiveSystemCapabilities()
@@ -151,8 +156,9 @@ class AIGuideNetCoordinator @Inject constructor(
             isInitialized = true
             _systemStatus.value = SystemStatus(
                 SystemStatus.Status.READY, 
-                "AIGuideNet ecosystem ready with ${capabilities.availableTools.size} tools, ${capabilities.knowledgeBaseSize} knowledge entries, and complete AI system integration",
+                "AIGuideNet ecosystem ready with PRE-training, ${capabilities.availableTools.size} tools, ${capabilities.knowledgeBaseSize} knowledge entries, and complete AI system integration",
                 componentStates = mapOf(
+                    "aiPreTrainingSystem" to "ready",
                     "taskStateManager" to "ready",
                     "aiGuidanceSystem" to "ready", 
                     "aiEnvironmentAwareness" to "ready",
@@ -168,7 +174,7 @@ class AIGuideNetCoordinator @Inject constructor(
                 )
             )
             
-            Timber.d("🚀 Complete AIGuideNet ecosystem initialization successful - ${capabilities.availableTools.size} AI systems coordinated")
+            Timber.d("🚀 Complete AIGuideNet ecosystem with PRE-training initialization successful - ${capabilities.availableTools.size} AI systems coordinated")
             
         } catch (e: Exception) {
             Timber.e(e, "AIGuideNet ecosystem initialization failed")
@@ -984,5 +990,96 @@ class AIGuideNetCoordinator @Inject constructor(
             confidence = 0.7f,
             learnedFrom = "prompt_analysis"
         )
+    }
+    
+    /**
+     * Validate PRE-training integration with all AI systems
+     */
+    private suspend fun validatePreTrainingIntegration() = withContext(Dispatchers.IO) {
+        try {
+            Timber.d("Validating PRE-training integration")
+            
+            // Validate PRE-training system completeness
+            val preTrainingValid = aiPreTrainingSystem.validatePreTraining()
+            if (!preTrainingValid) {
+                throw IllegalStateException("PRE-training system validation failed")
+            }
+            
+            // Get PRE-training statistics
+            val stats = aiPreTrainingSystem.getPreTrainingStatistics()
+            Timber.d("PRE-training validation successful: $stats")
+            
+            // Validate integration with training manager
+            val trainingStats = aiTrainingSetManager.getTrainingStatistics()
+            Timber.d("Training manager integration: $trainingStats")
+            
+            // Validate knowledge domains are loaded
+            val knowledgeDomains = aiPreTrainingSystem.knowledgeDomains.value
+            if (knowledgeDomains.isEmpty()) {
+                throw IllegalStateException("No knowledge domains loaded in PRE-training")
+            }
+            
+            Timber.d("PRE-training integration validated successfully with ${knowledgeDomains.size} knowledge domains")
+            
+        } catch (e: Exception) {
+            Timber.e(e, "PRE-training integration validation failed")
+            throw e
+        }
+    }
+    
+    /**
+     * Get comprehensive system status including PRE-training
+     */
+    suspend fun getComprehensiveSystemStatus(): Map<String, Any> = withContext(Dispatchers.IO) {
+        val baseStatus = mapOf(
+            "system_initialized" to isInitialized,
+            "current_status" to _systemStatus.value.status.name,
+            "system_message" to _systemStatus.value.message,
+            "capabilities" to _currentCapabilities.value
+        )
+        
+        val preTrainingStatus = if (::aiPreTrainingSystem.isInitialized) {
+            aiPreTrainingSystem.getPreTrainingStatistics()
+        } else {
+            mapOf("status" to "not_initialized")
+        }
+        
+        val trainingStatus = if (::aiTrainingSetManager.isInitialized) {
+            aiTrainingSetManager.getTrainingStatistics()
+        } else {
+            mapOf("status" to "not_initialized")
+        }
+        
+        return@withContext baseStatus + mapOf(
+            "pre_training_system" to preTrainingStatus,
+            "training_manager" to trainingStatus,
+            "component_states" to _systemStatus.value.componentStates
+        )
+    }
+    
+    /**
+     * Query PRE-trained knowledge through the coordinator
+     */
+    suspend fun queryPreTrainedKnowledge(
+        domain: String? = null,
+        concept: String? = null,
+        complexity: AIPreTrainingSystem.ComplexityLevel? = null
+    ): List<AIPreTrainingSystem.FoundationalKnowledge> {
+        return if (::aiPreTrainingSystem.isInitialized) {
+            aiPreTrainingSystem.queryPreTrainedKnowledge(domain, concept, complexity)
+        } else {
+            emptyList()
+        }
+    }
+    
+    /**
+     * Get relevant agentic patterns for current conditions
+     */
+    suspend fun getRelevantAgenticPatterns(conditions: List<String>): List<AIPreTrainingSystem.AgenticPattern> {
+        return if (::aiPreTrainingSystem.isInitialized) {
+            aiPreTrainingSystem.getRelevantAgenticPatterns(conditions)
+        } else {
+            emptyList()
+        }
     }
 }
