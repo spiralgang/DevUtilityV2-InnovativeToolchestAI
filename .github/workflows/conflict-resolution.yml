@@ -37,6 +37,12 @@ jobs:
             echo "Error: conflict_resolver.py not found"
             exit 1
           fi
+          # Check Python syntax and import dependencies
+          python3 -m py_compile scripts/conflict_resolver.py
+          if [ $? -ne 0 ]; then
+            echo "Error: conflict_resolver.py has syntax errors or missing imports"
+            exit 1
+          fi
       
       - name: Detect merge conflicts
         id: conflicts
