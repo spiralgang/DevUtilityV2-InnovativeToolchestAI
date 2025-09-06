@@ -30,8 +30,19 @@ jobs:
         with:
           python-version: '3.9'
       
-      - name: Make conflict resolver executable
-        run: chmod +x scripts/conflict-resolver.py
+      - name: Prepare conflict resolver
+        run: |
+          # Ensure Python script is available and has correct dependencies
+          if [ ! -f scripts/conflict_resolver.py ]; then
+            echo "Error: conflict_resolver.py not found"
+            exit 1
+          fi
+          # Check Python syntax and import dependencies
+          python3 -m py_compile scripts/conflict_resolver.py
+          if [ $? -ne 0 ]; then
+            echo "Error: conflict_resolver.py has syntax errors or missing imports"
+            exit 1
+          fi
       
       - name: Detect merge conflicts
         id: conflicts
@@ -46,7 +57,7 @@ jobs:
           echo "Checking conflicts between $SOURCE_BRANCH and $TARGET_BRANCH"
           
           # Run conflict detection
-          python3 scripts/conflict-resolver.py --source "$SOURCE_BRANCH" --target "$TARGET_BRANCH" --report conflict-report.md
+          python3 scripts/conflict_resolver.py --source "$SOURCE_BRANCH" --target "$TARGET_BRANCH" --report conflict-report.md
           CONFLICT_COUNT=$?
           if [ $CONFLICT_COUNT -eq 0 ]; then
             echo "conflicts=$CONFLICT_COUNT" >> $GITHUB_OUTPUT
@@ -65,7 +76,7 @@ jobs:
       
       - name: Upload conflict report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: conflict-report
           path: conflict-report.md
@@ -110,7 +121,7 @@ jobs:
             echo "Merge conflicts detected, attempting auto-resolution..."
             
             # Run auto-resolver
-            python3 scripts/conflict-resolver.py --source "$SOURCE_BRANCH" --target "$TARGET_BRANCH" --resolve
+            python3 scripts/conflict_resolver.py --source "$SOURCE_BRANCH" --target "$TARGET_BRANCH" --resolve
             
             # Stage resolved files
             git add .
@@ -118,7 +129,7 @@ jobs:
             # Commit merge
             git commit -m "🤖 Auto-resolve merge conflicts
 
-            Conflicts resolved automatically using conflict-resolver.py
+            Conflicts resolved automatically using conflict_resolver.py
             
             Changes:
             - Merged .gitignore entries
