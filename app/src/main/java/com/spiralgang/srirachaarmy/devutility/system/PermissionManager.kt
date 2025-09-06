@@ -46,7 +46,7 @@ class PermissionHandler @Inject constructor(private val context: Context)
             
             Timber.d("Permission $permission: ${if (granted) "GRANTED" else "DENIED"}")
             granted
-        } catch (e: Exception) {
+        } catch (e: SecurityException) {
             Timber.e(e, "Permission check failed for: $permission")
             false
         }
