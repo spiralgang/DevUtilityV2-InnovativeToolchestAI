@@ -240,7 +240,7 @@ class AIEnvironmentAwareness @Inject constructor() {
             // Update environment based on detected patterns
             patterns.forEach { pattern ->
                 when (pattern.type) {
-                    "LIBRARY_USAGE" -> updateEnvironment(
+                    private const val LIBRARY_USAGE = "LIBRARY_USAGE"
                         key = pattern.value,
                         value = "detected",
                         category = "libraries",
