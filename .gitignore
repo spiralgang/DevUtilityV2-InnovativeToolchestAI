@@ -10,10 +10,11 @@ gitignore
 .gradle/
 build/
 .gradle/*
-gradlew
-gradlew.bat
-gradle-wrapper.jar
-gradle-wrapper.properties
+# Keep gradle wrapper files for reproducible builds
+# gradlew
+# gradlew.bat
+# gradle-wrapper.jar
+# gradle-wrapper.properties
 
 # Build Outputs
 app/build/
