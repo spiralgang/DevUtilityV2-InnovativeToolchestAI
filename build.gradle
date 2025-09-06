@@ -6,11 +6,6 @@ buildscript {
         hilt_version = '2.48.1'
         agp_version = '8.2.2'
     }
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
     dependencies {
         classpath "com.android.tools.build:gradle:$agp_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -26,14 +21,7 @@ plugins {
     id 'com.google.dagger.hilt.android' version '2.48.1' apply false
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-    }
-
-}
+// Repository configuration moved to settings.gradle
 
 task clean(type: Delete) {
     delete rootProject.buildDir
