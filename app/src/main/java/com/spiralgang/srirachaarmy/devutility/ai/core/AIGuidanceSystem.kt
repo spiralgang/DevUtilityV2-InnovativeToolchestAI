@@ -716,4 +716,87 @@ class AIGuidanceSystem @Inject constructor() {
         // Simple parameter merging - in real implementation, use more sophisticated merging
         return existing + new
     }
+    
+    // Methods for comprehensive AI system coordination
+    
+    /**
+     * Register AI system capability for coordinated routing
+     */
+    suspend fun registerAICapability(
+        aiSystemName: String,
+        capability: String,
+        description: String,
+        priority: Float = 0.7f
+    ) = withContext(Dispatchers.IO) {
+        try {
+            // Store AI capability as knowledge for routing decisions
+            addKnowledge(
+                category = KnowledgeCategory.WORKFLOW_PATTERNS,
+                topic = "AI_Capability_$aiSystemName",
+                content = "$aiSystemName provides $capability: $description",
+                confidence = priority,
+                sources = listOf("ai_system_registration"),
+                tags = listOf("ai_capability", capability, aiSystemName.lowercase())
+            )
+            
+            Timber.d("Registered AI capability: $capability for $aiSystemName")
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to register AI capability: $capability for $aiSystemName")
+        }
+    }
+    
+    /**
+     * Record pattern from other AI systems for cross-AI learning
+     */
+    suspend fun recordPattern(
+        patternType: String,
+        pattern: String,
+        source: String,
+        metadata: Map<String, Any> = emptyMap()
+    ) = withContext(Dispatchers.IO) {
+        try {
+            // Store cross-AI pattern as knowledge
+            addKnowledge(
+                category = KnowledgeCategory.WORKFLOW_PATTERNS,
+                topic = "CrossAI_Pattern_$patternType",
+                content = "Pattern from $source: $pattern",
+                confidence = metadata["confidence"] as? Float ?: 0.7f,
+                sources = listOf(source),
+                tags = listOf("cross_ai_pattern", patternType, source.lowercase()) + 
+                       (metadata["tags"] as? List<String> ?: emptyList())
+            )
+            
+            Timber.d("Recorded cross-AI pattern: $patternType from $source")
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to record pattern: $patternType from $source")
+        }
+    }
+    
+    /**
+     * Incorporate external knowledge from other AI systems
+     */
+    suspend fun incorporateExternalKnowledge(content: String) = withContext(Dispatchers.IO) {
+        try {
+            // Parse and categorize external knowledge
+            val category = when {
+                content.contains("security", ignoreCase = true) -> KnowledgeCategory.SECURITY_GUIDELINES
+                content.contains("performance", ignoreCase = true) -> KnowledgeCategory.BEST_PRACTICES
+                content.contains("error", ignoreCase = true) -> KnowledgeCategory.ERROR_SOLUTIONS
+                else -> KnowledgeCategory.GENERAL_KNOWLEDGE
+            }
+            
+            addKnowledge(
+                category = category,
+                topic = "External_Knowledge_${System.currentTimeMillis()}",
+                content = content,
+                confidence = 0.8f,
+                sources = listOf("external_ai_system"),
+                tags = listOf("external_knowledge", "ai_shared")
+            )
+            
+            Timber.d("Incorporated external knowledge: ${content.take(50)}...")
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to incorporate external knowledge")
+        }
+    }
 }
