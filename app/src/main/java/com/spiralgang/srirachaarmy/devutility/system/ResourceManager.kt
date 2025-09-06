@@ -345,7 +345,7 @@ class ResourceManager @Inject constructor() {
         releaseUIResources()
         // Force aggressive cleanup
         System.gc()
-        System.runFinalization()
+        // System.runFinalization() // Remove this line
     }
     
     private fun releaseUIResources() {
