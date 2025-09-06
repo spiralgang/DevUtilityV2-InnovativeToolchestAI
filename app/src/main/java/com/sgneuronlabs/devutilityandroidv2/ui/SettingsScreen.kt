@@ -28,10 +28,10 @@ fun SettingsScreen(viewModel: DevUtilityViewModelV2, onBack: () -> Unit) {
         }
         Text("Language", style = MaterialTheme.typography.titleMedium)
         Row {
-            RadioButton(selected = viewModel.settings.value.language == "kotlin", onClick = { viewModel.settings.value.language = "kotlin" })
+            RadioButton(selected = viewModel.settings.value.language == "kotlin", onClick = { viewModel.setLanguage("kotlin") })
             Text("Kotlin")
             Spacer(Modifier.width(16.dp))
-            RadioButton(selected = viewModel.settings.value.language == "javascript", onClick = { viewModel.settings.value.language = "javascript" })
+            RadioButton(selected = viewModel.settings.value.language == "javascript", onClick = { viewModel.setLanguage("javascript") })
             Text("JavaScript")
         }
         Text("Editor Font Size", style = MaterialTheme.typography.titleMedium)
