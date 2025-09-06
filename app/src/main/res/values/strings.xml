@@ -1,7 +1,7 @@
 <resources>
     <!-- App Name -->
-    <string name="app_name">SrirachaArmy DevUtilityV2.5 IDE</string>
-    <string name="app_description">Comprehensive Android IDE V2.5 with AI-powered development assistance</string>
+    <string name="app_name">DevUtility IDE</string>
+    <string name="app_description">Comprehensive Android IDE with AI-powered development assistance</string>
     
     <!-- Bot Names and Personalities -->
     <string name="ssa_name">SSA (Structure/Optimization Agent)</string>
