@@ -92,7 +92,8 @@
             android:name="androidx.startup.InitializationProvider"
             android:authorities="com.spiralgang.srirachaarmy.devutility.androidx-startup"
             android:exported="false"
-            tools:node="merge">
+            tools:node="merge"
+            tools:replace="android:authorities">
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"

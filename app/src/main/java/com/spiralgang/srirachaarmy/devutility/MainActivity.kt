@@ -6,22 +6,22 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.spiralgang.srirachaarmy.devutility.ui.theme.SrirachaArmyTheme
-import dagger.hilt.android.AndroidEntryPoint
+// import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 /**
  * MainActivity for SrirachaArmy DevUtility
  * Entry point for the comprehensive Android IDE experience
  */
-@AndroidEntryPoint
+// @AndroidEntryPoint  // Temporarily disabled
 class MainActivity : ComponentActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,11 +48,11 @@ class MainActivity : ComponentActivity() {
 fun SrirachaArmyMainScreen(modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        color = MaterialTheme.colors.background
     ) {
         Text(
             text = "SrirachaArmy DevUtility v${BuildConfig.SRIRACHA_ARMY_VERSION}\nDeepSeek IDE Integration\nBuild: ${BuildConfig.BUILD_TIMESTAMP}",
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.h5
         )
     }
 }
