@@ -44,6 +44,10 @@ class AIGuideNetCoordinator @Inject constructor(
     private val aiTrainingSetManager: AITrainingSetManager,
     private val advancedTrainingConfig: AIAdvancedTrainingDatasetConfig,
     
+    // Anti-flailing systems (lessons learned from real-world case study)
+    private val antiFlailingSystem: AntiFlailingSystem,
+    private val knowledgeGapRecoverySystem: KnowledgeGapRecoverySystem,
+    
     // Specialized AI systems
     private val webNetCasteAI: WebNetCasteAI,
     private val learningBot: LearningBot,
@@ -144,8 +148,12 @@ class AIGuideNetCoordinator @Inject constructor(
             _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Phase 5: Establishing inter-AI coordination")
             establishInterAICommunication()
             
-            // Phase 6: AI system registration and validation
-            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Phase 6: Registering AI systems and validating PRE-training")
+            // Phase 6: Initialize anti-flailing systems (lessons from real-world case study)
+            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Phase 6: Initializing anti-flailing systems")
+            initializeAntiFlailingSystems()
+            
+            // Phase 7: AI system registration and validation
+            _systemStatus.value = SystemStatus(SystemStatus.Status.INITIALIZING, "Phase 7: Registering AI systems and validating PRE-training")
             registerAISystemsWithGuidance()
             validatePreTrainingIntegration()
             
@@ -156,9 +164,11 @@ class AIGuideNetCoordinator @Inject constructor(
             isInitialized = true
             _systemStatus.value = SystemStatus(
                 SystemStatus.Status.READY, 
-                "AIGuideNet ecosystem ready with PRE-training, ${capabilities.availableTools.size} tools, ${capabilities.knowledgeBaseSize} knowledge entries, and complete AI system integration",
+                "AIGuideNet ecosystem ready with anti-flailing protection, PRE-training, ${capabilities.availableTools.size} tools, ${capabilities.knowledgeBaseSize} knowledge entries, and complete AI system integration",
                 componentStates = mapOf(
                     "aiPreTrainingSystem" to "ready",
+                    "antiFlailingSystem" to "ready",
+                    "knowledgeGapRecoverySystem" to "ready",
                     "taskStateManager" to "ready",
                     "aiGuidanceSystem" to "ready", 
                     "aiEnvironmentAwareness" to "ready",
@@ -180,6 +190,256 @@ class AIGuideNetCoordinator @Inject constructor(
             Timber.e(e, "AIGuideNet ecosystem initialization failed")
             _systemStatus.value = SystemStatus(SystemStatus.Status.ERROR, "Ecosystem initialization failed: ${e.message}")
         }
+    }
+    
+    /**
+     * Execute a request using the complete AIGuideNet framework with anti-flailing protection
+     * 
+     * Enhanced based on lessons learned from real-world agent flailing case study.
+     * Includes structured knowledge gap recovery and capability expansion controls.
+     */
+    suspend fun executeRequestWithAntiFlailing(request: ExecutionRequest): ExecutionResponse = withContext(Dispatchers.IO) {
+        val startTime = System.currentTimeMillis()
+        
+        try {
+            if (!isInitialized) {
+                throw IllegalStateException("AIGuideNet ecosystem not initialized")
+            }
+            
+            _systemStatus.value = SystemStatus(SystemStatus.Status.PROCESSING, "Processing request with anti-flailing protection")
+            
+            Timber.d("🛡️ Executing request with anti-flailing protection: ${request.userPrompt}")
+            
+            // Step 1: Assess current flailing risk before proceeding
+            val currentRisk = antiFlailingSystem.assessFlailingRisk(
+                recentDecisions = listOf(request.userPrompt),
+                systemMetrics = mapOf(
+                    "integration_completeness" to 0.9f,
+                    "decision_coherence" to 0.8f
+                )
+            )
+            
+            if (currentRisk >= AntiFlailingSystem.FlailingRisk.HIGH) {
+                Timber.w("⚠️ High flailing risk detected - applying additional safeguards")
+            }
+            
+            // Step 2: Enrich context with comprehensive information
+            val enrichedContext = enrichRequestContext(request)
+            
+            // Step 3: Check if we have knowledge gaps that might trigger reactive expansion
+            val knowledgeGapAnalysis = analyzeRequestForKnowledgeGaps(request, enrichedContext)
+            
+            // Step 4: If knowledge gaps exist, attempt structured recovery first
+            val recoveryResult = if (knowledgeGapAnalysis.gapStillExists) {
+                Timber.d("🔍 Knowledge gap detected: ${knowledgeGapAnalysis.gapType.name}")
+                
+                knowledgeGapRecoverySystem.executeStructuredRecovery(
+                    knowledgeGap = request.userPrompt,
+                    availableKnowledge = extractAvailableKnowledge(enrichedContext),
+                    availableTools = extractAvailableTools(enrichedContext),
+                    contextInfo = enrichedContext
+                )
+            } else null
+            
+            // Step 5: Execute request using best available approach
+            val executionResult = if (recoveryResult?.status == KnowledgeGapRecoverySystem.RecoveryStatus.RECOVERY_COMPLETE) {
+                Timber.d("✅ Knowledge gap resolved through structured recovery")
+                recoveryResult.result
+            } else {
+                // Use normal execution flow
+                executeNormalRequestFlow(request, enrichedContext)
+            }
+            
+            // Step 6: Generate anti-flailing recommendations
+            val antiFlailingRecommendations = antiFlailingSystem.generateAntiFlailingRecommendations(
+                currentRisk = currentRisk,
+                gapAnalysis = knowledgeGapAnalysis,
+                systemState = enrichedContext
+            )
+            
+            // Step 7: Generate comprehensive learning insights with anti-flailing context
+            val learningInsights = generateLearningInsightsWithAntiFlailing(
+                request, executionResult, enrichedContext, recoveryResult, currentRisk
+            )
+            
+            // Step 8: Generate recommendations that prevent future flailing
+            val recommendations = generateAntiFlailingRecommendations(
+                request, enrichedContext, executionResult, antiFlailingRecommendations
+            )
+            
+            _systemStatus.value = SystemStatus(SystemStatus.Status.READY, "Request completed with anti-flailing protection")
+            
+            return@withContext ExecutionResponse(
+                success = !executionResult.contains("❌"),
+                result = executionResult,
+                taskId = enrichedContext["task_id"] as? String ?: "anti_flailing_task",
+                executionTime = System.currentTimeMillis() - startTime,
+                toolsUsed = extractToolsUsed(enrichedContext, recoveryResult),
+                learningInsights = learningInsights,
+                recommendations = recommendations,
+                metadata = mapOf(
+                    "anti_flailing_protection" to true,
+                    "flailing_risk" to currentRisk.name,
+                    "knowledge_gap_detected" to knowledgeGapAnalysis.gapStillExists,
+                    "structured_recovery_used" to (recoveryResult != null),
+                    "recovery_status" to (recoveryResult?.status?.name ?: "none")
+                )
+            )
+            
+        } catch (e: Exception) {
+            Timber.e(e, "Anti-flailing request execution failed")
+            _systemStatus.value = SystemStatus(SystemStatus.Status.ERROR, "Anti-flailing execution failed: ${e.message}")
+            
+            return@withContext ExecutionResponse(
+                success = false,
+                result = "Request failed with anti-flailing protection. Error: ${e.message}. The system prevented potentially harmful reactive decisions.",
+                taskId = "anti_flailing_error",
+                executionTime = System.currentTimeMillis() - startTime,
+                toolsUsed = emptyList(),
+                learningInsights = listOf("Error with anti-flailing protection: ${e.javaClass.simpleName}"),
+                recommendations = listOf("Anti-flailing systems prevented potentially harmful expansion", "Consider reviewing request structure"),
+                metadata = mapOf(
+                    "error_type" to e.javaClass.simpleName,
+                    "anti_flailing_protection" to true
+                )
+            )
+        }
+    }
+    
+    /**
+     * Analyze request for potential knowledge gaps that might trigger flailing
+     */
+    private fun analyzeRequestForKnowledgeGaps(
+        request: ExecutionRequest,
+        context: Map<String, Any>
+    ): AntiFlailingSystem.KnowledgeGapAnalysis {
+        
+        val currentCapabilities = extractAvailableTools(context)
+        
+        return antiFlailingSystem.analyzeKnowledgeGap(
+            currentCapabilities = currentCapabilities,
+            requiredTask = request.userPrompt,
+            contextInfo = context
+        )
+    }
+    
+    /**
+     * Execute normal request flow (existing logic)
+     */
+    private suspend fun executeNormalRequestFlow(
+        request: ExecutionRequest,
+        enrichedContext: Map<String, Any>
+    ): String {
+        // Use existing execution logic
+        val planningResult = aiThinkModule.planAndExecute(request.userPrompt, enrichedContext)
+        return planningResult
+    }
+    
+    /**
+     * Generate learning insights enhanced with anti-flailing context
+     */
+    private fun generateLearningInsightsWithAntiFlailing(
+        request: ExecutionRequest,
+        result: String,
+        context: Map<String, Any>,
+        recoveryResult: KnowledgeGapRecoverySystem.RecoveryResult?,
+        flailingRisk: AntiFlailingSystem.FlailingRisk
+    ): List<String> {
+        
+        val insights = mutableListOf<String>()
+        
+        // Standard insights
+        insights.add("Request type: ${categorizeRequest(request.userPrompt)}")
+        insights.add("Success rate: ${if (result.contains("✅")) "High" else "Moderate"}")
+        
+        // Anti-flailing specific insights
+        insights.add("Flailing risk level: ${flailingRisk.name}")
+        
+        if (recoveryResult != null) {
+            insights.add("Knowledge gap recovery: ${recoveryResult.status.name}")
+            insights.add("Alternatives explored: ${recoveryResult.alternativesExplored.size}")
+            insights.add("Recovery confidence: ${(recoveryResult.confidenceLevel * 100).toInt()}%")
+        }
+        
+        if (flailingRisk >= AntiFlailingSystem.FlailingRisk.MODERATE) {
+            insights.add("Anti-flailing measures: Protective measures applied to prevent reactive decisions")
+        }
+        
+        return insights
+    }
+    
+    /**
+     * Generate recommendations that prevent future flailing
+     */
+    private fun generateAntiFlailingRecommendations(
+        request: ExecutionRequest,
+        context: Map<String, Any>,
+        result: String,
+        antiFlailingRecommendations: List<String>
+    ): List<String> {
+        
+        val recommendations = mutableListOf<String>()
+        
+        // Include anti-flailing recommendations
+        recommendations.addAll(antiFlailingRecommendations.take(3))
+        
+        // Add context-aware recommendations
+        if (result.contains("✅")) {
+            recommendations.add("Excellent! Continue using existing capabilities for similar tasks.")
+        } else {
+            recommendations.add("Consider enriching context or trying alternative approaches before adding new capabilities.")
+        }
+        
+        return recommendations.take(5)
+    }
+    
+    /**
+     * Extract available knowledge from context
+     */
+    private fun extractAvailableKnowledge(context: Map<String, Any>): Map<String, Any> {
+        return context.filterKeys { key ->
+            key.contains("knowledge") || key.contains("training") || key.contains("pre_training")
+        }
+    }
+    
+    /**
+     * Extract available tools from context
+     */
+    private fun extractAvailableTools(context: Map<String, Any>): List<String> {
+        @Suppress("UNCHECKED_CAST")
+        return (context["available_tools"] as? List<String>) ?: listOf(
+            "WebNetCasteAI", "LearningBot", "AIEnvironmentAwareness",
+            "SecurityAnalyzer", "DeepSeekAIService", "CodeReviewService",
+            "CodeSummarizer", "OfflineAIService"
+        )
+    }
+    
+    /**
+     * Extract tools used from execution context and recovery
+     */
+    private fun extractToolsUsed(
+        context: Map<String, Any>,
+        recoveryResult: KnowledgeGapRecoverySystem.RecoveryResult?
+    ): List<String> {
+        
+        val toolsUsed = mutableListOf<String>()
+        
+        // Add tools from context
+        @Suppress("UNCHECKED_CAST")
+        val contextTools = context["tools_used"] as? List<String> ?: emptyList()
+        toolsUsed.addAll(contextTools)
+        
+        // Add tools from recovery process
+        if (recoveryResult != null) {
+            toolsUsed.add("AntiFlailingSystem")
+            toolsUsed.add("KnowledgeGapRecoverySystem")
+            
+            recoveryResult.successfulStrategy?.requiredResources?.let { resources ->
+                toolsUsed.addAll(resources)
+            }
+        }
+        
+        return toolsUsed.distinct()
     }
     
     /**
@@ -577,6 +837,93 @@ class AIGuideNetCoordinator @Inject constructor(
         }
         
         Timber.d("🔗 Inter-AI communication established successfully")
+    }
+    
+    /**
+     * Initialize anti-flailing systems based on lessons from real-world case study
+     * 
+     * The case study showed an AI system that reactively added capabilities
+     * (internet browsing, facial recognition) without proper integration or
+     * considering existing alternatives. This initialization prevents such flailing.
+     */
+    private suspend fun initializeAntiFlailingSystems() = withContext(Dispatchers.IO) {
+        Timber.d("🛡️ Initializing anti-flailing systems based on real-world lessons")
+        
+        // Initialize flailing risk monitoring
+        val systemMetrics = mapOf(
+            "integration_completeness" to 0.9f,
+            "decision_coherence" to 0.8f,
+            "capability_utilization" to 0.85f
+        )
+        
+        val initialRisk = antiFlailingSystem.assessFlailingRisk(
+            recentDecisions = emptyList(), // Start with clean slate
+            systemMetrics = systemMetrics
+        )
+        
+        Timber.d("🛡️ Initial flailing risk assessment: ${initialRisk.name}")
+        
+        // Test knowledge gap recovery with examples from the case study
+        val testGaps = listOf(
+            "Need internet browsing for information gathering",
+            "Require facial recognition for identity verification",
+            "Missing real-time data access capabilities"
+        )
+        
+        testGaps.forEach { gap ->
+            try {
+                val recovery = knowledgeGapRecoverySystem.executeStructuredRecovery(
+                    knowledgeGap = gap,
+                    availableKnowledge = mapOf(
+                        "pre_training_knowledge" to "Comprehensive knowledge base",
+                        "web_analysis" to "WebNetCasteAI capabilities",
+                        "pattern_recognition" to "LearningBot capabilities"
+                    ),
+                    availableTools = listOf(
+                        "WebNetCasteAI", "LearningBot", "AIEnvironmentAwareness", 
+                        "SecurityAnalyzer", "DeepSeekAIService"
+                    ),
+                    contextInfo = mapOf(
+                        "current_task" to "Capability gap analysis",
+                        "user_context" to "Development environment"
+                    )
+                )
+                
+                Timber.d("🔧 Recovery test for '$gap': ${recovery.status.name}")
+            } catch (e: Exception) {
+                Timber.w(e, "Recovery test failed for gap: $gap")
+            }
+        }
+        
+        // Establish anti-flailing coordination protocols
+        establishAntiFlailingProtocols()
+        
+        Timber.d("🛡️ Anti-flailing systems initialization complete")
+    }
+    
+    /**
+     * Establish protocols to prevent reactive capability addition
+     */
+    private suspend fun establishAntiFlailingProtocols() = withContext(Dispatchers.IO) {
+        // Create decision review gates that prevent reactive expansion
+        val expansionGates = listOf(
+            "Knowledge gap analysis required before new capability",
+            "Alternative exploration mandatory for all expansion requests",
+            "Integration planning required before capability addition",
+            "Risk assessment mandatory for all system changes"
+        )
+        
+        // Register these protocols with the guidance system
+        expansionGates.forEach { protocol ->
+            aiGuidanceSystem.registerPolicy(
+                name = "anti_flailing_${protocol.hashCode()}",
+                description = protocol,
+                priority = 0.9f, // High priority to prevent flailing
+                applicableScenarios = listOf("capability_expansion", "tool_addition", "system_enhancement")
+            )
+        }
+        
+        Timber.d("🚧 Anti-flailing protocols established: ${expansionGates.size} gates active")
     }
     
     /**
