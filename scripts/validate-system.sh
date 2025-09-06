@@ -25,7 +25,7 @@ fi
 
 # Test 2: Check Python syntax
 echo -e "${BLUE}[TEST 2]${NC} Validating Python syntax..."
-python3 -m py_compile scripts/conflict-resolver.py
+python3 -m py_compile scripts/conflict_resolver.py
 python3 -m py_compile scripts/resolve-active-conflicts.py
 echo -e "${GREEN}✅ Python syntax validation passed${NC}"
 
@@ -45,7 +45,7 @@ fi
 
 # Test 5: Test conflict detection (dry run)
 echo -e "${BLUE}[TEST 5]${NC} Testing conflict detection..."
-python3 scripts/conflict-resolver.py --source copilot/fix-6af42079-ba99-4c97-86eb-19ca9fd50afc --target main > /dev/null 2>&1
+python3 scripts/conflict_resolver.py --source copilot/fix-6af42079-ba99-4c97-86eb-19ca9fd50afc --target main > /dev/null 2>&1
 echo -e "${GREEN}✅ Conflict detection script runs without errors${NC}"
 
 # Test 6: Test manual resolver help
