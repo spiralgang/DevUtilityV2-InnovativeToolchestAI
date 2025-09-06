@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme -->
-    <style name="Base.Theme.DevUtilitySrirachaArmy" parent="android:Theme.Material.Light">
-        <item name="android:colorPrimary">@color/sriracha_red</item>
-        <item name="android:colorAccent">@color/sriracha_mild</item>
+    <style name="Base.Theme.DevUtilitySrirachaArmy" parent="Theme.AppCompat.DayNight">
+        <item name="colorPrimary">@color/sriracha_red</item>
+        <item name="colorPrimaryDark">@color/sriracha_orange</item>
+        <item name="colorAccent">@color/sriracha_mild</item>
         <item name="android:colorBackground">@color/background_dark</item>
         <item name="android:textColorPrimary">@color/white</item>
     </style>
