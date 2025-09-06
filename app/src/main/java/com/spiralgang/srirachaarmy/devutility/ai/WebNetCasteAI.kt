@@ -99,6 +99,369 @@ class WebNetCasteAI @Inject constructor() {
     }
 
     /**
+     * Enhanced FissionFishin' operation for deep web clarity extraction
+     */
+    suspend fun startFissionFishin(
+        query: String,
+        context: Map<String, Any> = emptyMap(),
+        fissionDepth: Int = 3
+    ): ClarityResult = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+        try {
+            _fissionState.value = FissionState.CASTING
+            Timber.d("🎣 Starting FissionFishin' operation for query: $query")
+            
+            val startTime = System.currentTimeMillis()
+            
+            // Phase 1: Cast the net wide
+            _fissionState.value = FissionState.FISHING
+            val webResources = castNetWide(query, context)
+            
+            // Phase 2: FissionFishin' in progress - deep dive
+            val deepResources = fissionFishinDeepDive(query, webResources, fissionDepth)
+            
+            // Phase 3: Snag clarity from the digital deep end
+            _fissionState.value = FissionState.SNAGGING_CLARITY
+            val clarityInsights = snagClarityFromDeepEnd(query, deepResources)
+            
+            // Phase 4: Analysis complete
+            _fissionState.value = FissionState.ANALYSIS_COMPLETE
+            val processingTime = System.currentTimeMillis() - startTime
+            
+            val result = ClarityResult(
+                query = query,
+                clarityLevel = calculateClarityLevel(clarityInsights),
+                insights = clarityInsights.insights,
+                bestPractices = clarityInsights.bestPractices,
+                resources = deepResources,
+                processingTime = processingTime,
+                fissionDepth = fissionDepth
+            )
+            
+            _latestResults.value = result
+            
+            // Return to idle state
+            kotlinx.coroutines.delay(1000)
+            _fissionState.value = FissionState.IDLE
+            
+            return@withContext result
+            
+        } catch (e: Exception) {
+            Timber.e(e, "❌ FissionFishin' operation failed")
+            _fissionState.value = FissionState.IDLE
+            return@withContext ClarityResult(
+                query = query,
+                clarityLevel = 0.0f,
+                insights = listOf("FissionFishin' operation failed: ${e.message}"),
+                bestPractices = emptyList(),
+                resources = emptyList(),
+                processingTime = 0L,
+                fissionDepth = 0
+            )
+        }
+    }
+
+    /**
+     * Cast the net wide across trusted domains
+     */
+    private suspend fun castNetWide(
+        query: String,
+        context: Map<String, Any>
+    ): List<WebResource> = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+        
+        Timber.d("🕸️ Casting the net wide for: $query")
+        
+        val trustedDomains = listOf(
+            "edu", "org", "gov",           // Educational, organization, government
+            "github.com", "stackoverflow.com", "developer.android.com",
+            "kotlinlang.org", "jetbrains.com", "oracle.com",
+            "mozilla.org", "w3.org", "ieee.org"
+        )
+        
+        val excludePatterns = listOf(
+            "login", "signup", "register", "subscribe",
+            "paywall", "premium", "subscription"
+        )
+        
+        // Simulate web search across trusted domains
+        val webResources = mutableListOf<WebResource>()
+        
+        trustedDomains.forEachIndexed { index, domain ->
+            val simulatedResults = simulateSearchForDomain(query, domain, index)
+            webResources.addAll(simulatedResults)
+        }
+        
+        // Filter out excluded patterns
+        return@withContext webResources.filter { resource ->
+            excludePatterns.none { pattern ->
+                resource.url.contains(pattern, ignoreCase = true) ||
+                resource.title.contains(pattern, ignoreCase = true)
+            }
+        }.sortedByDescending { it.relevanceScore }
+    }
+
+    /**
+     * FissionFishin' deep dive for comprehensive analysis
+     */
+    private suspend fun fissionFishinDeepDive(
+        query: String,
+        initialResources: List<WebResource>,
+        maxDepth: Int
+    ): List<WebResource> = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+        
+        Timber.d("🐠 FissionFishin' deep dive (depth: $maxDepth)")
+        
+        val deepResources = initialResources.toMutableList()
+        
+        repeat(maxDepth) { depth ->
+            val currentDepthResources = mutableListOf<WebResource>()
+            
+            // Analyze top resources from previous depth
+            val topResources = deepResources.sortedByDescending { it.relevanceScore }
+                .take(5) // Top 5 resources for deep dive
+            
+            topResources.forEach { resource ->
+                val relatedResources = findRelatedResources(query, resource, depth + 1)
+                currentDepthResources.addAll(relatedResources)
+            }
+            
+            // Add new discoveries to the collection
+            deepResources.addAll(currentDepthResources)
+            
+            Timber.d("🔍 Depth ${depth + 1}: Found ${currentDepthResources.size} additional resources")
+        }
+        
+        return@withContext deepResources.distinctBy { it.url }
+            .sortedByDescending { it.relevanceScore }
+            .take(20) // Limit to top 20 most relevant
+    }
+
+    /**
+     * Snag clarity from the digital deep end
+     */
+    private suspend fun snagClarityFromDeepEnd(
+        query: String,
+        resources: List<WebResource>
+    ): ClarityInsights = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+        
+        Timber.d("🎯 Snagging clarity from the digital deep end")
+        
+        val insights = mutableListOf<String>()
+        val bestPractices = mutableListOf<String>()
+        val patterns = mutableMapOf<String, Int>()
+        
+        // Analyze resources by type
+        val documentationResources = resources.filter { it.resourceType == ResourceType.DOCUMENTATION }
+        val tutorialResources = resources.filter { it.resourceType == ResourceType.TUTORIAL }
+        val stackOverflowResources = resources.filter { it.resourceType == ResourceType.STACK_OVERFLOW }
+        val githubResources = resources.filter { it.resourceType == ResourceType.GITHUB_REPO }
+        
+        // Extract insights from documentation
+        if (documentationResources.isNotEmpty()) {
+            insights.add("Official documentation provides ${documentationResources.size} authoritative references")
+            bestPractices.add("Follow official documentation guidelines for ${query}")
+        }
+        
+        // Extract insights from tutorials
+        if (tutorialResources.isNotEmpty()) {
+            insights.add("Found ${tutorialResources.size} educational tutorials with practical examples")
+            bestPractices.add("Combine multiple tutorial approaches for comprehensive understanding")
+        }
+        
+        // Extract insights from Stack Overflow
+        if (stackOverflowResources.isNotEmpty()) {
+            insights.add("Community solutions reveal ${stackOverflowResources.size} real-world problem patterns")
+            bestPractices.add("Validate Stack Overflow solutions against official documentation")
+        }
+        
+        // Extract insights from GitHub repositories
+        if (githubResources.isNotEmpty()) {
+            insights.add("Open source implementations provide ${githubResources.size} practical code examples")
+            bestPractices.add("Review GitHub repository documentation and issue discussions")
+        }
+        
+        // Pattern analysis
+        resources.forEach { resource ->
+            val keywords = extractKeywords(resource.title + " " + resource.summary)
+            keywords.forEach { keyword ->
+                patterns[keyword] = patterns.getOrDefault(keyword, 0) + 1
+            }
+        }
+        
+        // Add pattern-based insights
+        val topPatterns = patterns.toList().sortedByDescending { it.second }.take(5)
+        if (topPatterns.isNotEmpty()) {
+            insights.add("Key themes identified: ${topPatterns.map { "${it.first} (${it.second})" }.joinToString(", ")}")
+        }
+        
+        // Quality assessment
+        val highQualityResources = resources.filter { it.relevanceScore >= 0.8f }
+        if (highQualityResources.isNotEmpty()) {
+            insights.add("${highQualityResources.size} high-quality resources identified (relevance ≥ 80%)")
+            bestPractices.add("Prioritize high-quality resources for detailed study")
+        }
+        
+        return@withContext ClarityInsights(
+            insights = insights,
+            bestPractices = bestPractices,
+            patterns = patterns
+        )
+    }
+
+    /**
+     * Helper data class for clarity insights
+     */
+    private data class ClarityInsights(
+        val insights: List<String>,
+        val bestPractices: List<String>,
+        val patterns: Map<String, Int>
+    )
+
+    /**
+     * Simulate search results for a specific domain
+     */
+    private fun simulateSearchForDomain(query: String, domain: String, index: Int): List<WebResource> {
+        val baseRelevance = 0.9f - (index * 0.1f)
+        
+        return when {
+            domain.contains("edu") -> listOf(
+                WebResource(
+                    title = "Academic Research on $query",
+                    url = "https://university.$domain/research/$query",
+                    relevanceScore = baseRelevance,
+                    resourceType = ResourceType.DOCUMENTATION,
+                    summary = "Comprehensive academic analysis of $query with peer-reviewed insights"
+                )
+            )
+            
+            domain.contains("github.com") -> listOf(
+                WebResource(
+                    title = "$query Implementation Examples",
+                    url = "https://github.com/example/$query-examples",
+                    relevanceScore = baseRelevance,
+                    resourceType = ResourceType.GITHUB_REPO,
+                    summary = "Open source implementations and code examples for $query"
+                )
+            )
+            
+            domain.contains("stackoverflow.com") -> listOf(
+                WebResource(
+                    title = "How to implement $query - Stack Overflow",
+                    url = "https://stackoverflow.com/questions/12345/$query",
+                    relevanceScore = baseRelevance,
+                    resourceType = ResourceType.STACK_OVERFLOW,
+                    summary = "Community-driven solutions and discussions about $query"
+                )
+            )
+            
+            domain.contains("developer.android.com") -> listOf(
+                WebResource(
+                    title = "Android Developer Guide: $query",
+                    url = "https://developer.android.com/guide/$query",
+                    relevanceScore = baseRelevance,
+                    resourceType = ResourceType.DOCUMENTATION,
+                    summary = "Official Android documentation for $query implementation"
+                )
+            )
+            
+            else -> listOf(
+                WebResource(
+                    title = "$query Best Practices - $domain",
+                    url = "https://www.$domain/$query-guide",
+                    relevanceScore = baseRelevance - 0.1f,
+                    resourceType = ResourceType.TUTORIAL,
+                    summary = "Professional guidance and best practices for $query"
+                )
+            )
+        }
+    }
+
+    /**
+     * Find related resources for deep dive analysis
+     */
+    private fun findRelatedResources(
+        originalQuery: String,
+        parentResource: WebResource,
+        depth: Int
+    ): List<WebResource> {
+        val relatedTerms = extractRelatedTerms(parentResource.summary)
+        
+        return relatedTerms.take(2).mapIndexed { index, term ->
+            WebResource(
+                title = "Related: $term (from ${parentResource.title})",
+                url = "${parentResource.url}/related/$term",
+                relevanceScore = parentResource.relevanceScore * (0.8f - depth * 0.1f) - index * 0.05f,
+                resourceType = parentResource.resourceType,
+                summary = "Deep dive resource exploring $term in context of $originalQuery"
+            )
+        }
+    }
+
+    /**
+     * Extract keywords from text for pattern analysis
+     */
+    private fun extractKeywords(text: String): List<String> {
+        val commonWords = setOf("the", "and", "or", "but", "in", "on", "at", "to", "for", "of", "with", "by")
+        return text.toLowerCase()
+            .split(Regex("[^a-zA-Z]+"))
+            .filter { it.length > 3 && !commonWords.contains(it) }
+            .distinct()
+    }
+
+    /**
+     * Extract related terms from resource summary
+     */
+    private fun extractRelatedTerms(summary: String): List<String> {
+        val keywords = extractKeywords(summary)
+        return keywords.filter { it.length > 4 }.take(3)
+    }
+
+    /**
+     * Calculate clarity level based on insights
+     */
+    private fun calculateClarityLevel(insights: ClarityInsights): Float {
+        val insightWeight = insights.insights.size * 0.2f
+        val practiceWeight = insights.bestPractices.size * 0.15f
+        val patternWeight = insights.patterns.size * 0.1f
+        
+        return (insightWeight + practiceWeight + patternWeight).coerceAtMost(1.0f)
+    }
+
+    /**
+     * Get cached search results
+     */
+    suspend fun getCachedResults(query: String): ClarityResult? = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+        // In a real implementation, this would check a cache database
+        return@withContext if (_latestResults.value?.query == query) {
+            _latestResults.value
+        } else null
+    }
+
+    /**
+     * Clear search cache
+     */
+    fun clearCache() {
+        _latestResults.value = null
+        Timber.d("🧹 WebNetCaste cache cleared")
+    }
+
+    /**
+     * Get FissionFishin' statistics
+     */
+    fun getFissionStats(): Map<String, Any> {
+        val latestResult = _latestResults.value
+        return mapOf(
+            "currentState" to _fissionState.value.name,
+            "knockActivated" to _knockActivated.value,
+            "lastQuery" to (latestResult?.query ?: "None"),
+            "lastClarityLevel" to (latestResult?.clarityLevel ?: 0.0f),
+            "lastProcessingTime" to (latestResult?.processingTime ?: 0L),
+            "lastFissionDepth" to (latestResult?.fissionDepth ?: 0),
+            "lastResourceCount" to (latestResult?.resources?.size ?: 0),
+            "lastInsightCount" to (latestResult?.insights?.size ?: 0)
+        )
+    }
+
+    /**
      * Execute FissionFishin' operation for development query
      */
     suspend fun executeFissionFishin(

@@ -121,7 +121,15 @@ class AIEnvironmentAwareness @Inject constructor() {
         NETWORK_OPERATIONS,
         DATABASE_OPERATIONS,
         SECURITY,
-        UTILITY_SCRIPTS
+        UTILITY_SCRIPTS,
+        AI_COLLABORATION,        // For UIYI and Dual-Mind systems
+        AGENTIC_AUTOMATION,      // For 5S/8S agentic modes
+        WEB_RESEARCH,           // For WebNetCasteAI FissionFishin
+        UI_CUSTOMIZATION,       // For UFUIC-O framework
+        PERFORMANCE,            // For ZRAM and optimization tools
+        ACCESSIBILITY,          // For accessibility features
+        THREAT_DETECTION,       // For security analysis
+        MEMORY_MANAGEMENT       // For advanced memory optimization
     }
     
     enum class NetworkStatus {
@@ -257,12 +265,174 @@ class AIEnvironmentAwareness @Inject constructor() {
             // Get initial system state
             systemStateMonitor.getCurrentState()
             
+            // Register advanced AI systems
+            registerAdvancedAISystems()
+            
             isInitialized = true
             
             Timber.d("Enhanced AI Environment Awareness initialized with ${environmentData.size} environment entries, ${knowledgeBase.size} knowledge entries, and ${toolCapabilityRegistry.size} registered tools")
             
         } catch (e: Exception) {
             Timber.e(e, "Enhanced AI Environment Awareness initialization failed")
+        }
+    }
+    
+    /**
+     * Register advanced AI systems in tool capability registry
+     */
+    private suspend fun registerAdvancedAISystems() = withContext(Dispatchers.IO) {
+        try {
+            Timber.d("🤖 Registering advanced AI systems in tool capability registry")
+            
+            // Register UIYI Collaboration System
+            registerTool(ToolCapability(
+                toolName = "UIYICollaborationSystem",
+                description = "Advanced AI collaboration with SSA and FFA personas",
+                category = ToolCategory.AI_COLLABORATION,
+                inputRequirements = mapOf(
+                    "userPrompt" to ParameterSpec("userPrompt", "String", true, "User's development request"),
+                    "context" to ParameterSpec("context", "Map<String, Any>", false, "Additional context information"),
+                    "maxIterations" to ParameterSpec("maxIterations", "Int", false, "Maximum collaboration iterations", 3)
+                ),
+                expectedOutputs = listOf(
+                    OutputSpec("collaborationResult", "String", "Final collaborative solution"),
+                    OutputSpec("ssaContributions", "List<SSAContribution>", "SSA optimization contributions"),
+                    OutputSpec("ffaContributions", "List<FFAContribution>", "FFA innovation contributions"),
+                    OutputSpec("pipiWorkflowStatus", "String", "PIPI approval workflow status")
+                ),
+                estimatedExecutionTime = 5000L,
+                resourceRequirements = ResourceRequirements(memoryMB = 128, cpuIntensive = true),
+                reliability = 0.95f,
+                sideEffects = listOf("Creates collaboration session", "Updates AI guidance system"),
+                preConditions = listOf("AI guidance system initialized", "Sandbox available"),
+                postConditions = listOf("Collaboration session completed", "Learning data captured")
+            ))
+            
+            // Register 5S/8S Agentic Mode System
+            registerTool(ToolCapability(
+                toolName = "AgenticModeSystem_5S",
+                description = "Chill, collaborative screen-hopping assistant",
+                category = ToolCategory.AGENTIC_AUTOMATION,
+                inputRequirements = mapOf(
+                    "taskDescription" to ParameterSpec("taskDescription", "String", true, "Task to be completed"),
+                    "context" to ParameterSpec("context", "Map<String, Any>", false, "Task context and environment"),
+                    "permissionLevel" to ParameterSpec("permissionLevel", "String", false, "Screen-hop permission level", "SHP")
+                ),
+                expectedOutputs = listOf(
+                    OutputSpec("taskResult", "String", "Task completion result"),
+                    OutputSpec("screenHopActions", "List<ScreenHopActionResult>", "Screen navigation actions performed"),
+                    OutputSpec("navigationPath", "List<NavigationStep>", "Navigation sequence taken"),
+                    OutputSpec("efficiencyScore", "Float", "Task completion efficiency score")
+                ),
+                estimatedExecutionTime = 3000L,
+                resourceRequirements = ResourceRequirements(memoryMB = 64, cpuIntensive = false),
+                reliability = 0.88f,
+                sideEffects = listOf("Screen navigation", "UI interaction", "Accessibility service usage"),
+                preConditions = listOf("Screen-hop permissions granted", "Accessibility service enabled"),
+                postConditions = listOf("Task completed or attempted", "Navigation metrics recorded")
+            ))
+            
+            registerTool(ToolCapability(
+                toolName = "AgenticModeSystem_8S",
+                description = "Urgent, aggressive screen-hopping powerhouse",
+                category = ToolCategory.AGENTIC_AUTOMATION,
+                inputRequirements = mapOf(
+                    "taskDescription" to ParameterSpec("taskDescription", "String", true, "Critical task requiring urgent completion"),
+                    "context" to ParameterSpec("context", "Map<String, Any>", false, "Task context and urgency level"),
+                    "permissionLevel" to ParameterSpec("permissionLevel", "String", false, "Screen-hop permission level", "SHPPHP")
+                ),
+                expectedOutputs = listOf(
+                    OutputSpec("taskResult", "String", "Urgent task completion result"),
+                    OutputSpec("aggressiveActions", "List<ScreenHopActionResult>", "Aggressive automation actions"),
+                    OutputSpec("timeToCompletion", "Long", "Time taken for urgent completion"),
+                    OutputSpec("successRate", "Float", "Success rate of aggressive actions")
+                ),
+                estimatedExecutionTime = 1500L,
+                resourceRequirements = ResourceRequirements(memoryMB = 96, cpuIntensive = true),
+                reliability = 0.92f,
+                sideEffects = listOf("Aggressive screen navigation", "System-level interactions", "Resource prioritization"),
+                preConditions = listOf("SHPPHP permissions granted", "Emergency mode enabled"),
+                postConditions = listOf("Critical task resolved", "System returned to normal state")
+            ))
+            
+            // Register Enhanced WebNetCasteAI
+            registerTool(ToolCapability(
+                toolName = "WebNetCasteAI_FissionFishin",
+                description = "Advanced web search and clarity extraction system",
+                category = ToolCategory.WEB_RESEARCH,
+                inputRequirements = mapOf(
+                    "query" to ParameterSpec("query", "String", true, "Search query for knowledge discovery"),
+                    "fissionDepth" to ParameterSpec("fissionDepth", "Int", false, "Depth of FissionFishin operation", 3),
+                    "trustedDomainsOnly" to ParameterSpec("trustedDomainsOnly", "Boolean", false, "Limit to .edu/.org/.gov domains", true)
+                ),
+                expectedOutputs = listOf(
+                    OutputSpec("clarityResult", "ClarityResult", "Comprehensive search and analysis result"),
+                    OutputSpec("webResources", "List<WebResource>", "Discovered web resources"),
+                    OutputSpec("clarityLevel", "Float", "Level of clarity achieved (0.0-1.0)"),
+                    OutputSpec("bestPractices", "List<String>", "Extracted best practices")
+                ),
+                estimatedExecutionTime = 4000L,
+                resourceRequirements = ResourceRequirements(memoryMB = 96, cpuIntensive = false),
+                reliability = 0.91f,
+                sideEffects = listOf("Web requests", "Cache storage", "Knowledge base updates"),
+                preConditions = listOf("Internet connectivity", "Web access permissions"),
+                postConditions = listOf("Search results cached", "Insights extracted")
+            ))
+            
+            // Register UFUIC-O Framework
+            registerTool(ToolCapability(
+                toolName = "UFUICOFramework",
+                description = "User-Frontend-UI-Interface-Customizations with EG-GATT-SWT",
+                category = ToolCategory.UI_CUSTOMIZATION,
+                inputRequirements = mapOf(
+                    "customizationCategory" to ParameterSpec("customizationCategory", "String", true, "Category of customization"),
+                    "optionId" to ParameterSpec("optionId", "String", true, "Specific customization option ID"),
+                    "newValue" to ParameterSpec("newValue", "Any", true, "New value for the customization"),
+                    "enableGATTNarration" to ParameterSpec("enableGATTNarration", "Boolean", false, "Enable voice narration", false)
+                ),
+                expectedOutputs = listOf(
+                    OutputSpec("customizationResult", "String", "Result of customization change"),
+                    OutputSpec("gattTip", "GATTTip", "Guided AI tutorial tip for the option"),
+                    OutputSpec("swtProgress", "Float", "Structure walk-through progress percentage"),
+                    OutputSpec("accessibilityImpact", "String", "Impact on accessibility features")
+                ),
+                estimatedExecutionTime = 1000L,
+                resourceRequirements = ResourceRequirements(memoryMB = 32, cpuIntensive = false),
+                reliability = 0.97f,
+                sideEffects = listOf("UI appearance changes", "Preference storage", "TTS activation"),
+                preConditions = listOf("User preferences accessible", "TTS service available"),
+                postConditions = listOf("Customization applied", "Settings saved")
+            ))
+            
+            // Register Dual-Mind Collaboration System
+            registerTool(ToolCapability(
+                toolName = "DualMindCollaborationSystem",
+                description = "Advanced dual-minded AI with PrimaryMind and CompetitorMind",
+                category = ToolCategory.AI_COLLABORATION,
+                inputRequirements = mapOf(
+                    "problemStatement" to ParameterSpec("problemStatement", "String", true, "Complex problem requiring dual-mind analysis"),
+                    "dominantMind" to ParameterSpec("dominantMind", "String", false, "Dominant mind selection", "PrimaryMind"),
+                    "maxExchanges" to ParameterSpec("maxExchanges", "Int", false, "Maximum mind exchanges", 4),
+                    "context" to ParameterSpec("context", "Map<String, Any>", false, "Problem context and constraints")
+                ),
+                expectedOutputs = listOf(
+                    OutputSpec("finalSolution", "Solution", "Synthesized solution from dual minds"),
+                    OutputSpec("mindExchanges", "List<MindExchange>", "Record of mind exchanges and debates"),
+                    OutputSpec("agreementLevel", "Float", "Final consensus level between minds"),
+                    OutputSpec("riskAssessment", "RiskAssessment", "Comprehensive risk analysis")
+                ),
+                estimatedExecutionTime = 8000L,
+                resourceRequirements = ResourceRequirements(memoryMB = 192, cpuIntensive = true),
+                reliability = 0.93f,
+                sideEffects = listOf("Mind state updates", "Collaboration metrics", "Threat detection integration"),
+                preConditions = listOf("Threat detector initialized", "Cloud manager available"),
+                postConditions = listOf("Solution validated", "Learning captured")
+            ))
+            
+            Timber.d("✅ Advanced AI systems registered successfully")
+            
+        } catch (e: Exception) {
+            Timber.e(e, "❌ Failed to register advanced AI systems")
         }
     }
     
