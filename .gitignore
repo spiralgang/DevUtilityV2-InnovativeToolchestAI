@@ -1,5 +1,6 @@
 # Build directories
 /build
+
 .gradle/
 build/
 
@@ -8,10 +9,15 @@ build/
 .idea/
 *.iws
 
+
+
+
 # Python cache files
 __pycache__/
 *.pyc
 *.pyo
+
+
 
 # Build Outputs
 app/build/
@@ -40,9 +46,22 @@ local.properties
 .cxx/
 build-cache/
 
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+
+
+
 # OS files  
 .DS_Store
 Thumbs.db
 
+
+
 # Optional: Generated Files
 captures/
+

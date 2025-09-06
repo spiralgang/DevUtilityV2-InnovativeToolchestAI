@@ -79,11 +79,19 @@ if "%ERRORLEVEL%"=="0" goto mainEnd
 
 :fail
 rem Set variable GRADLE_EXIT_CONSOLE if you need the _script_ return code instead of
+
 rem the _cmd_ return code.
+
+rem the _cmd_ return code when the batch file is called from another batch file.
+
 if not "" == "%GRADLE_EXIT_CONSOLE%" exit 1
 exit /b 1
 
 :mainEnd
 if "%OS%"=="Windows_NT" endlocal
 
+
 :goto omega
+
+:end
+
