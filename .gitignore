@@ -3,10 +3,51 @@
 app/build/
 .gradle/
 
+.gradle/
+build/
+
+# Android Studio / IntelliJ IDEA
+*.iml
+.idea/
+*.iws
+
+
+
+
 # Python cache files
 __pycache__/
 *.pyc
 *.pyo
+
+
+
+# Build Outputs
+app/build/
+app/release/
+app/debug/
+*.apk
+*.aab
+*.ap_
+
+# Local Configuration
+local.properties
+
+# Log Files
+*.log
+
+# IDE files
+.vscode/
+*.swp
+*.swo
+*.tmp
+*.bak
+*~
+
+# Dependency Caches
+.externalNativeBuild/
+.cxx/
+build-cache/
+
 
 # IDE files
 .idea/
@@ -20,6 +61,16 @@ local.properties
 .externalNativeBuild
 .cxx
 
+
+
+
+
 # OS files  
 .DS_Store
 Thumbs.db
+
+
+
+# Optional: Generated Files
+captures/
+

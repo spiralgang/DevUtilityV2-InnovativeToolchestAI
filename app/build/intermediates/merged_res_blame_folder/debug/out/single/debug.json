@@ -1,0 +1,78 @@
+[
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/xml_data_extraction_rules.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/mipmap-hdpi_ic_launcher_round.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/mipmap-hdpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/mipmap-xxxhdpi_ic_launcher.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/mipmap-xxxhdpi/ic_launcher.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/mipmap-xhdpi_ic_launcher.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/mipmap-xhdpi/ic_launcher.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/mipmap-hdpi_ic_launcher.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/mipmap-hdpi/ic_launcher.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/mipmap-xhdpi_ic_launcher_round.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/mipmap-xhdpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/xml_backup_rules.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/mipmap-xxxhdpi_ic_launcher_round.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/mipmap-xxxhdpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/mipmap-xxhdpi_ic_launcher_round.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/mipmap-xxhdpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/xml_accessibility_service_config.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/xml/accessibility_service_config.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/mipmap-xxhdpi_ic_launcher.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/mipmap-xxhdpi/ic_launcher.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/drawable_bot_status_circle.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/drawable/bot_status_circle.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/mipmap-mdpi_ic_launcher.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/mipmap-mdpi/ic_launcher.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/mipmap-mdpi_ic_launcher_round.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/mipmap-mdpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.spiralgang.srirachaarmy.devutility.app-merged_res-59:/layout_floating_dev_window.xml.flat",
+        "source": "com.spiralgang.srirachaarmy.devutility.app-main-61:/layout/floating_dev_window.xml"
+    }
+]
