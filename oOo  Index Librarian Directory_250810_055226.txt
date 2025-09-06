@@ -1,0 +1,267 @@
+```plaintext
+cloud-librarian/
+├── Dockerfile
+├── docker-compose.yml
+├── entrypoint.sh
+├── requirements.txt
+├── bot_engine.py
+├── README.md
+├── docs/
+│   ├── architecture.md
+│   └── design_mindmap.png
+├── config/
+│   └── rclone.conf
+└── scripts/
+    ├── util_scan_and_index.py
+    └── library_storage_management.sh
+```
+
+---
+
+**Dockerfile**  
+```Dockerfile
+FROM python:3.8-slim
+
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+COPY . .
+
+CMD ["python", "bot_engine.py"]
+```
+
+---
+
+**docker-compose.yml**  
+```yaml
+version: '3.8'
+
+services:
+  cloud-librarian:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./config/rclone.conf:/root/.config/rclone/rclone.conf
+    environment:
+      - MODEL_NAME=KingNish/Qwen2.5-0.5b-Test-ft
+```
+
+---
+
+**entrypoint.sh**  
+```bash
+#!/bin/bash
+# Entrypoint script for the Cloud Librarian Bot Engine
+
+# Mount OneDrive using rclone
+rclone mount onedrive: /onedrive --daemon
+
+# Start the bot engine
+python bot_engine.py
+```
+
+---
+
+**requirements.txt**  
+```txt
+flask
+transformers
+torch
+rclone
+```
+
+---
+
+**bot_engine.py**  
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+model_name = "KingNish/Qwen2.5-0.5b-Test-ft"
+model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype="auto", device_map="auto")
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+def generate_response(prompt):
+    messages = [
+        {"role": "system", "content": "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."},
+        {"role": "user", "content": prompt}
+    ]
+    text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
+    generated_ids = model.generate(**model_inputs, max_new_tokens=512)
+    generated_ids = [output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)]
+    response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+    return response
+
+if __name__ == "__main__":
+    prompt = "Which is greater 9.9 or 9.11 ??"
+    response = generate_response(prompt)
+    print(response)
+```
+
+---
+
+**README.md**  
+```markdown
+# Cloud Librarian Bot Engine 
+
+This project implements an autonomous cloudspace engine that integrates OneDrive (via rclone) with an always-on librarian bot service for organizing and indexing code libraries. It provides a Flask-based API and utility scripts for managing code storage in a containerized environment using Docker and Docker Compose. 
+
+## Features
+- **Flask API**: Handles file upload, retrieval, and command processing.
+- **rclone Integration**: Mounts OneDrive for cloud storage.
+- **Utility Scripts**: Automatically scans and indexes your code library.
+- **Containerization**: Dockerized service for consistent and scalable deployment. 
+
+## Directory Structure
+```
+cloud-librarian/
+├── Dockerfile
+├── docker-compose.yml
+├── entrypoint.sh
+├── requirements.txt
+├── bot_engine.py
+├── README.md
+├── docs/
+│   ├── architecture.md      # Detailed architecture explanation
+│   └── design_mindmap.png   # Visual mind map image file
+├── config/
+│   └── rclone.conf          # rclone configuration file (if not using host mount)
+└── scripts/
+    └── util_scan_and_index.py  # Utility script for scanning and indexing code files
+``` 
+
+## Setup Instructions
+1. **rclone configuration**: Update `config/rclone.conf` with your OneDrive settings, or mount your host configuration.
+2. **Build and run with Docker Compose**:
+   ```bash
+   docker-compose build
+   docker-compose up -d
+   ```
+3. **API Endpoints**: The service exposes port 5000 for API access.
+4. **Utility Script**: Run the utility script via:
+   ```bash
+   python scripts/util_scan_and_index.py
+   ``` 
+
+## License
+MIT License
+```
+
+---
+
+**architecture.md**  
+```markdown
+# Architecture Documentation 
+
+## Overview
+The Cloud Librarian Bot Engine consists of the following core components:
+- **API & Web Server**: Built with Flask to handle file uploads, command routing, scanning, and indexing of code libraries.
+- **Cloud Integration**: Uses rclone to mount OneDrive as a local directory for storing and retrieving code files.
+- **Autonomous Bots**: 
+  - **Librarian Bot**: Organizes, indexes, and retrieves code files using Qwen 2.5 Model Integration.
+- **Database**: SQLite-based metadata storage for uploaded scripts.
+- **Containerization**: The entire application is containerized using Docker for reproducibility and scalability. 
+
+## Data Flow
+1. **File Upload**: Files are uploaded via the `/upload` endpoint.
+2. **Indexing**: On upload, files are organized by language (based on file extension).
+3. **Database Entry**: Metadata is stored in SQLite for later search and retrieval.
+4. **API Query**: Clients can query files using the `/retrieve` endpoint.
+5. **Cloud Storage**: Files are stored securely on OneDrive via the rclone mount. 
+
+## Deployment
+- **Docker Compose**: Uses Docker Compose to mount the host’s rclone configuration and expose API ports.
+- **Entrypoint**: The `entrypoint.sh` script mounts OneDrive and starts the bot engine. 
+
+## Future Enhancements
+- Advanced code indexing and search using natural language processing.
+- Integration with additional cloud storage providers.
+- Enhanced logging, error handling, and monitoring for production readiness.
+```
+
+---
+
+**rclone.conf**  
+```ini
+# Sample rclone configuration for OneDrive.
+[onedrive]
+type = onedrive
+token = {"access_token":"YOUR_ACCESS_TOKEN","token_type":"Bearer","refresh_token":"YOUR_REFRESH_TOKEN","expiry":"2024-01-01T00:00:00.0000000+00:00"}
+drive_id = YOUR_DRIVE_ID
+drive_type = business
+```
+
+---
+
+**util_scan_and_index.py**  
+```python
+#!/usr/bin/env python3
+import os
+import sqlite3
+from datetime import datetime 
+
+LIBRARY_MOUNT = "/onedrive/library"
+DB_PATH = os.path.join(LIBRARY_MOUNT, "library.db") 
+
+def rescan_library():
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    for root, dirs, files in os.walk(LIBRARY_MOUNT):
+        for file in files:
+            filepath = os.path.join(root, file)
+            c.execute("SELECT id FROM scripts WHERE filepath = ?", (filepath,))
+            if c.fetchone() is None:
+                c.execute("INSERT INTO scripts (filename, language, tags, upload_time, filepath) VALUES (?, ?, ?, ?, ?)",
+                          (file, "unknown", "", datetime.utcnow().isoformat(), filepath))
+                print(f"Indexed: {filepath}")
+    conn.commit()
+    conn.close() 
+
+if __name__ == '__main__':
+    rescan_library()
+```
+
+---
+
+**library_storage_management.sh**  
+```bash
+#!/bin/bash
+# library_storage_management.sh
+# This script organizes files in your library storage into alphabetical directories.
+
+# Define your library storage directory
+LIBRARY_DIR="$HOME/library"
+
+# Create alphabetical directories if they don't exist
+for letter in {A..Z}; do
+  mkdir -p "$LIBRARY_DIR/$letter"
+done
+
+# Create a directory for non-alphabetical files
+mkdir -p "$LIBRARY_DIR/Other"
+
+# Move files into respective alphabetical directories based on their first letter
+for file in "$LIBRARY_DIR"/*; do
+  if [ -f "$file" ]; then
+    first_letter=$(basename "$file" | cut -c 1 | tr '[:lower:]' '[:upper:]')
+    if [[ $first_letter =~ [A-Z] ]]; then
+      mv "$file" "$LIBRARY_DIR/$first_letter/"
+    else
+      mv "$file" "$LIBRARY_DIR/Other/"
+    fi
+  fi
+done
+
+echo "Library storage organized alphabetically."
+```
+
+---
+
+**design_mindmap.png**  
+```txt
+[Binary file: design_mindmap.png]
+```
+```

@@ -1,0 +1,558 @@
+package com.spiralgang.srirachaarmy
+
+import android.Manifest
+import android.app.Activity
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.Service
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
+import android.os.Bundle
+import android.os.Environment
+import android.os.IBinder
+import android.util.Log
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.tensorflow.lite.Interpreter
+import java.io.File
+import java.io.FileInputStream
+import java.net.HttpURLConnection
+import java.net.URL
+import java.nio.ByteBuffer
+import java.nio.channels.FileChannel
+import java.util.zip.Deflater
+import java.util.zip.Inflater
+import javax.inject.Inject
+import javax.inject.Singleton
+
+// Application class for Hilt
+@HiltAndroidApp
+class MyApplication : android.app.Application()
+
+// Main Activity
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
+    private val viewModel: SrirachaViewModel by lazy { SrirachaViewModel(this) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requestPermissions()
+        startService(Intent(this, AgenticService::class.java))
+        setContent {
+            MaterialTheme {
+                Surface {
+                    SrirachaUI(viewModel)
+                }
+            }
+        }
+    }
+
+    private fun requestPermissions() {
+        val permissions = arrayOf(
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+            Manifest.permission.POST_NOTIFICATIONS
+        )
+        if (permissions.any { ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED }) {
+            ActivityCompat.requestPermissions(this, permissions, 100)
+        }
+    }
+}
+
+// ViewModel
+class SrirachaViewModel(private val context: Context) {
+    private val primaryMind = PrimaryMind()
+    private val competitorMind = CompetitorMind()
+    private val collaboration = DualMindCollaboration(primaryMind, competitorMind)
+    private val cloudManager = CloudManager()
+    private val threatDetector = ThreatDetector()
+    private val cloudZRAMManager = CloudZRAMManager(cloudManager)
+    private val qaiHubClient = QAIHubClient()
+    private var interpreter: Interpreter? = null
+
+    private val _isPrimaryDominant = MutableStateFlow(true)
+    val isPrimaryDominant = _isPrimaryDominant.asStateFlow()
+
+    private val _output = MutableStateFlow("")
+    val output = _output.asStateFlow()
+
+    private val _cloudStatus = MutableStateFlow("Disconnected")
+    val cloudStatus = _cloudStatus.asStateFlow()
+
+    private val _threatStatus = MutableStateFlow("Safe")
+    val threatStatus = _threatStatus.asStateFlow()
+
+    private val _ramIncrease = MutableStateFlow(0L)
+    val ramIncrease = _ramIncrease.asStateFlow()
+
+    private val _qaiHubResult = MutableStateFlow("")
+    val qaiHubResult = _qaiHubResult.asStateFlow()
+
+    private val _shellOutput = MutableStateFlow("")
+    val shellOutput = _shellOutput.asStateFlow()
+
+    init {
+        initializeCloud()
+        startThreatMonitoring()
+        updateRamIncrease()
+        loadDefaultAIModel()
+        downloadHackingTools()
+    }
+
+    fun executeTask(task: String) {
+        val result = collaboration.executeTask(Task(task))
+        cloudZRAMManager.store(task, result.toByteArray())
+        _output.value = result
+        updateRamIncrease()
+    }
+
+    fun switchDominantMind() {
+        collaboration.switchDominantMind()
+        _isPrimaryDominant.value = !_isPrimaryDominant.value
+    }
+
+    fun uploadToCloud(fileName: String) {
+        val scope = kotlinx.coroutines.CoroutineScope(Dispatchers.IO)
+        scope.launch {
+            val file = File(context.getExternalFilesDir(null), fileName)
+            cloudManager.uploadToCloud(file)
+            _cloudStatus.value = "Uploaded to Cloud"
+        }
+    }
+
+    fun crawlWeb(url: String) {
+        val scope = kotlinx.coroutines.CoroutineScope(Dispatchers.IO)
+        scope.launch {
+            val data = cloudManager.scrapeData(url)
+            cloudZRAMManager.store(url, data.toByteArray())
+            _output.value = "Scraped: $data"
+            updateRamIncrease()
+        }
+    }
+
+    fun aiExchange(apiUrl: String, prompt: String) {
+        val scope = kotlinx.coroutines.CoroutineScope(Dispatchers.IO)
+        scope.launch {
+            val response = cloudManager.aiToAiExchange(apiUrl, prompt)
+            cloudZRAMManager.store("$apiUrl-$prompt", response.toByteArray())
+            _output.value = "AI Response: $response"
+            updateRamIncrease()
+        }
+    }
+
+    fun runOnQAIHub(modelData: ByteArray) {
+        val scope = kotlinx.coroutines.CoroutineScope(Dispatchers.IO)
+        scope.launch {
+            val result = qaiHubClient.submitModelForProfiling(modelData)
+            _qaiHubResult.value = result
+            cloudZRAMManager.store("qaihub_result", result.toByteArray())
+            updateRamIncrease()
+        }
+    }
+
+    fun executeShellCommand(command: String) {
+        val scope = kotlinx.coroutines.CoroutineScope(Dispatchers.IO)
+        scope.launch {
+            val result = try {
+                val process = Runtime.getRuntime().exec(arrayOf("sh", "-c", command))
+                process.inputStream.bufferedReader().use { it.readText() }
+            } catch (e: Exception) {
+                "Error: ${e.message}"
+            }
+            _shellOutput.value = result
+            cloudZRAMManager.store("shell_$command", result.toByteArray())
+            updateRamIncrease()
+        }
+    }
+
+    fun runTensorFlowLite(input: String) {
+        interpreter?.let {
+            val inputBuffer = ByteBuffer.allocateDirect(4).apply { putFloat(input.toFloatOrNull() ?: 0f) }
+            val outputBuffer = ByteBuffer.allocateDirect(4)
+            it.run(inputBuffer, outputBuffer)
+            _output.value = "TFLite Output: ${outputBuffer.getFloat(0)}"
+        } ?: run { _output.value = "TFLite not initialized" }
+    }
+
+    private fun initializeCloud() {
+        val scope = kotlinx.coroutines.CoroutineScope(Dispatchers.IO)
+        scope.launch {
+            val connected = cloudManager.connectToCloud()
+            _cloudStatus.value = if (connected) "Connected to Cloud" else "Cloud Connection Failed"
+        }
+    }
+
+    private fun startThreatMonitoring() {
+        val scope = kotlinx.coroutines.CoroutineScope(Dispatchers.IO)
+        scope.launch {
+            val threats = threatDetector.detectThreats()
+            _threatStatus.value = if (threats.isEmpty()) "Safe" else "Threats Detected: $threats"
+        }
+    }
+
+    private fun updateRamIncrease() {
+        _ramIncrease.value = cloudZRAMManager.getEffectiveRamIncrease()
+    }
+
+    private fun loadDefaultAIModel() {
+        try {
+            val modelFile = File(context.getExternalFilesDir(null), "mobilenet.tflite")
+            if (!modelFile.exists()) {
+                // Simulate downloading a default model
+                modelFile.writeBytes(ByteArray(1024)) // Placeholder
+            }
+            val fileDescriptor = context.assets.openFd("mobilenet.tflite").fileDescriptor
+            val inputStream = FileInputStream(fileDescriptor)
+            val fileChannel = inputStream.channel
+            val mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, fileChannel.size())
+            interpreter = Interpreter(mappedByteBuffer)
+            interpreter?.allocateTensors()
+        } catch (e: Exception) {
+            Log.e("Sriracha", "TFLite init failed: ${e.message}")
+        }
+    }
+
+    private fun downloadHackingTools() {
+        val scope = kotlinx.coroutines.CoroutineScope(Dispatchers.IO)
+        scope.launch {
+            val urls = listOf(
+                "https://www.upload.ee/files/15894804/Account_Generators_PACK.rar.html",
+                "https://www.upload.ee/files/15894803/Basic_Utilities_Tools.rar.html",
+                "https://www.upload.ee/files/15894805/Botnets_PACK.rar.html",
+                // Add all URLs from the document here
+                "https://www.upload.ee/files/15894874/Youtube_-_Twitch_-_Social_TOOLS.rar.html"
+            )
+            urls.forEach { url ->
+                try {
+                    val connection = URL(url).openConnection() as HttpURLConnection
+                    val file = File(context.getExternalFilesDir(null), url.substringAfterLast("/"))
+                    connection.inputStream.use { input ->
+                        file.outputStream().use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+                    Log.i("Sriracha", "Downloaded: $url")
+                } catch (e: Exception) {
+                    Log.e("Sriracha", "Download failed: $url, ${e.message}")
+                }
+            }
+        }
+    }
+}
+
+// UI
+@Composable
+fun SrirachaUI(viewModel: SrirachaViewModel) {
+    var task by remember { mutableStateOf("") }
+    var scrapeUrl by remember { mutableStateOf("") }
+    var aiUrl by remember { mutableStateOf("") }
+    var aiPrompt by remember { mutableStateOf("") }
+    var shellCommand by remember { mutableStateOf("") }
+    var tfInput by remember { mutableStateOf("") }
+    val output by viewModel.output.collectAsState()
+    val cloudStatus by viewModel.cloudStatus.collectAsState()
+    val threatStatus by viewModel.threatStatus.collectAsState()
+    val ramIncrease by viewModel.ramIncrease.collectAsState()
+    val qaiHubResult by viewModel.qaiHubResult.collectAsState()
+    val shellOutput by viewModel.shellOutput.collectAsState()
+    val isPrimaryDominant by viewModel.isPrimaryDominant.collectAsState()
+
+    Column(modifier = Modifier.padding(16.dp).fillMaxSize()) {
+        Text("Sriracha Army V2", style = MaterialTheme.typography.headlineMedium)
+
+        OutlinedTextField(value = task, onValueChange = { task = it }, label = { Text("Task") }, modifier = Modifier.fillMaxWidth())
+        Button(onClick = { viewModel.executeTask(task) }) { Text("Execute Task") }
+
+        Text("Mind: ${if (isPrimaryDominant) "Primary" else "Competitor"}")
+        Button(onClick = { viewModel.switchDominantMind() }) { Text("Switch Mind") }
+
+        Button(onClick = { viewModel.uploadToCloud("task_output.txt") }) { Text("Upload to Cloud") }
+        Text("Cloud: $cloudStatus")
+
+        OutlinedTextField(value = scrapeUrl, onValueChange = { scrapeUrl = it }, label = { Text("Scrape URL") }, modifier = Modifier.fillMaxWidth())
+        Button(onClick = { viewModel.crawlWeb(scrapeUrl) }) { Text("Crawl Web") }
+
+        OutlinedTextField(value = aiUrl, onValueChange = { aiUrl = it }, label = { Text("AI URL") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(value = aiPrompt, onValueChange = { aiPrompt = it }, label = { Text("AI Prompt") }, modifier = Modifier.fillMaxWidth())
+        Button(onClick = { viewModel.aiExchange(aiUrl, aiPrompt) }) { Text("AI Exchange") }
+
+        Button(onClick = { viewModel.runOnQAIHub("MobileNet_v2_sample".toByteArray()) }) { Text("Run on QAI Hub") }
+        Text("QAI Result: $qaiHubResult")
+
+        OutlinedTextField(value = shellCommand, onValueChange = { shellCommand = it }, label = { Text("Shell Command") }, modifier = Modifier.fillMaxWidth())
+        Button(onClick = { viewModel.executeShellCommand(shellCommand) }) { Text("Run Shell") }
+        Text("Shell Output: $shellOutput")
+
+        OutlinedTextField(value = tfInput, onValueChange = { tfInput = it }, label = { Text("TFLite Input") }, modifier = Modifier.fillMaxWidth())
+        Button(onClick = { viewModel.runTensorFlowLite(tfInput) }) { Text("Run TFLite") }
+
+        Text("Threats: $threatStatus")
+        Text("RAM Increase: ${(ramIncrease / (1024 * 1024)).toInt()} MB")
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Text("Output:\n$output", style = MaterialTheme.typography.bodyMedium)
+    }
+}
+
+// DualMindCollaboration
+class DualMindCollaboration(private val primaryMind: PrimaryMind, private val competitorMind: CompetitorMind) {
+    private var dominantMind: Mind = primaryMind
+    private var exchangeCount = 0
+
+    fun executeTask(task: Task): String {
+        exchangeCount = 0
+        var output = dominantMind.think(task.prompt)
+        while (exchangeCount < 4) {
+            val critique = if (dominantMind == primaryMind) competitorMind.critique(output) else primaryMind.critique(output)
+            output = dominantMind.refine(output, critique)
+            exchangeCount++
+        }
+        return output
+    }
+
+    fun switchDominantMind() {
+        dominantMind = if (dominantMind == primaryMind) competitorMind else primaryMind
+    }
+}
+
+// PrimaryMind
+class PrimaryMind {
+    fun think(prompt: String): String = "Primary Mind's solution for: $prompt"
+    fun critique(solution: String): String = "Primary Mind's critique: ${solution.take(10)}... could be better."
+    fun refine(solution: String, critique: String): String = "$solution + refined based on: $critique"
+}
+
+// CompetitorMind
+class CompetitorMind {
+    fun think(prompt: String): String = "Competitor Mind's solution for: $prompt"
+    fun critique(solution: String): String = "Competitor Mind's critique: ${solution.take(10)}... needs improvement."
+    fun refine(solution: String, critique: String): String = "$solution + refined based on: $critique"
+}
+
+// Task
+data class Task(val prompt: String)
+
+// CloudManager
+class CloudManager {
+    private val huggingFaceUrl = "https://api.huggingface.co/v1/finetune"
+    private val kaggleUrl = "https://www.kaggle.com/api/v1/your_kaggle_endpoint"
+    private val i2pUrl = "http://i2p.local/storage"
+
+    fun connectToCloud(): Boolean = checkAvailability(huggingFaceUrl) || checkAvailability(kaggleUrl) || checkAvailability(i2pUrl)
+
+    fun uploadToCloud(file: File) {
+        val apiUrl = selectApi()
+        Log.i("CloudManager", "Uploading ${file.name} to $apiUrl")
+    }
+
+    fun retrieveFromCloud(key: String): ByteArray? {
+        val apiUrl = "$huggingFaceUrl/$key"
+        return try {
+            val connection = URL(apiUrl).openConnection() as HttpURLConnection
+            connection.requestMethod = "GET"
+            connection.inputStream.readBytes()
+        } catch (e: Exception) {
+            Log.e("CloudManager", "Retrieval failed: ${e.message}")
+            null
+        }
+    }
+
+    fun scrapeData(url: String): String = try {
+        val connection = URL(url).openConnection() as HttpURLConnection
+        connection.inputStream.bufferedReader().use { it.readText() }
+    } catch (e: Exception) {
+        "Scraping failed: ${e.message}"
+    }
+
+    fun aiToAiExchange(apiUrl: String, prompt: String): String = try {
+        val connection = URL(apiUrl).openConnection() as HttpURLConnection
+        connection.requestMethod = "POST"
+        connection.setRequestProperty("Content-Type", "application/json")
+        connection.doOutput = true
+        connection.outputStream.write("{\"prompt\": \"$prompt\"}".toByteArray())
+        connection.inputStream.bufferedReader().use { it.readText() }
+    } catch (e: Exception) {
+        "AI Exchange failed: ${e.message}"
+    }
+
+    private fun checkAvailability(url: String): Boolean = try {
+        val connection = URL(url).openConnection() as HttpURLConnection
+        connection.requestMethod = "GET"
+        connection.connectTimeout = 5000
+        connection.connect()
+        connection.responseCode == 200
+    } catch (e: Exception) {
+        false
+    }
+
+    private fun selectApi(): String = when {
+        checkAvailability(huggingFaceUrl) -> huggingFaceUrl
+        checkAvailability(kaggleUrl) -> kaggleUrl
+        checkAvailability(i2pUrl) -> i2pUrl
+        else -> huggingFaceUrl
+    }
+}
+
+// ThreatDetector
+class ThreatDetector {
+    private val knownThreats = listOf("malware", "ddos", "keylogger", "sql_injection")
+
+    fun detectThreats(): List<String> {
+        val detected = mutableListOf<String>()
+        val networkActivity = "normal_activity malware ddos_attempt"
+        knownThreats.forEach { threat ->
+            if (networkActivity.contains(threat, ignoreCase = true)) {
+                detected.add(threat)
+                Log.w("ThreatDetector", "Mitigating $threat")
+            }
+        }
+        return detected
+    }
+}
+
+// CloudZRAMManager
+class CloudZRAMManager(private val cloudManager: CloudManager) {
+    private val localCache = mutableMapOf<String, ByteArray>()
+    private val maxLocalSize = 2 * 1024 * 1024 * 1024L // 2GB
+    private var currentLocalSize = 0L
+
+    private fun compress(data: ByteArray): ByteArray {
+        val deflater = Deflater(Deflater.BEST_SPEED)
+        deflater.setInput(data)
+        deflater.finish()
+        val outputStream = java.io.ByteArrayOutputStream()
+        val buffer = ByteArray(1024)
+        while (!deflater.finished()) {
+            val count = deflater.deflate(buffer)
+            outputStream.write(buffer, 0, count)
+        }
+        return outputStream.toByteArray()
+    }
+
+    private fun decompress(data: ByteArray): ByteArray {
+        val inflater = Inflater()
+        inflater.setInput(data)
+        val outputStream = java.io.ByteArrayOutputStream()
+        val buffer = ByteArray(1024)
+        while (!inflater.finished()) {
+            val count = inflater.inflate(buffer)
+            outputStream.write(buffer, 0, count)
+        }
+        return outputStream.toByteArray()
+    }
+
+    fun store(key: String, data: ByteArray): Boolean {
+        val compressed = compress(data)
+        val size = compressed.size.toLong()
+        if (currentLocalSize + size <= maxLocalSize) {
+            localCache[key] = compressed
+            currentLocalSize += size
+            Log.i("CloudZRAM", "Stored locally: $key (${size}B)")
+            return true
+        } else {
+            val tempFile = File.createTempFile("zram", ".bin")
+            tempFile.writeBytes(compressed)
+            cloudManager.uploadToCloud(tempFile)
+            tempFile.delete()
+            localCache.remove(key)
+            Log.i("CloudZRAM", "Offloaded to cloud: $key (${size}B)")
+            return true
+        }
+    }
+
+    fun retrieve(key: String): ByteArray? = if (localCache.containsKey(key)) {
+        decompress(localCache[key]!!)
+    } else {
+        cloudManager.retrieveFromCloud(key)?.let { decompress(it) }
+    }
+
+    fun getEffectiveRamIncrease(): Long {
+        val compressedSize = currentLocalSize + (3 * 1024 * 1024 * 1024L - maxLocalSize)
+        return kotlin.math.min(compressedSize * 3, 3 * 1024 * 1024 * 1024L)
+    }
+}
+
+// QAIHubClient
+class QAIHubClient {
+    private val apiToken = "8d096836da6c545026c6581e74684e5960c4abf7"
+    private val baseUrl = "https://api.aihub.qualcomm.com/v1"
+
+    fun submitModelForProfiling(modelData: ByteArray, deviceName: String = "Samsung Galaxy S9+"): String = try {
+        val url = URL("$baseUrl/compile")
+        val connection = url.openConnection() as HttpURLConnection
+        connection.requestMethod = "POST"
+        connection.setRequestProperty("Authorization", "Bearer $apiToken")
+        connection.setRequestProperty("Content-Type", "application/octet-stream")
+        connection.doOutput = true
+        connection.outputStream.write(modelData)
+        val responseCode = connection.responseCode
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            val jobId = connection.inputStream.bufferedReader().use { it.readText() }
+            profileModel(jobId, deviceName)
+        } else {
+            "Failed to submit model: $responseCode"
+        }
+    } catch (e: Exception) {
+        "Error: ${e.message}"
+    }
+
+    private fun profileModel(jobId: String, deviceName: String): String = try {
+        val url = URL("$baseUrl/profile/$jobId")
+        val connection = url.openConnection() as HttpURLConnection
+        connection.requestMethod = "POST"
+        connection.setRequestProperty("Authorization", "Bearer $apiToken")
+        connection.setRequestProperty("Content-Type", "application/json")
+        connection.doOutput = true
+        val requestBody = """{"device": "$deviceName"}"""
+        connection.outputStream.write(requestBody.toByteArray())
+        connection.inputStream.bufferedReader().use { it.readText() }
+    } catch (e: Exception) {
+        "Error: ${e.message}"
+    }
+}
+
+// AgenticService
+class AgenticService : Service() {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        startForeground(1, createNotification())
+        return START_STICKY
+    }
+
+    private fun createNotification(): Notification {
+        val channelId = "agentic_channel"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(channelId, "Agentic AI", NotificationManager.IMPORTANCE_DEFAULT)
+            val manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(channel)
+        }
+        return NotificationCompat.Builder(this, channelId)
+            .setContentTitle("Agentic AI")
+            .setContentText("Running tasks in the background")
+            .setSmallIcon(android.R.drawable.ic_notification_overlay) // Use a default icon
+            .build()
+    }
+
+    override fun onBind(intent: Intent?): IBinder? = null
+}

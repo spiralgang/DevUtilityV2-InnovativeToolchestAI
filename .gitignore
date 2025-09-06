@@ -8,13 +8,10 @@ build/
 .idea/
 *.iws
 
-# Python cache files (from original)
+# Python cache files
 __pycache__/
 *.pyc
 *.pyo
-
-# Gradle wrapper (keep these for reproducible builds)
-# gradlew and gradlew.bat are included for cross-platform compatibility
 
 # Build Outputs
 app/build/
