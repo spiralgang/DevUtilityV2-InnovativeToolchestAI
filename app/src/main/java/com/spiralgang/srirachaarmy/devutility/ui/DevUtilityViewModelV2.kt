@@ -2,6 +2,7 @@ package com.spiralgang.srirachaarmy.devutility.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.spiralgang.srirachaarmy.devutility.core.AIInstanceManager
 import com.spiralgang.srirachaarmy.devutility.core.DeepSeekEngine
 import com.spiralgang.srirachaarmy.devutility.core.SrirachaArmyOrchestrator
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,6 +54,9 @@ class DevUtilityViewModelV2 @Inject constructor(
         val pipiSystemActive: Boolean = false,
         val webNetCasteSearching: Boolean = false,
         val screenHopOperationActive: Boolean = false,
+        // NEW: Single AI Instance Constraint Status
+        val isAIOperationActive: Boolean = false,
+        val currentActiveAIOperation: String? = null,
         val availableLanguages: List<String> = listOf(
             "Kotlin", "Java", "Python", "JavaScript", "TypeScript", 
             "C#", "Swift", "Go", "Rust", "HTML", "CSS"
@@ -102,7 +106,10 @@ class DevUtilityViewModelV2 @Inject constructor(
                     aiModel = aiModel,
                     isAIOnline = isOnline,
                     terminalOutput = terminalOutput,
-                    activeBotCount = srirachaOrchestrator.getActiveBotCount()
+                    activeBotCount = srirachaOrchestrator.getActiveBotCount(),
+                    // NEW: Track single AI instance constraint
+                    isAIOperationActive = AIInstanceManager.isAIOperationActive(),
+                    currentActiveAIOperation = AIInstanceManager.getCurrentActiveOperation()
                 )
             }.collect { newState ->
                 _uiState.value = newState

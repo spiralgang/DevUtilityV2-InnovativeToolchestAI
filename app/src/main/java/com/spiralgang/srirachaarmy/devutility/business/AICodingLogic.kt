@@ -1,6 +1,8 @@
 package com.spiralgang.srirachaarmy.devutility.business
 
 import com.spiralgang.srirachaarmy.devutility.ai.*
+import com.spiralgang.srirachaarmy.devutility.core.AIInstanceManager
+import com.spiralgang.srirachaarmy.devutility.core.AIOperationBlockedException
 import com.spiralgang.srirachaarmy.devutility.execution.CodeExecutor
 import com.spiralgang.srirachaarmy.devutility.profiler.Profiler
 import kotlinx.coroutines.Dispatchers
@@ -51,18 +53,32 @@ class AICodingLogic @Inject constructor(
     
     /**
      * Perform comprehensive code review using AI
+     * NOW LIMITED TO ONE AI OPERATION AT A TIME
      */
     suspend fun reviewCode(code: String, language: String): CodeReviewService.CodeReviewResult = withContext(Dispatchers.IO) {
         try {
-            Timber.d("Performing AI code review for $language")
-            
-            // Multi-layered analysis
-            val securityIssues = securityAnalyzer.analyzeSecurity(code, language)
-            val performanceAnalysis = profiler.analyzePerformance(code, language)
-            val thinkModuleInsights = aiThinkModule.deepAnalysis(code, language)
-            
-            // Synthesize review results
-            codeReviewService.performReview(code, language, securityIssues, performanceAnalysis)
+            AIInstanceManager.executeAIOperation(
+                AIInstanceManager.AIOperationType.CODE_REVIEW,
+                "reviewCode: $language"
+            ) {
+                Timber.d("Performing AI code review for $language")
+                
+                // Multi-layered analysis
+                val securityIssues = securityAnalyzer.analyzeSecurity(code, language)
+                val performanceAnalysis = profiler.analyzePerformance(code, language)
+                val thinkModuleInsights = aiThinkModule.deepAnalysis(code, language)
+                
+                // Synthesize review results
+                codeReviewService.performReview(code, language, securityIssues, performanceAnalysis)
+            }
+        } catch (e: AIOperationBlockedException) {
+            Timber.w(e, "Code review blocked - another AI operation in progress")
+            CodeReviewService.CodeReviewResult(
+                score = 0,
+                issues = listOf("Code review queued - another AI operation in progress"),
+                suggestions = listOf("Please wait and try again"),
+                securityIssues = emptyList()
+            )
         } catch (e: Exception) {
             Timber.e(e, "Code review failed")
             CodeReviewService.CodeReviewResult(
