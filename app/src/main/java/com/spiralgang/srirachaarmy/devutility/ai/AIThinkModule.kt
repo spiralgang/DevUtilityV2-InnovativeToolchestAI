@@ -1,7 +1,5 @@
 package com.spiralgang.srirachaarmy.devutility.ai
 
-import com.spiralgang.srirachaarmy.devutility.core.AIInstanceManager
-import com.spiralgang.srirachaarmy.devutility.core.AIOperationBlockedException
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -65,49 +63,38 @@ class AIThinkModule @Inject constructor() {
 
     /**
      * Think about a query and provide thoughtful suggestion
-     * NOW LIMITED TO ONE AI OPERATION AT A TIME
      */
-    suspend fun think(query: String, currentContext: String = ""): String {
-        return try {
-            AIInstanceManager.executeAIOperation(
-                AIInstanceManager.AIOperationType.THINK_MODULE,
-                "think: $query"
-            ) {
-                currentState = ThinkingState.THINKING
-                
-                Timber.d("🧠 AIThinkModule thinking about query: $query")
-                
-                // Analyze query against knowledge base
-                val directMatch = knowledgeBase[query]
-                val contextualSuggestions = findContextualSuggestions(query, currentContext)
-                val patternAnalysis = analyzePatterns(query)
-                
-                currentState = ThinkingState.SUGGESTING
-                
-                val suggestion = when {
-                    directMatch != null -> {
-                        "Based on previous experience: $directMatch. ${generateEnhancement(query)}"
-                    }
-                    contextualSuggestions.isNotEmpty() -> {
-                        "Contextual insight: ${contextualSuggestions.first()}. Consider these patterns: ${contextualSuggestions.take(2).joinToString(", ")}"
-                    }
-                    patternAnalysis.isNotEmpty() -> {
-                        "Pattern analysis suggests: $patternAnalysis. This aligns with your development style."
-                    }
-                    else -> {
-                        "I need more context to provide a thoughtful suggestion. Let me learn from your interaction..."
-                    }
-                }
-                
-                currentState = ThinkingState.IDLE
-                Timber.d("🧠 Thought process complete: ${suggestion.take(100)}...")
-                
-                suggestion
+    fun think(query: String, currentContext: String = ""): String {
+        currentState = ThinkingState.THINKING
+        
+        Timber.d("🧠 AIThinkModule thinking about query: $query")
+        
+        // Analyze query against knowledge base
+        val directMatch = knowledgeBase[query]
+        val contextualSuggestions = findContextualSuggestions(query, currentContext)
+        val patternAnalysis = analyzePatterns(query)
+        
+        currentState = ThinkingState.SUGGESTING
+        
+        val suggestion = when {
+            directMatch != null -> {
+                "Based on previous experience: $directMatch. ${generateEnhancement(query)}"
             }
-        } catch (e: AIOperationBlockedException) {
-            Timber.w(e, "AI Think operation blocked - another AI operation in progress")
-            "AI is currently busy with another operation. Please wait and try again."
+            contextualSuggestions.isNotEmpty() -> {
+                "Contextual insight: ${contextualSuggestions.first()}. Consider these patterns: ${contextualSuggestions.take(2).joinToString(", ")}"
+            }
+            patternAnalysis.isNotEmpty() -> {
+                "Pattern analysis suggests: $patternAnalysis. This aligns with your development style."
+            }
+            else -> {
+                "I need more context to provide a thoughtful suggestion. Let me learn from your interaction..."
+            }
         }
+        
+        currentState = ThinkingState.IDLE
+        Timber.d("🧠 Thought process complete: ${suggestion.take(100)}...")
+        
+        return suggestion
     }
 
     /**

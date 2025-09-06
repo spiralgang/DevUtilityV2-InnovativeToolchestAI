@@ -78,7 +78,6 @@ class SrirachaArmyOrchestrator @Inject constructor(
     /**
      * Coordinate contextual intelligence across all bots
      * Enables seamless information sharing and collaborative decision-making
-     * NOW LIMITED TO ONE AI OPERATION AT A TIME
      */
     suspend fun processContextualIntelligence(context: IntelligenceContext): IntelligenceResult {
         if (_orchestratorState.value !is OrchestratorState.Ready) {
@@ -86,32 +85,24 @@ class SrirachaArmyOrchestrator @Inject constructor(
         }
         
         return try {
-            AIInstanceManager.executeAIOperation(
-                AIInstanceManager.AIOperationType.COORDINATION,
-                "processContextualIntelligence"
-            ) {
-                // Sequential processing instead of parallel - ONE AT A TIME
-                val thinkModuleResult = aiThinkModule.processContext(context)
-                val guidanceResult = srirachaGuidanceSystem.provideGuidance(context) 
-                val learningResult = learningBot.adaptFromContext(context)
-                val webCasteResult = webNetCasteAI.analyzeWebContext(context)
-                
-                // Synthesize intelligence from all sources
-                val synthesizedIntelligence = synthesizeIntelligence(
-                    thinkModuleResult,
-                    guidanceResult,
-                    learningResult,
-                    webCasteResult
-                )
-                
-                _contextualIntelligence.value = synthesizedIntelligence
-                
-                IntelligenceResult.Success(synthesizedIntelligence)
-            }
+            // Gather intelligence from all active bots
+            val thinkModuleResult = aiThinkModule.processContext(context)
+            val guidanceResult = srirachaGuidanceSystem.provideGuidance(context)
+            val learningResult = learningBot.adaptFromContext(context)
+            val webCasteResult = webNetCasteAI.analyzeWebContext(context)
             
-        } catch (e: AIOperationBlockedException) {
-            Timber.w(e, "Contextual intelligence processing blocked - another AI operation in progress")
-            IntelligenceResult.Error("AI operation in progress: ${e.message}")
+            // Synthesize intelligence from all sources
+            val synthesizedIntelligence = synthesizeIntelligence(
+                thinkModuleResult,
+                guidanceResult,
+                learningResult,
+                webCasteResult
+            )
+            
+            _contextualIntelligence.value = synthesizedIntelligence
+            
+            IntelligenceResult.Success(synthesizedIntelligence)
+            
         } catch (e: Exception) {
             Timber.e(e, "Contextual intelligence processing failed")
             IntelligenceResult.Error("Intelligence processing failed: ${e.message}")
@@ -120,7 +111,6 @@ class SrirachaArmyOrchestrator @Inject constructor(
 
     /**
      * Orchestrate bot collaboration for complex tasks
-     * NOW ENFORCES SINGLE AI OPERATION CONSTRAINT
      */
     suspend fun orchestrateBotCollaboration(
         task: CollaborativeTask
@@ -128,23 +118,15 @@ class SrirachaArmyOrchestrator @Inject constructor(
         val participatingBots = determineBotParticipation(task)
         
         return try {
-            AIInstanceManager.executeAIOperation(
-                AIInstanceManager.AIOperationType.COORDINATION,
-                "orchestrateBotCollaboration: ${task.description}"
-            ) {
-                val collaborationPlan = createCollaborationPlan(task, participatingBots)
-                val executionResults = executeCollaborativePlan(collaborationPlan)
-                
-                CollaborationResult.Success(
-                    task = task,
-                    participatingBots = participatingBots,
-                    results = executionResults
-                )
-            }
+            val collaborationPlan = createCollaborationPlan(task, participatingBots)
+            val executionResults = executeCollaborativePlan(collaborationPlan)
             
-        } catch (e: AIOperationBlockedException) {
-            Timber.w(e, "Bot collaboration blocked - another AI operation in progress")
-            CollaborationResult.Error("AI operation in progress: ${e.message}")
+            CollaborationResult.Success(
+                task = task,
+                participatingBots = participatingBots,
+                results = executionResults
+            )
+            
         } catch (e: Exception) {
             CollaborationResult.Error("Collaboration failed: ${e.message}")
         }

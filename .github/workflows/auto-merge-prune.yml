@@ -5,6 +5,11 @@ on:
     - cron: '0 3 * * *'   # Runs daily at 03:00 UTC
   workflow_dispatch:
 
+# Enforce single Copilot operation constraint - only one Copilot workflow can run at a time
+concurrency:
+  group: copilot-operations
+  cancel-in-progress: false  # Queue operations instead of canceling
+
 jobs:
   merge-and-prune:
     runs-on: ubuntu-latest

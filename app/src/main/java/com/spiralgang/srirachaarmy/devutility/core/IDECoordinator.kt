@@ -109,62 +109,50 @@ class IDECoordinator @Inject constructor(
 
     /**
      * Coordinate bot activation across all systems
-     * NOW LIMITED TO ONE AI OPERATION AT A TIME
      */
     suspend fun coordinateBotActivation(
         botType: SrirachaArmyOrchestrator.BotType,
         context: String,
         heatLevel: SrirachaArmyOrchestrator.HeatLevel
     ): String {
-        return try {
-            AIInstanceManager.executeAIOperation(
-                AIInstanceManager.AIOperationType.COORDINATION,
-                "coordinateBotActivation: ${botType.name}"
-            ) {
-                _ideState.value = IDEState.BOT_COORDINATION_ACTIVE
+        _ideState.value = IDEState.BOT_COORDINATION_ACTIVE
+        
+        Timber.d("🎯 IDECoordinator: Coordinating ${botType.name} activation")
+        
+        // Activate primary bot
+        val primaryResponse = srirachaOrchestrator.activateBot(botType, context, heatLevel)
+        
+        // Coordinate supporting systems
+        when (botType) {
+            SrirachaArmyOrchestrator.BotType.WEBNETCASTE -> {
+                // Activate WebNetCaste AI
+                _ideState.value = IDEState.WEBNETCASTE_FISHING
+                webNetCasteAI.knockToActivate()
                 
-                Timber.d("🎯 IDECoordinator: Coordinating ${botType.name} activation")
-                
-                // Activate primary bot
-                val primaryResponse = srirachaOrchestrator.activateBot(botType, context, heatLevel)
-                
-                // Coordinate supporting systems
-                when (botType) {
-                    SrirachaArmyOrchestrator.BotType.WEBNETCASTE -> {
-                        // Activate WebNetCaste AI
-                        _ideState.value = IDEState.WEBNETCASTE_FISHING
-                        webNetCasteAI.knockToActivate()
-                        
-                        val searchResult = webNetCasteAI.executeFissionFishin(context)
-                        updateSystemMessage("🎣 WebNetCaste clarity level: ${(searchResult.clarityLevel * 100).toInt()}%")
-                    }
-                    
-                    SrirachaArmyOrchestrator.BotType.AGENT_5S, SrirachaArmyOrchestrator.BotType.AGENT_8S -> {
-                        // Activate Screen-Hop operations
-                        _ideState.value = IDEState.SCREEN_HOP_ENGAGED
-                        
-                        val agentName = if (botType == SrirachaArmyOrchestrator.BotType.AGENT_5S) "5S" else "8S"
-                        floatWindowWatcher.integrateWithScreenHop(agentName, context)
-                        
-                        updateSystemMessage("🏃 Screen-Hop $agentName Agent engaged")
-                    }
-                    
-                    else -> {
-                        // Standard bot coordination
-                        updateSystemMessage("🤖 ${botType.name} coordination active")
-                    }
-                }
-                
-                _ideState.value = IDEState.READY
-                updateCompleteStatus()
-                
-                primaryResponse
+                val searchResult = webNetCasteAI.executeFissionFishin(context)
+                updateSystemMessage("🎣 WebNetCaste clarity level: ${(searchResult.clarityLevel * 100).toInt()}%")
             }
-        } catch (e: AIOperationBlockedException) {
-            Timber.w(e, "Bot activation blocked - another AI operation in progress")
-            updateSystemMessage("⏳ Bot activation queued - another AI operation in progress")
-            "AI operation in progress. Please wait before activating another bot."
+            
+            SrirachaArmyOrchestrator.BotType.AGENT_5S, SrirachaArmyOrchestrator.BotType.AGENT_8S -> {
+                // Activate Screen-Hop operations
+                _ideState.value = IDEState.SCREEN_HOP_ENGAGED
+                
+                val agentName = if (botType == SrirachaArmyOrchestrator.BotType.AGENT_5S) "5S" else "8S"
+                floatWindowWatcher.integrateWithScreenHop(agentName, context)
+                
+                updateSystemMessage("🏃 Screen-Hop $agentName Agent engaged")
+            }
+            
+            else -> {
+                // Standard bot coordination
+                updateSystemMessage("🤖 ${botType.name} coordination active")
+            }
         }
+        
+        _ideState.value = IDEState.READY
+        updateCompleteStatus()
+        
+        return primaryResponse
     }
 
     /**
