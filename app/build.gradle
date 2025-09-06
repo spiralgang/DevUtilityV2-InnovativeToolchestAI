@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
-    id 'kotlin-serialization'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
@@ -117,15 +117,15 @@ dependencies {
     
     // TensorFlow Lite for AI
     implementation 'org.tensorflow:tensorflow-lite:2.14.0'
-    implementation 'org.tensorflow:tensorflow-lite-gpu:2.14.0'
+    // implementation 'org.tensorflow:tensorflow-lite-gpu:2.14.0'  // Temporarily removed due to namespace conflict
     
     // AI and ML
     implementation 'com.google.ai.client.generativeai:generativeai:0.1.2'
     
     // Code editing and syntax highlighting
-    implementation 'com.github.amrdeveloper:codeview:1.3.8'
-    implementation 'io.github.rosemoe.sora-editor:editor:0.21.2'
-    implementation 'io.github.rosemoe.sora-editor:language-base:0.21.2'
+    // implementation 'com.github.amrdeveloper:codeview:1.3.8'  // Temporarily removed - dependency not found
+    // implementation 'io.github.rosemoe.sora-editor:editor:0.21.2'  // Temporarily removed - dependency not found  
+    // implementation 'io.github.rosemoe.sora-editor:language-base:0.21.2'  // Temporarily removed - dependency not found
     
     // Terminal and SSH
     implementation 'com.jcraft:jsch:0.1.55'
