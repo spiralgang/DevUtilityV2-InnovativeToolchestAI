@@ -6,6 +6,11 @@ on:
     branches:
       - 'copilot/fix-*'
 
+# Enforce single Copilot operation constraint - only one Copilot workflow can run at a time
+concurrency:
+  group: copilot-operations
+  cancel-in-progress: false  # Queue operations instead of canceling
+
 permissions:
   contents: write
   pull-requests: write
