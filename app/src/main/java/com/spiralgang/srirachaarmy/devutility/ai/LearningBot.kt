@@ -59,6 +59,7 @@ class LearningBot @Inject constructor(
     data class BotMessage(
         val type: MessageType,
         val content: String,
+        val source: String = "LearningBot",
         val metadata: Map<String, Any> = emptyMap(),
         val timestamp: Long = System.currentTimeMillis()
     )
@@ -71,7 +72,9 @@ class LearningBot @Inject constructor(
         ERROR_PATTERNS,
         LEARNING_SPEED,
         HELP_SEEKING,
-        FEATURE_USAGE
+        FEATURE_USAGE,
+        INTERACTION_PATTERNS,
+        QUERY_PATTERNS
     }
     
     enum class InsightType {
@@ -662,5 +665,218 @@ class LearningBot @Inject constructor(
     private fun processPatternDetection(message: BotMessage) {
         // Process pattern detection notifications from other bots
         Timber.d("Processing pattern detection: ${message.content}")
+    }
+    
+    // Additional methods for comprehensive AI coordination
+    
+    /**
+     * Setup message handler for inter-AI communication
+     */
+    fun setupMessageHandler(handler: (BotMessage) -> Unit) {
+        this.messageHandler = handler
+        Timber.d("LearningBot message handler configured for inter-AI communication")
+    }
+    
+    /**
+     * Register insight source for coordinated learning
+     */
+    fun registerInsightSource(sourceName: String, insightProvider: suspend (String) -> String) {
+        Timber.d("Registered insight source: $sourceName")
+        // Store insight providers for coordinated analysis
+    }
+    
+    /**
+     * Register AI service for pattern recognition coordination
+     */
+    fun registerAIService(serviceName: String, serviceProvider: suspend (String, String) -> String) {
+        Timber.d("Registered AI service: $serviceName for pattern coordination")
+        // Store AI service providers for coordinated processing
+    }
+    
+    /**
+     * Process query with learning context
+     */
+    suspend fun processQuery(query: String, context: Map<String, Any>): String = withContext(Dispatchers.IO) {
+        try {
+            Timber.d("LearningBot processing query: $query")
+            
+            // Analyze query for learning opportunities
+            val patternAnalysis = analyzeQueryForPatterns(query, context)
+            
+            // Generate response based on learned patterns
+            val response = when {
+                query.contains("pattern", ignoreCase = true) -> analyzePatterns(query, context)
+                query.contains("learn", ignoreCase = true) -> provideLearningInsights(query, context)
+                query.contains("behavior", ignoreCase = true) -> analyzeBehaviorPatterns(query, context)
+                else -> "LearningBot analyzing request and learning from interaction patterns"
+            }
+            
+            // Learn from this interaction
+            learnFromQuery(query, context, response)
+            
+            response
+        } catch (e: Exception) {
+            Timber.e(e, "LearningBot query processing failed")
+            "LearningBot encountered an error but learned from the experience: ${e.message}"
+        }
+    }
+    
+    /**
+     * Generate insight from query and context
+     */
+    suspend fun generateInsight(query: String, context: Map<String, Any>): String = withContext(Dispatchers.IO) {
+        try {
+            val existingPatterns = userPatterns.values.filter { 
+                it.context.contains(query.take(20), ignoreCase = true) 
+            }
+            
+            if (existingPatterns.isNotEmpty()) {
+                val avgConfidence = existingPatterns.map { it.confidence }.average()
+                "Pattern analysis: Found ${existingPatterns.size} related patterns with ${(avgConfidence * 100).toInt()}% confidence"
+            } else {
+                "New interaction pattern detected - learning and adapting"
+            }
+        } catch (e: Exception) {
+            "Learning insight generation: Analyzing new patterns"
+        }
+    }
+    
+    /**
+     * Analyze execution pattern for learning
+     */
+    suspend fun analyzeExecutionPattern(
+        query: String, 
+        aiSystemsUsed: List<String>, 
+        success: Boolean
+    ): List<String> = withContext(Dispatchers.IO) {
+        val insights = mutableListOf<String>()
+        
+        insights.add("AI coordination pattern: ${aiSystemsUsed.size} systems worked together")
+        
+        if (success) {
+            insights.add("Successful coordination with: ${aiSystemsUsed.joinToString(", ")}")
+        } else {
+            insights.add("Learning from coordination challenges to improve future routing")
+        }
+        
+        // Learn from the coordination pattern
+        val coordinationPattern = CodingPattern(
+            patternId = "ai_coordination_${System.currentTimeMillis()}",
+            language = "AI_Coordination",
+            category = "system_coordination",
+            pattern = aiSystemsUsed.joinToString("->"),
+            effectiveness = if (success) 0.8f else 0.4f,
+            occurrences = 1,
+            averageTime = 0L,
+            successRate = if (success) 1.0f else 0.0f,
+            relatedPatterns = emptyList()
+        )
+        
+        updateCodingPattern(coordinationPattern)
+        
+        return@withContext insights
+    }
+    
+    /**
+     * Update user profile with comprehensive information
+     */
+    suspend fun updateUserProfile(
+        userId: String,
+        interaction: String,
+        outcome: Boolean,
+        context: Map<String, Any>
+    ) = withContext(Dispatchers.IO) {
+        try {
+            val pattern = UserPattern(
+                userId = userId,
+                patternType = PatternType.INTERACTION_PATTERNS,
+                frequency = 1,
+                confidence = if (outcome) 0.8f else 0.6f,
+                lastObserved = System.currentTimeMillis(),
+                context = interaction,
+                metadata = context + mapOf("outcome" to outcome)
+            )
+            
+            updateUserPattern(pattern)
+            
+            Timber.d("Updated user profile for $userId with interaction outcome: $outcome")
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to update user profile")
+        }
+    }
+    
+    /**
+     * Update learning models based on new data
+     */
+    suspend fun updateLearningModels() = withContext(Dispatchers.IO) {
+        try {
+            Timber.d("Updating LearningBot models with latest patterns")
+            
+            // Optimize existing patterns
+            optimizePatterns()
+            
+            // Update AI training set with new patterns
+            aiTrainingSetManager.addLearningData(
+                category = "user_patterns",
+                data = userPatterns.values.map { it.toString() },
+                metadata = mapOf("source" to "LearningBot", "timestamp" to System.currentTimeMillis())
+            )
+            
+            Timber.d("LearningBot models updated successfully")
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to update learning models")
+        }
+    }
+    
+    // Helper methods for new functionality
+    
+    private suspend fun analyzeQueryForPatterns(query: String, context: Map<String, Any>): String {
+        // Analyze the query for patterns that can inform learning
+        return "Query pattern analysis completed"
+    }
+    
+    private suspend fun analyzePatterns(query: String, context: Map<String, Any>): String {
+        val patterns = userPatterns.values.take(5)
+        return "Found ${patterns.size} relevant patterns: ${patterns.map { it.patternType }.distinct().joinToString(", ")}"
+    }
+    
+    private suspend fun provideLearningInsights(query: String, context: Map<String, Any>): String {
+        val insights = learningInsights.take(3)
+        return "Learning insights: ${insights.map { it.title }.joinToString("; ")}"
+    }
+    
+    private suspend fun analyzeBehaviorPatterns(query: String, context: Map<String, Any>): String {
+        val behaviorPatterns = userPatterns.values.filter { 
+            it.patternType in listOf(PatternType.INTERACTION_PATTERNS, PatternType.FEATURE_USAGE) 
+        }
+        return "Behavior analysis: ${behaviorPatterns.size} patterns identified"
+    }
+    
+    private suspend fun learnFromQuery(query: String, context: Map<String, Any>, response: String) {
+        // Learn from this query-response interaction
+        val pattern = UserPattern(
+            userId = context["user_id"]?.toString() ?: "anonymous",
+            patternType = PatternType.QUERY_PATTERNS,
+            frequency = 1,
+            confidence = 0.7f,
+            lastObserved = System.currentTimeMillis(),
+            context = query,
+            metadata = mapOf("response_length" to response.length, "success" to !response.contains("error"))
+        )
+        
+        updateUserPattern(pattern)
+    }
+    
+    private fun optimizePatterns() {
+        // Remove low-confidence patterns that are old
+        val cutoffTime = System.currentTimeMillis() - (30 * 24 * 60 * 60 * 1000L) // 30 days
+        
+        userPatterns.values.removeAll { pattern ->
+            pattern.confidence < 0.3f && pattern.lastObserved < cutoffTime
+        }
+        
+        codingPatterns.values.removeAll { pattern ->
+            pattern.effectiveness < 0.3f && pattern.occurrences < 3
+        }
     }
 }

@@ -37,7 +37,8 @@ class AITrainingSetManager @Inject constructor() {
         val examples: List<TrainingExample>,
         val version: String,
         val isActive: Boolean = true,
-        val lastUpdated: Long = System.currentTimeMillis()
+        val lastUpdated: Long = System.currentTimeMillis(),
+        val metadata: Map<String, Any> = emptyMap()
     )
     
     data class TrainingExample(
@@ -45,7 +46,9 @@ class AITrainingSetManager @Inject constructor() {
         val expectedOutput: String,
         val context: String,
         val difficulty: String, // EASY, MEDIUM, HARD
-        val tags: List<String>
+        val tags: List<String>,
+        val quality: Float? = null,
+        val metadata: Map<String, Any> = emptyMap()
     )
     
     /**
@@ -424,5 +427,98 @@ class AITrainingSetManager @Inject constructor() {
         }
         
         return tags.distinct()
+    }
+    
+    // Methods for comprehensive AI coordination
+    
+    /**
+     * Initialize training set manager for AI coordination
+     */
+    suspend fun initialize() = withContext(Dispatchers.IO) {
+        try {
+            Timber.d("Initializing AI Training Set Manager")
+            
+            // Load default prompts and datasets if not already loaded
+            if (systemPrompts.isEmpty()) {
+                loadDefaultSystemPrompts()
+            }
+            
+            if (trainingData.isEmpty()) {
+                loadDefaultTrainingDatasets()
+            }
+            
+            Timber.d("AI Training Set Manager initialized with ${systemPrompts.size} prompts and ${trainingData.size} datasets")
+        } catch (e: Exception) {
+            Timber.e(e, "AI Training Set Manager initialization failed")
+        }
+    }
+    
+    /**
+     * Add learning data from various AI systems
+     */
+    suspend fun addLearningData(
+        category: String,
+        data: List<String>,
+        metadata: Map<String, Any>
+    ) = withContext(Dispatchers.IO) {
+        try {
+            val datasetId = "${category}_${System.currentTimeMillis()}"
+            
+            val examples = data.mapIndexed { index, item ->
+                TrainingExample(
+                    input = "Learning data item $index",
+                    expectedOutput = item,
+                    context = category,
+                    difficulty = "MEDIUM",
+                    tags = listOf(category, metadata["source"]?.toString() ?: "unknown"),
+                    metadata = metadata
+                )
+            }
+            
+            val dataset = TrainingDataset(
+                id = datasetId,
+                name = "Learning Data: $category",
+                language = "general",
+                category = category,
+                examples = examples,
+                version = "1.0",
+                metadata = metadata
+            )
+            
+            trainingData[datasetId] = dataset
+            
+            Timber.d("Added learning data: $category with ${data.size} items")
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to add learning data for category: $category")
+        }
+    }
+    
+    /**
+     * Optimize training data by removing low-quality examples
+     */
+    suspend fun optimizeTrainingData() = withContext(Dispatchers.IO) {
+        try {
+            Timber.d("Optimizing training data")
+            
+            val optimizedDatasets = mutableMapOf<String, TrainingDataset>()
+            
+            trainingData.forEach { (id, dataset) ->
+                // Filter out low-quality examples based on feedback
+                val qualityExamples = dataset.examples.filter { example ->
+                    example.quality == null || example.quality >= 0.6f
+                }
+                
+                if (qualityExamples.isNotEmpty()) {
+                    optimizedDatasets[id] = dataset.copy(examples = qualityExamples)
+                }
+            }
+            
+            trainingData.clear()
+            trainingData.putAll(optimizedDatasets)
+            
+            Timber.d("Training data optimization completed. Retained ${trainingData.size} datasets")
+        } catch (e: Exception) {
+            Timber.e(e, "Training data optimization failed")
+        }
     }
 }
