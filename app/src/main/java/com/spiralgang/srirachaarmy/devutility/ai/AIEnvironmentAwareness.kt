@@ -216,7 +216,7 @@ class AIEnvironmentAwareness @Inject constructor() {
             }
             
             Timber.d("Generated ${suggestions.size} contextual suggestions")
-            return@withContext suggestions.take(5) // Limit to top 5
+            return suggestions.take(5) // Limit to top 5
             
         } catch (e: Exception) {
             Timber.e(e, "Failed to generate contextual suggestions")
