@@ -36,7 +36,7 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
           # Only allow Copilot to manually trigger conflict resolution
-          if [["$GITHUB_ACTOR" != "github-actions[bot]"]]; then
+          if [[ "$GITHUB_ACTOR" != "github-actions[bot]" ]]; then
             echo "❌ Only Copilot can manually trigger conflict resolution"
             exit 1
           fi
@@ -55,14 +55,14 @@ jobs:
 
       - name: Validate conflict resolver
         run: |
-          if [! -f scripts/conflict_resolver.py]; then
+          if [ ! -f scripts/conflict_resolver.py ]; then
             echo "❌ conflict_resolver.py not found"
             exit 1
           fi
 
           # Verify Python script syntax
           python3 -m py_compile scripts/conflict_resolver.py
-          if [$? -ne 0]; then
+          if [ $? -ne 0 ]; then
             echo "❌ conflict_resolver.py has syntax errors"
             exit 1
           fi
@@ -92,7 +92,7 @@ jobs:
           echo "count=$CONFLICT_COUNT" >> $GITHUB_OUTPUT
 
           # Generate conflict report
-          if [-f conflict-report.md]; then
+          if [ -f conflict-report.md ]; then
             echo "report<<EOF" >> $GITHUB_OUTPUT
             cat conflict-report.md >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
@@ -150,8 +150,7 @@ jobs:
             git add .
 
             # Create intelligent commit message
-            git commit -m "Copilot Auto-Resolve: >
-              Intelligent conflict resolution between $SOURCE_BRANCH and $TARGET_BRANCH with smart strategies applied"
+            git commit -m "Copilot Auto-Resolve: Intelligent conflict resolution between $SOURCE_BRANCH and $TARGET_BRANCH with smart strategies applied"
 
             # Push resolved changes
             git push origin "$SOURCE_BRANCH"
