@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>UBULITE ICEDMAN — Runtime</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial; padding:18px; max-width:900px;margin:auto}
+    textarea{width:100%;height:120px}
+    button{padding:8px 12px;margin:6px}
+    .row{display:flex;gap:8px}
+    .card{border:1px solid #ddd;padding:12px;border-radius:8px;margin-top:12px}
+    pre{background:#0b0b0b;color:#eef;padding:8px;overflow:auto}
+  </style>
+</head>
+<body>
+  <h1>UBULITE ICEDMAN</h1>
+  <p>Local runtime UI — send prompts, queue commands, view artifacts. Works in-app (WebView) or in browser.</p>
+
+  <div class="card">
+    <h3>Send Prompt to AI</h3>
+    <textarea id="prompt" placeholder="Describe task, e.g. plan short drone sweep 47.6062,-122.3321,10"></textarea>
+    <div class="row">
+      <input id="provider" placeholder="provider (auto/openai/hf/ollama/anthropic/vertex/zhipu/custom)" style="flex:1" />
+      <button id="send">Send</button>
+      <button id="queue">Queue /weave</button>
+    </div>
+    <h4>Result</h4>
+    <pre id="result">No response yet</pre>
+  </div>
+
+  <div class="card">
+    <h3>Artifacts</h3>
+    <button id="refresh">Refresh</button>
+    <div id="artifacts"></div>
+  </div>
+
+<script>
+async function api(path, opts={}) {
+  const url = '/api/' + path;
+  const res = await fetch(url, opts);
+  return await res.json();
+}
+document.getElementById('send').onclick = async () => {
+  const prompt = document.getElementById('prompt').value;
+  const provider = document.getElementById('provider').value || undefined;
+  document.getElementById('result').textContent = 'Waiting...';
+  const res = await fetch('/api/ai', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({prompt, provider})});
+  const json = await res.json();
+  document.getElementById('result').textContent = json.result || JSON.stringify(json,null,2);
+};
+document.getElementById('queue').onclick = async () => {
+  const prompt = document.getElementById('prompt').value;
+  const name = 'weave_'+Date.now();
+  const res = await fetch('/api/queue', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({name, cmd:'/weave '+prompt})});
+  const j = await res.json();
+  alert('Queued: '+JSON.stringify(j));
+};
+document.getElementById('refresh').onclick = async () => {
+  const art = await api('artifacts');
+  const el = document.getElementById('artifacts');
+  el.innerHTML = art.map(a=>`<div><a href="${a.path}" target="_blank">${a.file}</a> — ${Math.round(a.size/1024)}KiB</div>`).join('');
+};
+</script>
+</body>
+</html>

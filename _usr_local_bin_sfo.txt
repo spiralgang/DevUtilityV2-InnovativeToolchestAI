@@ -1,0 +1,62 @@
+#!/bin/bash
+# SMART FILE OPERATIONS - Context-aware file management
+
+SFO_CONFIG="${HOME}/.sfo"
+mkdir -p "$SFO_CONFIG"
+
+# Intelligent file type detection and handling
+smart_handle() {
+    local file="$1"
+    local action="$2"
+    local ext="${file##*.}"
+    
+    case "$ext" in
+        "sh"|"py"|"run"|"bin")
+            chmod +x "$file"
+            echo "Made executable: $file"
+            ;;
+        "deb")
+            dpkg -i "$file" 2>/dev/null || apt install -f
+            ;;
+        "json"|"xml")
+            jq . "$file" 2>/dev/null || xmllint --format "$file"
+            ;;
+        "gz"|"tar"|"zip")
+            case "$action" in
+                "extract"|"x") 
+                    if [[ "$file" == *.tar.gz ]]; then
+                        tar -xzf "$file"
+                    elif [[ "$file" == *.zip ]]; then
+                        unzip "$file"
+                    fi
+                    ;;
+            esac
+            ;;
+    esac
+}
+
+# Bulk operations with pattern matching
+bulk_operation() {
+    local pattern="$1"
+    local operation="$2"
+    shift 2
+    
+    find . -name "$pattern" -type f | while read -r file; do
+        case "$operation" in
+            "chmod") chmod "$1" "$file" ;;
+            "move") mv "$file" "$1/" ;;
+            "copy") cp "$file" "$1/" ;;
+            "delete") rm "$file" ;;
+            "edit") nano "$file" ;;
+        esac
+        echo "$operation: $file"
+    done
+}
+
+case "$1" in
+    "handle") smart_handle "$2" "$3" ;;
+    "bulk") bulk_operation "$2" "$3" "$4" ;;
+    "find") find . -name "*$2*" -type f ;;
+    "recent") find . -mtime -1 -type f ;;
+    *) echo "Usage: sfo handle|bulk|find|recent" ;;
+esac

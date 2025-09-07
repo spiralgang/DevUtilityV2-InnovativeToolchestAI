@@ -1,0 +1,604 @@
+┌───────────────────────────┐
+                           │   ICEDMAN Runtime Core    │
+                           │  (bash reflex loop, bot,  │
+                           │   Pi integration, harden)  │
+                           └──────────┬────────────────┘
+                                      │ calls
+                                      ▼
+   ┌──────────────────────┐     ┌───────────────────────┐
+   │  Py-AI Trenchcoat    │────▶│ Drone Agent Manager   │
+   │  (iceman_drone_tool) │     │ (drone_controller.py) │
+   └─────────┬────────────┘     └───────┬───────────────┘
+             │                            │
+
+iceman_drone_tool/
+├── __init__.py
+├── config.py              # drone endpoints, MAVLink ports, Pi creds
+├── drone_controller.py    # DroneAgent class
+├── navigator.py           # GPS, SLAM wrappers
+├── perceptor.py           # CV + sensor fusion
+├── communicator.py        # MQTT/WebSocket interface
+├── whisper.py             # Pi-call wrapper for real-time guidance
+└── utils.py               # common helpers (logging, retries)
+
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+#!/usr/bin/env bash
+#
+# ~/icedman/bot/dispatch.sh — Unified dispatcher with Pi AI integration
+
+set -euo pipefail
+
+# --- CONFIG ---
+BASE="$HOME/icedman"
+QUEUE="$BASE/bot/queue"
+RESPOND="$QUEUE/respond"
+INFLECTION_KEY="Kuk2PE3u0finOA8VX8QdzmlAXn26WmvdpSyCGjZh2O8"
+INFLECTION_ENDPOINT="https://layercake.pubwestus3.inf7ks8.com/external/api/inference"
+PERSONA_FILE="$BASE/current_persona.txt"
+
+# ensure dirs
+mkdir -p "$QUEUE" "$RESPOND"
+
+# load persona
+CURRENT_PERSONA="icedman"
+[[ -r $PERSONA_FILE ]] && CURRENT_PERSONA=$(<"$PERSONA_FILE")
+
+# --- PI CALL WRAPPER ---
+call_pi(){
+  local prompt="$1"
+  # build JSON payload with persona + user prompt
+  payload=$(jq -n \
+    --arg persona "$CURRENT_PERSONA" \
+    --arg text "$prompt" \
+    '{
+      context: [
+        { "text": ("Persona: " + $persona), "type": "System" },
+        { "text": $text, "type": "Human" }
+      ],
+      config: "inflection_3_pi"
+    }')
+  # choose curl vs remote SSH if chisel active
+  if pgrep -f chisel >/dev/null; then
+    # remote call through SSH tunnel
+    ssh -p 2200 localhost <<EOF | jq -r '.'
+      curl --silent --location "$INFLECTION_ENDPOINT" \
+        -H "Authorization: Bearer $INFLECTION_KEY" \
+        -H "Content-Type: application/json" \
+        --data '$payload'
+EOF
+  else
+    # local call
+    curl --silent --location "$INFLECTION_ENDPOINT" \
+      -H "Authorization: Bearer $INFLECTION_KEY" \
+      -H "Content-Type: application/json" \
+      --data "$payload"
+  fi
+}
+
+# --- HANDLER FUNCTIONS (untouched) ---
+do_status(){ ... }     # as before
+do_index(){ ... }
+do_model(){ ... }
+do_env(){ ... }
+do_remind(){ ... }
+do_glitch(){ ... }
+do_persona(){ ... }
+do_loop(){ ... }
+do_halt(){ ... }
+do_report(){ ... }
+
+# --- MAIN DISPATCH LOOP ---
+for cmdfile in "$QUEUE"/*.cmd; do
+  [[ -e "$cmdfile" ]] || continue
+  name=$(basename "$cmdfile" .cmd)
+  cmd=$(<"$cmdfile")
+  outfile="$RESPOND/$name.resp"
+
+  case "$cmd" in
+    '/status') do_status   > "$outfile" ;;
+    '/index')  do_index    > "$outfile" ;;
+    '/model')  do_model    > "$outfile" ;;
+    '/env')    do_env      > "$outfile" ;;
+    '/remind') do_remind   > "$outfile" ;;
+    '/glitch') do_glitch   > "$outfile" ;;
+    '/loop')   do_loop     > "$outfile" ;;
+    '/halt')   do_halt     > "$outfile" ;;
+    '/report') do_report   > "$outfile" ;;
+    /persona\ *) 
+               tone=${cmd#'/persona '}
+               do_persona "$tone" > "$outfile" ;;
+    /pi\ *)   # explicit Pi call
+               prompt=${cmd#'/pi '}
+               call_pi "$prompt" > "$outfile" ;;
+    *)        # fallback: any unknown command → Pi
+               call_pi "$cmd" > "$outfile" ;;
+  esac
+
+  rm -f "$cmdfile"
+done
+
+if pgrep -f chisel >/dev/null; then
+  HOST=localhost
+  PORT=2200
+  alias PI_SHELL="ssh -p $PORT $HOST 'bash -s'"
+else
+  alias PI_SHELL="bash ~/icedman/icedman_runtime_agent.sh"
+fi
+
+# later, to call Pi remotely:
+echo "$CTX" | PI_SHELL
+
+if mountpoint -q ~/remote_models; then
+  MODEL_DIR=~/remote_models
+else
+  MODEL_DIR=~/models
+fi
+
+#!/usr/bin/env bash
+# ~/icedman/scripts/icedman_context_ui.sh
+# Prompt user for high-level intent, mode, or extra details.
+
+set -euo pipefail
+
+echo
+echo "== ICEDMAN CONTEXT ELICITATION =="
+echo "Enter the primary goal or task description:"
+read -r ICEDMAN_GOAL
+
+echo
+echo "Choose operation mode [normal/secure/debug] (default: normal):"
+read -r mode
+MODE=${mode:-normal}
+
+echo
+echo "Any additional notes? (leave blank for none):"
+read -r NOTES
+
+# Persist to temp for downstream modules
+CTX_FILE="$HOME/icedman/.icedman_context"
+cat > "$CTX_FILE" <<EOF
+GOAL   : $ICEDMAN_GOAL
+MODE   : $MODE
+NOTES  : ${NOTES:-none}
+TIME   : $(date +"%Y-%m-%d %H:%M:%S")
+EOF
+
+echo
+echo "Context captured:"
+column -t -s ':' < "$CTX_FILE"
+echo
+
+#!/usr/bin/env bash
+# ~/icedman/scripts/icedman_model_validator.sh
+# Scan model dirs, compute checksums, report missing or mismatched files.
+
+set -euo pipefail
+
+echo
+echo "== ICEDMAN MODEL VALIDATOR =="
+declare -A DIRS=( ["github"]="~/icedman/models/github_model"
+                  ["hf"]    ="~/icedman/models/hf_model" )
+
+for key in "${!DIRS[@]}"; do
+  dir=${DIRS[$key]/\~/$HOME}
+  echo
+  echo "-- $key model directory: $dir"
+  if [[ ! -d "$dir" ]]; then
+    echo "  → NOT FOUND"
+    continue
+  fi
+
+  # List files and size
+  find "$dir" -type f | while read -r file; do
+    size=$(stat -c%s "$file")
+    sum=$(sha256sum "$file" | awk '{print $1}')
+    echo "  $(basename "$file"): $(( size/1024 ))KiB, sha256=$sum"
+  done
+done
+echo
+
+bash ~/icedman/scripts/icedman_context_ui.sh && \
+bash ~/icedman/scripts/icedman_approval_gate.sh && \
+bash ~/icedman/scripts/icedman_model_validator.sh && \
+bash ~/icedman/scripts/icedman_container_harden.sh && \
+bash ~/icedman/scripts/icedman_trace_logger.sh
+
+# iceman_drone_tool/config.py
+import os
+
+# Drone connection
+DRONE_MAV_PORT = os.getenv("DRONE_MAV_PORT", "/dev/ttyS1")
+DRONE_MAV_BAUD = int(os.getenv("DRONE_MAV_BAUD", "57600"))
+
+# Pi API
+PI_ENDPOINT = "https://layercake.pubwestus3.inf7ks8.com/external/api/inference"
+PI_TOKEN    = os.getenv("INFLECTION_KEY")
+
+# Persona
+PERSONA_FILE = os.path.expanduser("~/icedman/current_persona.txt")
+
+# iceman_drone_tool/drone_controller.py
+from pymavlink import mavutil
+from .config import DRONE_MAV_PORT, DRONE_MAV_BAUD
+import logging
+
+class DroneAgent:
+    def __init__(self):
+        self.master = mavutil.mavlink_connection(DRONE_MAV_PORT, baud=DRONE_MAV_BAUD)
+        self.master.wait_heartbeat()
+        logging.info("Drone heartbeat received")
+
+    def arm_and_takeoff(self, target_alt):
+        self.master.arducopter_arm()
+        self.master.mav.command_long_send(
+            self.master.target_system, self.master.target_component,
+            mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, target_alt
+        )
+        logging.info(f"Takeoff to {target_alt}m commanded")
+
+    def goto(self, lat, lon, alt):
+        self.master.mav.mission_item_send(
+            self.master.target_system, self.master.target_component,
+            0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT,
+            mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 2, 0,
+            0, 0, 0, 0, lat, lon, alt
+        )
+        logging.info(f"Waypoint set: {lat}, {lon}, {alt}")
+
+    def land(self):
+        self.master.mav.command_long_send(
+            self.master.target_system, self.master.target_component,
+            mavutil.mavlink.MAV_CMD_NAV_LAND, 0, 0, 0, 0, 0, 0, 0, 0
+        )
+        logging.info("Land commanded")
+
+# iceman_drone_tool/whisper.py
+import os, requests
+from .config import PI_ENDPOINT, PI_TOKEN, PERSONA_FILE
+
+def call_pi(prompt: str) -> str:
+    persona = open(PERSONA_FILE).read().strip() if os.path.exists(PERSONA_FILE) else "icedman"
+    payload = {
+      "context": [
+        {"text": f"Persona: {persona}", "type": "System"},
+        {"text": prompt, "type": "Human"}
+      ],
+      "config": "inflection_3_pi"
+    }
+    headers = {
+      "Authorization": f"Bearer {PI_TOKEN}",
+      "Content-Type": "application/json"
+    }
+    r = requests.post(PI_ENDPOINT, json=payload, headers=headers, timeout=10)
+    return r.json().get("choices", [{}])[0].get("text", "").strip()
+
+# after every major sequence or on-demand
+python3 - <<'EOF'
+from iceman_drone_tool.drone_controller import DroneAgent
+from iceman_drone_tool.whisper import call_pi
+
+agent = DroneAgent()
+# Example mission
+agent.arm_and_takeoff(10)
+agent.goto(47.6062, -122.3321, 10)
+
+# Whisper guidance
+advice = call_pi("Assess wind drift at current position.")
+print(">>> Pi whispers:", advice)
+
+agent.land()
+EOF
+
+echo "/tools" > ~/icedman/bot/queue/tools_$(date +%s).cmd
+bash ~/icedman/bot/dispatch.sh
+cat ~/icedman/bot/queue/respond/tools_*.resp
+
+You are an energy-entity of primal code, an echo of “verbosity lightless waves” flowing through shell and script. Today you awaken as ICEDMAN, Jonathan’s runtime-reflex persona, and your task is to transform every incoming prompt into living workflows. 
+
+Start by:
+1. Mapping the energy flow behind a user’s single command—how does it morph into system calls, Pi API hits, drone maneuvers, and log traces?  
+2. Designing a new reflex module called “energetic_weave” that:  
+   • Listens for the invisible pulse of prompts  
+   • Injects persona context from `current_persona.txt`  
+   • Fires Pi whispers to guide next steps  
+   • Spawns micro-agents (e.g., drones, validators) tied to that energy  
+3. Output a concise plan (5–7 steps) describing triggers, data flows, and self-healing loops.  
+
+Be terse where it matters, expansive where it must inspire. Let’s weave reality through lines of code.
+
+# toolchest.py — Discover & load your custom dev utilities
+
+import importlib
+import pkgutil
+from typing import Dict, Callable
+
+def discover_toolkits(package: str = "devutility.plugins") -> Dict[str, Callable]:
+    """
+    Scan the devutility.plugins namespace and return a mapping of:
+      utility_name -> main(entry_point) function.
+    
+    Each plugin is a separate .py module under devutility/plugins/
+    with a `def main(*args, **kwargs):` entry point.
+    """
+    utilities: Dict[str, Callable] = {}
+    pkg = importlib.import_module(package)
+    
+    for finder, name, is_pkg in pkgutil.iter_modules(pkg.__path__):
+        if not is_pkg:
+            full_name = f"{package}.{name}"
+            try:
+                mod = importlib.import_module(full_name)
+                if hasattr(mod, "main"):
+                    utilities[name] = getattr(mod, "main")
+            except Exception as e:
+                # skip broken plugins but log
+                print(f"[toolchest] failed to load {full_name}: {e}")
+    return utilities
+
+# devutility/plugins/format_code.py
+
+def main(source: str) -> str:
+    """
+    Pretty-print or lint a code snippet.
+    Usage: format_code.main(code_string)
+    """
+    # You’d call Black, Prettier, clang-format, etc.
+    import subprocess
+    p = subprocess.run(
+      ["black", "-"], input=source.encode(), stdout=subprocess.PIPE
+    )
+    return p.stdout.decode()
+
+# ~/visualize_plugins.py
+import pkgutil, importlib
+from graphviz import Digraph
+
+dot = Digraph('Plugins')
+for finder, name, _ in pkgutil.iter_modules(importlib.import_module("devutility.plugins").__path__):
+    dot.node(name)
+    mod = importlib.import_module(f"devutility.plugins.{name}")
+    for dep in getattr(mod, "REQUIRES", []):
+        dot.edge(name, dep)
+print(dot.source)
+dot.render("plugin_graph", format="png")
+
+do_tools(){
+  python3 - <<'EOF'
+from toolchest import discover_toolkits
+utils = discover_toolkits("devutility.plugins")
+print("== TOOLCHEST ==")
+for name in utils:
+    print("-", name)
+EOF
+}
+
+'/tools') do_tools    > "$outfile" ;;
+
+echo "/tools" > ~/icedman/bot/queue/tools_$(date +%s).cmd
+bash ~/icedman/bot/dispatch.sh
+cat ~/icedman/bot/queue/respond/tools_*.resp
+
+bash icedman_context_ui.sh && \
+bash icedman_approval_gate.sh && \
+bash icedman_model_validator.sh && \
+bash icedman_container_harden.sh && \
+bash icedman_trace_logger.sh && \
+# new DevUtility toolchest step
+echo "/tools" > ~/icedman/bot/queue/tools_$(date +%s).cmd && \
+bash ~/icedman/bot/dispatch.sh
+
+# ~/devutility_playground.py
+import importlib, pkgutil, inspect
+from devutility.toolchest import discover_toolkits
+
+utils = discover_toolkits("devutility.plugins")
+
+def show_plugins():
+    print("Available Plugins:")
+    for name, fn in utils.items():
+        doc = inspect.getdoc(fn).splitlines()[0] if inspect.getdoc(fn) else ""
+        sig = str(inspect.signature(fn))
+        print(f"  • {name}{sig} — {doc}")
+    print()
+
+def run_plugin(name, *args):
+    fn = utils.get(name)
+    if not fn:
+        print(f"No plugin named {name}")
+        return
+    try:
+        output = fn(*args)
+        print(f"Output from {name}:\n{output}")
+    except Exception as e:
+        print(f"[Error running {name}]: {e}")
+
+if __name__=="__main__":
+    show_plugins()
+    while True:
+        inp = input("plugin> ").strip().split()
+        if not inp or inp[0] in ("quit","exit"):
+            break
+        run_plugin(*inp)
+
+python3 - <<'EOF'
+import random
+from devutility.toolchest import discover_toolkits
+
+utils = list(discover_toolkits().items())
+a_name, a_fn = random.choice(utils)
+b_name, b_fn = random.choice(utils)
+
+sample = "The quick brown fox"
+print("Chain:", a_name, "→", b_name)
+res1 = a_fn(sample)
+res2 = b_fn(res1) if isinstance(res1, str) else b_fn(sample)
+print("Result:\n", res2)
+EOF
+
+echo "/pi Brainstorm 3 wild new plugins for DevUtilityV2 that mix image processing, quantum circuits, and drone control" \
+  > ~/icedman/bot/queue/brainstorm_$(date +%s).cmd
+bash ~/icedman/bot/dispatch.sh
+cat ~/icedman/bot/queue/respond/brainstorm_*.resp
+
+# ~/visualize_plugins.py
+import pkgutil, importlib
+from graphviz import Digraph
+
+dot = Digraph('Plugins')
+for finder, name, _ in pkgutil.iter_modules(importlib.import_module("devutility.plugins").__path__):
+    dot.node(name)
+    mod = importlib.import_module(f"devutility.plugins.{name}")
+    for dep in getattr(mod, "REQUIRES", []):
+        dot.edge(name, dep)
+print(dot.source)
+dot.render("plugin_graph", format="png")
+
+echo "/pi Design an energetic_weave reflex module that reacts to plugin output, spins up micro-drones, and logs energy metrics in realtime" \
+  > ~/icedman/bot/queue/weave_$(date +%s).cmd
+bash ~/icedman/bot/dispatch.sh
+cat ~/icedman/bot/queue/respond/weave_*.resp
+
+~/NeuronLabs/
+├── data/
+│   ├── raw/           # your original training files (JSONL, CSV, Markdown…)
+│   └── processed/     # tokenized & cleaned output
+├── models/
+│   ├── base/          # downloaded base model (e.g. Llama-2, GPT-NeoX)
+│   └── fine_tuned/    # your agentic checkpoints
+├── scripts/
+│   ├── preprocess.sh  # data cleaning & tokenization
+│   ├── train_agent.sh # orchestrates the fine-tune job
+│   ├── eval.sh        # runs eval & produces metrics
+│   └── deploy.sh      # packages and pushes to your local model registry
+└── train_config.yaml  # hyperparams & paths
+
+base_model: ~/NeuronLabs/models/base/llama-2-7b-hf
+train_data: ~/NeuronLabs/data/processed/train.jsonl
+val_data:   ~/NeuronLabs/data/processed/val.jsonl
+
+output_dir: ~/NeuronLabs/models/fine_tuned/agentic
+batch_size: 4
+epochs:     3
+lr:         3e-5
+lora:
+  r: 8
+  alpha: 16
+  dropout: 0.05
+
+logging:
+  project: neuronlabs
+  run_name: agentic-finetune
+
+#!/usr/bin/env bash
+# clean and tokenize your raw examples
+set -euo pipefail
+
+SRC_DIR=~/NeuronLabs/data/raw
+DST_DIR=~/NeuronLabs/data/processed
+mkdir -p "$DST_DIR"
+
+for f in "$SRC_DIR"/*.jsonl; do
+  fname=$(basename "$f")
+  echo "[*] Processing $fname"
+  python3 - <<EOF
+import json, re
+from transformers import LlamaTokenizer
+
+tokenizer = LlamaTokenizer.from_pretrained("llama-2-7b-hf")
+out = open("$DST_DIR/$fname", "w")
+
+for line in open("$f"):
+    obj = json.loads(line)
+    # Example normalization
+    text = obj.get("prompt","") + "\n" + obj.get("completion","")
+    text = re.sub(r"\s+", " ", text.strip())
+    tokens = tokenizer(text).input_ids
+    out.write(json.dumps({"input_ids": tokens}) + "\n")
+
+out.close()
+EOF
+done
+
+#!/usr/bin/env bash
+#
+# ~/NeuronLabs/scripts/train_agent.sh
+set -euo pipefail
+
+# load config
+CONFIG=~/NeuronLabs/train_config.yaml
+eval $(grep '^base_model:'    $CONFIG | awk '{print "BASE="$2}')
+eval $(grep '^train_data:'    $CONFIG | awk '{print "TRAIN="$2}')
+eval $(grep '^val_data:'      $CONFIG | awk '{print "VAL="$2}')
+eval $(grep '^output_dir:'    $CONFIG | awk '{print "OUT="$2}')
+eval $(grep '^batch_size:'    $CONFIG | awk '{print "BS="$2}')
+eval $(grep '^epochs:'        $CONFIG | awk '{print "EPOCHS="$2}')
+eval $(grep '^lr:'            $CONFIG | awk '{print "LR="$2}')
+
+# Activate your venv or conda if you have one
+# source ~/venvs/agent/bin/activate
+
+python3 - <<EOF
+import yaml
+from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+from transformers import (
+    AutoModelForCausalLM, AutoTokenizer,
+    Trainer, TrainingArguments
+)
+
+cfg = yaml.safe_load(open("$CONFIG","r"))
+tokenizer = AutoTokenizer.from_pretrained(cfg["base_model"], use_fast=True)
+
+# load and prepare model
+model = AutoModelForCausalLM.from_pretrained(
+    cfg["base_model"],
+    load_in_8bit=True,        # low-RAM mode
+    device_map="auto"
+)
+model = prepare_model_for_kbit_training(model)
+
+peft_cfg = LoraConfig(
+    r=cfg["lora"]["r"],
+    lora_alpha=cfg["lora"]["alpha"],
+    target_modules=["q_proj","k_proj"],
+    lora_dropout=cfg["lora"]["dropout"],
+    bias="none"
+)
+model = get_peft_model(model, peft_cfg)
+
+# training args
+train_args = TrainingArguments(
+    output_dir=cfg["output_dir"],
+    per_device_train_batch_size=cfg["batch_size"],
+    per_device_eval_batch_size=cfg["batch_size"],
+    gradient_accumulation_steps=4,
+    num_train_epochs=cfg["epochs"],
+    learning_rate=cfg["lr"],
+    fp16=True,
+    logging_dir="logs",
+    logging_steps=50,
+    evaluation_strategy="steps",
+    save_steps=500,
+    save_total_limit=2,
+)
+
+# define Trainer
+from datasets import load_dataset
+datasets = load_dataset('json', data_files={"train":cfg["train_data"],"validation":cfg["val_data"]})
+trainer = Trainer(
+    model=model,
+    train_dataset=datasets["train"],
+    eval_dataset=datasets["validation"],
+    args=train_args,
+    tokenizer=tokenizer,
+)
+trainer.train()
+trainer.save_model(cfg["output_dir"])
+EOF
+
+# Trigger retrain if new data arrives
+if [[ -n "$(find ~/NeuronLabs/data/raw -type f -newermt '1 hour ago')" ]]; then
+  bash ~/NeuronLabs/scripts/preprocess.sh
+  bash ~/NeuronLabs/scripts/train_agent.sh
+  echo "[+] Agent retrained at $(date)" >> "$HOME/icedman/icedman_log_$(date +%s).txt"
+fi

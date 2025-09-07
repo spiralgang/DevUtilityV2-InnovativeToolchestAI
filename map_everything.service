@@ -1,0 +1,33 @@
+[Unit]
+Description=Map Everything - safe filesystem mapper (map_everything.sh)
+Documentation=man:map_everything.sh
+After=network.target local-fs.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+# Adjust ExecStart args to suit your environment (ROOTS, OUTDIR, limits)
+ExecStart=/bin/bash -euo pipefail /opt/map/map_everything.sh --root / --outdir /var/log/map_everything --deep --run --time-limit 1800
+# Be conservative: retry a few times, then stop to allow human review
+Restart=on-failure
+StartLimitBurst=5
+StartLimitIntervalSec=600
+# Journal handles stdout/stderr capture
+StandardOutput=journal
+StandardError=journal
+# Restrict capabilities (plus adjust paths as needed)
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=read-only
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ReadOnlyPaths=/usr
+ReadWritePaths=/var/log/map_everything /opt/map
+# Keep unit from running unbounded in the background if hung
+TimeoutStartSec=300
+TimeoutStopSec=120
+
+[Install]
+WantedBy=multi-user.target
