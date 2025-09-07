@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d70c10d66492a8485902e4886f1a7334786474732563b02cfa27ff58abbb9f01
-size 479
+{
+  "timestamp": "2025-09-07T05:37:25.757890",
+  "moves": {
+    "configs/android/": 0,
+    "configs/build/": 0,
+    "configs/security/": 0,
+    "datasets/": 0,
+    "tools/": 0,
+    "reference/architecture/": 0,
+    "reference/training/": 0,
+    "docs/personas/": 0,
+    "docs/training/": 0,
+    "docs/specifications/": 0,
+    "archive/": 0,
+    "docs/assets/": 0
+  },
+  "standards_applied": [
+    "GDA",
+    "UFUIC-O",
+    "PIPI",
+    "LDU",
+    "EG",
+    "GATT",
+    "SWT"
+  ]
+}

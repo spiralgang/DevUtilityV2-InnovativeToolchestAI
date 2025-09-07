@@ -18,6 +18,8 @@ import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import com.spiralgang.srirachaarmy.devutility.ai.CompatibleModelLoRAFineTuning
 import com.spiralgang.srirachaarmy.devutility.ai.LivingAINativeInterface
 import com.spiralgang.srirachaarmy.devutility.system.DistributionCategory
@@ -38,6 +40,9 @@ fun EnhancedDevUtilityInterface(
     val fineTuningState by livingAIInterface.getFineTuningState().collectAsStateWithLifecycle()
     val fineTuningProgress by livingAIInterface.getFineTuningProgress().collectAsStateWithLifecycle()
     val availableDistributions by rootFSManager.availableDistributions.collectAsStateWithLifecycle()
+    
+    // Coroutine scope for handling async operations
+    val scope = rememberCoroutineScope()
     
     // Dynamic breathing animation based on AI energy
     val breathingScale by animateFloatAsState(
@@ -127,15 +132,38 @@ fun EnhancedDevUtilityInterface(
                     fineTuningState = fineTuningState,
                     fineTuningProgress = fineTuningProgress,
                     personalityColor = personalityColor,
-                    onStartFineTuning = { /* TODO: Implement */ },
-                    onTrainPersonality = { /* TODO: Implement */ },
+                    onStartFineTuning = { 
+                        // Start LoRA fine-tuning process
+                        scope.launch {
+                            livingAIInterface.startPersonalizedFineTuning()
+                        }
+                    },
+                    onTrainPersonality = { personality ->
+                        // Train specific AI personality
+                        scope.launch {
+                            livingAIInterface.trainAIPersonality(personality)
+                        }
+                    },
                     modifier = Modifier.fillMaxSize()
                 )
                 1 -> RootFSPanel(
                     distributions = availableDistributions,
                     personalityColor = personalityColor,
-                    onDownloadDistribution = { /* TODO: Implement */ },
-                    onCreateEnvironment = { /* TODO: Implement */ },
+                    onDownloadDistribution = { distribution ->
+                        // Download and install distribution
+                        scope.launch {
+                            rootFSManager.downloadDistribution(distribution)
+                        }
+                    },
+                    onCreateEnvironment = { distribution ->
+                        // Create new environment from distribution
+                        scope.launch {
+                            rootFSManager.createXShadowChrootEnvironment(
+                                distributionName = distribution.name,
+                                category = distribution.category
+                            )
+                        }
+                    },
                     modifier = Modifier.fillMaxSize()
                 )
                 2 -> LivingInterfacePanel(

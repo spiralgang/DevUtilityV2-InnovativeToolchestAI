@@ -3,10 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
-
-    // id 'kotlin-kapt'  // Temporarily disabled
-    // id 'dagger.hilt.android.plugin'  // Temporarily disabled
-
     id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
@@ -87,10 +83,10 @@ dependencies {
     implementation 'androidx.compose.material:material-icons-extended'
     implementation 'androidx.compose.animation:animation:1.5.8'
     
-    // Hilt Dependency Injection - Temporarily disabled
-    // implementation 'com.google.dagger:hilt-android:2.48.1'
-    // implementation 'androidx.hilt:hilt-navigation-compose:1.1.0'
-    // kapt 'com.google.dagger:hilt-compiler:2.48.1'
+    // Hilt Dependency Injection
+    implementation 'com.google.dagger:hilt-android:2.48.1'
+    implementation 'androidx.hilt:hilt-navigation-compose:1.1.0'
+    kapt 'com.google.dagger:hilt-compiler:2.48.1'
     
     // Network & API
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -107,18 +103,18 @@ dependencies {
     // Serialization
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2'
     
-    // Room Database - Temporarily disabled
-    // implementation 'androidx.room:room-runtime:2.6.1'
-    // implementation 'androidx.room:room-ktx:2.6.1'
-    // kapt 'androidx.room:room-compiler:2.6.1'
+    // Room Database
+    implementation 'androidx.room:room-runtime:2.6.1'
+    implementation 'androidx.room:room-ktx:2.6.1'
+    kapt 'androidx.room:room-compiler:2.6.1'
     
     // DataStore for preferences
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
     
-    // WorkManager - Temporarily disabled
-    // implementation 'androidx.work:work-runtime-ktx:2.9.0'
-    // implementation 'androidx.hilt:hilt-work:1.1.0'
-    // kapt 'androidx.hilt:hilt-compiler:1.1.0'
+    // WorkManager
+    implementation 'androidx.work:work-runtime-ktx:2.9.0'
+    implementation 'androidx.hilt:hilt-work:1.1.0'
+    kapt 'androidx.hilt:hilt-compiler:1.1.0'
     
     // TensorFlow Lite for AI
     implementation 'org.tensorflow:tensorflow-lite:2.14.0'

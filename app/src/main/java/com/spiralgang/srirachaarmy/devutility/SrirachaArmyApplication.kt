@@ -3,15 +3,15 @@ package com.spiralgang.srirachaarmy.devutility
 import android.app.Application
 import android.os.Build
 import android.webkit.WebView
-// import dalvik.system.VMRuntime  // Temporarily disabled
-// import dagger.hilt.android.HiltAndroidApp
+import dalvik.system.VMRuntime
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
 /**
  * SrirachaArmy DevUtility Application
  * Central application class for the comprehensive Android IDE
  */
-// @HiltAndroidApp  // Temporarily disabled
+@HiltAndroidApp
 class SrirachaArmyApplication : Application() {
     
     override fun onCreate() {
@@ -26,8 +26,8 @@ class SrirachaArmyApplication : Application() {
         
         // Memory optimization for Samsung Galaxy S9+
         if (Build.MODEL.contains("SM-G96")) {
-            // VMRuntime.getRuntime().setTargetHeapUtilization(0.75f)  // Temporarily disabled
-            Timber.d("Samsung Galaxy S9+ detected - memory optimizations available")
+            VMRuntime.getRuntime().setTargetHeapUtilization(0.75f)
+            Timber.d("Samsung Galaxy S9+ detected - memory optimizations applied")
         }
         
         // Enable hardware acceleration

@@ -6,6 +6,7 @@ import com.spiralgang.srirachaarmy.devutility.core.DeepSeekEngine
 import com.spiralgang.srirachaarmy.devutility.core.SrirachaArmyOrchestrator
 import com.spiralgang.srirachaarmy.devutility.terminal.LocalTerminalEmulator
 import com.spiralgang.srirachaarmy.devutility.system.RootFSManager
+import com.spiralgang.srirachaarmy.devutility.system.SystemInfoManager
 import com.spiralgang.srirachaarmy.devutility.editor.CodeEditor
 import com.spiralgang.srirachaarmy.devutility.vm.ContainerEngine
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +42,8 @@ class DevUtilityViewModelV2 @Inject constructor(
     private val terminalEmulator: LocalTerminalEmulator,
     private val rootfsManager: RootFSManager,
     private val codeEditor: CodeEditor,
-    private val containerEngine: ContainerEngine
+    private val containerEngine: ContainerEngine,
+    private val systemInfoManager: SystemInfoManager
 ) : ViewModel() {
 
     /**
@@ -152,6 +154,9 @@ class DevUtilityViewModelV2 @Inject constructor(
     private suspend fun initializeDevelopmentEnvironment() {
         try {
             Timber.d("🔧 Initializing development environment components...")
+            
+            // Initialize system info manager first
+            systemInfoManager.initialize()
             
             // Initialize terminal emulator
             terminalEmulator.initialize()
@@ -840,6 +845,25 @@ class DevUtilityViewModelV2 @Inject constructor(
                 addTerminalOutput("❌ Failed to activate Python environment: $name")
             }
             updateComponentStates()
+        }
+    }
+    
+    /**
+     * Get system information for display in UI
+     */
+    fun getSystemInfo() = systemInfoManager.systemInfo
+    
+    /**
+     * Get system health status
+     */
+    fun getHealthStatus() = systemInfoManager.healthStatus
+    
+    /**
+     * Perform system health check
+     */
+    fun performHealthCheck() {
+        viewModelScope.launch {
+            systemInfoManager.performHealthCheck()
         }
     }
 }
