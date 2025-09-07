@@ -32,12 +32,21 @@ This repository contains a revolutionary **Agentic Living-Code Augmentation Syst
 2. **Explore `ai/`** for autonomous AI personality systems and engines
 3. **Check `scripts/`** for autonomous workflow and repository management
 4. **Review `reference/standards/`** for agentic development principles
+5. **Use `scripts/index_main_properly.py`** to rebuild the complete repository index
+6. **Search indexed content** using the SQLite FTS database at `.index_state/techula_index.db`
 
 ## 🧬 Living-Code Augmentation Features
 - **LivingCodeAdapter**: Transforms static code into dynamic, self-evolving systems
 - **AgenticWorkflowEngine**: Fully autonomous development workflow management
 - **LivingAINativeInterface**: Intimate AI&i experience where interaction teaches the system
 - **Dynamic Resource Loader**: Context-aware resource adaptation and optimization
+
+## 🔍 Repository Indexing System (@PIPI)
+- **Metadata Index**: Complete file inventory with deduplication detection (`tools/index_and_consolidate.py`)
+- **Full-Text Search**: Content indexing with SQLite FTS5 support (`tools/content_indexer.py`)
+- **Duplicate Analysis**: Smart consolidation planning for storage optimization (`tools/sqlite_dupe_audit.py`)
+- **Auto-Indexing**: Run `python3 scripts/index_main_properly.py` to rebuild all indexes
+- **Search Database**: Query `.index_state/techula_index.db` for advanced content discovery
 
 ## Organization Log
 - Total files organized: 0

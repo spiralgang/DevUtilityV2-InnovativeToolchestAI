@@ -116,6 +116,21 @@ export ANDROID_HOME=/path/to/android/sdk
 # Run validation system
 ./scripts/validate-system.sh
 ```
+
+### Repository Indexing System
+```bash
+# Index the entire repository for search and analysis
+python3 scripts/index_main_properly.py
+
+# Search indexed content
+python3 scripts/search_repository.py "your search query"
+
+# Access advanced search database at .index_state/techula_index.db
+# - Full-text search with SQLite FTS5
+# - Duplicate file detection and consolidation
+# - Metadata analysis across all repository content
+```
+
 ### Setting Up Ollama AI Core
 ```bash
 # Set up the Ollama AI integration (automatic)

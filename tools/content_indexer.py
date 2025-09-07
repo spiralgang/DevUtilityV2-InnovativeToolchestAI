@@ -82,7 +82,9 @@ def main():
     except Exception:
       skipped+=1; continue
     if mode=="fts":
-      conn.execute("INSERT INTO content_fts(rowid, path, body) VALUES((SELECT rowid FROM content_fts WHERE path=?), ?, ?) ON CONFLICT(rowid) DO UPDATE SET path=excluded.path, body=excluded.body", (path, path, body))
+      # FTS5 doesn't support UPSERT, so delete then insert
+      conn.execute("DELETE FROM content_fts WHERE path=?", (path,))
+      conn.execute("INSERT INTO content_fts(path, body) VALUES(?, ?)", (path, body))
     else:
       conn.execute("DELETE FROM content_tokens WHERE path=?", (path,))
       toks = tokenize(body)

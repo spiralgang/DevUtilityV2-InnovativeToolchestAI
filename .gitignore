@@ -79,3 +79,5 @@ models/
 *.bin
 *.safetensors
 
+tmp_index_state/
+.index_state/

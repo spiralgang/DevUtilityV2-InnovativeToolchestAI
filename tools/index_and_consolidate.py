@@ -59,7 +59,7 @@ def connect_db(state_dir: Path) -> sqlite3.Connection:
         profile TEXT PRIMARY KEY,
         root TEXT
     );""")
-    conn.execute("""CREATE TABLE IF NOT EXISTS sqlite_dbs(
+    conn.execute("""CREATE TABLE IF NOT EXISTS database_files(
         path TEXT PRIMARY KEY,
         profile TEXT,
         size INTEGER
@@ -129,7 +129,7 @@ def index_cmd(args):
                 conn.execute("INSERT OR REPLACE INTO files(path, profile, size, mtime, sha256) VALUES(?,?,?,?,?)",
                              (str(f), prof, size, mtime, sha))
                 if f.suffix.lower() in (".sqlite", ".db"):
-                    conn.execute("INSERT OR REPLACE INTO sqlite_dbs(path, profile, size) VALUES(?,?,?)",
+                    conn.execute("INSERT OR REPLACE INTO database_files(path, profile, size) VALUES(?,?,?)",
                                  (str(f), prof, size))
                 inserted += 1
                 if inserted % 1000 == 0:

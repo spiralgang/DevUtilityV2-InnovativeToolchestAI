@@ -28,7 +28,7 @@ def main():
         sys.exit(2)
 
     conn = sqlite3.connect(db)
-    rows = list(conn.execute("SELECT path, profile FROM sqlite_dbs"))
+    rows = list(conn.execute("SELECT path, profile FROM database_files"))
     groups = defaultdict(list)
     for path, prof in rows:
         name = os.path.basename(path)
