@@ -1,0 +1,6 @@
+{
+  "models": [
+    { "repo": "https://huggingface.co/Qwen/Qwen2.5-0.5B", "dir": "Qwen2.5-0.5B" },
+    { "repo": "https://huggingface.co/microsoft/phi-2", "dir": "Phi-2" }
+  ]
+}
