@@ -1,4 +1,4 @@
-name: Gemini AI Review (High-level, secure auth + GitHub App support)
+name: Gemini.workflow.yml
 
 # Trigger on every push to main and every pull_request targeting main
 on:
