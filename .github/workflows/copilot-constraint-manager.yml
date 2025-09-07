@@ -1,6 +1,7 @@
+---
 name: DevUl Army Copilot Single-Instance Manager
 
-on:
+'on':
   workflow_dispatch:
     inputs:
       operation_type:
@@ -41,7 +42,7 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
           # Only allow Copilot (github-actions[bot]) to execute operations
-          if [[ "$GITHUB_ACTOR" != "github-actions[bot]" ]]; then
+          if [["$GITHUB_ACTOR" != "github-actions[bot]"]]; then
             echo "❌ Only Copilot can execute workflow operations"
             echo "Current actor: $GITHUB_ACTOR"
             exit 1
@@ -78,7 +79,7 @@ jobs:
           WAIT_COUNT=0
           MAX_WAIT_SECONDS=$((MAX_WAIT * 60))
 
-          while [ $WAIT_COUNT -lt $MAX_WAIT_SECONDS ]; do
+          while [$WAIT_COUNT -lt $MAX_WAIT_SECONDS]; do
             # Get running workflows that match Copilot patterns
             RUNNING_COPILOT_WORKFLOWS=$(gh run list \
               --status in_progress \
@@ -86,7 +87,7 @@ jobs:
               --jq '.[] | select(.workflowName | test("(?i)copilot|auto.merge|constraint")) | .databaseId' | wc -l)
 
             # If only this workflow is running (count = 1), proceed
-            if [ "$RUNNING_COPILOT_WORKFLOWS" -le 1 ]; then
+            if ["$RUNNING_COPILOT_WORKFLOWS" -le 1]; then
               echo "✅ Copilot operation slot acquired! Proceeding with ${{ github.event.inputs.operation_type }}"
               break
             fi
@@ -96,8 +97,9 @@ jobs:
             WAIT_COUNT=$((WAIT_COUNT + 10))
           done
 
-          if [ $WAIT_COUNT -ge $MAX_WAIT_SECONDS ]; then
-            echo "❌ Timeout: Could not acquire Copilot operation slot within ${MAX_WAIT} minutes"
+          if [$WAIT_COUNT -ge $MAX_WAIT_SECONDS]; then
+            echo "❌ Timeout: >
+              Could not acquire Copilot operation slot within ${MAX_WAIT} minutes"
             exit 1
           fi
 

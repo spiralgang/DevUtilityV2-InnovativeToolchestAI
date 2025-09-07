@@ -1,6 +1,7 @@
+---
 name: Comprehensive Quantum Dataset Integration
 
-on:
+'on':
   push:
     paths:
       - 'tools/qdataset_adapter.py'
@@ -41,7 +42,7 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
-          if [[ "$GITHUB_ACTOR" != "github-actions[bot]" && "$GITHUB_ACTOR" != "spiralgang" ]]; then
+          if [["$GITHUB_ACTOR" != "github-actions[bot]" && "$GITHUB_ACTOR" != "spiralgang"]]; then
             echo "⚠️ Quantum integration limited to authorized users"
             echo "Current actor: $GITHUB_ACTOR"
             exit 1
@@ -106,8 +107,10 @@ jobs:
               print(f'🎯 Filtered datasets ({len(filtered)}): {filtered[:5]}...')
 
           # Test agentic pattern integration
-          print(f'🤖 Agentic patterns: {len(capabilities[\"agentic_patterns\"])}')
-          print(f'⚙️ Simulation capabilities: {len(capabilities[\"simulation_capabilities\"])}')
+          print(f'🤖 Agentic patterns: >
+            {len(capabilities[\"agentic_patterns\"])}')
+          print(f'⚙️ Simulation capabilities: >
+            {len(capabilities[\"simulation_capabilities\"])}')
 
           # Test sample quantum dataset
           if datasets:
@@ -119,8 +122,10 @@ jobs:
               print(f'🧪 Sample dataset: {sample_dataset}')
               print(f'   Description: {patterns.get(\"description\", \"N/A\")}')
               print(f'   Agentic applications: {len(transformations)}')
-              print(f'   Living code potential: {patterns.get(\"living_code_potential\", \"N/A\")}')
-              print(f'   Sample data: {samples[0][0] if samples else \"No samples\"}')
+              print(f'   Living code potential: >
+                {patterns.get(\"living_code_potential\", \"N/A\")}')
+              print(f'   Sample data: >
+                {samples[0][0] if samples else \"No samples\"}')
 
           print('✅ Comprehensive quantum dataset integration validated!')
           "
@@ -147,7 +152,8 @@ jobs:
               for i, line in enumerate(lines, 1):
                   print(f'{i:2d}: {line}')
               print('    ... (truncated)')
-              print(f'📏 Total lines generated: {len(living_code.split(chr(10)))}')
+              print(f'📏 Total lines generated: >
+                {len(living_code.split(chr(10)))}')
               print('✅ Quantum living code generation successful!')
           "
 
@@ -198,7 +204,7 @@ jobs:
           echo "🏷️ Updating project branding to 'DevUl Army — Living Sriracha AGI'..."
 
           # Check current directory structure matches branding
-          if [[ -d "DevUl Army : Living Sriracha AGI" ]]; then
+          if [[-d "DevUl Army : Living Sriracha AGI"]]; then
             echo "✅ DevUl Army directory structure confirmed"
           else
             echo "ℹ️ DevUl Army directory structure optimization needed"

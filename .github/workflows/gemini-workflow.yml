@@ -1,7 +1,8 @@
+---
 name: Gemini AI Review (High-level, secure auth + GitHub App support)
 
 # Trigger on every push to main and every pull_request targeting main
-on:
+'on':
   push:
     branches: [main]
   pull_request:
@@ -53,7 +54,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            :warning: This branch has merge conflicts with `main`.  
+            :warning: This branch has merge conflicts with `main`.
             Please resolve them before the Gemini AI review can run.
 
   gemini-review:
@@ -87,7 +88,7 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID || '' }}
         run: |
           TOKEN=$(gcloud auth print-access-token)
-          if [ -z "$TOKEN" ]; then
+          if [-z "$TOKEN"]; then
             echo "Failed to obtain access token from gcloud" >&2
             exit 2
           fi

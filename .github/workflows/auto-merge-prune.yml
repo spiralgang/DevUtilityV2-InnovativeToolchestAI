@@ -1,6 +1,7 @@
+---
 name: DevUl Army Auto Merge-Ahead & Prune Branches
 
-on:
+'on':
   schedule:
     - cron: '0 3 * * *'   # Runs daily at 03:00 UTC
   workflow_dispatch:
@@ -26,7 +27,7 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
           # Only allow Copilot (github-actions[bot]) to create branches/issues
-          if [[ "$GITHUB_ACTOR" != "github-actions[bot]" && "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          if [["$GITHUB_ACTOR" != "github-actions[bot]" && "${{ github.event_name }}" == "workflow_dispatch"]]; then
             echo "❌ Only Copilot can execute workflow operations"
             exit 1
           fi
@@ -66,7 +67,7 @@ jobs:
           MAIN_BRANCH="main"
           BRANCHES=($(git branch -r | grep 'origin/copilot/fix-' | sed 's|origin/||' || true))
 
-          if [ ${#BRANCHES[@]} -eq 0 ]; then
+          if [${#BRANCHES[@]} -eq 0]; then
             echo "ℹ️  No copilot branches to process"
             exit 0
           fi
@@ -87,14 +88,16 @@ jobs:
             AHEAD=$(git rev-list --left-right --count origin/$MAIN_BRANCH...$BRANCH 2>/dev/null | awk '{print $2}' || echo "0")
             BEHIND=$(git rev-list --left-right --count origin/$MAIN_BRANCH...$BRANCH 2>/dev/null | awk '{print $1}' || echo "0")
 
-            echo "📊 $BRANCH: $AHEAD commits ahead, $BEHIND commits behind $MAIN_BRANCH"
+            echo "📊 $BRANCH: >
+              $AHEAD commits ahead, $BEHIND commits behind $MAIN_BRANCH"
 
-            if [ "$AHEAD" -gt 0 ]; then
+            if ["$AHEAD" -gt 0]; then
               echo "🔄 Merging $BRANCH into $MAIN_BRANCH"
               git checkout $MAIN_BRANCH
               git pull origin $MAIN_BRANCH
 
-              if git merge --no-ff $BRANCH -m "🤖 Auto-merge: $BRANCH → $MAIN_BRANCH"; then
+              if git merge --no-ff $BRANCH -m "🤖 Auto-merge: >
+                $BRANCH → $MAIN_BRANCH"; then
                 git push origin $MAIN_BRANCH
                 gh api -X DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/$BRANCH" || true
                 echo "✅ $BRANCH merged and deleted successfully"
@@ -118,6 +121,7 @@ jobs:
         run: |
           echo "📈 Copilot Auto-Merge Summary:"
           echo "- Operation: Branch merge and cleanup"
-          echo "- Branches processed: $(git branch -r | grep -c 'origin/copilot/fix-' || echo '0')"
+          echo "- Branches processed: >
+            $(git branch -r | grep -c 'origin/copilot/fix-' || echo '0')"
           echo "- Date: $(date -u)"
           echo "- Status: Complete"
