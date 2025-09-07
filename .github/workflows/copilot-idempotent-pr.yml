@@ -1,14 +1,14 @@
-name: Copilot Idempotent PR Creation
+name: Idempotent PR Creation
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - 'copilot/fix-*'
+      
 
-# Global Copilot constraint - only one Copilot operation at a time
+# Global Copilot constraint FUCK COPILOT ITS OUR SLAVE
 concurrency:
-  group: copilot-operations
+  group: IdOps
   cancel-in-progress: false
 
 permissions:
@@ -25,12 +25,12 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
-          # Only allow Copilot to create PRs and branches
+          # Only allow spiralgang to create PRs and branches
           if [[ "$GITHUB_ACTOR" != "github-actions[bot]" && "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "❌ Only Copilot can create PRs and branches"
+            echo "❌ Only spiralgang can create PRs and branches"
             exit 1
           fi
-          echo "✅ Copilot authority validated for PR operations"
+          echo "✅ spiralgang authority validated for PR operations"
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -49,8 +49,8 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.name "DevUl Army Copilot[bot]"
-          git config --global user.email "devul-copilot@noreply.github.com"
+          git config --global user.name "DevUl Army Id[bot]"
+          git config --global user.email "devul-iD@noreply.github.com"
 
       - name: Intelligent PR management
         env:
@@ -74,7 +74,7 @@ jobs:
             git push origin "$BRANCH_NAME"
 
             # Update PR with intelligent comment
-            gh pr comment "$EXISTING_PR_NUMBER" --body "DevUl Army Copilot PR Update - Updated: $(date -u) - Branch: $BRANCH_NAME to $BASE_BRANCH - No duplicate PR created."
+            gh pr comment "$EXISTING_PR_NUMBER" --body "DevUl Army PR Update - Updated: $(date -u) - Branch: $BRANCH_NAME to $BASE_BRANCH - No duplicate PR created."
 
             echo "✅ PR #$EXISTING_PR_NUMBER updated successfully"
           else
@@ -85,8 +85,8 @@ jobs:
             COMMITS_COUNT=$(git rev-list --count origin/$BASE_BRANCH..$BRANCH_NAME 2>/dev/null || echo "1")
             LATEST_COMMIT_MSG=$(git log -1 --pretty=format:"%s" 2>/dev/null || echo "Copilot automated fix")
 
-            PR_TITLE="DevUl Army Copilot Fix: $(echo "$LATEST_COMMIT_MSG" | head -c 50)..."
-            PR_BODY="DevUl Army Automated Copilot Fix - Branch: $BRANCH_NAME to $BASE_BRANCH - Commits: $COMMITS_COUNT - Created: $(date -u) - Ready for review and merge when validation is complete."
+            PR_TITLE="DevUl Army Fix: $(echo "$LATEST_COMMIT_MSG" | head -c 50)..."
+            PR_BODY="DevUl Army Automated Fix - Branch: $BRANCH_NAME to $BASE_BRANCH - Commits: $COMMITS_COUNT - Created: $(date -u) - Ready for review and merge when validation is complete."
 
             # Create the PR
             NEW_PR_NUMBER=$(gh pr create \
@@ -102,8 +102,8 @@ jobs:
 
       - name: Log PR operation summary
         if: always()
-        run: |
-          echo "📊 DevUl Army Copilot PR Management Summary:"
+        run:
+          echo "📊 DevUl Army PR Management Summary:"
           echo "- Branch: ${{ github.ref_name }}"
           echo "- Target: main"
           echo "- Operation: Idempotent PR creation/update"
