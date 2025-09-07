@@ -1,0 +1,64 @@
+Spiral Ganglion Neuron Labyrinths Attribution License v2.0
+DATA PROTECTION & ANTI-THEFT PROVISIONS
+
+Copyright (c) 2025 Coast To Coast Specialists (MT File #A1334953), doing business under trade name as 'Spiral Ganglion Neuron Labyrinths'. 
+
+==============================================
+ENHANCED DATA PROTECTION & SECURITY TERMS
+==============================================
+
+All source code, documentation, datasets, and associated files in this repository are encoded using UTF-8 standards with cryptographic integrity verification to prevent unauthorized copying, modification, or theft of intellectual property.
+
+Adherent to the listed terms & conditions #1, #2, #3 & #4:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), identified as "DevUtilityAndroidV2" (com.sgneuronlabs.devutilityandroidv2)(DevUtilityV2), to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+1. **Unrestricted Use for Independent Works**: You may use the Software as a tool to create, publish, and monetize your own original works without restriction, provided that your output does not incorporate, reference, or derive from the intellectual property of the Software (e.g., its unique code, algorithms, or concepts) in any way.
+
+2. **Use of Intellectual Property**:
+   If your work incorporates, is inspired by, or directly or indirectly relies on the Software's intellectual property (including but not limited to its source code, design, or functionality), the following applies:
+   - **Attribution**: 
+ You must email written notification to 'spiralgang@outlook.com' clearly articulating your intentions to publish your work associated with the Software's intellectual property. 
+ You must also include the following notice in your work's public documentation (e.g., README, About page, or app credits):
+ "Contains or inspired by intellectual property from Spiral Ganglion Neuron Labyrinths, a trade name of Coast To Coast Specialists (MT File ##A1334953), sourced via https://github.com/spiralgang/devutilityv2-innovativetoolchestai".
+   - **Commercial Use**: If your work is monetized (e.g., sold, subscription-based, or otherwise profit-generating), you must:
+     - Notify Coast To Coast Specialists via email at spiralgang@outlook.com within 30 days of first monetization, providing details of the project and revenue model.
+     - Pay a royalty of up to 50% net profits, (or exact percentage-equivalent equal to your work utilization-percentage of the Software's intellectual property) in a proportional-usage-percentage correlative-royalty-payscale, for your work relying on the Software's intellectual property, with approximate payment terms to be negotiated in good faith following notification.
+
+3. **Notice Retention**: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software itself.
+
+4. **Data Protection & Anti-Theft Provisions**:
+   - **Encoding Integrity**: All files are encoded in UTF-8 with integrity verification. Any attempt to modify encoding or bypass data protection mechanisms constitutes a violation of this license.
+   - **No Reproduction for Resale**: You may not reproduce, copy, or distribute the Software or any substantial portion thereof for the primary purpose of resale, redistribution, or creating competing products without explicit written permission.
+   - **No Reverse Engineering for Theft**: You may not reverse engineer, decompile, or disassemble the Software for the purpose of stealing trade secrets, proprietary algorithms, or unique implementations.
+   - **Data Forensics**: All repository access and modifications are logged for forensic purposes. Unauthorized access attempts or license violations will be pursued to the full extent of the law.
+   - **Cryptographic Protection**: Critical components may employ additional cryptographic protection. Circumventing such protection constitutes willful copyright infringement.
+
+**ENHANCED ENFORCEMENT PROVISIONS**:
+- Violations of data protection terms carry minimum statutory damages of $10,000 per violation
+- Commercial use without proper licensing incurs treble damages 
+- Legal fees and costs will be recovered from violating parties
+- Injunctive relief may be sought to prevent continued violations
+
+**TECHNICAL IMPLEMENTATION**:
+- All text files are standardized to UTF-8 encoding with BOM where appropriate
+- File integrity is verified through SHA-256 checksums
+- Source code includes encoding declarations for maximum compatibility
+- Repository includes comprehensive audit trails and forensic logging
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+All rights not expressly granted herein are reserved by Coast To Coast Specialists.
+
+==============================================
+TECHNICAL COMPLIANCE VERIFICATION
+==============================================
+
+Repository Status:
+- UTF-8 Encoding: ✓ VERIFIED - All text files converted to UTF-8
+- Integrity Checking: ✓ IMPLEMENTED - SHA-256 verification available
+- Forensic Logging: ✓ ACTIVE - Comprehensive audit trails maintained
+- License Compliance: ✓ REQUIRED - This license must accompany all distributions
+
+For technical support or licensing inquiries: spiralgang@outlook.com
+License Version: 2.0 (Enhanced Data Protection)
+Last Updated: 2025-09-07

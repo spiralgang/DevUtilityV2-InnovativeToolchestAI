@@ -74,19 +74,3 @@ Thumbs.db
 # Optional: Generated Files
 captures/
 
-
-# Repository Structure Generator - Recommended ignores
-*.backup
-*.cache
-*.orig
-*.rej
-*.temp
-.coverage
-.nyc_output
-.pytest_cache/
-coverage/
-dist/
-node_modules/
-
-# Generated organization directories (temporary files)
-misc/
