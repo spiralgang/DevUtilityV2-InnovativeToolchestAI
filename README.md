@@ -1,122 +1,35 @@
-# DevUtility V2.5 - Innovative AI-Driven Development Platform
+# Local Index Bots (Tech.Ula)
 
-## 🎯 Mission Accomplished: Repository Organization Complete
+Rationale
+- Eliminate remote LLM/API. Use your indexed 13 GB UserLAnd data as ground truth.
+- Multiple bots, zero cross-contamination: each bot gets its own index view, roots, and policies.
+- Modular retrieval: exact-dup (SHA-256), full-text (FTS5), near-dup (SimHash), and CDC chunk overlap. Router picks the best index per query.
+- Incremental growth: reuses your techula_index.db and content indices; cheap polling or on-demand refresh.
+- Android 10+/UserLAnd compatible: stdlib sqlite, async TG bot, optional local LLM.
 
-The DevUtility V2.5 repository has been successfully organized from a chaotic collection of 65+ scattered files into a clean, professional structure. This transformation enables the advanced AI-driven development platform to reach its full potential.
+Quick Start (uv)
+- uv sync --all-extras --all-groups --locked
+- Export the state (index) dir:
+  - export STATE_DIR=/path/to/state  # where techula_index.db lives (from your caretaker)
+- Configure bots:
+  - cp config/bots.example.yaml config/bots.yaml and edit tokens/roots.
+- Run Telegram bot (long polling):
+  - uv run -p 3.13 server/run_bot.py
+- Run HTTP API (for local apps):
+  - uv run -p 3.13 server/app.py
 
-## 📁 Organized Structure Overview
+Notes
+- No LLM installed: the bot answers by extractive retrieval (ranked snippets from your corpus).
+- Optional local LLM: set llm.provider to "llama_cpp" or "transformers" in config; drops in automatically.
 
-### Root Directory (Clean & Professional)
-```
-DevUtilityV2-InnovativeToolchestAI/
-├── app/                    # Android application source (50+ Kotlin files)
-├── docs/                   # All documentation (organized into 69 files)
-├── scripts/               # Build and utility scripts (7 working scripts)
-├── .github/               # GitHub workflows and configurations
-├── build.gradle          # Project build configuration
-├── settings.gradle        # Project settings
-├── README.md             # Main project documentation
-└── LICENSE               # Project license
-```
+Folders
+- config/: per-bot isolation and index views.
+- index/: FTS5, router, and adapters over your existing state/DB.
+- bot/: retrieval, reranking, and answer composition; pluggable LLM.
+- server/: Telegram runner and FastAPI app.
+- scripts/: helpers (health check).
 
-### Documentation Structure (`/docs/`)
-- **`/specifications/`** (4 files) - V2.5 feature specs and implementation guides
-- **`/architecture/`** (5 files) - System architecture and library requirements  
-- **`/personas/`** (12 files) - AI persona definitions (CodeReaver, PerplexXx, etc.)
-- **`/training/`** (13 files) - Quantum training datasets and AI learning materials
-- **`/legacy/`** (19 files) - Archived versions and research materials
-- **`/assets/`** (16 files) - Images, diagrams, and visual documentation
-
-## 🚀 Key Features Already Implemented
-
-Analysis of the codebase reveals that DevUtility V2.5 is far more advanced than initially apparent:
-
-### Core Architecture ✅
-- **IDECoordinator.kt** - Central coordination system for all IDE subsystems
-- **SrirachaArmyOrchestrator.kt** - Main bot orchestration engine
-- **PluginManager.kt** - Complete modular plugin system with extension points
-
-### AI & Security Systems ✅  
-- **SecurityAnalyzer.kt** - Advanced vulnerability detection for multiple languages
-- **CodeReviewService.kt** - AI-powered code review capabilities
-- **WebNetCasteAI.kt** - Web research and integration AI
-- **DeepSeek integration** - Advanced AI engine integration
-
-### Storage & Optimization ✅
-- **ZRAMManager.kt** - Advanced memory management
-- **CustomCompressor.kt** - Data compression optimization
-- **CloudSyncService.kt** - Cross-platform synchronization
-- **StorageOptimizer.kt** - Intelligent resource management
-
-### UI & User Experience ✅
-- **Complete Compose UI** with Material3 design
-- **FloatWindowWatcher.kt** - Advanced floating window management
-- **Screen-Hop accessibility services** - 5S/8S agentic modes
-- **Multi-window support** - Comprehensive desktop-class experience
-
-### Advanced Features ✅
-- **UIYI Process** (Unleash AI-Collab) - Collaborative AI development
-- **PIPI Workflow** (Preview-Implement-Push-Implement) - User approval system
-- **Multi-language support** - Java, Python, JavaScript, Kotlin
-- **Cross-platform compatibility** - Android, Windows, macOS, Linux ready
-
-## 🔧 Technical Status
-
-### Build System
-- **Gradle Configuration**: ✅ Fixed syntax errors and repository conflicts
-- **Dependency Management**: 🔄 Minor version compatibility issues with newer Gradle
-- **Core Compilation**: ✅ Most source files compile successfully
-
-### Code Quality
-- **Architecture**: ✅ Excellent modular design following SOLID principles
-- **Documentation**: ✅ Comprehensive inline documentation and comments
-- **Error Handling**: ✅ Proper error handling and logging throughout
-
-## 🎨 AI Persona System
-
-The repository contains an extensive AI persona ecosystem:
-
-### CodeReaver Persona
-- **Advanced coding assistant** with unfiltered capabilities
-- **Multi-domain expertise** across quantum physics, web tech, and security
-- **Userscript mastery** for browser automation and optimization
-
-### PerplexXx Quantum Core
-- **Monolithic persona system** for complex reasoning
-- **Quantum-inspired training datasets** for advanced AI capabilities
-- **Specialized DevUtility integration** for Android development
-
-## 📊 Project Metrics
-
-- **Total Files Organized**: 65+ files moved to structured locations
-- **Documentation Files**: 69 files properly categorized across 6 subdirectories
-- **Source Code Files**: 50+ Kotlin files implementing V2.5 features
-- **Asset Files**: 16+ images and resources organized
-- **Configuration Files**: All build and project files cleaned up
-
-## 🚀 Deployment Readiness
-
-DevUtility V2.5 is **95% feature-complete** based on the extensive specifications found in the documentation. The system implements:
-
-- ✅ **Complete AI collaboration framework**
-- ✅ **Advanced security analysis**
-- ✅ **Modular plugin architecture** 
-- ✅ **Cross-platform storage sync**
-- ✅ **Comprehensive UI system**
-- ✅ **Performance optimization**
-
-## 🎯 Recommendations for Completion
-
-1. **Build System**: Update to compatible Gradle/AGP versions or use alternative build approach
-2. **Material3 Migration**: Complete theme system migration (minor task)
-3. **Testing Framework**: Implement unit tests for core components
-4. **Documentation**: Update architectural documentation with current overview
-5. **Release Preparation**: Create proper versioning and deployment workflows
-
-## 🏆 Conclusion
-
-The DevUtility V2.5 repository has been transformed from organizational chaos into a professional, well-structured Android development platform. The extensive feature set, advanced AI integration, and modular architecture position this as a cutting-edge mobile development environment.
-
-**Mission Status: COMPLETE** ✅
-
-The repository is now ready for advanced development, testing, and eventual deployment as the innovative AI-driven development toolchain it was designed to be.
+References
+- /reference vault
+- SQLite FTS5
+- python-telegram-bot async architecture
