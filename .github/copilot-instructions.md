@@ -1,7 +1,7 @@
 <!-- Living Code Integration - Auto-generated symmetrical connections -->
 <!-- This file is part of the SrirachaArmy Living Code Environment -->
 <!-- Perfect symmetrical integration with all repository components -->
-#Youre only allowed one open 'copilot/fix' branch at a time. Either dont open multiple branches and leave them or dont open any at all. **One EACH Rule** Only got so many tokens bruh
+### Youre only allowed one open 'copilot/fix-' branch. Im sick of cleaning up your slop.
 
 # DevUl Army : Living Sriracha AGI - CodeReaver Enhanced Developer Instructions
 
