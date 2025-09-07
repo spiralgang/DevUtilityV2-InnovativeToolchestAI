@@ -12,7 +12,7 @@
 # 3. On a weekly schedule
 # 4. Manually, on demand, via the "workflow_dispatch" event
 
-# üíÅ The CRDA Starter workflow will:
+# 📝 The CRDA Starter workflow will:
 # - Checkout your repository
 # - Setup the required tool stack
 # - Install the CRDA command line tool
@@ -21,7 +21,7 @@
 # - Upload the SARIF result to the GitHub Code Scanning which can be viewed under the security tab
 # - Optionally upload the SARIF file as an artifact for the future reference
 
-# ‚ÑπÔ∏è Configure your repository and the workflow with the following steps:
+# ⚙️ Configure your repository and the workflow with the following steps:
 # 1. Setup the tool stack based on the project's requirement.
 #    Refer to: https://github.com/redhat-actions/crda/#1-set-up-the-tool-stack
 # 2. (Optional) CRDA action attempt to detect the language and install the
@@ -38,7 +38,7 @@
 # 5. (Optional) Upload SARIF file as an Artifact to download and view
 # 6. Commit and push the workflow file to your default branch to trigger a workflow run.
 
-# üëã Visit our GitHub organization at https://github.com/redhat-actions/ to see our actions and provide feedback.
+# 🔗 Visit our GitHub organization at https://github.com/redhat-actions/ to see our actions and provide feedback.
 
 name: CRDA Scan
 
