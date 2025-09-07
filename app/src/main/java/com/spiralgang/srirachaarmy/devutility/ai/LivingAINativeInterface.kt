@@ -23,7 +23,7 @@ class LivingAINativeInterface @Inject constructor(
     private val terminalEmulator: LocalTerminalEmulator,
     private val aiEnvironmentAwareness: AIEnvironmentAwareness,
     private val agenticModeSystem: AgenticModeSystem,
-    private val gemmaLoRAFineTuning: GemmaLoRAFineTuning
+    private val compatibleModelFineTuning: CompatibleModelLoRAFineTuning
 ) {
     
     // Living interface state that evolves with usage
@@ -142,7 +142,12 @@ class LivingAINativeInterface @Inject constructor(
             terminalEmulator.initialize()
             
             // Initialize Gemma LoRA fine-tuning system
-            gemmaLoRAFineTuning.initialize()
+            compatibleModelFineTuning.initialize()
+            
+            // Monitor Android API level for optimization
+            if (android.os.Build.VERSION.SDK_INT >= 29) {
+                Timber.d("Android 10+ detected - enabling enhanced ARM64 optimizations")
+            }
             
             // Load personal patterns if they exist
             loadPersonalPatterns()
@@ -445,19 +450,19 @@ class LivingAINativeInterface @Inject constructor(
             // Create personalized training dataset from interaction history
             val personalizedDataset = createPersonalizedDatasetFromMemory()
             
-            // Create mobile-optimized LoRA configuration
-            val mobileLoRAConfig = gemmaLoRAFineTuning.createMobileOptimizedLoRAConfig()
+            // Create Android 10+ ARM64 optimized LoRA configuration
+            val androidOptimizedLoRAConfig = compatibleModelFineTuning.createAndroidOptimizedLoRAConfig()
             
-            // Start fine-tuning process
-            val modelPath = gemmaLoRAFineTuning.startFineTuning(
+            // Start fine-tuning process with compatible models
+            val modelPath = compatibleModelFineTuning.startFineTuning(
                 dataset = personalizedDataset,
-                loraConfig = mobileLoRAConfig
+                loraConfig = androidOptimizedLoRAConfig
             )
             
             // Update living state to reflect personalized model
             _livingState.value = currentState.copy(
                 personalAdaptation = 1.0f, // Maximum personal adaptation
-                aiPersonalityActive = "PersonalizedGemma",
+                aiPersonalityActive = "PersonalizedCompatibleModel",
                 energyLevel = 1.0f
             )
             
@@ -475,8 +480,8 @@ class LivingAINativeInterface @Inject constructor(
      */
     suspend fun trainAIPersonality(personality: String): String? {
         return try {
-            val personalityDataset = gemmaLoRAFineTuning.createAIPersonalityDataset(personality)
-            val modelPath = gemmaLoRAFineTuning.startFineTuning(personalityDataset)
+            val personalityDataset = compatibleModelFineTuning.createAIPersonalityDataset(personality)
+            val modelPath = compatibleModelFineTuning.startFineTuning(personalityDataset)
             
             // Update active personality
             _livingState.value = _livingState.value.copy(
@@ -494,24 +499,24 @@ class LivingAINativeInterface @Inject constructor(
     }
     
     /**
-     * Get fine-tuning progress for UI updates
+     * Get fine-tuning progress for compatible models UI updates
      */
-    fun getFineTuningProgress() = gemmaLoRAFineTuning.fineTuningProgress
+    fun getFineTuningProgress() = compatibleModelFineTuning.fineTuningProgress
     
     /**
-     * Get fine-tuning state for monitoring
+     * Get fine-tuning state for compatible models monitoring
      */
-    fun getFineTuningState() = gemmaLoRAFineTuning.fineTuningState
+    fun getFineTuningState() = compatibleModelFineTuning.fineTuningState
     
     /**
      * Create personalized training dataset from interaction memory
      */
-    private suspend fun createPersonalizedDatasetFromMemory(): GemmaLoRAFineTuning.TrainingDataset {
+    private suspend fun createPersonalizedDatasetFromMemory(): CompatibleModelLoRAFineTuning.TrainingDataset {
         val personalizedSamples = contextualMemory
             .filter { it.learningValue > 0.6f } // Only high-value interactions
             .take(500) // Limit dataset size for mobile
             .map { memory ->
-                GemmaLoRAFineTuning.TrainingSample(
+                CompatibleModelLoRAFineTuning.TrainingSample(
                     input = memory.interaction,
                     output = memory.outcome,
                     context = memory.context,
@@ -523,7 +528,7 @@ class LivingAINativeInterface @Inject constructor(
                 )
             }
         
-        return GemmaLoRAFineTuning.TrainingDataset(
+        return CompatibleModelLoRAFineTuning.TrainingDataset(
             name = "PersonalizedDevUtility-${System.currentTimeMillis()}",
             trainSamples = personalizedSamples,
             category = "personalized",

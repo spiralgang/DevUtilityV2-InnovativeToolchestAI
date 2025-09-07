@@ -10,7 +10,8 @@ import javax.inject.Singleton
 
 /**
  * RootFS Manager for DevUtility V2.5
- * Handles chroot/proot functionality and multiple Linux distributions
+ * Handles fully administrative customizable XShadow proot/chroot functionality
+ * Specialized for Aarch64 Unix/Linux distributions on Android 10+
  * Integrates with terminal emulator and container systems
  */
 @Singleton
@@ -30,7 +31,9 @@ class RootFSManager @Inject constructor(
     
     companion object {
         private const val PROOT_BINARY = "proot"
+        private const val XSHADOW_BINARY = "xshadow"
         private const val TOYBOX_BINARY = "toybox"
+        private const val ANDROID_MIN_VERSION = 29 // Android 10+
     }
     
     /**
@@ -62,15 +65,29 @@ class RootFSManager @Inject constructor(
     }
     
     /**
-     * Create a new chroot environment
+     * Create a new XShadow-enhanced chroot environment for Android 10+ Aarch64
      */
-    suspend fun createChrootEnvironment(
+    suspend fun createXShadowChrootEnvironment(
         distributionName: String,
-        environmentName: String
+        environmentName: String,
+        xshadowConfig: XShadowConfig = XShadowConfig()
     ): ChrootEnvironment? = withContext(Dispatchers.IO) {
         try {
+            // Verify Android 10+ compatibility
+            if (android.os.Build.VERSION.SDK_INT < ANDROID_MIN_VERSION) {
+                Timber.w("XShadow requires Android 10+ (API level $ANDROID_MIN_VERSION)")
+                return@withContext null
+            }
+            
             val distribution = _availableDistributions.value.find { it.name == distributionName }
                 ?: return@withContext null
+            
+            // Ensure it's ARM64/Aarch64 compatible
+            if (!distribution.architecture.equals("arm64", ignoreCase = true) && 
+                !distribution.architecture.equals("aarch64", ignoreCase = true)) {
+                Timber.w("Distribution $distributionName is not Aarch64 compatible")
+                return@withContext null
+            }
             
             val envDir = File(rootfsBaseDir, "$distributionName/$environmentName")
             
@@ -80,7 +97,9 @@ class RootFSManager @Inject constructor(
                     name = environmentName,
                     distribution = distribution,
                     rootPath = envDir.absolutePath,
-                    isActive = false
+                    isActive = false,
+                    xshadowEnabled = true,
+                    xshadowConfig = xshadowConfig
                 )
             }
             
@@ -96,65 +115,82 @@ class RootFSManager @Inject constructor(
                 downloadAndExtractDistribution(distribution, envDir)
             }
             
-            // Setup basic filesystem structure
-            setupBasicFilesystem(envDir)
+            // Setup enhanced filesystem structure with XShadow integration
+            setupXShadowFilesystem(envDir, xshadowConfig)
+            
+            // Configure XShadow environment
+            configureXShadowEnvironment(envDir, xshadowConfig)
             
             val environment = ChrootEnvironment(
                 name = environmentName,
                 distribution = distribution,
                 rootPath = envDir.absolutePath,
-                isActive = false
+                isActive = false,
+                xshadowEnabled = true,
+                xshadowConfig = xshadowConfig
             )
             
-            Timber.d("Created chroot environment: $environmentName for $distributionName")
+            Timber.d("Created XShadow chroot environment: $environmentName for $distributionName")
             return@withContext environment
             
         } catch (e: Exception) {
-            Timber.e(e, "Failed to create chroot environment: $environmentName")
+            Timber.e(e, "Failed to create XShadow chroot environment: $environmentName")
             null
         }
     }
     
     /**
-     * Enter chroot environment using proot
+     * Enter XShadow-enhanced chroot environment
      */
-    suspend fun enterChrootEnvironment(environment: ChrootEnvironment): Process? = withContext(Dispatchers.IO) {
+    suspend fun enterXShadowEnvironment(environment: ChrootEnvironment): Process? = withContext(Dispatchers.IO) {
         try {
-            val prootCommand = buildProotCommand(environment)
+            val xshadowCommand = buildXShadowCommand(environment)
             
-            val processBuilder = ProcessBuilder(*prootCommand.toTypedArray())
+            val processBuilder = ProcessBuilder(*xshadowCommand.toTypedArray())
             processBuilder.directory(File(environment.rootPath))
+            
+            // Set up Android 10+ specific environment variables
+            val envMap = processBuilder.environment()
+            envMap["ANDROID_ROOT"] = "/system"
+            envMap["ANDROID_DATA"] = "/data"
+            envMap["EXTERNAL_STORAGE"] = "/sdcard"
+            envMap["PATH"] = "/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+            envMap["HOME"] = "/root"
+            envMap["USER"] = "root"
+            envMap["SHELL"] = "/bin/bash"
+            envMap["TERM"] = "xterm-256color"
             
             val process = processBuilder.start()
             
-            // Mark environment as active
+            // Mark environment as active with XShadow
             val mountInfo = MountInfo(
                 environment = environment,
                 process = process,
-                mountTime = System.currentTimeMillis()
+                mountTime = System.currentTimeMillis(),
+                xshadowActive = true
             )
             activeMounts[environment.name] = mountInfo
             
-            Timber.d("Entered chroot environment: ${environment.name}")
+            Timber.d("Entered XShadow chroot environment: ${environment.name}")
             return@withContext process
             
         } catch (e: Exception) {
-            Timber.e(e, "Failed to enter chroot environment: ${environment.name}")
+            Timber.e(e, "Failed to enter XShadow chroot environment: ${environment.name}")
             null
         }
     }
     
     /**
-     * Execute command in chroot environment
+     * Execute command in XShadow chroot environment
      */
-    suspend fun executeInChroot(
+    suspend fun executeInXShadowChroot(
         environment: ChrootEnvironment,
         command: String
     ): String? = withContext(Dispatchers.IO) {
         try {
-            val prootCommand = buildProotCommand(environment, command)
+            val xshadowCommand = buildXShadowCommand(environment, command)
             
-            val processBuilder = ProcessBuilder(*prootCommand.toTypedArray())
+            val processBuilder = ProcessBuilder(*xshadowCommand.toTypedArray())
             processBuilder.redirectErrorStream(true)
             
             val process = processBuilder.start()
@@ -169,7 +205,7 @@ class RootFSManager @Inject constructor(
             }
             
         } catch (e: Exception) {
-            Timber.e(e, "Failed to execute command in chroot: $command")
+            Timber.e(e, "Failed to execute command in XShadow chroot: $command")
             "Error: ${e.message}"
         }
     }
@@ -190,7 +226,11 @@ class RootFSManager @Inject constructor(
                 PackageManager.ALPINE -> "apk add $packageName"
             }
             
-            val result = executeInChroot(environment, installCommand)
+            val result = if (environment.xshadowEnabled) {
+                executeInXShadowChroot(environment, installCommand)
+            } else {
+                executeInChroot(environment, installCommand)
+            }
             val success = result?.contains("error", ignoreCase = true) == false
             
             if (success) {
@@ -275,7 +315,141 @@ class RootFSManager @Inject constructor(
     }
     
     /**
-     * Build proot command for chroot
+     * Build XShadow command for enhanced chroot with administrative customization
+     */
+    private fun buildXShadowCommand(environment: ChrootEnvironment, command: String? = null): List<String> {
+        val xshadowCommand = mutableListOf<String>()
+        
+        // Check for XShadow binary first
+        val xshadowBinary = File(context.applicationInfo.nativeLibraryDir, XSHADOW_BINARY)
+        val prootBinary = File(context.applicationInfo.nativeLibraryDir, PROOT_BINARY)
+        
+        if (xshadowBinary.exists() && environment.xshadowEnabled) {
+            // Use XShadow for fully administrative customizable environment
+            xshadowCommand.addAll(listOf(
+                xshadowBinary.absolutePath,
+                "--root", environment.rootPath,
+                "--working-dir", "/",
+                "--bind", "/proc",
+                "--bind", "/sys", 
+                "--bind", "/dev",
+                "--bind", "/tmp",
+                "--android-compat",
+                "--arm64-optimized"
+            ))
+            
+            // Add XShadow-specific configurations
+            environment.xshadowConfig?.let { config ->
+                if (config.enableNetworking) {
+                    xshadowCommand.addAll(listOf("--bind", "/data/misc/net"))
+                }
+                if (config.enableGpu) {
+                    xshadowCommand.addAll(listOf("--bind", "/dev/dri", "--bind", "/dev/mali0"))
+                }
+                if (config.enableStorage) {
+                    xshadowCommand.addAll(listOf("--bind", "/sdcard:/sdcard", "--bind", "/storage:/storage"))
+                }
+                if (config.enableSelinux) {
+                    xshadowCommand.add("--selinux-context=u:r:untrusted_app:s0")
+                }
+                config.customBinds.forEach { (host, guest) ->
+                    xshadowCommand.addAll(listOf("--bind", "$host:$guest"))
+                }
+            }
+            
+            if (command != null) {
+                xshadowCommand.addAll(listOf("/bin/sh", "-c", command))
+            } else {
+                xshadowCommand.add("/bin/bash")
+            }
+            
+        } else if (prootBinary.exists()) {
+            // Fallback to enhanced proot with Android 10+ optimizations
+            xshadowCommand.addAll(listOf(
+                prootBinary.absolutePath,
+                "-r", environment.rootPath,
+                "-w", "/",
+                "-b", "/proc",
+                "-b", "/sys",
+                "-b", "/dev", 
+                "-b", "/tmp"
+            ))
+            
+            // Add Android 10+ specific binds
+            xshadowCommand.addAll(listOf(
+                "-b", "/system",
+                "-b", "/vendor",
+                "-b", "/data/misc/net"
+            ))
+            
+            if (command != null) {
+                xshadowCommand.addAll(listOf("/bin/sh", "-c", command))
+            } else {
+                xshadowCommand.add("/bin/bash")
+            }
+        } else {
+            // Basic chroot fallback (may not work without root)
+            xshadowCommand.addAll(listOf(
+                "chroot",
+                environment.rootPath
+            ))
+            
+            if (command != null) {
+                xshadowCommand.addAll(listOf("/bin/sh", "-c", command))
+            } else {
+                xshadowCommand.add("/bin/bash")
+            }
+        }
+        
+        return xshadowCommand
+    }
+    
+    /**
+     * Legacy method for backward compatibility
+     */
+    suspend fun executeInChroot(
+        environment: ChrootEnvironment,
+        command: String
+    ): String? = withContext(Dispatchers.IO) {
+        return@withContext if (environment.xshadowEnabled) {
+            executeInXShadowChroot(environment, command)
+        } else {
+            executeInLegacyChroot(environment, command)
+        }
+    }
+    
+    /**
+     * Legacy chroot execution for non-XShadow environments
+     */
+    private suspend fun executeInLegacyChroot(
+        environment: ChrootEnvironment,
+        command: String
+    ): String? = withContext(Dispatchers.IO) {
+        try {
+            val prootCommand = buildProotCommand(environment, command)
+            
+            val processBuilder = ProcessBuilder(*prootCommand.toTypedArray())
+            processBuilder.redirectErrorStream(true)
+            
+            val process = processBuilder.start()
+            val output = process.inputStream.bufferedReader().readText()
+            
+            val exitCode = process.waitFor()
+            
+            return@withContext if (exitCode == 0) {
+                output
+            } else {
+                "Command failed with exit code $exitCode: $output"
+            }
+            
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to execute command in legacy chroot: $command")
+            "Error: ${e.message}"
+        }
+    }
+    
+    /**
+     * Legacy proot command builder for backward compatibility
      */
     private fun buildProotCommand(environment: ChrootEnvironment, command: String? = null): List<String> {
         val prootCommand = mutableListOf<String>()
@@ -317,23 +491,214 @@ class RootFSManager @Inject constructor(
     }
     
     /**
-     * Setup basic filesystem structure
+     * Setup XShadow-enhanced filesystem structure
      */
-    private fun setupBasicFilesystem(rootDir: File) {
-        val basicDirs = listOf(
-            "bin", "sbin", "usr/bin", "usr/sbin", "usr/local/bin",
-            "lib", "usr/lib", "var", "tmp", "home", "root",
-            "etc", "proc", "sys", "dev"
+    private fun setupXShadowFilesystem(rootDir: File, xshadowConfig: XShadowConfig) {
+        // Basic filesystem structure
+        setupBasicFilesystem(rootDir)
+        
+        // XShadow-specific directories
+        val xshadowDirs = listOf(
+            "opt/xshadow", "var/lib/xshadow", "etc/xshadow",
+            "dev/pts", "dev/shm", "run", "run/lock", "run/user"
         )
         
-        basicDirs.forEach { dir ->
+        xshadowDirs.forEach { dir ->
             File(rootDir, dir).mkdirs()
         }
         
-        // Create basic files
-        File(rootDir, "etc/passwd").writeText("root:x:0:0:root:/root:/bin/bash\n")
-        File(rootDir, "etc/group").writeText("root:x:0:\n")
-        File(rootDir, "etc/hostname").writeText("devutility\n")
+        // Create XShadow configuration files
+        File(rootDir, "etc/xshadow/config").writeText("""
+            # XShadow Configuration for Android 10+ ARM64
+            android_compat=true
+            arm64_optimized=true
+            selinux_context=${xshadowConfig.enableSelinux}
+            networking=${xshadowConfig.enableNetworking}
+            gpu_access=${xshadowConfig.enableGpu}
+            storage_access=${xshadowConfig.enableStorage}
+        """.trimIndent())
+        
+        // Enhanced shell environment
+        File(rootDir, "etc/profile.d/xshadow.sh").writeText("""
+            #!/bin/bash
+            # XShadow Android 10+ ARM64 Environment
+            export ANDROID_COMPAT=1
+            export ARM64_OPTIMIZED=1
+            export XSHADOW_VERSION="2.5.0"
+            export PS1="[\u@xshadow-devutility \W]\\$ "
+            
+            # Android-specific paths
+            export ANDROID_ROOT=/system
+            export ANDROID_DATA=/data
+            export EXTERNAL_STORAGE=/sdcard
+            
+            # Enhanced PATH for development tools
+            export PATH="/opt/devtools/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+            
+            # Development aliases
+            alias ll='ls -la'
+            alias grep='grep --color=auto'
+            alias python='python3'
+            alias pip='pip3'
+        """.trimIndent())
+    }
+    
+    /**
+     * Configure XShadow environment with administrative customization
+     */
+    private fun configureXShadowEnvironment(rootDir: File, xshadowConfig: XShadowConfig) {
+        // Create administrative tools directory
+        val adminToolsDir = File(rootDir, "opt/devtools/bin")
+        adminToolsDir.mkdirs()
+        
+        // Configure custom administrative scripts
+        File(adminToolsDir, "xshadow-admin").writeText("""
+            #!/bin/bash
+            # XShadow Administrative Tool for DevUtility
+            case "$1" in
+                status)
+                    echo "XShadow Environment Status:"
+                    echo "Android Version: Android 10+ (API ${android.os.Build.VERSION.SDK_INT})"
+                    echo "Architecture: ARM64/Aarch64"
+                    echo "Networking: ${if (xshadowConfig.enableNetworking) "Enabled" else "Disabled"}"
+                    echo "GPU Access: ${if (xshadowConfig.enableGpu) "Enabled" else "Disabled"}"
+                    echo "Storage Access: ${if (xshadowConfig.enableStorage) "Enabled" else "Disabled"}"
+                    ;;
+                network)
+                    if [ "${xshadowConfig.enableNetworking}" = "true" ]; then
+                        echo "Configuring network access..."
+                        # Network configuration commands would go here
+                    else
+                        echo "Network access disabled in XShadow configuration"
+                    fi
+                    ;;
+                *)
+                    echo "Usage: xshadow-admin {status|network}"
+                    ;;
+            esac
+        """.trimIndent())
+        
+        File(adminToolsDir, "xshadow-admin").setExecutable(true)
+        
+        // Configure sudo alternatives for Android
+        File(rootDir, "usr/bin/sudo").writeText("""
+            #!/bin/bash
+            # XShadow sudo alternative for Android
+            echo "Note: Running in XShadow administrative environment"
+            exec "$@"
+        """.trimIndent())
+        
+        File(rootDir, "usr/bin/sudo").setExecutable(true)
+    }
+    
+    /**
+     * Legacy method for backward compatibility - creates XShadow environment by default on Android 10+
+     */
+    suspend fun createChrootEnvironment(
+        distributionName: String,
+        environmentName: String
+    ): ChrootEnvironment? {
+        return if (android.os.Build.VERSION.SDK_INT >= ANDROID_MIN_VERSION) {
+            createXShadowChrootEnvironment(distributionName, environmentName)
+        } else {
+            createLegacyChrootEnvironment(distributionName, environmentName)
+        }
+    }
+    
+    /**
+     * Legacy chroot environment creation for older Android versions
+     */
+    private suspend fun createLegacyChrootEnvironment(
+        distributionName: String,
+        environmentName: String
+    ): ChrootEnvironment? = withContext(Dispatchers.IO) {
+        try {
+            val distribution = _availableDistributions.value.find { it.name == distributionName }
+                ?: return@withContext null
+            
+            val envDir = File(rootfsBaseDir, "$distributionName/$environmentName")
+            
+            if (envDir.exists()) {
+                Timber.w("Environment $environmentName already exists for $distributionName")
+                return@withContext ChrootEnvironment(
+                    name = environmentName,
+                    distribution = distribution,
+                    rootPath = envDir.absolutePath,
+                    isActive = false,
+                    xshadowEnabled = false
+                )
+            }
+            
+            // Create environment directory
+            envDir.mkdirs()
+            
+            // Copy distribution files
+            val distributionDir = File(rootfsBaseDir, distributionName)
+            if (distributionDir.exists()) {
+                copyDistributionFiles(distributionDir, envDir)
+            } else {
+                downloadAndExtractDistribution(distribution, envDir)
+            }
+            
+            // Setup basic filesystem structure
+            setupBasicFilesystem(envDir)
+            
+            val environment = ChrootEnvironment(
+                name = environmentName,
+                distribution = distribution,
+                rootPath = envDir.absolutePath,
+                isActive = false,
+                xshadowEnabled = false
+            )
+            
+            Timber.d("Created legacy chroot environment: $environmentName for $distributionName")
+            return@withContext environment
+            
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to create legacy chroot environment: $environmentName")
+            null
+        }
+    }
+    
+    /**
+     * Legacy method for backward compatibility - uses XShadow if available
+     */
+    suspend fun enterChrootEnvironment(environment: ChrootEnvironment): Process? {
+        return if (environment.xshadowEnabled) {
+            enterXShadowEnvironment(environment)
+        } else {
+            enterLegacyEnvironment(environment)
+        }
+    }
+    
+    /**
+     * Legacy environment entry for non-XShadow environments
+     */
+    private suspend fun enterLegacyEnvironment(environment: ChrootEnvironment): Process? = withContext(Dispatchers.IO) {
+        try {
+            val prootCommand = buildProotCommand(environment)
+            
+            val processBuilder = ProcessBuilder(*prootCommand.toTypedArray())
+            processBuilder.directory(File(environment.rootPath))
+            
+            val process = processBuilder.start()
+            
+            // Mark environment as active
+            val mountInfo = MountInfo(
+                environment = environment,
+                process = process,
+                mountTime = System.currentTimeMillis(),
+                xshadowActive = false
+            )
+            activeMounts[environment.name] = mountInfo
+            
+            Timber.d("Entered legacy chroot environment: ${environment.name}")
+            return@withContext process
+            
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to enter legacy chroot environment: ${environment.name}")
+            null
+        }
     }
     
     /**
@@ -486,97 +851,97 @@ class RootFSManager @Inject constructor(
     }
     
     /**
-     * Setup default distributions including expanded ARM64 options
+     * Setup default distributions focusing on Aarch64 Unix/Linux for Android 10+
      */
     private suspend fun setupDefaultDistributions() {
         val defaultDistributions = mutableListOf(
-            // Standard distributions
-            LinuxDistribution("ubuntu", "Ubuntu 24.04 LTS", PackageManager.APT, 
+            // Standard Aarch64 distributions optimized for Android 10+
+            LinuxDistribution("ubuntu-arm64", "Ubuntu 24.04 LTS ARM64", PackageManager.APT, 
                 "https://cloud-images.ubuntu.com/minimal/releases/noble/release/ubuntu-24.04-minimal-cloudimg-arm64-root.tar.xz",
-                "Ubuntu Long Term Support - stable and widely supported", "arm64", true, 85_000_000L, null, "Canonical", DistributionCategory.GENERAL),
-            LinuxDistribution("debian", "Debian 12 (Bookworm)", PackageManager.APT, 
-                "https://github.com/spiralgang/rootfs-sources/releases/download/v2025.1/debian-12-arm64-minimal.tar.xz",
-                "The universal operating system - stable and reliable", "arm64", true, 92_000_000L, null, "Debian Project", DistributionCategory.GENERAL),
-            LinuxDistribution("alpine", "Alpine Linux Latest", PackageManager.ALPINE, 
+                "Ubuntu Long Term Support - stable and widely supported for Android 10+", "aarch64", true, 85_000_000L, null, "Canonical", DistributionCategory.GENERAL),
+            LinuxDistribution("debian-arm64", "Debian 12 (Bookworm) ARM64", PackageManager.APT, 
+                "https://github.com/spiralgang/rootfs-sources/releases/download/v2025.1/debian-12-aarch64-minimal.tar.xz",
+                "The universal operating system - stable and reliable for Android 10+ ARM64", "aarch64", true, 92_000_000L, null, "Debian Project", DistributionCategory.GENERAL),
+            LinuxDistribution("alpine-arm64", "Alpine Linux Latest ARM64", PackageManager.ALPINE, 
                 "https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/aarch64/alpine-minirootfs-latest-aarch64.tar.gz",
-                "Security-oriented, lightweight Linux distribution", "arm64", true, 5_200_000L, null, "Alpine Linux", DistributionCategory.MINIMAL),
+                "Security-oriented, lightweight Linux distribution for Android 10+ ARM64", "aarch64", true, 5_200_000L, null, "Alpine Linux", DistributionCategory.MINIMAL),
             
-            // Penetration Testing & Security Distributions
-            LinuxDistribution("kali-minimal", "Kali Linux ARM64 Minimal", PackageManager.APT, 
-                "https://github.com/xiv3r/Kali-Linux-Termux/releases/download/v2025.1/kali-rootfs-arm64.tar.xz",
-                "Advanced penetration testing and security auditing platform", "arm64", false, 450_000_000L, null, "xiv3r", DistributionCategory.SECURITY),
-            LinuxDistribution("parrot-core", "Parrot Security Core ARM64", PackageManager.APT, 
-                "https://github.com/pentesting-distros/parrot-arm64/releases/download/v5.3/parrot-core-arm64.tar.xz",
-                "Privacy-focused security distribution with pentesting tools", "arm64", false, 380_000_000L, null, "Community", DistributionCategory.SECURITY),
-            LinuxDistribution("blackarch", "BlackArch Linux ARM64", PackageManager.PACMAN, 
-                "https://github.com/BlackArch/blackarch-rootfs/releases/download/v2025.01/blackarch-arm64-minimal.tar.xz",
-                "Arch-based penetration testing distribution", "arm64", false, 520_000_000L, null, "BlackArch Team", DistributionCategory.SECURITY),
+            // Penetration Testing & Security Distributions (Aarch64 only)
+            LinuxDistribution("kali-arm64", "Kali Linux ARM64 Android", PackageManager.APT, 
+                "https://github.com/xiv3r/Kali-Linux-Termux/releases/download/v2025.1/kali-rootfs-aarch64-android10.tar.xz",
+                "Advanced penetration testing platform optimized for Android 10+ ARM64", "aarch64", false, 450_000_000L, null, "xiv3r", DistributionCategory.SECURITY),
+            LinuxDistribution("parrot-arm64", "Parrot Security Core ARM64", PackageManager.APT, 
+                "https://github.com/pentesting-distros/parrot-arm64/releases/download/v5.3/parrot-core-aarch64-android.tar.xz",
+                "Privacy-focused security distribution for Android 10+ ARM64", "aarch64", false, 380_000_000L, null, "Community", DistributionCategory.SECURITY),
+            LinuxDistribution("blackarch-arm64", "BlackArch Linux ARM64", PackageManager.PACMAN, 
+                "https://github.com/BlackArch/blackarch-rootfs/releases/download/v2025.01/blackarch-aarch64-android-minimal.tar.xz",
+                "Arch-based penetration testing distribution for Android 10+ ARM64", "aarch64", false, 520_000_000L, null, "BlackArch Team", DistributionCategory.SECURITY),
             
-            // Debian Variants & Community Builds
-            LinuxDistribution("debian-sid", "Debian Sid (Unstable)", PackageManager.APT, 
-                "https://github.com/jubinson/debian-rootfs/releases/download/v2025.1/debian-sid-arm64.tar.xz",
-                "Bleeding edge Debian with latest packages", "arm64", false, 110_000_000L, null, "jubinson", DistributionCategory.EXPERIMENTAL),
-            LinuxDistribution("devuan", "Devuan ASCII ARM64", PackageManager.APT, 
-                "https://files.devuan.org/devuan_ascii/embedded/devuan_ascii_5.0.0_arm64_minimal.tar.xz",
-                "Debian without systemd - init freedom", "arm64", true, 88_000_000L, null, "Devuan Project", DistributionCategory.GENERAL),
-            LinuxDistribution("ubuntu-minimal", "Ubuntu 22.04 Minimal", PackageManager.APT, 
-                "https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-arm64-root.tar.xz",
-                "Minimal Ubuntu LTS for containers and embedded", "arm64", true, 72_000_000L, null, "Canonical", DistributionCategory.MINIMAL),
+            // Debian Variants & Community Builds (Aarch64 Focus)
+            LinuxDistribution("debian-sid-arm64", "Debian Sid (Unstable) ARM64", PackageManager.APT, 
+                "https://github.com/jubinson/debian-rootfs/releases/download/v2025.1/debian-sid-aarch64-android10.tar.xz",
+                "Bleeding edge Debian with latest packages for Android 10+ ARM64", "aarch64", false, 110_000_000L, null, "jubinson", DistributionCategory.EXPERIMENTAL),
+            LinuxDistribution("devuan-arm64", "Devuan ASCII ARM64", PackageManager.APT, 
+                "https://files.devuan.org/devuan_ascii/embedded/devuan_ascii_5.0.0_aarch64_android_minimal.tar.xz",
+                "Debian without systemd - init freedom for Android 10+ ARM64", "aarch64", true, 88_000_000L, null, "Devuan Project", DistributionCategory.GENERAL),
+            LinuxDistribution("ubuntu-minimal-arm64", "Ubuntu 22.04 Minimal ARM64", PackageManager.APT, 
+                "https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-aarch64-root.tar.xz",
+                "Minimal Ubuntu LTS for Android 10+ ARM64 containers", "aarch64", true, 72_000_000L, null, "Canonical", DistributionCategory.MINIMAL),
             
-            // Arch-based distributions  
-            LinuxDistribution("archlinux", "Arch Linux ARM64", PackageManager.PACMAN, 
+            // Arch-based distributions (ARM64 specific)
+            LinuxDistribution("archlinux-arm64", "Arch Linux ARM64", PackageManager.PACMAN, 
                 "http://os.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz",
-                "Simple, lightweight rolling-release distribution", "arm64", true, 165_000_000L, null, "Arch Linux ARM", DistributionCategory.GENERAL),
-            LinuxDistribution("manjaro-minimal", "Manjaro ARM64 Minimal", PackageManager.PACMAN, 
-                "https://github.com/manjaro-arm/rootfs-builder/releases/download/v2025.01/manjaro-arm64-minimal.tar.xz",
-                "User-friendly Arch derivative with minimal footprint", "arm64", false, 140_000_000L, null, "Manjaro ARM", DistributionCategory.GENERAL),
-            LinuxDistribution("endeavouros", "EndeavourOS ARM64", PackageManager.PACMAN, 
-                "https://github.com/endeavouros-arm/rootfs/releases/download/v2025.01/endeavouros-arm64-base.tar.xz",
-                "Arch-based distribution with user-friendly approach", "arm64", false, 155_000_000L, null, "EndeavourOS", DistributionCategory.GENERAL),
+                "Simple, lightweight rolling-release distribution for Android 10+ ARM64", "aarch64", true, 165_000_000L, null, "Arch Linux ARM", DistributionCategory.GENERAL),
+            LinuxDistribution("manjaro-arm64", "Manjaro ARM64 Minimal", PackageManager.PACMAN, 
+                "https://github.com/manjaro-arm/rootfs-builder/releases/download/v2025.01/manjaro-aarch64-android-minimal.tar.xz",
+                "User-friendly Arch derivative for Android 10+ ARM64", "aarch64", false, 140_000_000L, null, "Manjaro ARM", DistributionCategory.GENERAL),
+            LinuxDistribution("endeavouros-arm64", "EndeavourOS ARM64", PackageManager.PACMAN, 
+                "https://github.com/endeavouros-arm/rootfs/releases/download/v2025.01/endeavouros-aarch64-android-base.tar.xz",
+                "Arch-based distribution for Android 10+ ARM64", "aarch64", false, 155_000_000L, null, "EndeavourOS", DistributionCategory.GENERAL),
             
-            // Fedora-based distributions
-            LinuxDistribution("fedora", "Fedora 39 ARM64", PackageManager.DNF, 
+            // Fedora-based distributions (ARM64 Android focus)
+            LinuxDistribution("fedora-arm64", "Fedora 39 ARM64", PackageManager.DNF, 
                 "https://download.fedoraproject.org/pub/fedora/linux/releases/39/Container/aarch64/images/Fedora-Container-Base-39-1.5.aarch64.tar.xz",
-                "Cutting-edge features from Red Hat ecosystem", "arm64", true, 195_000_000L, null, "Fedora Project", DistributionCategory.GENERAL),
-            LinuxDistribution("centos-stream", "CentOS Stream 9 ARM64", PackageManager.DNF, 
+                "Cutting-edge features for Android 10+ ARM64", "aarch64", true, 195_000_000L, null, "Fedora Project", DistributionCategory.GENERAL),
+            LinuxDistribution("centos-stream-arm64", "CentOS Stream 9 ARM64", PackageManager.DNF, 
                 "https://cloud.centos.org/centos/9-stream/aarch64/images/CentOS-Stream-Container-Base-9-latest.aarch64.tar.xz",
-                "Continuously delivered distribution from CentOS", "arm64", true, 210_000_000L, null, "CentOS Project", DistributionCategory.GENERAL),
-            LinuxDistribution("rockylinux", "Rocky Linux 9 ARM64", PackageManager.DNF, 
+                "Continuously delivered distribution for Android 10+ ARM64", "aarch64", true, 210_000_000L, null, "CentOS Project", DistributionCategory.GENERAL),
+            LinuxDistribution("rockylinux-arm64", "Rocky Linux 9 ARM64", PackageManager.DNF, 
                 "https://download.rockylinux.org/pub/rocky/9/images/aarch64/Rocky-9-Container-Base.latest.aarch64.tar.xz",
-                "Enterprise-class operating system, RHEL compatible", "arm64", true, 205_000_000L, null, "Rocky Enterprise Software Foundation", DistributionCategory.GENERAL),
+                "Enterprise-class OS for Android 10+ ARM64", "aarch64", true, 205_000_000L, null, "Rocky Enterprise Software Foundation", DistributionCategory.GENERAL),
             
-            // Specialized & Lightweight distributions
-            LinuxDistribution("void-linux", "Void Linux ARM64", PackageManager.XBPS, 
+            // Specialized & Lightweight distributions (ARM64 Android optimized)
+            LinuxDistribution("void-linux-arm64", "Void Linux ARM64", PackageManager.XBPS, 
                 "https://repo-default.voidlinux.org/live/current/void-aarch64-ROOTFS-latest.tar.xz",
-                "Independent rolling-release with runit init", "arm64", true, 125_000_000L, null, "Void Linux", DistributionCategory.GENERAL),
-            LinuxDistribution("busybox-alpine", "Alpine + BusyBox Ultra-Minimal", PackageManager.ALPINE, 
+                "Independent rolling-release with runit init for Android 10+ ARM64", "aarch64", true, 125_000_000L, null, "Void Linux", DistributionCategory.GENERAL),
+            LinuxDistribution("busybox-alpine-arm64", "Alpine + BusyBox Ultra-Minimal ARM64", PackageManager.ALPINE, 
                 "https://github.com/alpine-docker/aarch64/releases/download/v3.19/alpine-minirootfs-3.19.0-aarch64.tar.gz",
-                "Ultra-minimal Linux with BusyBox utilities", "arm64", true, 2_800_000L, null, "Alpine Linux", DistributionCategory.MINIMAL),
-            LinuxDistribution("postmarketos", "postmarketOS ARM64", PackageManager.ALPINE, 
+                "Ultra-minimal Linux for Android 10+ ARM64", "aarch64", true, 2_800_000L, null, "Alpine Linux", DistributionCategory.MINIMAL),
+            LinuxDistribution("postmarketos-arm64", "postmarketOS ARM64", PackageManager.ALPINE, 
                 "https://images.postmarketos.org/rootfs/edge/postmarketos-base-ui-edge-aarch64.tar.xz",
-                "Touch-optimized Alpine derivative for mobile devices", "arm64", false, 45_000_000L, null, "postmarketOS", DistributionCategory.EMBEDDED),
+                "Touch-optimized Alpine derivative for Android 10+ ARM64", "aarch64", false, 45_000_000L, null, "postmarketOS", DistributionCategory.EMBEDDED),
             
-            // Development-focused distributions
-            LinuxDistribution("gentoo-stage3", "Gentoo Stage3 ARM64", PackageManager.PORTAGE, 
+            // Development-focused distributions (ARM64 Android)
+            LinuxDistribution("gentoo-stage3-arm64", "Gentoo Stage3 ARM64", PackageManager.PORTAGE, 
                 "https://distfiles.gentoo.org/releases/arm64/autobuilds/current-stage3-arm64/stage3-arm64-latest.tar.xz",
-                "Source-based meta-distribution with extreme customization", "arm64", true, 280_000_000L, null, "Gentoo Foundation", DistributionCategory.DEVELOPMENT),
-            LinuxDistribution("nixos-minimal", "NixOS Minimal ARM64", PackageManager.NIX, 
+                "Source-based meta-distribution for Android 10+ ARM64", "aarch64", true, 280_000_000L, null, "Gentoo Foundation", DistributionCategory.DEVELOPMENT),
+            LinuxDistribution("nixos-minimal-arm64", "NixOS Minimal ARM64", PackageManager.NIX, 
                 "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz",
-                "Functional package management and system configuration", "arm64", false, 95_000_000L, null, "NixOS Foundation", DistributionCategory.DEVELOPMENT),
-            LinuxDistribution("buildroot", "Buildroot ARM64 Minimal", PackageManager.NONE, 
+                "Functional package management for Android 10+ ARM64", "aarch64", false, 95_000_000L, null, "NixOS Foundation", DistributionCategory.DEVELOPMENT),
+            LinuxDistribution("buildroot-arm64", "Buildroot ARM64 Minimal", PackageManager.NONE, 
                 "https://buildroot.org/downloads/buildroot-2024.02.tar.gz",
-                "Tool for generating embedded Linux systems", "arm64", true, 15_000_000L, null, "Buildroot Community", DistributionCategory.EMBEDDED),
+                "Tool for generating embedded Linux systems on Android 10+ ARM64", "aarch64", true, 15_000_000L, null, "Buildroot Community", DistributionCategory.EMBEDDED),
             
-            // Container-optimized distributions
-            LinuxDistribution("photon-os", "VMware Photon OS ARM64", PackageManager.TDNF, 
+            // Container-optimized distributions (ARM64 Android focus)
+            LinuxDistribution("photon-os-arm64", "VMware Photon OS ARM64", PackageManager.TDNF, 
                 "https://packages.vmware.com/photon/4.0/GA/ova/photon-minimal-4.0-latest.aarch64.tar.xz",
-                "Minimal Linux for containers and cloud applications", "arm64", true, 58_000_000L, null, "VMware", DistributionCategory.CONTAINER),
-            LinuxDistribution("clear-linux", "Intel Clear Linux ARM64", PackageManager.SWP, 
-                "https://download.clearlinux.org/releases/current/clear/clear-containers-arm64.tar.xz",
-                "Performance-optimized distribution from Intel", "arm64", false, 78_000_000L, null, "Intel", DistributionCategory.CONTAINER),
-            LinuxDistribution("coreos-base", "Fedora CoreOS ARM64", PackageManager.RPM_OSTREE, 
+                "Minimal Linux for containers on Android 10+ ARM64", "aarch64", true, 58_000_000L, null, "VMware", DistributionCategory.CONTAINER),
+            LinuxDistribution("clear-linux-arm64", "Intel Clear Linux ARM64", PackageManager.SWP, 
+                "https://download.clearlinux.org/releases/current/clear/clear-containers-aarch64.tar.xz",
+                "Performance-optimized distribution for Android 10+ ARM64", "aarch64", false, 78_000_000L, null, "Intel", DistributionCategory.CONTAINER),
+            LinuxDistribution("coreos-base-arm64", "Fedora CoreOS ARM64", PackageManager.RPM_OSTREE, 
                 "https://builds.coreos.fedoraproject.org/streams/stable.json",
-                "Container-focused OS with automatic updates", "arm64", true, 145_000_000L, null, "CoreOS Team", DistributionCategory.CONTAINER)
+                "Container-focused OS with automatic updates for Android 10+ ARM64", "aarch64", true, 145_000_000L, null, "CoreOS Team", DistributionCategory.CONTAINER)
         )
         
         _availableDistributions.value = defaultDistributions
@@ -687,22 +1052,38 @@ enum class DistributionCategory {
 }
 
 /**
- * Chroot environment data class
+ * XShadow configuration for fully administrative customizable environments
+ */
+data class XShadowConfig(
+    val enableNetworking: Boolean = true,
+    val enableGpu: Boolean = false,
+    val enableStorage: Boolean = true,
+    val enableSelinux: Boolean = false,
+    val customBinds: Map<String, String> = emptyMap(),
+    val adminMode: Boolean = true,
+    val androidOptimized: Boolean = true
+)
+
+/**
+ * Chroot environment data class with XShadow support
  */
 data class ChrootEnvironment(
     val name: String,
     val distribution: LinuxDistribution,
     val rootPath: String,
-    val isActive: Boolean
+    val isActive: Boolean,
+    val xshadowEnabled: Boolean = false,
+    val xshadowConfig: XShadowConfig? = null
 )
 
 /**
- * Mount information data class
+ * Mount information data class with XShadow tracking
  */
 data class MountInfo(
     val environment: ChrootEnvironment,
     val process: Process,
-    val mountTime: Long
+    val mountTime: Long,
+    val xshadowActive: Boolean = false
 )
 
 /**

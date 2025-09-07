@@ -11,12 +11,13 @@ import java.io.FileWriter
 import kotlin.math.*
 
 /**
- * Gemma LoRA Fine-Tuning Integration for DevUtility AI System
- * Implements Low-Rank Adaptation (LoRA) for efficient fine-tuning of Gemma models
- * Based on Google's Gemma fine-tuning examples with Keras integration
+ * Compatible Model LoRA Fine-Tuning Integration for DevUtility AI System
+ * Implements Low-Rank Adaptation (LoRA) for efficient fine-tuning of compatible model types similar to Gemma
+ * Supports multiple transformer architectures with Gemma-compatible style integration
+ * Optimized for Aarch64 Unix/Linux environments on Android 10+
  */
 @Singleton
-class GemmaLoRAFineTuning @Inject constructor(
+class CompatibleModelLoRAFineTuning @Inject constructor(
     private val context: Context,
     private val aiTrainingSetManager: AITrainingSetManager
 ) {
@@ -58,15 +59,18 @@ class GemmaLoRAFineTuning @Inject constructor(
         val gradientAccumulationSteps: Int = 4
     )
     
-    data class GemmaModelConfig(
-        val modelName: String = "gemma-2b-it",  // or "gemma-7b-it"
+    data class CompatibleModelConfig(
+        val modelName: String = "gemma-2b-it",  // or compatible models like "llama-2-7b", "mistral-7b", "phi-3-mini"
+        val modelType: String = "gemma-compatible", // "gemma", "llama", "mistral", "phi", "qwen", "codellama"
         val modelPath: String? = null,
         val tokenizer: String = "google/gemma-2b-it",
         val maxSequenceLength: Int = 2048,
         val vocabularySize: Int = 256128,
-        val useQuantization: Boolean = true,    // 4-bit quantization for mobile
+        val useQuantization: Boolean = true,    // 4-bit quantization for Android 10+ ARM64
         val useFP16: Boolean = true,           // Mixed precision training
-        val deviceMap: String = "auto"
+        val deviceMap: String = "auto",
+        val compatibilityMode: String = "gemma-style", // How to adapt other models to Gemma-like interface
+        val androidOptimized: Boolean = true   // Android 10+ specific optimizations
     )
     
     data class TrainingDataset(
@@ -129,12 +133,12 @@ class GemmaLoRAFineTuning @Inject constructor(
     }
     
     /**
-     * Start fine-tuning process with custom dataset
+     * Start fine-tuning process with compatible models and custom dataset
      */
     suspend fun startFineTuning(
         dataset: TrainingDataset,
         loraConfig: LoRAConfig = LoRAConfig(),
-        modelConfig: GemmaModelConfig = GemmaModelConfig()
+        modelConfig: CompatibleModelConfig = CompatibleModelConfig()
     ): String = withContext(Dispatchers.IO) {
         try {
             _fineTuningState.value = FineTuningState.PreparingData
@@ -246,40 +250,87 @@ class GemmaLoRAFineTuning @Inject constructor(
     }
     
     /**
-     * Get available pre-trained models
+     * Get available compatible models (Gemma-style and others)
      */
-    fun getAvailableModels(): List<GemmaModelConfig> {
+    fun getAvailableModels(): List<CompatibleModelConfig> {
         return listOf(
-            GemmaModelConfig(
+            // Gemma models (native)
+            CompatibleModelConfig(
                 modelName = "gemma-2b-it",
+                modelType = "gemma",
                 tokenizer = "google/gemma-2b-it",
-                maxSequenceLength = 2048
+                maxSequenceLength = 2048,
+                compatibilityMode = "native"
             ),
-            GemmaModelConfig(
+            CompatibleModelConfig(
                 modelName = "gemma-7b-it", 
+                modelType = "gemma",
                 tokenizer = "google/gemma-7b-it",
-                maxSequenceLength = 4096
+                maxSequenceLength = 4096,
+                compatibilityMode = "native"
             ),
-            GemmaModelConfig(
+            CompatibleModelConfig(
                 modelName = "gemma-2b-base",
+                modelType = "gemma",
                 tokenizer = "google/gemma-2b",
-                maxSequenceLength = 2048
+                maxSequenceLength = 2048,
+                compatibilityMode = "native"
+            ),
+            // Llama models (Gemma-compatible)
+            CompatibleModelConfig(
+                modelName = "llama-2-7b-chat",
+                modelType = "llama",
+                tokenizer = "meta-llama/Llama-2-7b-chat-hf",
+                maxSequenceLength = 4096,
+                compatibilityMode = "gemma-style"
+            ),
+            CompatibleModelConfig(
+                modelName = "code-llama-7b-instruct",
+                modelType = "codellama",
+                tokenizer = "codellama/CodeLlama-7b-Instruct-hf",
+                maxSequenceLength = 16384,
+                compatibilityMode = "gemma-style"
+            ),
+            // Mistral models (Gemma-compatible)
+            CompatibleModelConfig(
+                modelName = "mistral-7b-instruct",
+                modelType = "mistral",
+                tokenizer = "mistralai/Mistral-7B-Instruct-v0.1",
+                maxSequenceLength = 32768,
+                compatibilityMode = "gemma-style"
+            ),
+            // Phi models (Gemma-compatible)
+            CompatibleModelConfig(
+                modelName = "phi-3-mini-instruct",
+                modelType = "phi",
+                tokenizer = "microsoft/Phi-3-mini-4k-instruct",
+                maxSequenceLength = 4096,
+                compatibilityMode = "gemma-style",
+                androidOptimized = true
+            ),
+            // Qwen models (Gemma-compatible)
+            CompatibleModelConfig(
+                modelName = "qwen-7b-chat",
+                modelType = "qwen",
+                tokenizer = "Qwen/Qwen-7B-Chat",
+                maxSequenceLength = 8192,
+                compatibilityMode = "gemma-style"
             )
         )
     }
     
     /**
-     * Generate LoRA configuration for mobile optimization
+     * Generate LoRA configuration optimized for Android 10+ ARM64
      */
-    fun createMobileOptimizedLoRAConfig(): LoRAConfig {
+    fun createAndroidOptimizedLoRAConfig(): LoRAConfig {
         return LoRAConfig(
-            rank = 4,                    // Lower rank for mobile
+            rank = 4,                    // Lower rank for Android 10+ ARM64
             alpha = 16.0f,              // Reduced alpha
             dropout = 0.05f,            // Lower dropout
-            learningRate = 1e-4f,       // Conservative learning rate
-            batchSize = 1,              // Small batch size for mobile
-            maxLength = 256,            // Shorter sequences
-            numEpochs = 2,              // Fewer epochs
+            learningRate = 1e-4f,       // Conservative learning rate for mobile
+            batchSize = 1,              // Small batch size for Android constraints
+            maxLength = 256,            // Shorter sequences for efficiency
+            numEpochs = 2,              // Fewer epochs for mobile training
             gradientAccumulationSteps = 8 // Higher accumulation for effective batch size
         )
     }
@@ -302,7 +353,7 @@ class GemmaLoRAFineTuning @Inject constructor(
     
     private fun createFineTuningConfig(
         loraConfig: LoRAConfig,
-        modelConfig: GemmaModelConfig,
+        modelConfig: CompatibleModelConfig,
         datasetFile: File
     ): File {
         val configFile = File(fineTuningDir, "lora_config.json")
@@ -310,6 +361,9 @@ class GemmaLoRAFineTuning @Inject constructor(
         val configJson = """
         {
             "model_name": "${modelConfig.modelName}",
+            "model_type": "${modelConfig.modelType}",
+            "compatibility_mode": "${modelConfig.compatibilityMode}",
+            "android_optimized": ${modelConfig.androidOptimized},
             "dataset_path": "${datasetFile.absolutePath}",
             "output_dir": "${checkpointsDir.absolutePath}",
             "lora_config": {
@@ -346,21 +400,23 @@ class GemmaLoRAFineTuning @Inject constructor(
         return configFile
     }
     
-    private fun generateTrainingCommand(configFile: File, modelConfig: GemmaModelConfig): String {
+    private fun generateTrainingCommand(configFile: File, modelConfig: CompatibleModelConfig): String {
         return """
-        python ${fineTuningDir.absolutePath}/gemma_lora_training.py \
+        python ${fineTuningDir.absolutePath}/compatible_model_lora_training.py \
             --config ${configFile.absolutePath} \
             --model_name ${modelConfig.modelName} \
+            --model_type ${modelConfig.modelType} \
             --tokenizer ${modelConfig.tokenizer} \
             --use_quantization ${modelConfig.useQuantization} \
-            --max_length ${modelConfig.maxSequenceLength}
+            --max_length ${modelConfig.maxSequenceLength} \
+            --android_optimized ${modelConfig.androidOptimized}
         """.trimIndent()
     }
     
     private suspend fun simulateFineTuningProcess(
         dataset: TrainingDataset,
         loraConfig: LoRAConfig,
-        modelConfig: GemmaModelConfig
+        modelConfig: CompatibleModelConfig
     ): String = withContext(Dispatchers.IO) {
         // Initialize progress
         _fineTuningProgress.value = FineTuningProgress(
@@ -376,24 +432,35 @@ class GemmaLoRAFineTuning @Inject constructor(
         delay(5000) // 5 seconds simulation
         
         // Create output model path
-        val outputPath = File(checkpointsDir, "gemma_devutility_lora_${System.currentTimeMillis()}")
+        val outputPath = File(checkpointsDir, "${modelConfig.modelType}_devutility_lora_${System.currentTimeMillis()}")
         outputPath.mkdirs()
         
         // Create adapter config and weights files (placeholder)
-        File(outputPath, "adapter_config.json").writeText("""{"adapter_type": "lora", "r": ${loraConfig.rank}}""")
-        File(outputPath, "adapter_model.bin").writeText("# LoRA adapter weights placeholder")
-        File(outputPath, "training_log.txt").writeText("Training completed successfully")
+        val adapterConfig = """
+        {
+            "adapter_type": "lora", 
+            "r": ${loraConfig.rank},
+            "model_type": "${modelConfig.modelType}",
+            "compatibility_mode": "${modelConfig.compatibilityMode}",
+            "android_optimized": ${modelConfig.androidOptimized}
+        }
+        """.trimIndent()
+        
+        File(outputPath, "adapter_config.json").writeText(adapterConfig)
+        File(outputPath, "adapter_model.bin").writeText("# LoRA adapter weights placeholder for ${modelConfig.modelType}")
+        File(outputPath, "training_log.txt").writeText("Training completed successfully for ${modelConfig.modelName}")
         
         return@withContext outputPath.absolutePath
     }
     
     private fun generateFineTuningScript() {
-        val scriptFile = File(fineTuningDir, "gemma_lora_training.py")
+        val scriptFile = File(fineTuningDir, "compatible_model_lora_training.py")
         val scriptContent = """
 #!/usr/bin/env python3
 \"\"\"
-Gemma LoRA Fine-Tuning Script for DevUtility
-Based on Google's Gemma fine-tuning examples
+Compatible Model LoRA Fine-Tuning Script for DevUtility
+Supports Gemma-compatible models and other transformer architectures
+Optimized for Aarch64 Unix/Linux environments on Android 10+
 \"\"\"
 
 import json
@@ -409,7 +476,11 @@ try:
         AutoModelForCausalLM,
         TrainingArguments,
         Trainer,
-        DataCollatorForLanguageModeling
+        DataCollatorForLanguageModeling,
+        LlamaTokenizer,
+        LlamaForCausalLM,
+        MistralForCausalLM,
+        PhiForCausalLM
     )
     from peft import LoraConfig, get_peft_model, TaskType
     from datasets import Dataset
@@ -420,12 +491,14 @@ except ImportError as e:
     exit(1)
 
 @dataclass
-class GemmaLoRATrainer:
+class CompatibleModelLoRATrainer:
     config_path: str
     model_name: str
+    model_type: str
     tokenizer_name: str
     use_quantization: bool = True
     max_length: int = 512
+    android_optimized: bool = True
     
     def load_config(self) -> Dict:
         with open(self.config_path, 'r') as f:
@@ -438,49 +511,103 @@ class GemmaLoRATrainer:
                 data.append(json.loads(line))
         return Dataset.from_list(data)
     
+    def get_model_class(self, model_type: str):
+        \"\"\"Get appropriate model class based on model type\"\"\"
+        model_classes = {
+            "gemma": AutoModelForCausalLM,
+            "llama": LlamaForCausalLM,
+            "mistral": MistralForCausalLM, 
+            "phi": PhiForCausalLM,
+            "qwen": AutoModelForCausalLM,
+            "codellama": LlamaForCausalLM
+        }
+        return model_classes.get(model_type, AutoModelForCausalLM)
+    
+    def get_tokenizer_class(self, model_type: str):
+        \"\"\"Get appropriate tokenizer class based on model type\"\"\"
+        tokenizer_classes = {
+            "gemma": AutoTokenizer,
+            "llama": LlamaTokenizer,
+            "mistral": AutoTokenizer,
+            "phi": AutoTokenizer,
+            "qwen": AutoTokenizer,
+            "codellama": LlamaTokenizer
+        }
+        return tokenizer_classes.get(model_type, AutoTokenizer)
+    
     def prepare_model_and_tokenizer(self, config: Dict):
-        # Load tokenizer
-        tokenizer = AutoTokenizer.from_pretrained(self.tokenizer_name)
+        # Load tokenizer with model-specific class
+        tokenizer_class = self.get_tokenizer_class(self.model_type)
+        tokenizer = tokenizer_class.from_pretrained(self.tokenizer_name)
+        
         if tokenizer.pad_token is None:
             tokenizer.pad_token = tokenizer.eos_token
         
-        # Load model with quantization for mobile
+        # Load model with quantization optimized for Android 10+ ARM64
         model_kwargs = {}
-        if self.use_quantization:
+        if self.use_quantization and self.android_optimized:
+            model_kwargs.update({
+                "torch_dtype": torch.float16,
+                "device_map": "auto",
+                "load_in_4bit": True,
+                "bnb_4bit_compute_dtype": torch.float16,
+                "bnb_4bit_use_double_quant": True,
+                "bnb_4bit_quant_type": "nf4"  # Better for Android ARM64
+            })
+        elif self.use_quantization:
             model_kwargs.update({
                 "torch_dtype": torch.float16,
                 "device_map": "auto",
                 "load_in_4bit": True
             })
         
-        model = AutoModelForCausalLM.from_pretrained(
+        model_class = self.get_model_class(self.model_type)
+        model = model_class.from_pretrained(
             self.model_name,
             **model_kwargs
         )
         
-        # Apply LoRA configuration
-        lora_config = LoraConfig(
-            **config["lora_config"]
-        )
+        # Apply LoRA configuration with model-specific adaptations
+        lora_config_dict = config["lora_config"].copy()
         
+        # Adjust target modules based on model type
+        if self.model_type == "llama" or self.model_type == "codellama":
+            lora_config_dict["target_modules"] = ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+        elif self.model_type == "mistral":
+            lora_config_dict["target_modules"] = ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+        elif self.model_type == "phi":
+            lora_config_dict["target_modules"] = ["qkv_proj", "o_proj", "fc1", "fc2"]
+        # Default Gemma-style target modules are already set
+        
+        lora_config = LoraConfig(**lora_config_dict)
         model = get_peft_model(model, lora_config)
         model.print_trainable_parameters()
         
         return model, tokenizer
     
     def preprocess_function(self, examples, tokenizer):
-        # Combine instruction and output for training
+        # Combine instruction and output for training with model-specific formatting
         texts = []
         for instruction, output in zip(examples["instruction"], examples["output"]):
-            text = f"Instruction: {instruction}\\nResponse: {output}"
+            if self.model_type in ["gemma", "phi"]:
+                text = f"<start_of_turn>user\\n{instruction}<end_of_turn>\\n<start_of_turn>model\\n{output}<end_of_turn>"
+            elif self.model_type in ["llama", "codellama"]:
+                text = f"[INST] {instruction} [/INST] {output}"
+            elif self.model_type == "mistral":
+                text = f"<s>[INST] {instruction} [/INST] {output}</s>"
+            else:
+                # Fallback to generic format
+                text = f"Instruction: {instruction}\\nResponse: {output}"
             texts.append(text)
         
-        # Tokenize
+        # Tokenize with Android-optimized settings
+        max_length = min(self.max_length, 256) if self.android_optimized else self.max_length
+        
         tokenized = tokenizer(
             texts,
             truncation=True,
             padding=False,
-            max_length=self.max_length,
+            max_length=max_length,
             return_tensors="pt"
         )
         
@@ -505,8 +632,20 @@ class GemmaLoRATrainer:
             remove_columns=dataset.column_names
         )
         
-        # Training arguments
-        training_args = TrainingArguments(**config["training_arguments"])
+        # Training arguments with Android optimizations
+        training_args_dict = config["training_arguments"].copy()
+        
+        if self.android_optimized:
+            # Reduce memory usage for Android
+            training_args_dict.update({
+                "dataloader_pin_memory": False,
+                "gradient_checkpointing": True,
+                "optim": "adamw_torch_fused" if torch.cuda.is_available() else "adamw_torch",
+                "group_by_length": True,
+                "length_column_name": "length"
+            })
+        
+        training_args = TrainingArguments(**training_args_dict)
         
         # Data collator
         data_collator = DataCollatorForLanguageModeling(
@@ -530,24 +669,40 @@ class GemmaLoRATrainer:
         trainer.save_model()
         tokenizer.save_pretrained(training_args.output_dir)
         
+        # Save model type info for compatibility
+        model_info = {
+            "model_type": self.model_type,
+            "model_name": self.model_name,
+            "android_optimized": self.android_optimized,
+            "compatibility_mode": config.get("compatibility_mode", "gemma-style")
+        }
+        
+        with open(os.path.join(training_args.output_dir, "model_info.json"), "w") as f:
+            json.dump(model_info, f, indent=2)
+        
         print(f"Training completed! Model saved to {training_args.output_dir}")
+        print(f"Model type: {self.model_type} (compatibility: {config.get('compatibility_mode', 'gemma-style')})")
 
 def main():
-    parser = argparse.ArgumentParser(description="Gemma LoRA Fine-Tuning")
+    parser = argparse.ArgumentParser(description="Compatible Model LoRA Fine-Tuning for DevUtility")
     parser.add_argument("--config", required=True, help="Path to configuration file")
     parser.add_argument("--model_name", required=True, help="Model name or path")
+    parser.add_argument("--model_type", required=True, help="Model type (gemma, llama, mistral, phi, etc.)")
     parser.add_argument("--tokenizer", required=True, help="Tokenizer name or path")
     parser.add_argument("--use_quantization", action="store_true", help="Use 4-bit quantization")
     parser.add_argument("--max_length", type=int, default=512, help="Maximum sequence length")
+    parser.add_argument("--android_optimized", action="store_true", help="Enable Android 10+ ARM64 optimizations")
     
     args = parser.parse_args()
     
-    trainer = GemmaLoRATrainer(
+    trainer = CompatibleModelLoRATrainer(
         config_path=args.config,
         model_name=args.model_name,
+        model_type=args.model_type,
         tokenizer_name=args.tokenizer,
         use_quantization=args.use_quantization,
-        max_length=args.max_length
+        max_length=args.max_length,
+        android_optimized=args.android_optimized
     )
     
     trainer.train()

@@ -18,7 +18,7 @@ import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.spiralgang.srirachaarmy.devutility.ai.GemmaLoRAFineTuning
+import com.spiralgang.srirachaarmy.devutility.ai.CompatibleModelLoRAFineTuning
 import com.spiralgang.srirachaarmy.devutility.ai.LivingAINativeInterface
 import com.spiralgang.srirachaarmy.devutility.system.DistributionCategory
 import com.spiralgang.srirachaarmy.devutility.system.RootFSManager
