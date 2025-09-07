@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 CodeReaver (DevUtility-AI) - DeepSeek R1 Reasoning Integration
 DevUtilityV2.5—InnovativeToolchestAI

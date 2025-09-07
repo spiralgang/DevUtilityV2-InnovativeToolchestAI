@@ -95,7 +95,7 @@ class KnowledgeGapRecoverySystem @Inject constructor() {
         contextInfo: Map<String, Any>
     ): RecoveryResult {
         
-        Timber.d("🔧 Executing structured recovery for gap: $knowledgeGap")
+        Timber.d("ðŸ”§ Executing structured recovery for gap: $knowledgeGap")
         _recoveryStatus.value = RecoveryStatus.ANALYZING
         
         val recoveryAttempts = mutableListOf<String>()
@@ -524,8 +524,8 @@ class KnowledgeGapRecoverySystem @Inject constructor() {
         return when (tools.size) {
             0 -> "No relevant tools identified for coordination"
             1 -> "Single tool enhancement: ${tools.first()}"
-            2 -> "Two-tool coordination: ${tools[0]} → ${tools[1]}"
-            else -> "Multi-tool pipeline: ${tools.joinToString(" → ")}"
+            2 -> "Two-tool coordination: ${tools[0]} â†’ ${tools[1]}"
+            else -> "Multi-tool pipeline: ${tools.joinToString(" â†’ ")}"
         }
     }
     

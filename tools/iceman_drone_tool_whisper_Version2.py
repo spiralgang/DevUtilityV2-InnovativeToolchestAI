@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 call_pi -> unified AI provider bridge
 

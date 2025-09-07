@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 # SMART FILE OPERATIONS - Context-aware file management
 
 SFO_CONFIG="${HOME}/.sfo"

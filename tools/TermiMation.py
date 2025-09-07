@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ###The system KNOWS what it wants - it should just ASK for it directly instead of making us play guessing games. 
 ###Let me create a script that acts as a "System Whisperer" - it listens to what the system is trying to say and automatically gives it what it needs.
  

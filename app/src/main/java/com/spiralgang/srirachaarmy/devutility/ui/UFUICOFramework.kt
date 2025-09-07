@@ -181,7 +181,7 @@ class UFUICOFramework @Inject constructor(
      */
     suspend fun initialize() {
         try {
-            Timber.d("🎨 Initializing UFUIC-O Framework with EG-GATT-SWT")
+            Timber.d("üé® Initializing UFUIC-O Framework with EG-GATT-SWT")
             
             // Initialize Text-to-Speech for GATT narration
             textToSpeechService.initialize()
@@ -192,10 +192,10 @@ class UFUICOFramework @Inject constructor(
             // Initialize customization options
             initializeCustomizationOptions()
             
-            Timber.d("✅ UFUIC-O Framework initialized successfully")
+            Timber.d("‚úÖ UFUIC-O Framework initialized successfully")
             
         } catch (e: Exception) {
-            Timber.e(e, "❌ Failed to initialize UFUIC-O Framework")
+            Timber.e(e, "‚ùå Failed to initialize UFUIC-O Framework")
         }
     }
 
@@ -777,7 +777,7 @@ class UFUICOFramework @Inject constructor(
      */
     private suspend fun loadUserPreferences() {
         // Implementation would load from preference storage
-        Timber.d("📱 Loading user preferences for UFUIC-O")
+        Timber.d("üì± Loading user preferences for UFUIC-O")
     }
 
     /**
@@ -785,7 +785,7 @@ class UFUICOFramework @Inject constructor(
      */
     fun navigateToCategory(category: CustomizationCategory) {
         _currentCategory.value = category
-        Timber.d("🧭 Navigated to customization category: ${category.name}")
+        Timber.d("üß≠ Navigated to customization category: ${category.name}")
     }
 
     /**
@@ -810,7 +810,7 @@ class UFUICOFramework @Inject constructor(
         // Save to preferences
         preferenceManager.saveCustomizationOption(optionId, newValue)
         
-        Timber.d("🔧 Updated customization option: $optionId = $newValue")
+        Timber.d("üîß Updated customization option: $optionId = $newValue")
     }
 
     /**
@@ -820,7 +820,7 @@ class UFUICOFramework @Inject constructor(
         val option = findCustomizationOption(optionId)
         if (option != null && _egGattSwtStructure.value.guidedAITutorialTips.voiceNarrationEnabled) {
             textToSpeechService.speak(option.gattTip.voiceNarration)
-            Timber.d("🔊 Started GATT narration for: ${option.title}")
+            Timber.d("üîä Started GATT narration for: ${option.title}")
         }
     }
 
@@ -832,7 +832,7 @@ class UFUICOFramework @Inject constructor(
         currentProgress["${optionId}_step_${stepNumber}"] = true
         _walkThroughProgress.value = currentProgress
         
-        Timber.d("✅ SWT step completed: $optionId step $stepNumber")
+        Timber.d("‚úÖ SWT step completed: $optionId step $stepNumber")
     }
 
     /**
@@ -875,11 +875,11 @@ class UFUICOFramework @Inject constructor(
 class TextToSpeechService @Inject constructor() {
     
     suspend fun initialize() {
-        Timber.d("🔊 Initializing Text-to-Speech for GATT narration")
+        Timber.d("üîä Initializing Text-to-Speech for GATT narration")
     }
     
     suspend fun speak(text: String) {
-        Timber.d("🗣️ TTS: $text")
+        Timber.d("üó£Ô∏è TTS: $text")
         // Implementation would use Android TTS service
     }
 }
@@ -891,7 +891,7 @@ class TextToSpeechService @Inject constructor() {
 class UserPreferenceManager @Inject constructor() {
     
     suspend fun saveCustomizationOption(optionId: String, value: Any) {
-        Timber.d("💾 Saving customization: $optionId = $value")
+        Timber.d("üíæ Saving customization: $optionId = $value")
         // Implementation would save to shared preferences or database
     }
     

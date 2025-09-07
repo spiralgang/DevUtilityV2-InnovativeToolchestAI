@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import annotations
 from .base import BaseBot
 from ..types import BotType, HeatLevel, BotMessage

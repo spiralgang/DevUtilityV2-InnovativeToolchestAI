@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import annotations
 import hashlib, json, random, time
 from dataclasses import dataclass, field

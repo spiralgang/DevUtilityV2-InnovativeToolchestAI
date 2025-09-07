@@ -1,0 +1,14 @@
+{
+  "timestamp": "2025-09-07T08:57:31.093988",
+  "repository": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI",
+  "dry_run": true,
+  "statistics": {
+    "total_files": 814,
+    "text_files": 794,
+    "already_utf8": 242,
+    "converted": 0,
+    "errors": 1,
+    "skipped": 0
+  },
+  "conversions": []
+}

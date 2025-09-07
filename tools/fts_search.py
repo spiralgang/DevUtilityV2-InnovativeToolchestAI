@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Query content index:
 - FTS5: SELECT path FROM content_fts WHERE content_fts MATCH ?

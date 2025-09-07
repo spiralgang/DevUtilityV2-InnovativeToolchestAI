@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Active Merge Conflict Resolver
 Resolves conflicts in an active merge state

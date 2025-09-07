@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 iceman_drone_tool
 Light adapter package for ICEDMAN drone & Pi interaction.

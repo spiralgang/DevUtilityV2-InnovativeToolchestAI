@@ -1,0 +1,12 @@
+[Unit]
+Description=Seed ipset block sets from banlist
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+Environment=BANLIST=/etc/ban/banlist.txt
+ExecStart=/usr/local/sbin/ipset_sync.sh
+
+[Install]
+WantedBy=multi-user.target

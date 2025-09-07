@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 # SPIRALGANG DYNAMIC POWER PROFILE MANAGER
 
 PROFILE_ROOT="${HOME}/.power-profiles"

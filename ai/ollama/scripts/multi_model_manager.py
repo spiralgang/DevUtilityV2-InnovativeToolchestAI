@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Multi-Model AI Integration Manager
 DevUtilityV2.5—InnovativeToolchestAI

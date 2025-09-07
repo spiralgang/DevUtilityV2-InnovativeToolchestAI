@@ -215,19 +215,19 @@ class LivingAINativeInterface @Inject constructor(
         // Analyze current context and suggest relevant actions
         when (context.developmentPhase) {
             "exploration" -> {
-                suggestions.add("🔍 Want me to analyze this codebase structure?")
-                suggestions.add("📚 I can explain any complex patterns I notice")
-                suggestions.add("🌟 Ready to dive deeper into any specific area?")
+                suggestions.add("ðŸ”� Want me to analyze this codebase structure?")
+                suggestions.add("ðŸ“š I can explain any complex patterns I notice")
+                suggestions.add("ðŸŒŸ Ready to dive deeper into any specific area?")
             }
             "implementation" -> {
-                suggestions.add("⚡ I can optimize this code pattern")
-                suggestions.add("🛠️ Need help with architecture decisions?")
-                suggestions.add("🔧 I see potential improvements here")
+                suggestions.add("âš¡ I can optimize this code pattern")
+                suggestions.add("ðŸ› ï¸� Need help with architecture decisions?")
+                suggestions.add("ðŸ”§ I see potential improvements here")
             }
             "debugging" -> {
-                suggestions.add("🔍 Let me trace through this logic")
-                suggestions.add("🐛 I can identify potential issues")
-                suggestions.add("💡 Want to try a different approach?")
+                suggestions.add("ðŸ”� Let me trace through this logic")
+                suggestions.add("ðŸ�› I can identify potential issues")
+                suggestions.add("ðŸ’¡ Want to try a different approach?")
             }
         }
         
@@ -280,7 +280,7 @@ class LivingAINativeInterface @Inject constructor(
         }
         
         // Generate AI response about the command
-        val aiResponse = "🔧 Executed: `$input`\n💡 ${generateAIInsight(input, shellOutput, context)}"
+        val aiResponse = "ðŸ”§ Executed: `$input`\nðŸ’¡ ${generateAIInsight(input, shellOutput, context)}"
         
         return AINativeMessage(
             input = input,
@@ -305,7 +305,7 @@ class LivingAINativeInterface @Inject constructor(
     
     private suspend fun processAsHybridInteraction(input: String, context: DynamicContext): AINativeMessage {
         // This is the most sophisticated mode - blend shell and AI
-        val aiResponse = "🤝 I understand you want both action and insight. ${generateHybridResponse(input, context)}"
+        val aiResponse = "ðŸ¤� I understand you want both action and insight. ${generateHybridResponse(input, context)}"
         
         return AINativeMessage(
             input = input,
@@ -316,7 +316,7 @@ class LivingAINativeInterface @Inject constructor(
     }
     
     private suspend fun processAsAmbientThought(input: String, context: DynamicContext): AINativeMessage {
-        val aiResponse = "💭 ${generateAmbientResponse(input, context)}"
+        val aiResponse = "ðŸ’­ ${generateAmbientResponse(input, context)}"
         
         return AINativeMessage(
             input = input,
@@ -326,7 +326,7 @@ class LivingAINativeInterface @Inject constructor(
     }
     
     private suspend fun processAsLearningMoment(input: String, context: DynamicContext): AINativeMessage {
-        val aiResponse = "🌱 ${generateLearningResponse(input, context)}"
+        val aiResponse = "ðŸŒ± ${generateLearningResponse(input, context)}"
         val insight = "Learning captured: ${input}"
         
         return AINativeMessage(
@@ -347,7 +347,7 @@ class LivingAINativeInterface @Inject constructor(
     }
     
     private fun generateIntelligentResponse(input: String, context: DynamicContext): String {
-        return "🧠 Based on our current context (${context.developmentPhase}), let me think about this... [AI would generate contextual response based on SrirachaArmy intelligence]"
+        return "ðŸ§  Based on our current context (${context.developmentPhase}), let me think about this... [AI would generate contextual response based on SrirachaArmy intelligence]"
     }
     
     private fun generateHybridResponse(input: String, context: DynamicContext): String {
@@ -378,7 +378,7 @@ class LivingAINativeInterface @Inject constructor(
         return personalPatterns.entries
             .filter { it.value.effectiveness > 0.7f }
             .take(2)
-            .map { "🎯 Based on your patterns: ${it.key}" }
+            .map { "ðŸŽ¯ Based on your patterns: ${it.key}" }
     }
     
     private suspend fun learnFromInteraction(input: String, response: AINativeMessage, context: DynamicContext) {

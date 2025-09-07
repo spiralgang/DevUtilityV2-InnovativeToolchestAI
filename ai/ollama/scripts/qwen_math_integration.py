@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Anti-Flail && Errors - Qwen Mathematical Reasoning Integration
 DevUtilityV2.5—InnovativeToolchestAI

@@ -1,4 +1,4 @@
-# Android Source Summary — where /data, app sandboxing, mounts and permissions are implemented (AOSP)
+# Android Source Summary â€” where /data, app sandboxing, mounts and permissions are implemented (AOSP)
 
 This file summarizes the parts of the Android source tree (platform/superproject on cs.android.com) that control:
 - mounting and device filesystems,

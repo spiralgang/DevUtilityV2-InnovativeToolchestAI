@@ -60,7 +60,7 @@ fun SrirachaArmyInterface(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "🌶️ SrirachaArmy IDE",
+                        text = "ðŸŒ¶ï¸� SrirachaArmy IDE",
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.weight(1f))
@@ -230,7 +230,7 @@ fun SystemStatusCard(uiState: DevUtilityViewModelV2.UIState) {
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = "🌶️ SrirachaArmy System Status",
+                text = "ðŸŒ¶ï¸� SrirachaArmy System Status",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -248,7 +248,7 @@ fun SystemStatusCard(uiState: DevUtilityViewModelV2.UIState) {
             if (uiState.coordinationPattern.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "🚀 Active Pattern: ${uiState.coordinationPattern}",
+                    text = "ðŸš€ Active Pattern: ${uiState.coordinationPattern}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -363,7 +363,7 @@ fun ProcessControlsCard(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = "🚀 Process Controls",
+                text = "ðŸš€ Process Controls",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -406,7 +406,7 @@ fun ProcessControlsCard(
             
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "TT-CCC-RCCC-LDU coordination • Preview-Implement-Push-Implement approval",
+                text = "TT-CCC-RCCC-LDU coordination â€¢ Preview-Implement-Push-Implement approval",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onTertiaryContainer
             )
@@ -432,12 +432,12 @@ fun StatusItem(label: String, value: String, color: Color) {
 
 fun getBotDisplayName(botType: SrirachaArmyOrchestrator.BotType): String {
     return when (botType) {
-        SrirachaArmyOrchestrator.BotType.SSA -> "🔧 SSA (Structure Agent)"
-        SrirachaArmyOrchestrator.BotType.FFA -> "💡 FFA (Creative Agent)"
-        SrirachaArmyOrchestrator.BotType.AGENT_5S -> "🏃 5S Agent (Chill Hopping)"
-        SrirachaArmyOrchestrator.BotType.AGENT_8S -> "🔥 8S Agent (Aggressive Crushing)"
-        SrirachaArmyOrchestrator.BotType.WEBNETCASTE -> "🕸️ WebNetCaste AI"
-        SrirachaArmyOrchestrator.BotType.UIYI_PROCESS -> "🚀 UIYI Process"
+        SrirachaArmyOrchestrator.BotType.SSA -> "ðŸ”§ SSA (Structure Agent)"
+        SrirachaArmyOrchestrator.BotType.FFA -> "ðŸ’¡ FFA (Creative Agent)"
+        SrirachaArmyOrchestrator.BotType.AGENT_5S -> "ðŸ�ƒ 5S Agent (Chill Hopping)"
+        SrirachaArmyOrchestrator.BotType.AGENT_8S -> "ðŸ”¥ 8S Agent (Aggressive Crushing)"
+        SrirachaArmyOrchestrator.BotType.WEBNETCASTE -> "ðŸ•¸ï¸� WebNetCaste AI"
+        SrirachaArmyOrchestrator.BotType.UIYI_PROCESS -> "ðŸš€ UIYI Process"
     }
 }
 
@@ -601,7 +601,7 @@ fun AIAssistant(
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Text(
-                        text = "🧠 AI Assistant",
+                        text = "ðŸ§  AI Assistant",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )

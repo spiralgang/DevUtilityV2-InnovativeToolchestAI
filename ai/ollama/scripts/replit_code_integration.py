@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Orchestrator - Replit Code Assistant Integration
 DevUtilityV2.5—InnovativeToolchestAI

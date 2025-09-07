@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 DevUtility Repository Organizer
 @GDA @UFUIC-O @PIPI @LDU @EG @GATT @SWT

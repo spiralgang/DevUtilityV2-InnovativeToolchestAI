@@ -569,7 +569,7 @@ private fun LivingCodeInstanceCard(
             )
             instance.transformationHistory.takeLast(3).forEach { change ->
                 Text(
-                    text = "• $change",
+                    text = "â€¢ $change",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 # OMNISCIENT COMMAND ORCHESTRATOR
 # Dynamic command routing with intelligent context awareness
 

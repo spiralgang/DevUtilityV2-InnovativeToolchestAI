@@ -207,7 +207,7 @@ val expansionDecision = antiFlailingSystem.evaluateCapabilityExpansion(
 
 ## Key Lessons from Case Study
 
-### 1. Knowledge Gaps ≠ Missing Capabilities
+### 1. Knowledge Gaps â‰  Missing Capabilities
 
 **Lesson**: Most "knowledge gaps" can be addressed through better synthesis and coordination of existing capabilities rather than adding new ones.
 

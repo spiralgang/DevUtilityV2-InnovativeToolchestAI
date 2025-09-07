@@ -178,7 +178,7 @@ class Profiler @Inject constructor() {
         // Nested loops
         val nestedLoopPattern = Regex("""(for|while).*\{[^{}]*(for|while)""")
         if (nestedLoopPattern.containsMatchIn(code)) {
-            bottlenecks.add("Nested loops detected - potential O(n²) complexity")
+            bottlenecks.add("Nested loops detected - potential O(nÂ²) complexity")
         }
         
         // Database operations in loops

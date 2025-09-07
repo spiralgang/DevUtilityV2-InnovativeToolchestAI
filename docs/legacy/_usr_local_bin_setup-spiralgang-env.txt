@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 # SPIRALGANG ENVIRONMENT SETUP - One-time initialization
 
 echo "Setting up SPIRALGANG Omniscient Environment..."

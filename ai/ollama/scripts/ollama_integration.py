@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Big Bottle Sriracha - Ollama AI Core Integration for DevUtilityV2.5—InnovativeToolchestAI
+Big Bottle Sriracha - Ollama AI Core Integration for DevUtilityV2.5â€”InnovativeToolchestAI
 
 "Big Bottle Sriracha" - Unrestricted AI delegating mini autonomous bot clones of itself!
 This script provides the bridge between the Ollama AI core and the DevUtility 
@@ -101,22 +102,22 @@ class BigBottleSriracha:
     
     def setup_integration(self) -> bool:
         """Set up the complete Ollama integration"""
-        logger.info("🚀 Setting up Ollama AI Core integration...")
+        logger.info("ðŸš€ Setting up Ollama AI Core integration...")
         
         # Step 1: Check model availability
         if not self.is_model_available():
-            logger.warning("⚠️  Model files not fully available (may be LFS pointers)")
-            logger.info("💡 For full functionality, download model files with 'git lfs pull'")
+            logger.warning("âš ï¸�  Model files not fully available (may be LFS pointers)")
+            logger.info("ðŸ’¡ For full functionality, download model files with 'git lfs pull'")
         
         # Step 2: Install Ollama if needed
         if not self.install_ollama():
-            logger.error("❌ Failed to install Ollama")
+            logger.error("â�Œ Failed to install Ollama")
             return False
             
         # Step 3: Create integration points with existing DevUtility systems
         self._create_integration_points()
         
-        logger.info("✅ Ollama AI Core integration setup complete!")
+        logger.info("âœ… Ollama AI Core integration setup complete!")
         return True
     
     def _create_integration_points(self):
@@ -150,7 +151,7 @@ sys.path.insert(0, str(ai_dir))
 def analyze_conflict_with_ai(conflict_data):
     """Analyze conflicts using Ollama AI core"""
     # This would integrate with the Ollama API once models are loaded
-    print("🤖 AI-powered conflict analysis (Ollama integration placeholder)")
+    print("ðŸ¤– AI-powered conflict analysis (Ollama integration placeholder)")
     return {"analysis": "AI analysis pending full model download"}
 
 if __name__ == "__main__":
@@ -185,7 +186,7 @@ class OllamaDeveloperAssistant:
 
 if __name__ == "__main__":
     assistant = OllamaDeveloperAssistant()
-    print("🤖 Ollama Development Assistant - Ready")
+    print("ðŸ¤– Ollama Development Assistant - Ready")
 '''
         with open(target_path, 'w') as f:
             f.write(content)

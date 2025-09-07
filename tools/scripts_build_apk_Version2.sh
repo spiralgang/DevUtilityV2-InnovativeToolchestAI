@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build helper (Capacitor/Android) — high-level automation.
+# Build helper (Capacitor/Android) â€” high-level automation.
 # Two build paths:
 #  A) Quick dev (web UI + remote backend): build web bundle and use Capacitor to build Android shell.
 #  B) Full local backend (nodejs-mobile): requires nodejs-mobile build integration (advanced).
