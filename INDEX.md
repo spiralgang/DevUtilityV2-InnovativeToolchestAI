@@ -1,4 +1,4 @@
-# SrirachaArmy Agentic Living-Code Augmentation System Repository Index
+# DevUtility-V2.5—Innovative-Toolchest-AI Repository Index
 <!-- @GATT Guided-AI-Tutorial-Tips Navigation -->
 
 ## Quick Navigation (@EG Easy-to-Grasp)
