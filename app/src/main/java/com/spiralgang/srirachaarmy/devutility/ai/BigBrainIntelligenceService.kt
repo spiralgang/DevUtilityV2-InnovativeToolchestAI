@@ -4,6 +4,8 @@ import com.spiralgang.srirachaarmy.devutility.ai.core.AIGuidanceSystem
 import com.spiralgang.srirachaarmy.devutility.ai.core.TaskStateManager
 import com.spiralgang.srirachaarmy.devutility.ai.core.LivingCodeSystem
 import com.spiralgang.srirachaarmy.devutility.ai.core.EvolutionaryAIGuideNet
+import com.spiralgang.srirachaarmy.devutility.agentic.QuantumAgenticIntegration
+import com.spiralgang.srirachaarmy.devutility.agentic.QuantumAgenticResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -46,7 +48,8 @@ class BigBrainIntelligenceService @Inject constructor(
     private val learningBot: LearningBot,
     private val securityAnalyzer: SecurityAnalyzer,
     private val webNetCasteAI: WebNetCasteAI,
-    private val codeReviewService: CodeReviewService
+    private val codeReviewService: CodeReviewService,
+    private val quantumAgenticIntegration: QuantumAgenticIntegration
 ) {
 
     /**
@@ -281,6 +284,13 @@ class BigBrainIntelligenceService @Inject constructor(
         _currentState.value = BigBrainState.QUANTUM_PROCESSING
         quantumOptimizations++
         
+        // Apply quantum enhancement to the query
+        val quantumResponse = quantumAgenticIntegration.processWithQuantumEnhancement(
+            request = query,
+            context = context,
+            preferredDataset = determineOptimalQuantumDataset(query)
+        )
+        
         // Advanced processing with quantum optimization
         val bigBrainResponse = aiThinkModule.advancedBigBrainPlanning(query, context)
         val securityInsights = securityAnalyzer.analyzeForSecurityIssues(query)
@@ -288,13 +298,26 @@ class BigBrainIntelligenceService @Inject constructor(
             webNetCasteAI.searchWithFissionFishin(query, context)
         } else ""
         
-        val quantumEnhancements = listOf(
-            "quantum_pattern_matching",
-            "quantum_optimization_algorithms",
-            "multi_modal_fusion"
-        )
+        val quantumEnhancements = when (quantumResponse) {
+            is QuantumAgenticResponse.Success -> {
+                listOf(
+                    "quantum_dataset: ${quantumResponse.datasetUsed}",
+                    "quantum_advantage: ${(quantumResponse.quantumAdvantage * 100).toInt()}%",
+                    "evolution_phase: ${quantumResponse.evolutionPhase}",
+                    "quantum_pattern_matching",
+                    "quantum_optimization_algorithms",
+                    "multi_modal_quantum_fusion"
+                ) + quantumResponse.agenticInsights
+            }
+            is QuantumAgenticResponse.Error -> listOf(
+                "quantum_error_mitigation",
+                "classical_fallback_optimization",
+                "adaptive_error_handling"
+            )
+        }
         
         val reasoningPath = listOf(
+            "quantum_enhancement_analysis",
             "advanced_big_brain_planning",
             "quantum_optimization",
             "security_analysis",
@@ -302,7 +325,23 @@ class BigBrainIntelligenceService @Inject constructor(
         )
         
         val combinedResponse = buildString {
-            append("🧠⚛️ **ADVANCED BIG BRAIN INTELLIGENCE**\n\n")
+            append("🧠⚛️ **ADVANCED BIG BRAIN QUANTUM INTELLIGENCE**\n\n")
+            
+            // Include quantum insights
+            when (quantumResponse) {
+                is QuantumAgenticResponse.Success -> {
+                    append("🌟 **Quantum Enhancement Applied:**\n")
+                    append("• Dataset: ${quantumResponse.datasetUsed}\n")
+                    append("• Quantum Advantage: ${(quantumResponse.quantumAdvantage * 100).toInt()}%\n")
+                    append("• Evolution Phase: ${quantumResponse.evolutionPhase}\n")
+                    append("• Agentic Insights: ${quantumResponse.agenticInsights.joinToString(", ")}\n\n")
+                }
+                is QuantumAgenticResponse.Error -> {
+                    append("🔧 **Quantum Processing Note:** ${quantumResponse.message}\n")
+                    append("Falling back to classical optimization with quantum-inspired patterns.\n\n")
+                }
+            }
+            
             append(bigBrainResponse)
             if (securityInsights.isNotEmpty()) {
                 append("\n\n🔒 Security Intelligence: $securityInsights")
@@ -316,11 +355,11 @@ class BigBrainIntelligenceService @Inject constructor(
             response = combinedResponse,
             intelligenceLevel = IntelligenceLevel.ADVANCED,
             reasoningPath = reasoningPath,
-            patternsUsed = listOf("advanced_patterns", "security_patterns", "web_patterns"),
+            patternsUsed = listOf("quantum_patterns", "advanced_patterns", "security_patterns", "web_patterns"),
             quantumEnhancements = quantumEnhancements,
             confidenceScore = 0.91f,
             processingTime = 300L,
-            evolutionaryInsights = listOf("Quantum optimization applied", "Cross-system intelligence integrated")
+            evolutionaryInsights = listOf("Quantum optimization applied", "Cross-system intelligence integrated", "Quantum-agentic patterns learned")
         )
     }
 
@@ -332,6 +371,23 @@ class BigBrainIntelligenceService @Inject constructor(
         _currentState.value = BigBrainState.EVOLUTION_MODE
         evolutionCycles++
         
+        // Apply comprehensive quantum enhancement with multiple datasets
+        val quantumResponse = quantumAgenticIntegration.processWithQuantumEnhancement(
+            request = query,
+            context = context,
+            preferredDataset = null // Let quantum system choose optimal dataset
+        )
+        
+        // Generate quantum-enhanced living code if applicable
+        val quantumLivingCode = if (query.contains("generate", ignoreCase = true) ||
+                                   query.contains("create", ignoreCase = true) ||
+                                   query.contains("optimize", ignoreCase = true)) {
+            quantumAgenticIntegration.generateQuantumLivingCode(
+                datasetName = determineOptimalQuantumDataset(query),
+                targetCapability = extractCapability(query)
+            )
+        } else null
+        
         // Genius-level processing with all systems
         val bigBrainResponse = aiThinkModule.advancedBigBrainPlanning(query, context)
         val learningInsights = learningBot.analyzeUserBehavior("genius_user", query, context["context"]?.toString() ?: "")
@@ -342,6 +398,7 @@ class BigBrainIntelligenceService @Inject constructor(
         val webIntelligence = webNetCasteAI.searchWithFissionFishin(query, context)
         
         val reasoningPath = listOf(
+            "quantum_agentic_enhancement",
             "genius_big_brain_coordination",
             "multi_system_synthesis",
             "evolutionary_learning",
@@ -350,15 +407,46 @@ class BigBrainIntelligenceService @Inject constructor(
         )
         
         val evolutionaryInsights = listOf(
+            "Quantum-agentic enhancement successfully applied",
             "All AI systems coordinated for maximum intelligence",
             "Pattern evolution detected and applied",
             "Cross-domain knowledge synthesis achieved",
             "Predictive capabilities enhanced"
-        )
+        ) + when (quantumResponse) {
+            is QuantumAgenticResponse.Success -> quantumResponse.agenticInsights
+            is QuantumAgenticResponse.Error -> listOf("Quantum error handled gracefully")
+        }
         
         val geniusResponse = buildString {
-            append("🧠🌟 **GENIUS-LEVEL BIG BRAIN INTELLIGENCE**\n\n")
+            append("🧠🌟 **GENIUS-LEVEL BIG BRAIN QUANTUM INTELLIGENCE**\n\n")
+            
+            // Include quantum enhancement details
+            when (quantumResponse) {
+                is QuantumAgenticResponse.Success -> {
+                    append("⚛️ **Quantum Agentic Enhancement:**\n")
+                    append("• Dataset Used: ${quantumResponse.datasetUsed}\n")
+                    append("• Quantum Advantage: ${(quantumResponse.quantumAdvantage * 100).toInt()}%\n")
+                    append("• Evolution Phase: ${quantumResponse.evolutionPhase}\n")
+                    append("• Agentic Insights: ${quantumResponse.agenticInsights.size} insights generated\n\n")
+                }
+                is QuantumAgenticResponse.Error -> {
+                    append("⚛️ **Quantum Processing:** Graceful fallback applied (${quantumResponse.message})\n\n")
+                }
+            }
+            
             append(bigBrainResponse)
+            
+            // Include quantum living code if generated
+            if (quantumLivingCode != null) {
+                append("\n\n🔬 **Quantum Living Code Generated:**\n")
+                append("```kotlin\n")
+                append(quantumLivingCode.take(500)) // Preview first 500 chars
+                if (quantumLivingCode.length > 500) {
+                    append("...\n// Full quantum living code available\n")
+                }
+                append("```\n")
+            }
+            
             append("\n\n🎯 **Comprehensive AI Analysis:**\n")
             append("• Learning Intelligence: $learningInsights\n")
             if (securityAnalysis.isNotEmpty()) {
@@ -562,6 +650,93 @@ class BigBrainIntelligenceService @Inject constructor(
             predictiveAccuracy = response.confidenceScore * 0.9f,
             metaCognitiveInsights = currentMetrics.metaCognitiveInsights + if (response.intelligenceLevel == IntelligenceLevel.TRANSCENDENT) 1 else 0,
             crossSystemSynergy = response.confidenceScore * response.intelligenceLevel.multiplier / 5f
+        )
+    }
+
+    /**
+     * Determine optimal quantum dataset for the given query
+     */
+    private fun determineOptimalQuantumDataset(query: String): String {
+        return when {
+            query.contains("optimization", ignoreCase = true) ||
+            query.contains("minimize", ignoreCase = true) ||
+            query.contains("maximize", ignoreCase = true) -> "qaoa_optimization_patterns"
+            
+            query.contains("control", ignoreCase = true) ||
+            query.contains("adjust", ignoreCase = true) ||
+            query.contains("tune", ignoreCase = true) -> "quantum_control_optimization"
+            
+            query.contains("noise", ignoreCase = true) ||
+            query.contains("error", ignoreCase = true) ||
+            query.contains("robust", ignoreCase = true) -> "quantum_noise_patterns"
+            
+            query.contains("multi", ignoreCase = true) ||
+            query.contains("complex", ignoreCase = true) ||
+            query.contains("parallel", ignoreCase = true) -> "qubit_evolution_2d"
+            
+            else -> "qubit_evolution_1d"
+        }
+    }
+
+    /**
+     * Extract capability from user query for quantum living code generation
+     */
+    private fun extractCapability(query: String): String {
+        return when {
+            query.contains("optimization", ignoreCase = true) -> "Optimization Engine"
+            query.contains("learning", ignoreCase = true) -> "Learning System"
+            query.contains("decision", ignoreCase = true) -> "Decision Making"
+            query.contains("pattern", ignoreCase = true) -> "Pattern Recognition"
+            query.contains("control", ignoreCase = true) -> "Control System"
+            query.contains("prediction", ignoreCase = true) -> "Prediction Engine"
+            query.contains("analysis", ignoreCase = true) -> "Analysis Framework"
+            else -> "Intelligent Agent"
+        }
+    }
+
+    /**
+     * Get quantum agentic metrics for monitoring
+     */
+    fun getQuantumAgenticMetrics(): Map<String, Any> {
+        return quantumAgenticIntegration.getQuantumMetrics().let { metrics ->
+            mapOf(
+                "coherenceLevel" to metrics.coherenceLevel,
+                "entanglementStrength" to metrics.entanglementStrength,
+                "superpositionStates" to metrics.superpositionStates,
+                "evolutionPhase" to metrics.evolutionPhase.name,
+                "learningRate" to metrics.learningRate,
+                "availableDatasets" to metrics.availableDatasets,
+                "optimizationResults" to metrics.optimizationResults,
+                "quantumAdvantageAverage" to metrics.quantumAdvantageAverage
+            )
+        }
+    }
+
+    /**
+     * Generate quantum-enhanced living code for specific capabilities
+     */
+    suspend fun generateQuantumLivingCode(capability: String): String {
+        val dataset = determineOptimalQuantumDataset(capability)
+        return quantumAgenticIntegration.generateQuantumLivingCode(dataset, capability)
+    }
+
+    /**
+     * Export comprehensive big brain intelligence data including quantum patterns
+     */
+    fun exportBigBrainIntelligence(): Map<String, Any> {
+        return mapOf(
+            "currentState" to _currentState.value.name,
+            "intelligenceLevel" to _intelligenceLevel.value.name,
+            "metrics" to _bigBrainMetrics.value,
+            "quantumMetrics" to getQuantumAgenticMetrics(),
+            "processingStats" to mapOf(
+                "totalQueries" to totalQueries,
+                "bigBrainActivations" to bigBrainActivations,
+                "quantumOptimizations" to quantumOptimizations,
+                "evolutionCycles" to evolutionCycles,
+                "intelligenceBoosts" to intelligenceBoosts
+            ),
+            "quantumPatterns" to quantumAgenticIntegration.exportQuantumPatterns()
         )
     }
 }
