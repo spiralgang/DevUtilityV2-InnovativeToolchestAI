@@ -18,6 +18,7 @@ import com.spiralgang.srirachaarmy.devutility.ai.LivingAINativeInterface
 import com.spiralgang.srirachaarmy.devutility.ui.LivingDynamicInterface
 import com.spiralgang.srirachaarmy.devutility.ui.DevUtilityViewModelV2
 import com.spiralgang.srirachaarmy.devutility.ui.theme.SrirachaArmyTheme
+import com.spiralgang.srirachaarmy.devutility.agentic.*
 // import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import kotlinx.coroutines.launch
@@ -49,7 +50,24 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SrirachaArmyTheme {
-                LivingAIMainExperience()
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    // Create instances of agentic systems
+                    val repositoryManager = remember { AgenticRepositoryManager(this@MainActivity) }
+                    val livingCodeAdapter = remember { LivingCodeAdapter(this@MainActivity, repositoryManager) }
+                    val workflowEngine = remember { AgenticWorkflowEngine(repositoryManager, livingCodeAdapter) }
+                    val resourceLoader = remember { DynamicResourceLoader(this@MainActivity, repositoryManager) }
+                    
+                    // Main agentic integration interface that brings together all repository content
+                    AgenticIntegrationInterface(
+                        repositoryManager = repositoryManager,
+                        livingCodeAdapter = livingCodeAdapter,
+                        workflowEngine = workflowEngine,
+                        resourceLoader = resourceLoader
+                    )
+                }
             }
         }
         
