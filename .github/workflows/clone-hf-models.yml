@@ -1,0 +1,59 @@
+name: Clone and Cache Hugging Face Models
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/clone-hf-models.yml'
+      - 'configs/model_manifest.json'
+
+jobs:
+  clone-hf-repos:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Install Git LFS (optional)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git-lfs
+        git lfs install
+
+    - name: Prepare models directory
+      run: mkdir -p models logs
+
+    - name: Cache Hugging Face Models
+      uses: actions/cache@v3
+      with:
+        path: models
+        key: hf-models-${{ runner.os }}-${{ hashFiles('configs/model_manifest.json') }}
+        restore-keys: |
+          hf-models-${{ runner.os }}-
+
+    - name: Clone Models from Manifest
+      run: |
+        jq -r '.models[] | "\(.repo) \(.dir)"' configs/model_manifest.json | while read repo dir; do
+          if [ ! -d "models/$dir" ]; then
+            echo "[FETCH] $repo -> models/$dir"
+            git clone "$repo" "models/$dir"
+            rm -rf "models/$dir/.git"  # strip repo metadata to avoid submodule warnings
+          else
+            echo "[SKIP] models/$dir already present"
+          fi
+        done
+
+    - name: Forensic Log
+      run: |
+        ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+        echo "{ \"ts\": \"$ts\", \"event\": \"model_sync\", \"models\": $(cat configs/model_manifest.json) }" >> logs/model_sync.jsonl
+
+    # Optional: commit models into repo — skip if you only want them cached
+    - name: Commit and Push Changes
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add models/ logs/model_sync.jsonl
+        git diff --cached --quiet || git commit -m "Sync Hugging Face models from manifest"
+        git push
