@@ -3,6 +3,36 @@
 <!-- Perfect symmetrical integration with all repository components -->
 <!-- ### Youre only allowed one open 'copilot/fix-' branch. -->
 
+
+name: Single copilot/fix- Branch Guard
+on:
+  create:
+    ref_type: branch
+
+jobs:
+  enforce-unique:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/heads/copilot/fix-')
+    steps:
+      - name: Fetch all branches
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Count copilot/fix- branches
+        id: count
+        run: |
+          echo "::set-output name=FOUND::$(git branch -r | grep -c 'origin/copilot/fix-')"
+
+      - name: Delete extra branch
+        if: steps.count.outputs.FOUND > '1'
+        run: |
+          echo "More than one copilot/fix- branch found (${{ steps.count.outputs.FOUND }}). Deleting this new branch..."
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          gh api repos/${{ github.repository }}/git/refs/heads/${{ github.ref_name }} \
+            -X DELETE
+
+
 # DevUl Army : Living Sriracha AGI - CodeReaver Enhanced Developer Instructions
 
 Always follow these instructions first and only search for additional information if these instructions are incomplete or found to be in error.
