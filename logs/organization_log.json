@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-09-07T02:28:17.769470",
+  "moves": {
+    "configs/android/": 11,
+    "configs/build/": 5,
+    "configs/security/": 12,
+    "datasets/": 8,
+    "tools/": 79,
+    "reference/architecture/": 3,
+    "reference/training/": 4,
+    "docs/personas/": 0,
+    "docs/training/": 0,
+    "docs/specifications/": 1,
+    "archive/": 22,
+    "docs/assets/": 1
+  },
+  "standards_applied": [
+    "GDA",
+    "UFUIC-O",
+    "PIPI",
+    "LDU",
+    "EG",
+    "GATT",
+    "SWT"
+  ]
+}
