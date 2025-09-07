@@ -9,9 +9,13 @@ import asyncio
 import sys
 from pathlib import Path
 
-# Add the AI script path
-sys.path.append(str(Path(__file__).parent / "ai"))
-
+# Add the AI script path (relative to repository root)
+ai_path = Path.cwd() / "ai"
+if ai_path.exists():
+    sys.path.append(str(ai_path))
+else:
+    print(f"❌ AI directory not found at {ai_path}")
+    sys.exit(1)
 try:
     from secondary_ai_validation import SecondaryAIValidationEngine, ValidationRequest, ValidationType, ValidationPriority
 except ImportError as e:
