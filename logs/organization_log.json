@@ -1,18 +1,18 @@
 {
-  "timestamp": "2025-09-07T02:28:17.769470",
+  "timestamp": "2025-09-07T03:28:54.759337",
   "moves": {
-    "configs/android/": 11,
-    "configs/build/": 5,
-    "configs/security/": 12,
-    "datasets/": 8,
-    "tools/": 79,
-    "reference/architecture/": 3,
-    "reference/training/": 4,
+    "configs/android/": 0,
+    "configs/build/": 0,
+    "configs/security/": 0,
+    "datasets/": 0,
+    "tools/": 0,
+    "reference/architecture/": 0,
+    "reference/training/": 0,
     "docs/personas/": 0,
     "docs/training/": 0,
-    "docs/specifications/": 1,
-    "archive/": 22,
-    "docs/assets/": 1
+    "docs/specifications/": 0,
+    "archive/": 0,
+    "docs/assets/": 0
   },
   "standards_applied": [
     "GDA",
