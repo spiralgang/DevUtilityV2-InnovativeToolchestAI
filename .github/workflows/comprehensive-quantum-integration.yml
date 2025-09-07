@@ -42,7 +42,8 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
-          if [["$GITHUB_ACTOR" != "github-actions[bot]" && "$GITHUB_ACTOR" != "spiralgang"]]; then
+          if [["$GITHUB_ACTOR" != "github-actions[bot]" && \
+               "$GITHUB_ACTOR" != "spiralgang"]]; then
             echo "⚠️ Quantum integration limited to authorized users"
             echo "Current actor: $GITHUB_ACTOR"
             exit 1
@@ -102,7 +103,8 @@ jobs:
               elif '$DATASET_TYPE' == 'square':
                   filtered = comprehensive_quantum_adapter.get_dataset_by_characteristics(pulse_shape='Square')
               elif '$DATASET_TYPE' == 'noisy':
-                  filtered = [d for d in datasets if comprehensive_quantum_adapter.get_quantum_patterns(d).get('noise', 'none') != 'none']
+                  filtered = [d for d in datasets if \\
+                    comprehensive_quantum_adapter.get_quantum_patterns(d).get('noise', 'none') != 'none']
 
               print(f'🎯 Filtered datasets ({len(filtered)}): {filtered[:5]}...')
 
@@ -201,7 +203,8 @@ jobs:
 
       - name: Update DevUl Army Branding
         run: |
-          echo "🏷️ Updating project branding to 'DevUl Army — Living Sriracha AGI'..."
+          echo "🏷️ Updating project branding to 'DevUl Army — Living \\
+            Sriracha AGI'..."
 
           # Check current directory structure matches branding
           if [[-d "DevUl Army : Living Sriracha AGI"]]; then
@@ -211,7 +214,8 @@ jobs:
           fi
 
           # Validate quantum integration files have proper branding
-          if grep -q "DevUl Army.*Living Sriracha AGI" tools/qdataset_adapter.py; then
+          if grep -q "DevUl Army.*Living Sriracha AGI" \\
+            tools/qdataset_adapter.py; then
             echo "✅ Quantum adapter has proper DevUl Army branding"
           else
             echo "❌ Quantum adapter missing DevUl Army branding"

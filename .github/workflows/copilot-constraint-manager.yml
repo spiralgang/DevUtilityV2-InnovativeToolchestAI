@@ -57,10 +57,14 @@ jobs:
 
       - name: Set up GitHub CLI
         run: |
-          type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
-          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+          type -p curl >/dev/null || (sudo apt update && sudo apt install curl \
+            -y)
+                    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | \
+            sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
           && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+                    && echo "deb [arch=$(dpkg --print-architecture) \\
+                      signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | \
+            sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
           && sudo apt update \
           && sudo apt install gh -y
 
@@ -84,22 +88,29 @@ jobs:
             RUNNING_COPILOT_WORKFLOWS=$(gh run list \
               --status in_progress \
               --json workflowName,databaseId \
-              --jq '.[] | select(.workflowName | test("(?i)copilot|auto.merge|constraint")) | .databaseId' | wc -l)
+                            --jq '.[] | \
+                select(.workflowName | \
+                test("(?i)copilot|auto.merge|constraint")) | \
+                .databaseId' | \
+                wc -l)
 
             # If only this workflow is running (count = 1), proceed
             if ["$RUNNING_COPILOT_WORKFLOWS" -le 1]; then
-              echo "✅ Copilot operation slot acquired! Proceeding with ${{ github.event.inputs.operation_type }}"
+              echo "✅ Copilot operation slot acquired! Proceeding with ${{ \
+                github.event.inputs.operation_type }}"
               break
             fi
 
-            echo "⏳ Waiting for Copilot operation slot... ($WAIT_COUNT/${MAX_WAIT_SECONDS}s)"
+                        echo "⏳ Waiting for Copilot operation slot. \
+              .. ($WAIT_COUNT/${MAX_WAIT_SECONDS}s)"
             sleep 10
             WAIT_COUNT=$((WAIT_COUNT + 10))
           done
 
           if [$WAIT_COUNT -ge $MAX_WAIT_SECONDS]; then
             echo "❌ Timeout: >
-              Could not acquire Copilot operation slot within ${MAX_WAIT} minutes"
+              Could not acquire Copilot operation slot within ${MAX_WAIT} \
+                minutes"
             exit 1
           fi
 

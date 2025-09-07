@@ -42,7 +42,8 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
           # Allow both Copilot and authorized users for chatbot interactions
-          if [["$GITHUB_ACTOR" != "github-actions[bot]" && "$GITHUB_ACTOR" != "spiralgang"]]; then
+          if [["$GITHUB_ACTOR" != "github-actions[bot]" && "$GITHUB_ACTOR" != \
+            "spiralgang"]]; then
             echo "⚠️ Chatbot memory access limited to authorized users"
             echo "Current actor: $GITHUB_ACTOR"
             exit 1
@@ -97,10 +98,14 @@ jobs:
           # Store upload event in memory
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           echo "{\"timestamp\": >
-            \"$TIMESTAMP\", \"event\": \"upload\", \"branch\": \"$BRANCH_NAME\", \"committer\": \"$COMMITTER\", \"message\": \"$COMMIT_MESSAGE\", \"type\": \"automatic_trigger\"}" >> .github/copilot-memory/conversations.jsonl
+            \"$TIMESTAMP\", \"event\": \"upload\", \"branch\": \\
+              \"$BRANCH_NAME\", \
+              \"committer\": \"$COMMITTER\", \"message\": \\
+                \"$COMMIT_MESSAGE\", \"type\": \"automatic_trigger\"}" >> .github/copilot-memory/conversations.jsonl
 
           # Analyze if this is main organization work
-          if [["$BRANCH_NAME" == "main" || "$COMMIT_MESSAGE" =~ ^(chore|docs|style|refactor):]]; then
+          if [["$BRANCH_NAME" == "main" || "$COMMIT_MESSAGE" =~ \
+            ^(chore|docs|style|refactor):]]; then
             echo "🏢 Detected organizational/maintenance work"
             echo "main_org_work=true" >> $GITHUB_ENV
           else
@@ -110,7 +115,8 @@ jobs:
 
       - name: Generate Chatbot Response
         env:
-          MESSAGE: ${{ github.event.inputs.message || github.event.head_commit.message || 'Upload processed' }}
+          MESSAGE: ${{ github.event.inputs.message || \\
+            github.event.head_commit.message || 'Upload processed' }}
           MEMORY_ACTION: ${{ github.event.inputs.memory_action || 'store' }}
           MAIN_ORG_WORK: ${{ env.main_org_work || 'false' }}
         run: |
@@ -123,21 +129,32 @@ jobs:
           # Generate contextual response based on message and memory
           if [["$MAIN_ORG_WORK" == "true"]]; then
             RESPONSE="DevUl Army Copilot Acknowledged - Time: >
-              $TIMESTAMP - Action: Organizational maintenance detected - Memory: Stored in persistent flow memory - Message: $MESSAGE - Status: Everything looks good! DevUl Army Living Sriracha AGI is ready to assist!"
+              $TIMESTAMP - Action: Organizational maintenance detected - \\
+                Memory: \
+                Stored in persistent flow memory - Message: $MESSAGE - \\
+                  Status: Everything looks good! DevUl Army Living Sriracha AGI is ready to assist!"
           else
             RESPONSE="DevUl Army Copilot Response - Time: >
-              $TIMESTAMP - Action: Development work processed - Memory: Enhanced with new context - Message: $MESSAGE - Status: Looking good! DevUl Army Living Sriracha AGI is learning and evolving!"
+              $TIMESTAMP - Action: Development work processed - Memory: \\
+                Enhanced \
+                with new context - Message: $MESSAGE - Status: Looking \\
+                  good! DevUl Army Living Sriracha AGI is learning and evolving!"
           fi
 
           echo "$RESPONSE"
 
           # Store response in memory
           echo "{\"timestamp\": >
-            \"$TIMESTAMP\", \"event\": \"chatbot_response\", \"message\": \"$MESSAGE\", \"response\": $(echo "$RESPONSE" | jq -Rs .), \"memory_action\": \"$MEMORY_ACTION\", \"main_org_work\": \"$MAIN_ORG_WORK\"}" >> .github/copilot-memory/conversations.jsonl
+            \"$TIMESTAMP\", \"event\": \"chatbot_response\", \"message\": \
+                            \"$MESSAGE\", \"response\": $(echo "$RESPONSE" | \
+                jq -Rs .), \"memory_action\": \"$MEMORY_ACTION\", \\
+                  \"main_org_work\": \"$MAIN_ORG_WORK\"}" >> .github/copilot-memory/conversations.jsonl
 
           # Update project context
           echo "{\"last_updated\": >
-            \"$TIMESTAMP\", \"project_name\": \"DevUl Army — Living Sriracha AGI\", \"capabilities\": [\"persistent_memory\", \"upload_triggers\", \"chatbot_responses\", \"main_write_requests\", \"living_code_augmentation\"], \"interaction_count\": $(wc -l < .github/copilot-memory/conversations.jsonl), \"status\": \"active\"}" > .github/copilot-memory/project-context.json
+            \"$TIMESTAMP\", \"project_name\": \"DevUl Army — Living Sriracha \
+              AGI\", \"capabilities\": [\"persistent_memory\", \\
+                \"upload_triggers\", \"chatbot_responses\", \"main_write_requests\", \"living_code_augmentation\"], \"interaction_count\": $(wc -l < .github/copilot-memory/conversations.jsonl), \"status\": \"active\"}" > .github/copilot-memory/project-context.json
 
           echo "✅ Chatbot response generated and stored in persistent memory"
 
@@ -154,10 +171,13 @@ jobs:
           # Create issue for main write request
           ISSUE_TITLE="Copilot Request: Merge organizational changes to main"
           ISSUE_BODY="DevUl Army Copilot Main Write Request - Created: >
-            $(date -u +"%Y-%m-%dT%H:%M:%SZ") - Branch: $BRANCH_NAME - Type: Organizational/Maintenance Changes - The Copilot system has detected organizational or maintenance changes that should be merged to main. Please review changes and merge when ready."
+            $(date -u +"%Y-%m-%dT%H:%M:%SZ") - Branch: $BRANCH_NAME - Type: \
+              Organizational/Maintenance Changes - The Copilot system has \\
+                detected organizational or maintenance changes that should be merged to main. Please review changes and merge when ready."
 
           # Only create issue if it doesn't already exist
-          EXISTING_ISSUES=$(gh issue list --state open --search "Copilot Request: Merge organizational changes" --json number --jq length)
+          EXISTING_ISSUES=$(gh issue list --state open --search "Copilot \
+            Request: Merge organizational changes" --json number --jq length)
 
           if [["$EXISTING_ISSUES" -eq 0]]; then
             gh issue create \
@@ -182,7 +202,10 @@ jobs:
           echo "💾 Committing persistent memory updates..."
 
           git add .github/copilot-memory/
-          git commit -m "Update DevUl Army Copilot persistent memory - Enhanced conversation history, updated project context, processed upload triggers, generated chatbot responses [skip ci]"
+          git commit -m "Update DevUl Army Copilot persistent memory - \\
+            Enhanced conversation history, \
+            updated project context, processed upload triggers, generated \\
+              chatbot responses [skip ci]"
 
           git push origin ${{ github.ref_name }}
 
@@ -196,7 +219,8 @@ jobs:
           echo "Trigger: ${{ github.event_name }}"
           echo "Branch: ${{ github.ref_name }}"
           echo "Actor: ${{ github.actor }}"
-          echo "Memory Action: ${{ github.event.inputs.memory_action || 'auto' }}"
+          echo "Memory Action: ${{ github.event.inputs.memory_action || 'auto' \
+            }}"
           echo "Main Org Work: ${{ env.main_org_work || 'false' }}"
           echo "Status: Complete"
           echo ""

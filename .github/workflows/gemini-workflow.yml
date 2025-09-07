@@ -48,7 +48,8 @@ jobs:
           fi
 
       - name: Comment on PR about conflicts
-        if: ${{ needs.conflict-resolve.outputs.conflicts == 'true' && github.event_name == 'pull_request' }}
+        if: ${{ needs.conflict-resolve.outputs.conflicts == 'true' && \
+          github.event_name == 'pull_request' }}
         uses: peter-evans/create-or-update-comment@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -78,7 +79,8 @@ jobs:
         if: env.GEMINI_AUTH_MODE == 'gcloud'
         uses: google-github-actions/auth@v1
         with:
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER \
+            }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
 
       - name: (gcloud) Install gcloud SDK and obtain access token
@@ -95,17 +97,23 @@ jobs:
           echo "GEMINI_ACCESS_TOKEN=$TOKEN" >> $GITHUB_ENV
 
       - name: Generate GitHub App installation token
-        if: ${{ secrets.GITHUB_APP_PRIVATE_KEY && secrets.GITHUB_APP_ID && secrets.GITHUB_APP_INSTALLATION_ID }}
+        if: ${{ secrets.GITHUB_APP_PRIVATE_KEY && secrets.GITHUB_APP_ID && \
+          secrets.GITHUB_APP_INSTALLATION_ID }}
         run: |
-          node ./scripts/ai-review/get-github-app-token.js > /tmp/.gh_app_token \
+          node ./scripts/ai-review/get-github-app-token.js > \\
+            /tmp/.gh_app_token \
+            \
             || (echo "failed to obtain app token" >&2; exit 2)
-          echo "GITHUB_APP_INSTALLATION_TOKEN=$(cat /tmp/.gh_app_token)" >> $GITHUB_ENV
+          echo "GITHUB_APP_INSTALLATION_TOKEN=$(cat /tmp/.gh_app_token)" >> \
+            $GITHUB_ENV
           rm -f /tmp/.gh_app_token
 
       - name: Ensure review script is present and executable
         run: |
-          test -f ./scripts/ai-review/gemini-review.js || { echo "Missing gemini-review.js" >&2; exit 2; }
-          chmod +x ./scripts/ai-review/gemini-review.js ./scripts/ai-review/get-github-app-token.js || true
+          test -f ./scripts/ai-review/gemini-review.js || { echo "Missing \
+            gemini-review.js" >&2; exit 2; }
+          chmod +x ./scripts/ai-review/gemini-review.js \\
+            ./scripts/ai-review/get-github-app-token.js || true
 
       - name: Execute Gemini AI review
         id: run_review
@@ -115,7 +123,8 @@ jobs:
           GEMINI_API_ENDPOINT: ${{ env.GEMINI_API_ENDPOINT }}
           GEMINI_API_KEY: ${{ secrets.GEMINI }}
           GEMINI_ACCESS_TOKEN: ${{ env.GEMINI_ACCESS_TOKEN }}
-          GITHUB_APP_INSTALLATION_TOKEN: ${{ env.GITHUB_APP_INSTALLATION_TOKEN || '' }}
+          GITHUB_APP_INSTALLATION_TOKEN: ${{ env.GITHUB_APP_INSTALLATION_TOKEN \
+            || '' }}
           REVIEWERS: "Gemini Pro 2.5 (high-level)"
           STANDARDS: "vault"
           POST_BACK: ${{ secrets.GEMINI_POST_BACK || 'false' }}

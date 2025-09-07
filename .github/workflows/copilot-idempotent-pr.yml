@@ -27,7 +27,8 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
           # Only allow Copilot to create PRs and branches
-          if [["$GITHUB_ACTOR" != "github-actions[bot]" && "${{ github.event_name }}" == "workflow_dispatch"]]; then
+          if [["$GITHUB_ACTOR" != "github-actions[bot]" && "${{ \
+            github.event_name }}" == "workflow_dispatch"]]; then
             echo "❌ Only Copilot can create PRs and branches"
             exit 1
           fi
@@ -41,10 +42,14 @@ jobs:
 
       - name: Set up GitHub CLI
         run: |
-          type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
-          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+          type -p curl >/dev/null || (sudo apt update && sudo apt install curl \
+            -y)
+                    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | \
+            sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
           && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+                    && echo "deb [arch=$(dpkg --print-architecture) \\
+                      signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | \
+            sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
           && sudo apt update \
           && sudo apt install gh -y
 
@@ -65,17 +70,22 @@ jobs:
           echo "🔍 Processing branch: $BRANCH_NAME"
 
           # Check for existing open PR from this branch to main
-          EXISTING_PR_NUMBER=$(gh pr list --state open --head "$BRANCH_NAME" --base "$BASE_BRANCH" --json number --jq '.[0].number // empty')
+          EXISTING_PR_NUMBER=$(gh pr list --state open --head "$BRANCH_NAME" \
+            --base "$BASE_BRANCH" --json number --jq '.[0].number // empty')
 
           if [[-n "$EXISTING_PR_NUMBER"]]; then
-            echo "🔄 Open PR #$EXISTING_PR_NUMBER already exists for $BRANCH_NAME → $BASE_BRANCH"
+                        echo "🔄 Open PR #$EXISTING_PR_NUMBER \
+              already exists for $BRANCH_NAME"
+              → $BASE_BRANCH"
             echo "📝 Updating existing PR with latest commits..."
 
             # Push latest commits to branch
             git push origin "$BRANCH_NAME"
 
             # Update PR with intelligent comment
-            gh pr comment "$EXISTING_PR_NUMBER" --body "DevUl Army Copilot PR Update - Updated: $(date -u) - Branch: $BRANCH_NAME to $BASE_BRANCH - No duplicate PR created."
+            gh pr comment "$EXISTING_PR_NUMBER" --body "DevUl Army Copilot PR \
+              Update - Updated: $(date -u) - Branch: $BRANCH_NAME to \\
+                $BASE_BRANCH - No duplicate PR created."
 
             echo "✅ PR #$EXISTING_PR_NUMBER updated successfully"
           else
@@ -84,12 +94,16 @@ jobs:
 
             # Generate smart PR title and body
             COMMITS_COUNT=$(git rev-list --count origin/$BASE_BRANCH..$BRANCH_NAME 2>/dev/null || echo "1")
-            LATEST_COMMIT_MSG=$(git log -1 --pretty=format:"%s" 2>/dev/null || echo "Copilot automated fix")
+            LATEST_COMMIT_MSG=$(git log -1 --pretty=format:"%s" 2>/dev/null || \
+              echo "Copilot automated fix")
 
             PR_TITLE="DevUl Army Copilot Fix: >
               $(echo "$LATEST_COMMIT_MSG" | head -c 50)..."
             PR_BODY="DevUl Army Automated Copilot Fix - Branch: >
-              $BRANCH_NAME to $BASE_BRANCH - Commits: $COMMITS_COUNT - Created: $(date -u) - Ready for review and merge when validation is complete."
+              $BRANCH_NAME to $BASE_BRANCH - Commits: $COMMITS_COUNT - \\
+                Created: \
+                $(date -u) - Ready for review and merge when validation is \\
+                  complete."
 
             # Create the PR
             NEW_PR_NUMBER=$(gh pr create \
