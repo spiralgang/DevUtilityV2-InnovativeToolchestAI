@@ -1,5 +1,5 @@
 {
-  "timestamp": 1757238785,
+  "timestamp": 1757239951,
   "applied_permissions": [
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/_data_data_tech.ula_files_home_.omniscient_optimization_performance-tuner-1.sh",
@@ -345,6 +345,13 @@
       "set": "scripts"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/ssnahke-local-installer.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/demonstrate-big-brain.sh",
       "permissions": "0755",
       "owner": "user",
@@ -360,6 +367,13 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/demonstrate-hardened-security-containers.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/demonstrate-ssnahke-local.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -388,6 +402,13 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/validate-system.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/ssnahke-local-status.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -14506,7 +14527,7 @@
       "set": "living_code_db"
     }
   ],
-  "total_files": 2072,
+  "total_files": 2075,
   "security_level": "maximum",
   "living_code_integrated": true
 }

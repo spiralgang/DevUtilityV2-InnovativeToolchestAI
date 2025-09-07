@@ -146,10 +146,61 @@ if [[ "$HARDENED_SHELL_LOADED" == "1" ]]; then
     echo -e "   ✅ Hardened shell environment active"
 fi
 
-if [[ "$CONTAINER_ORCHESTRATION_LOADED" == "1" ]]; then
+if [[ "${CONTAINER_ORCHESTRATION_LOADED:-0}" == "1" ]]; then
     echo -e "   ✅ Container orchestration ready"
 fi
 
 echo ""
 echo -e "${GREEN}🚀 Environment activated successfully!${NC}"
 echo -e "${BLUE}===============================================${NC}"
+
+# SSnaHke-Local Integration
+export SSNAHKE_LOCAL_ENABLED=1
+export SSNAHKE_SCANNER_PATH="$HOME/ssnahke_local.py"
+export SSNAHKE_LAUNCHER_PATH="$HOME/ssnahke_launcher.sh"
+
+# SSnaHke-Local commands
+ssnahke_scan() {
+    echo "🐍 Running SSnaHke-Local security scan..."
+    if [[ -x "$SSNAHKE_LAUNCHER_PATH" ]]; then
+        "$SSNAHKE_LAUNCHER_PATH" "$@"
+    elif [[ -f scripts/ssnahke-local-installer.sh ]]; then
+        echo "🔧 SSnaHke-Local not installed. Installing now..."
+        ./scripts/ssnahke-local-installer.sh
+    else
+        echo "❌ SSnaHke-Local installer not found"
+    fi
+}
+
+ssnahke_install() {
+    echo "🔧 Installing SSnaHke-Local security scanner..."
+    if [[ -f scripts/ssnahke-local-installer.sh ]]; then
+        ./scripts/ssnahke-local-installer.sh
+    else
+        echo "❌ SSnaHke-Local installer not found at scripts/ssnahke-local-installer.sh"
+    fi
+}
+
+ssnahke_demo() {
+    echo "🎯 Demonstrating SSnaHke-Local system..."
+    if [[ -f scripts/demonstrate-ssnahke-local.sh ]]; then
+        ./scripts/demonstrate-ssnahke-local.sh
+    else
+        echo "❌ SSnaHke-Local demonstration not found"
+    fi
+}
+
+ssnahke_status() {
+    echo "🐍 SSnaHke-Local Status:"
+    echo "   Scanner: $([[ -f "$SSNAHKE_SCANNER_PATH" ]] && echo "✅ Installed" || echo "❌ Missing")"
+    echo "   Launcher: $([[ -f "$SSNAHKE_LAUNCHER_PATH" ]] && echo "✅ Available" || echo "❌ Missing")"
+    echo "   Living Code Integration: $([[ "$LIVING_CODE_ENABLED" == "1" ]] && echo "✅ Active" || echo "❌ Inactive")"
+    echo "   Installer: $([[ -f scripts/ssnahke-local-installer.sh ]] && echo "✅ Available" || echo "❌ Missing")"
+    echo "   Demo: $([[ -f scripts/demonstrate-ssnahke-local.sh ]] && echo "✅ Available" || echo "❌ Missing")"
+}
+
+# Aliases for SSnaHke-Local
+alias ssnahke='ssnahke_scan'
+alias snake='ssnahke_scan'
+alias security_scan='ssnahke_scan'
+alias install_ssnahke='ssnahke_install'
