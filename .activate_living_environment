@@ -1,42 +1,155 @@
 #!/usr/bin/env bash
-# Living Environment Activator
-# Run this to activate the living code environment in your shell
+# Enhanced Living Environment Activator - Maximum Security & Container Integration
+# Activates hardened living code environment with TOYBOX, CHISEL, proot-distro support
 
-echo "🧬 Activating SrirachaArmy Living Code Environment..."
+# Colors for better output
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
 
-# Set environment variables
-export LIVING_CODE_ENABLED=1
-export LIVING_CODE_ROOT="$(pwd)"
-export LIVING_CODE_VERSION="2025-Living-Code-v1.0"
+echo -e "${PURPLE}🛡️ Enhanced Living Environment Activator${NC}"
+echo -e "${BLUE}===============================================${NC}"
 
-# Source the wrapper if it exists
+# Source the enhanced living environment wrapper
 if [[ -f "$(pwd)/.living_environment_wrapper.sh" ]]; then
     source "$(pwd)/.living_environment_wrapper.sh"
-    echo "✅ Living environment wrapper loaded"
+    echo -e "${GREEN}✅ Enhanced living environment loaded${NC}"
+else
+    echo -e "${RED}❌ Living environment wrapper not found${NC}"
+    exit 1
 fi
 
-# Add living code functions to current shell
-living_status() {
-    echo "🧬 Living Code Environment Status:"
-    echo "   Enabled: $LIVING_CODE_ENABLED"
-    echo "   Root: $LIVING_CODE_ROOT"
-    echo "   Version: $LIVING_CODE_VERSION"
-    if [[ -f "$LIVING_CODE_ROOT/.living_environment.db" ]]; then
-        echo "   Database: Active"
-    else
-        echo "   Database: Not initialized"
-    fi
-}
+# Display environment status
+echo -e "${CYAN}📊 Environment Status:${NC}"
+echo -e "   Type: ${ENVIRONMENT_TYPE:-unknown}"
+echo -e "   Container Required: ${CONTAINER_REQUIRED:-0}"
+echo -e "   Security Level: ${LIVING_CODE_SECURITY_LEVEL:-standard}"
+echo -e "   Hardened Mode: ${LIVING_CODE_HARDENED:-0}"
 
-# Export functions
-export -f living_status
+# Container integration status
+echo -e "${CYAN}📦 Container Integration:${NC}"
+echo -e "   TOYBOX: ${TOYBOX_LIVING_CODE:-❌}"
+echo -e "   CHISEL: ${CHISEL_LIVING_CODE:-❌}"
+echo -e "   Android Container: ${ANDROID_CONTAINER_LIVING_CODE:-❌}"
+echo -e "   Orchestration: ${CONTAINER_ORCHESTRATION_LOADED:-❌}"
 
-echo "✅ Living Code Environment activated!"
-echo "   Use 'living_status' to check status"
-echo "   All repository files are now perfectly integrated"
+# Security status
+echo -e "${CYAN}🔒 Security Features:${NC}"
+echo -e "   Hardened Shell: ${HARDENED_SHELL_LOADED:-❌}"
+echo -e "   Hardened Permissions: ${HARDENED_PERMISSIONS_APPLIED:-❌}"
+echo -e "   PGP Integration: ${PGP_SECURITY_ENABLED:-❌}"
+
+echo -e "${BLUE}===============================================${NC}"
+
+# Enhanced command aliases with container support
+alias living_status='living_code_status'
+alias security_report='security_status'
+alias harden_security='apply_security_hardening'
+alias container_status='container_status_report 2>/dev/null || echo "Container orchestration not loaded"'
+
+# Storage feature aliases (enhanced)
+alias storage_enable='storage_features_enable'
+alias zram_check='zram_status'
+alias memmap_check='memmap_status'
+alias storage_report='storage_optimization_report'
+
+# Container execution aliases
+alias safe_exec='living_container_exec'
+alias android_exec='android_safe_exec 2>/dev/null || echo "Android execution manager not available"'
+alias toybox_exec='toybox_exec 2>/dev/null || echo "TOYBOX not available"'
+
+# Security management aliases
+alias apply_permissions='python3 scripts/hardened-permissions-manager.py --apply'
+alias verify_permissions='python3 scripts/hardened-permissions-manager.py --verify'
+alias security_report_gen='python3 scripts/hardened-permissions-manager.py --report'
+alias pgp_setup='python3 scripts/hardened-permissions-manager.py --pgp'
+
+# Enhanced hardened shell aliases
+alias monitor_resources='monitor_resources 2>/dev/null || echo "Resource monitoring not available"'
+alias optimize_memory='optimize_memory_usage 2>/dev/null || echo "Memory optimization not available"'
+alias cleanup_system='cleanup_and_restart 2>/dev/null || echo "System cleanup not available"'
+
+# Container management aliases
+alias create_container='chisel_create_container 2>/dev/null || echo "CHISEL not available"'
+alias run_container='chisel_run_container 2>/dev/null || echo "CHISEL not available"'
+alias list_containers='chisel_list_containers 2>/dev/null || echo "CHISEL not available"'
+
+# proot-distro aliases (Android compatibility)
+alias proot_setup='create_proot_environment 2>/dev/null || echo "proot-distro not available"'
+alias proot_run='proot_exec 2>/dev/null || echo "proot-distro not available"'
+alias proot_living='integrate_living_code_proot 2>/dev/null || echo "proot integration not available"'
+
+echo -e "${GREEN}🧬 Enhanced Living Code Environment Ready!${NC}"
 echo ""
-echo "💾 Mobile Storage Features Available:"
-echo "   storage_features_enable - Enable ZRAM & NumPy memmap"
-echo "   zram_status            - Check ZRAM status and configuration"
-echo "   memmap_status          - Check NumPy memmap availability"
-echo "   storage_optimization_report - Complete storage analysis"
+echo -e "${YELLOW}📋 Available Commands:${NC}"
+echo -e "${CYAN}  Core Living Code:${NC}"
+echo "    living_status          - Show living code status"
+echo "    security_report        - Show security status"
+echo "    harden_security        - Apply security hardening"
+echo "    container_status       - Show container status"
+echo ""
+echo -e "${CYAN}  Storage Features:${NC}"
+echo "    storage_enable         - Enable ZRAM & NumPy memmap"
+echo "    zram_check            - Check ZRAM status"
+echo "    memmap_check          - Check NumPy memmap status"
+echo "    storage_report        - Complete storage optimization report"
+echo ""
+echo -e "${CYAN}  Container Execution:${NC}"
+echo "    safe_exec <cmd>       - Execute command with optimal container"
+echo "    android_exec <script> - Execute script in Android container"
+echo "    toybox_exec <cmd>     - Execute with TOYBOX"
+echo ""
+echo -e "${CYAN}  Security Management:${NC}"
+echo "    apply_permissions     - Apply hardened permissions"
+echo "    verify_permissions    - Verify current permissions"
+echo "    security_report_gen   - Generate security report"
+echo "    pgp_setup            - Setup PGP integration"
+echo ""
+echo -e "${CYAN}  System Optimization:${NC}"
+echo "    monitor_resources     - Monitor system resources"
+echo "    optimize_memory       - Optimize memory usage"
+echo "    cleanup_system        - Clean up and restart services"
+echo ""
+echo -e "${CYAN}  Container Management:${NC}"
+echo "    create_container <name> <image> <cmd> - Create CHISEL container"
+echo "    run_container <name>  - Run CHISEL container"
+echo "    list_containers       - List all containers"
+echo ""
+echo -e "${CYAN}  Android/proot-distro:${NC}"
+echo "    proot_setup <distro>  - Setup proot environment"
+echo "    proot_run <cmd>       - Execute in proot environment"
+echo "    proot_living          - Integrate living code with proot"
+echo ""
+
+# Show current environment capabilities
+echo -e "${PURPLE}🎯 Current Environment Capabilities:${NC}"
+if [[ "$ENVIRONMENT_TYPE" == "android" ]]; then
+    echo -e "   📱 Android Environment Detected"
+    echo -e "   🔒 Container execution required for Android ${ANDROID_VERSION:-unknown}+"
+    echo -e "   📦 proot-distro recommended for script execution"
+elif [[ "$ENVIRONMENT_TYPE" == "chroot" ]]; then
+    echo -e "   🏠 Chroot Environment Detected"
+    echo -e "   🔒 Enhanced security available"
+elif [[ "$ENVIRONMENT_TYPE" == "busybox" ]]; then
+    echo -e "   📦 BusyBox Environment Detected"
+    echo -e "   🔧 TOYBOX augmentation available"
+else
+    echo -e "   🐧 Standard Linux Environment"
+    echo -e "   🔒 Full hardening capabilities available"
+fi
+
+if [[ "$HARDENED_SHELL_LOADED" == "1" ]]; then
+    echo -e "   ✅ Hardened shell environment active"
+fi
+
+if [[ "$CONTAINER_ORCHESTRATION_LOADED" == "1" ]]; then
+    echo -e "   ✅ Container orchestration ready"
+fi
+
+echo ""
+echo -e "${GREEN}🚀 Environment activated successfully!${NC}"
+echo -e "${BLUE}===============================================${NC}"
