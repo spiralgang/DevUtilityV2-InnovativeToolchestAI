@@ -390,6 +390,7 @@ main() {
     
     log "🚀 Starting master comprehensive data collection and AI tools operation..."
     log "🎯 Target: SU-Binaries, Keystores, CA Certs, Security Auth, Privilege User, Superuser + AI Function Calling Tools"
+    log "💾 NEW: ZRAM & NumPy Memmap - Critical Mobile Development Storage Features"
     
     # Change to repository root
     cd "$REPO_ROOT"
@@ -410,11 +411,14 @@ main() {
     echo ""
     success "📁 All data available in: scraped_data/"
     success "🧠 AI tools available in: ai_function_calling_tools/"
+    success "💾 Mobile storage features in: scraped_data/mobile_storage/"
     success "📊 Master report: MASTER_COMPREHENSIVE_REPORT.md"
     success "🌐 AI tools deployable with: ai_function_calling_tools/deploy_all_tools.sh"
     echo ""
     info "🔧 Use 'source ./.activate_living_environment' to access all new capabilities"
     info "🔍 Use 'collected_data' command to view collection status"
+    info "💾 Use 'storage_features_enable' to access ZRAM & NumPy memmap"
+    info "🗜️ Use 'zram_status' and 'memmap_status' to check storage features"
     info "🚀 Use 'deploy_tools' command to deploy AI function calling tools"
     echo ""
 }
