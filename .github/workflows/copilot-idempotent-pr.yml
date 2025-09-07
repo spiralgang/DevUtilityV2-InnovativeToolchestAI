@@ -76,9 +76,9 @@ jobs:
             # Update PR with intelligent comment
             gh pr comment "$EXISTING_PR_NUMBER" --body "🤖 **DevUl Army Copilot PR Update**
 
-📅 **Updated:** $(date -u)
-🔧 **Branch:** \`$BRANCH_NAME\`
-🎯 **Target:** \`$BASE_BRANCH\`
+  **Updated:** $(date -u)
+  **Branch:** \`$BRANCH_NAME\`
+  **Target:** \`$BASE_BRANCH\`
 
 Branch updated by DevUl Army Copilot automation. No duplicate PR created.
 
@@ -119,8 +119,8 @@ $(git log --oneline origin/$BASE_BRANCH..$BRANCH_NAME --pretty=format:"- %s" 2>/
 ### 🚀 Deployment
 Ready for review and merge when validation is complete.
 
----
-_This PR was created by the DevUl Army Copilot Idempotent PR Creation workflow_"
+
+- This PR was created by the DevUl Army Copilot Idempotent PR Creation workflow_"
 
             # Create the PR
             NEW_PR_NUMBER=$(gh pr create \
