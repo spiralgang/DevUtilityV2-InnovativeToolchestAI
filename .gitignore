@@ -1,8 +1,12 @@
+# CODE-REAVER Hardened .gitignore
+
+# Copilot's mess
+*.backup
+*.log.backup
+
 # Build directories
 /build
 app/build/
-.gradle/
-
 .gradle/
 build/
 
@@ -11,15 +15,10 @@ build/
 .idea/
 *.iws
 
-
-
-
 # Python cache files
 __pycache__/
 *.pyc
 *.pyo
-
-
 
 # Build Outputs
 app/build/
@@ -34,6 +33,10 @@ local.properties
 
 # Log Files
 *.log
+logs/*.log
+!logs/model_sync.jsonl
+!logs/error.log
+!logs/training_metrics.jsonl
 
 # IDE files
 .vscode/
@@ -47,13 +50,7 @@ local.properties
 .externalNativeBuild/
 .cxx/
 build-cache/
-
-
-# IDE files
-.idea/
-.vscode/
-*.swp
-*.swo
+node_modules/
 
 # Android specific
 local.properties
@@ -61,21 +58,21 @@ local.properties
 .externalNativeBuild
 .cxx
 
-
-
-
-
 # OS files  
 .DS_Store
 Thumbs.db
-
-
 
 # Optional: Generated Files
 captures/
 
 # Hugging Face Models (use workflow caching instead)
-models/
+models/*
+!models/.gitkeep
 *.bin
 *.safetensors
 
+# CODE-REAVER specific
+tmp/
+.tmp/
+.cache/
+dist/

@@ -1,8 +1,0 @@
-# Git LFS configuration for AI models only
-ai/ollama/**/model.gguf filter=lfs diff=lfs merge=lfs -text
-ai/ollama/**/pytorch_model.bin filter=lfs diff=lfs merge=lfs -text
-ai/ollama/**/model.safetensors filter=lfs diff=lfs merge=lfs -text
-ai/ollama/**/*.gguf filter=lfs diff=lfs merge=lfs -text
-ai/ollama/**/*.bin filter=lfs diff=lfs merge=lfs -text
-ai/ollama/**/*.safetensors filter=lfs diff=lfs merge=lfs -text
-ai/ollama/**/*.msgpack filter=lfs diff=lfs merge=lfs -text

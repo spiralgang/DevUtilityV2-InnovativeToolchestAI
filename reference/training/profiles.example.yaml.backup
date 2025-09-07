@@ -1,9 +1,0 @@
-# Optional static hints if auto-detect is insufficient.
-# Map profile names to root directories and home overrides.
-profiles:
-  ubuntu:
-    root: "/sdcard/Android/data/tech.ula/files/ubuntu"
-    home: "/sdcard/Android/data/tech.ula/files/ubuntu/home/ubuntu"
-  debian:
-    root: "/sdcard/Android/data/tech.ula/files/debian"
-    home: "/sdcard/Android/data/tech.ula/files/debian/home/user"
