@@ -2184,12 +2184,16 @@ class AIEnvironmentAwareness @Inject constructor() {
     )
     
     companion object {
-        fun ResourceLevel.Companion.fromPercentage(percentage: Double): ResourceLevel {
-            return when {
-                percentage >= 70 -> ResourceLevel.HIGH
-                percentage >= 30 -> ResourceLevel.MEDIUM
-                else -> ResourceLevel.LOW
-            }
-        }
     }
+
+/**
+ * Returns the ResourceLevel corresponding to the given percentage.
+ */
+fun fromPercentage(percentage: Double): ResourceLevel {
+    return when {
+        percentage >= 70 -> ResourceLevel.HIGH
+        percentage >= 30 -> ResourceLevel.MEDIUM
+        else -> ResourceLevel.LOW
+    }
+}
 }
