@@ -28,6 +28,7 @@ DevUtilityV2.5—InnovativeToolchestAI is a sophisticated Android development ut
 - **Package Management**: Streamlined Android package installation and management
 
 ### AI-Powered Intelligence
+- **Ollama AI Core**: Open-source LLaMA 3.1 model integration for advanced code assistance
 - **Living Code System**: Self-evolving code optimization and analysis
 - **Intelligent Debugging**: AI-assisted error detection and resolution suggestions
 - **Context-Aware Interfaces**: Adaptive UI that learns from user behavior
@@ -75,6 +76,17 @@ export ANDROID_HOME=/path/to/android/sdk
 
 # Run validation system
 ./scripts/validate-system.sh
+```
+### Setting Up Ollama AI Core
+```bash
+# Set up the Ollama AI integration (automatic)
+python3 ai/ollama/scripts/ollama_integration.py --setup
+
+# Check integration status
+python3 ai/ollama/scripts/ollama_integration.py --status
+
+# Download full model files (optional, requires ~3GB)
+cd ai/ollama/llama3.1_ollama_v3 && git lfs pull
 ```
 
 ### Architecture Overview
