@@ -1,0 +1,131 @@
+name: Gemini AI Review (High-level, secure auth + GitHub App support)
+
+# Trigger on every push to main and every pull_request targeting main
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Prevent overlapping runs for the same PR or SHA
+concurrency:
+  group: gemini-review-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+env:
+  GEMINI_MODEL: "gemini-pro-2.5"
+  GEMINI_AUTH_MODE: ${{ secrets.GEMINI_AUTH_MODE || 'secret' }}
+  GEMINI_API_ENDPOINT: ${{ secrets.GEMINI_API_ENDPOINT }}
+
+jobs:
+  conflict-resolve:
+    name: Detect merge conflicts
+    runs-on: ubuntu-latest
+    outputs:
+      conflicts: ${{ steps.check_conflict.outputs.conflict_exists }}
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch main branch
+        run: git fetch origin main:main
+
+      - name: Attempt merge without committing
+        id: check_conflict
+        run: |
+          if git merge --no-commit --no-ff main; then
+            echo "::set-output name=conflict_exists::false"
+          else
+            echo "::set-output name=conflict_exists::true"
+          fi
+
+      - name: Comment on PR about conflicts
+        if: ${{ needs.conflict-resolve.outputs.conflicts == 'true' && github.event_name == 'pull_request' }}
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            :warning: This branch has merge conflicts with `main`.  
+            Please resolve them before the Gemini AI review can run.
+
+  gemini-review:
+    name: Run Gemini Pro 2.5 review (secure)
+    needs: conflict-resolve
+    if: needs.conflict-resolve.outputs.conflicts == 'false'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout repository (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 18.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: (gcloud) Authenticate to GCP with Workload Identity
+        if: env.GEMINI_AUTH_MODE == 'gcloud'
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+
+      - name: (gcloud) Install gcloud SDK and obtain access token
+        if: env.GEMINI_AUTH_MODE == 'gcloud'
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID || '' }}
+        run: |
+          TOKEN=$(gcloud auth print-access-token)
+          if [ -z "$TOKEN" ]; then
+            echo "Failed to obtain access token from gcloud" >&2
+            exit 2
+          fi
+          echo "GEMINI_ACCESS_TOKEN=$TOKEN" >> $GITHUB_ENV
+
+      - name: Generate GitHub App installation token
+        if: ${{ secrets.GITHUB_APP_PRIVATE_KEY && secrets.GITHUB_APP_ID && secrets.GITHUB_APP_INSTALLATION_ID }}
+        run: |
+          node ./scripts/ai-review/get-github-app-token.js > /tmp/.gh_app_token \
+            || (echo "failed to obtain app token" >&2; exit 2)
+          echo "GITHUB_APP_INSTALLATION_TOKEN=$(cat /tmp/.gh_app_token)" >> $GITHUB_ENV
+          rm -f /tmp/.gh_app_token
+
+      - name: Ensure review script is present and executable
+        run: |
+          test -f ./scripts/ai-review/gemini-review.js || { echo "Missing gemini-review.js" >&2; exit 2; }
+          chmod +x ./scripts/ai-review/gemini-review.js ./scripts/ai-review/get-github-app-token.js || true
+
+      - name: Execute Gemini AI review
+        id: run_review
+        env:
+          GEMINI_MODEL: ${{ env.GEMINI_MODEL }}
+          GEMINI_AUTH_MODE: ${{ env.GEMINI_AUTH_MODE }}
+          GEMINI_API_ENDPOINT: ${{ env.GEMINI_API_ENDPOINT }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI }}
+          GEMINI_ACCESS_TOKEN: ${{ env.GEMINI_ACCESS_TOKEN }}
+          GITHUB_APP_INSTALLATION_TOKEN: ${{ env.GITHUB_APP_INSTALLATION_TOKEN || '' }}
+          REVIEWERS: "Gemini Pro 2.5 (high-level)"
+          STANDARDS: "vault"
+          POST_BACK: ${{ secrets.GEMINI_POST_BACK || 'false' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CI_COMMIT_SHA: ${{ github.sha }}
+          CI_PR_NUMBER: ${{ github.event.pull_request.number || '' }}
+        run: node ./scripts/ai-review/gemini-review.js
+
+      - name: Upload review artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gemini-review-output
+          path: ./artifacts/gemini-review-*.json
