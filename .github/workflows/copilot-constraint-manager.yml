@@ -1,10 +1,10 @@
-name: Copilot Single-Instance Constraint Manager
+name: DevUl Army Copilot Single-Instance Manager
 
 on:
   workflow_dispatch:
     inputs:
       operation_type:
-        description: 'Type of Copilot operation to execute'
+        description: 'Type of DevUl Army Copilot operation to execute'
         required: true
         type: choice
         options:
@@ -70,7 +70,7 @@ jobs:
         run: |
           set -euo pipefail
           
-          echo "🔒 Copilot Single-Instance Constraint Manager Active"
+          echo "🔒 DevUl Army Copilot Single-Instance Manager Active"
           echo "Operation Type: ${{ github.event.inputs.operation_type }}"
           echo "Maximum Wait Time: ${MAX_WAIT} minutes"
           

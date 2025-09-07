@@ -1,4 +1,4 @@
-name: Auto Merge-Ahead & Prune Copilot Branches
+name: DevUl Army Auto Merge-Ahead & Prune Branches
 
 on:
   schedule:
