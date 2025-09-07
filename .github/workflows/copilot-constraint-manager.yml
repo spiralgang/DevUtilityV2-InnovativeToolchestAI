@@ -34,7 +34,7 @@ jobs:
   copilot-constraint-manager:
     runs-on: ubuntu-latest
     timeout-minutes: 45
-    
+
     steps:
       - name: Validate Copilot Authority
         env:
@@ -69,33 +69,33 @@ jobs:
           MAX_WAIT: ${{ github.event.inputs.max_wait_time || '30' }}
         run: |
           set -euo pipefail
-          
+
           echo "🔒 DevUl Army Copilot Single-Instance Manager Active"
           echo "Operation Type: ${{ github.event.inputs.operation_type }}"
           echo "Maximum Wait Time: ${MAX_WAIT} minutes"
-          
+
           # Check for other running Copilot workflows
           WAIT_COUNT=0
           MAX_WAIT_SECONDS=$((MAX_WAIT * 60))
-          
+
           while [ $WAIT_COUNT -lt $MAX_WAIT_SECONDS ]; do
             # Get running workflows that match Copilot patterns
             RUNNING_COPILOT_WORKFLOWS=$(gh run list \
               --status in_progress \
               --json workflowName,databaseId \
               --jq '.[] | select(.workflowName | test("(?i)copilot|auto.merge|constraint")) | .databaseId' | wc -l)
-            
+
             # If only this workflow is running (count = 1), proceed
             if [ "$RUNNING_COPILOT_WORKFLOWS" -le 1 ]; then
               echo "✅ Copilot operation slot acquired! Proceeding with ${{ github.event.inputs.operation_type }}"
               break
             fi
-            
+
             echo "⏳ Waiting for Copilot operation slot... ($WAIT_COUNT/${MAX_WAIT_SECONDS}s)"
             sleep 10
             WAIT_COUNT=$((WAIT_COUNT + 10))
           done
-          
+
           if [ $WAIT_COUNT -ge $MAX_WAIT_SECONDS ]; then
             echo "❌ Timeout: Could not acquire Copilot operation slot within ${MAX_WAIT} minutes"
             exit 1
@@ -107,9 +107,9 @@ jobs:
           OPERATION_TYPE: ${{ github.event.inputs.operation_type }}
         run: |
           set -euo pipefail
-          
+
           echo "🚀 Executing Copilot operation: $OPERATION_TYPE"
-          
+
           case "$OPERATION_TYPE" in
             "pr-creation")
               echo "📝 Triggering PR creation workflow..."
@@ -136,7 +136,7 @@ jobs:
               exit 1
               ;;
           esac
-          
+
           echo "✅ Copilot operation '$OPERATION_TYPE' completed successfully"
 
       - name: Release Copilot operation slot

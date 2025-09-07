@@ -19,7 +19,7 @@ permissions:
 jobs:
   merge-and-prune:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Validate Copilot Authority
         env:
@@ -60,40 +60,40 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          
+
           echo "🤖 Copilot Auto-Merge & Prune System Active"
-          
+
           MAIN_BRANCH="main"
           BRANCHES=($(git branch -r | grep 'origin/copilot/fix-' | sed 's|origin/||' || true))
-          
+
           if [ ${#BRANCHES[@]} -eq 0 ]; then
             echo "ℹ️  No copilot branches to process"
             exit 0
           fi
-          
+
           echo "📋 Found ${#BRANCHES[@]} copilot branches to process"
-          
+
           for BRANCH in "${BRANCHES[@]}"; do
             echo "::group::🔍 Processing $BRANCH"
-            
+
             # Fetch branch safely
             if ! git fetch origin "$BRANCH":"$BRANCH" 2>/dev/null; then
               echo "⚠️  Failed to fetch $BRANCH, skipping"
               echo "::endgroup::"
               continue
             fi
-            
+
             # Check merge status
             AHEAD=$(git rev-list --left-right --count origin/$MAIN_BRANCH...$BRANCH 2>/dev/null | awk '{print $2}' || echo "0")
             BEHIND=$(git rev-list --left-right --count origin/$MAIN_BRANCH...$BRANCH 2>/dev/null | awk '{print $1}' || echo "0")
-            
+
             echo "📊 $BRANCH: $AHEAD commits ahead, $BEHIND commits behind $MAIN_BRANCH"
-            
+
             if [ "$AHEAD" -gt 0 ]; then
               echo "🔄 Merging $BRANCH into $MAIN_BRANCH"
               git checkout $MAIN_BRANCH
               git pull origin $MAIN_BRANCH
-              
+
               if git merge --no-ff $BRANCH -m "🤖 Auto-merge: $BRANCH → $MAIN_BRANCH"; then
                 git push origin $MAIN_BRANCH
                 gh api -X DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/$BRANCH" || true
@@ -107,10 +107,10 @@ jobs:
               gh api -X DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/$BRANCH" || true
               echo "✅ $BRANCH deleted"
             fi
-            
+
             echo "::endgroup::"
           done
-          
+
           echo "🎉 Copilot branch hygiene completed"
 
       - name: Generate operation summary

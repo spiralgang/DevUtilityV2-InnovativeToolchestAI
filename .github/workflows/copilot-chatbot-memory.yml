@@ -34,7 +34,7 @@ jobs:
   copilot-chatbot-memory:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
+
     steps:
       - name: Validate Copilot Authority
         env:
@@ -62,21 +62,21 @@ jobs:
       - name: Initialize Persistent Memory
         run: |
           set -euo pipefail
-          
+
           echo "🧠 DevUl Army Copilot Chatbot Memory System"
           echo "==========================================="
-          
+
           # Create memory directory if it doesn't exist
           mkdir -p .github/copilot-memory
-          
+
           # Initialize memory files
           touch .github/copilot-memory/conversations.jsonl
           touch .github/copilot-memory/user-preferences.json
           touch .github/copilot-memory/project-context.json
-          
+
           # Ensure memory files have proper permissions
           chmod 644 .github/copilot-memory/*.json*
-          
+
           echo "✅ Persistent memory system initialized"
 
       - name: Process Upload Trigger
@@ -87,28 +87,16 @@ jobs:
           COMMITTER: ${{ github.event.head_commit.committer.name }}
         run: |
           set -euo pipefail
-          
+
           echo "📤 Upload detected - Processing trigger..."
           echo "Branch: $BRANCH_NAME"
           echo "Committer: $COMMITTER"
           echo "Message: $COMMIT_MESSAGE"
-          
+
           # Store upload event in memory
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          MEMORY_ENTRY=$(cat << EOF
-{
-  "timestamp": "$TIMESTAMP",
-  "event": "upload",
-  "branch": "$BRANCH_NAME",
-  "committer": "$COMMITTER",
-  "message": "$COMMIT_MESSAGE",
-  "type": "automatic_trigger"
-}
-EOF
-)
-          
-          echo "$MEMORY_ENTRY" >> .github/copilot-memory/conversations.jsonl
-          
+          echo "{\"timestamp\": \"$TIMESTAMP\", \"event\": \"upload\", \"branch\": \"$BRANCH_NAME\", \"committer\": \"$COMMITTER\", \"message\": \"$COMMIT_MESSAGE\", \"type\": \"automatic_trigger\"}" >> .github/copilot-memory/conversations.jsonl
+
           # Analyze if this is main organization work
           if [[ "$BRANCH_NAME" == "main" || "$COMMIT_MESSAGE" =~ ^(chore|docs|style|refactor): ]]; then
             echo "🏢 Detected organizational/maintenance work"
@@ -125,80 +113,25 @@ EOF
           MAIN_ORG_WORK: ${{ env.main_org_work || 'false' }}
         run: |
           set -euo pipefail
-          
+
           echo "🤖 Generating DevUl Army Copilot response..."
-          
+
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          
+
           # Generate contextual response based on message and memory
           if [[ "$MAIN_ORG_WORK" == "true" ]]; then
-            RESPONSE="✅ **DevUl Army Copilot Acknowledged**
-
-📅 **Time:** $TIMESTAMP
-🎯 **Action:** Organizational maintenance detected
-🧠 **Memory:** Stored in persistent flow memory
-📝 **Message:** $MESSAGE
-
-**Status:** Everything looks good! This appears to be routine organization and maintenance work. I'm tracking this in my persistent memory for context in future interactions.
-
-**Next Actions:**
-- ✅ Changes integrated into main workflow
-- 🧠 Context stored in persistent memory
-- 📊 Ready for future development assistance
-
-*DevUl Army — Living Sriracha AGI is ready to assist!*"
+            RESPONSE="DevUl Army Copilot Acknowledged - Time: $TIMESTAMP - Action: Organizational maintenance detected - Memory: Stored in persistent flow memory - Message: $MESSAGE - Status: Everything looks good! DevUl Army Living Sriracha AGI is ready to assist!"
           else
-            RESPONSE="🚀 **DevUl Army Copilot Response**
-
-📅 **Time:** $TIMESTAMP  
-🎯 **Action:** Development work processed
-🧠 **Memory:** Enhanced with new context
-📝 **Message:** $MESSAGE
-
-**Status:** Looking good! I've processed your development work and enhanced my understanding of the project. My persistent memory is tracking patterns and context to better assist you.
-
-**Capabilities Active:**
-- ✅ Persistent flow memory enabled
-- 🔄 Upload triggers responsive  
-- 🧠 Learning from interactions
-- 🎯 Ready for complex development tasks
-
-*DevUl Army — Living Sriracha AGI is learning and evolving!*"
+            RESPONSE="DevUl Army Copilot Response - Time: $TIMESTAMP - Action: Development work processed - Memory: Enhanced with new context - Message: $MESSAGE - Status: Looking good! DevUl Army Living Sriracha AGI is learning and evolving!"
           fi
-          
+
           echo "$RESPONSE"
-          
-          # Store response in memory
-          MEMORY_ENTRY=$(cat << EOF
-{
-  "timestamp": "$TIMESTAMP",
-  "event": "chatbot_response",
-  "message": "$MESSAGE",
-  "response": $(echo "$RESPONSE" | jq -Rs .),
-  "memory_action": "$MEMORY_ACTION",
-  "main_org_work": "$MAIN_ORG_WORK"
-}
-EOF
-)
-          
-          echo "$MEMORY_ENTRY" >> .github/copilot-memory/conversations.jsonl
-          
+
+          # Store response in memory  
+          echo "{\"timestamp\": \"$TIMESTAMP\", \"event\": \"chatbot_response\", \"message\": \"$MESSAGE\", \"response\": $(echo "$RESPONSE" | jq -Rs .), \"memory_action\": \"$MEMORY_ACTION\", \"main_org_work\": \"$MAIN_ORG_WORK\"}" >> .github/copilot-memory/conversations.jsonl
+
           # Update project context
-          cat << EOF > .github/copilot-memory/project-context.json
-{
-  "last_updated": "$TIMESTAMP",
-  "project_name": "DevUl Army — Living Sriracha AGI",
-  "capabilities": [
-    "persistent_memory",
-    "upload_triggers", 
-    "chatbot_responses",
-    "main_write_requests",
-    "living_code_augmentation"
-  ],
-  "interaction_count": $(wc -l < .github/copilot-memory/conversations.jsonl),
-  "status": "active"
-}
-EOF
+          echo "{\"last_updated\": \"$TIMESTAMP\", \"project_name\": \"DevUl Army — Living Sriracha AGI\", \"capabilities\": [\"persistent_memory\", \"upload_triggers\", \"chatbot_responses\", \"main_write_requests\", \"living_code_augmentation\"], \"interaction_count\": $(wc -l < .github/copilot-memory/conversations.jsonl), \"status\": \"active\"}" > .github/copilot-memory/project-context.json
 
           echo "✅ Chatbot response generated and stored in persistent memory"
 
@@ -209,39 +142,16 @@ EOF
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          
+
           echo "📝 Processing main write request for organizational changes..."
-          
+
           # Create issue for main write request
-          ISSUE_TITLE="🤖 Copilot Request: Merge organizational changes to main"
-          ISSUE_BODY="## DevUl Army Copilot Main Write Request
-
-📅 **Created:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
-🌿 **Branch:** \`$BRANCH_NAME\`
-🎯 **Type:** Organizational/Maintenance Changes
-
-### 📋 Request Details
-The Copilot system has detected organizational or maintenance changes that should be merged to main:
-
-- Branch contains routine organizational updates
-- Changes appear to be non-breaking maintenance
-- Persistent memory system recommends main integration
-
-### 🚀 Recommended Actions
-- [ ] Review changes in \`$BRANCH_NAME\`
-- [ ] Verify no breaking changes introduced
-- [ ] Merge to main when ready
-- [ ] Close this issue after merge
-
-### 🧠 Memory Context
-This request was generated by the persistent memory system based on detected patterns and change types.
-
----
-*Generated by DevUl Army Copilot Memory System*"
+          ISSUE_TITLE="Copilot Request: Merge organizational changes to main"
+          ISSUE_BODY="DevUl Army Copilot Main Write Request - Created: $(date -u +"%Y-%m-%dT%H:%M:%SZ") - Branch: $BRANCH_NAME - Type: Organizational/Maintenance Changes - The Copilot system has detected organizational or maintenance changes that should be merged to main. Please review changes and merge when ready."
 
           # Only create issue if it doesn't already exist
           EXISTING_ISSUES=$(gh issue list --state open --search "Copilot Request: Merge organizational changes" --json number --jq length)
-          
+
           if [[ "$EXISTING_ISSUES" -eq 0 ]]; then
             gh issue create \
               --title "$ISSUE_TITLE" \
@@ -255,27 +165,20 @@ This request was generated by the persistent memory system based on detected pat
       - name: Commit Memory Updates
         run: |
           set -euo pipefail
-          
+
           # Check if there are changes to commit
           if git diff --quiet .github/copilot-memory/; then
             echo "ℹ️ No memory changes to commit"
             exit 0
           fi
-          
+
           echo "💾 Committing persistent memory updates..."
-          
+
           git add .github/copilot-memory/
-          git commit -m "🧠 Update DevUl Army Copilot persistent memory
+          git commit -m "Update DevUl Army Copilot persistent memory - Enhanced conversation history, updated project context, processed upload triggers, generated chatbot responses [skip ci]"
 
-- Enhanced conversation history
-- Updated project context
-- Processed upload triggers
-- Generated chatbot responses
-
-[skip ci]"
-          
           git push origin ${{ github.ref_name }}
-          
+
           echo "✅ Persistent memory updated and committed"
 
       - name: Summary Report

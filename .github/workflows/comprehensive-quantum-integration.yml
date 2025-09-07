@@ -35,7 +35,7 @@ jobs:
   validate-comprehensive-quantum-integration:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    
+
     steps:
       - name: Validate Copilot Authority
         env:
@@ -63,33 +63,33 @@ jobs:
           DATASET_TYPE: ${{ github.event.inputs.dataset_type || 'all' }}
         run: |
           set -euo pipefail
-          
+
           echo "⚛️ DevUl Army — Living Sriracha AGI Quantum Integration"
           echo "====================================================="
           echo "🔬 Validating comprehensive QDataSet integration..."
           echo "📊 Dataset focus: $DATASET_TYPE"
-          
+
           # Install dependencies for validation
           python -m pip install --upgrade pip
           pip install numpy pathlib logging typing
-          
+
           # Validate quantum dataset adapter
           echo "🧪 Testing comprehensive quantum dataset adapter..."
           cd tools
           python -c "
           from qdataset_adapter import comprehensive_quantum_adapter
-          
+
           print('🔬 Comprehensive QDataSet Integration Test')
           print('=' * 50)
-          
+
           # Test comprehensive dataset listing
           datasets = comprehensive_quantum_adapter.list_datasets()
           print(f'📊 Total datasets available: {len(datasets)}')
-          
+
           # Test dataset categorization
           capabilities = comprehensive_quantum_adapter.get_comprehensive_quantum_capabilities()
           print(f'🎯 Dataset categories: {capabilities[\"dataset_categories\"]}')
-          
+
           # Test specific dataset types based on input
           if '$DATASET_TYPE' != 'all':
               if '$DATASET_TYPE' == '1-qubit':
@@ -102,26 +102,26 @@ jobs:
                   filtered = comprehensive_quantum_adapter.get_dataset_by_characteristics(pulse_shape='Square')
               elif '$DATASET_TYPE' == 'noisy':
                   filtered = [d for d in datasets if comprehensive_quantum_adapter.get_quantum_patterns(d).get('noise', 'none') != 'none']
-              
+
               print(f'🎯 Filtered datasets ({len(filtered)}): {filtered[:5]}...')
-          
+
           # Test agentic pattern integration
           print(f'🤖 Agentic patterns: {len(capabilities[\"agentic_patterns\"])}')
           print(f'⚙️ Simulation capabilities: {len(capabilities[\"simulation_capabilities\"])}')
-          
+
           # Test sample quantum dataset
           if datasets:
               sample_dataset = datasets[0]
               patterns = comprehensive_quantum_adapter.get_quantum_patterns(sample_dataset)
               transformations = comprehensive_quantum_adapter.get_agentic_transformations(sample_dataset)
               samples = comprehensive_quantum_adapter.get_samples(sample_dataset, 2)
-              
+
               print(f'🧪 Sample dataset: {sample_dataset}')
               print(f'   Description: {patterns.get(\"description\", \"N/A\")}')
               print(f'   Agentic applications: {len(transformations)}')
               print(f'   Living code potential: {patterns.get(\"living_code_potential\", \"N/A\")}')
               print(f'   Sample data: {samples[0][0] if samples else \"No samples\"}')
-          
+
           print('✅ Comprehensive quantum dataset integration validated!')
           "
 
@@ -131,7 +131,7 @@ jobs:
           cd tools
           python -c "
           from qdataset_adapter import comprehensive_quantum_adapter
-          
+
           # Test living code transformation
           datasets = comprehensive_quantum_adapter.list_datasets()
           if datasets:
@@ -139,7 +139,7 @@ jobs:
               living_code = comprehensive_quantum_adapter.transform_to_living_code(
                   test_dataset, 'Adaptive Quantum Learning'
               )
-              
+
               print('📝 Generated Quantum Living Code Sample:')
               print('=' * 50)
               # Print first 20 lines of generated code
@@ -154,7 +154,7 @@ jobs:
       - name: Validate QDataSet References
         run: |
           echo "📚 Validating QDataSet research references..."
-          
+
           # Check if comprehensive integration includes proper references
           if grep -q "eperrier/QDataSet" tools/qdataset_adapter.py; then
             echo "✅ QDataSet repository reference found"
@@ -162,14 +162,14 @@ jobs:
             echo "❌ Missing QDataSet repository reference"
             exit 1
           fi
-          
+
           if grep -q "arXiv:2108.06661" tools/qdataset_adapter.py; then
             echo "✅ QDataSet paper reference found"
           else
             echo "❌ Missing QDataSet paper reference"
             exit 1
           fi
-          
+
           if grep -q "52.*datasets" tools/qdataset_adapter.py; then
             echo "✅ Complete 52-dataset reference found"
           else
@@ -196,14 +196,14 @@ jobs:
       - name: Update DevUl Army Branding
         run: |
           echo "🏷️ Updating project branding to 'DevUl Army — Living Sriracha AGI'..."
-          
+
           # Check current directory structure matches branding
           if [[ -d "DevUl Army : Living Sriracha AGI" ]]; then
             echo "✅ DevUl Army directory structure confirmed"
           else
             echo "ℹ️ DevUl Army directory structure optimization needed"
           fi
-          
+
           # Validate quantum integration files have proper branding
           if grep -q "DevUl Army.*Living Sriracha AGI" tools/qdataset_adapter.py; then
             echo "✅ Quantum adapter has proper DevUl Army branding"
@@ -216,7 +216,7 @@ jobs:
     needs: validate-comprehensive-quantum-integration
     runs-on: ubuntu-latest
     if: always()
-    
+
     steps:
       - name: Integration Status Report
         run: |
@@ -227,7 +227,7 @@ jobs:
           echo "Timestamp: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
           echo ""
           echo "🔬 QDataSet Integration: ✅ Complete"
-          echo "⚛️ 52 Quantum Datasets: ✅ Integrated" 
+          echo "⚛️ 52 Quantum Datasets: ✅ Integrated"
           echo "🤖 Agentic Patterns: ✅ Mapped"
           echo "🧬 Living Code Gen: ✅ Functional"
           echo "🧠 AGI Compatibility: ✅ Verified"
