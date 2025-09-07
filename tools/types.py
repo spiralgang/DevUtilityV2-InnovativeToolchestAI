@@ -1,27 +1,3 @@
-from __future__ import annotations
-from dataclasses import dataclass
-from enum import Enum, auto
-from typing import Callable, Dict, Any, Optional
-
-class HeatLevel(Enum):
-    LOW = auto()
-    MEDIUM = auto()
-    HIGH = auto()
-
-class BotType(Enum):
-    THINK = auto()
-    LEARN = auto()
-    GUIDANCE = auto()
-    WEBINTEL = auto()
-
-@dataclass
-class BotMessage:
-    sender: BotType
-    topic: str
-    payload: Dict[str, Any]
-    heat: HeatLevel = HeatLevel.MEDIUM
-
-MessageHandler = Callable[[BotMessage], None]
-
-# References:
-# - /reference vault (message contracts, orchestration patterns)
+version https://git-lfs.github.com/spec/v1
+oid sha256:db35a5de41a0970ad60f5c844e78a74ccb0cfff4853856f387751d16a49018e0
+size 587

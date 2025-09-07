@@ -1,9 +1,3 @@
-# Optional static hints if auto-detect is insufficient.
-# Map profile names to root directories and home overrides.
-profiles:
-  ubuntu:
-    root: "/sdcard/Android/data/tech.ula/files/ubuntu"
-    home: "/sdcard/Android/data/tech.ula/files/ubuntu/home/ubuntu"
-  debian:
-    root: "/sdcard/Android/data/tech.ula/files/debian"
-    home: "/sdcard/Android/data/tech.ula/files/debian/home/user"
+version https://git-lfs.github.com/spec/v1
+oid sha256:b0c060947c5fa048e5fde3ad66b5541a3c2ba609694eceafd7edbaedc8dca4fd
+size 387

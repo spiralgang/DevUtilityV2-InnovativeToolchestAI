@@ -1,11 +1,3 @@
-#!/usr/bin/env bash
-# Patch snippet - add explicit initialization for ROOTS to avoid "unbound variable" with set -u
-
-# ... earlier lines ...
-set -euo pipefail
-IFS=$'\n\t'
-
-# --- Fix: initialize ROOTS so -u won't complain ---
-ROOTS=()
-# --- end fix ---
-# ... rest of script ...
+version https://git-lfs.github.com/spec/v1
+oid sha256:35aff81f824b2cd0c2f23588c84dbb430af9031d1cd93017d1e3129f4ab3b6ef
+size 276

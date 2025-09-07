@@ -1,14 +1,3 @@
-#!/usr/bin/env python3
-from __future__ import annotations
-import os, requests
-
-def main():
-    base = os.environ.get("API_BASE", "http://127.0.0.1:8000")
-    r = requests.get(f"{base}/health", timeout=5)
-    print(r.json())
-
-if __name__ == "__main__":
-    main()
-
-# References:
-# - /reference vault
+version https://git-lfs.github.com/spec/v1
+oid sha256:5807242a9f2580110f5d9f13579b9f0d8cad2ed3d87f87523a096a16a3f85f25
+size 298

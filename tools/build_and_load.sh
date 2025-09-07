@@ -1,11 +1,3 @@
-#!/usr/bin/env bash
-# Build and load the SELinux module (needs checkpolicy, semodule)
-set -euo pipefail
-mod=ban_enforcer
-
-make -f /usr/share/selinux/devel/Makefile ${mod}.pp
-semodule -i ${mod}.pp
-
-# Apply file contexts
-semanage fcontext -a -t ban_space_t '/opt/ban-space(/.*)?'
-restorecon -R /opt/ban-space
+version https://git-lfs.github.com/spec/v1
+oid sha256:1a2720da29c08f84206724cca633c68f382bcc7f9bc2573624716968402bf8b0
+size 306

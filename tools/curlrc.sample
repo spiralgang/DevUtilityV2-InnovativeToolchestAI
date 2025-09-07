@@ -1,10 +1,3 @@
-# Enforce org trust + pin SPKI for critical endpoints
-# Place as ~/.curlrc or /etc/curlrc (user/system)
-# Use SPKI pin from: openssl s_client -connect host:443 </dev/null 2>/dev/null | openssl x509 -pubkey -noout | openssl pkey -pubin -outform DER | openssl dgst -sha256 -binary | base64
-
-# Use system store; optionally restrict with --cacert per command
-# ca bundle honored by curl automatically; to override uncomment:
-# cacert = /etc/ssl/certs/ca-certificates.crt
-
-# Example pinned host:
-# pinnedpubkey = "sha256//BASE64SPKIHASH_FOR_host"
+version https://git-lfs.github.com/spec/v1
+oid sha256:9b4c1af5cd2fe372a4be1fed90e7a51604bcfcd76906f9c7187d440fd05cb66d
+size 541
