@@ -113,7 +113,7 @@ The Android build system has compatibility issues that require manual interventi
 **Impact**: Cannot currently build the Android application without significant refactoring
 
 **Workarounds**:
-1. **DO NOT attempt to run `gradle build` or `./gradlew` commands** - they will fail
+1. Rectify issues with `gradle build` or `./gradlew` commands** - immediately!! Update other packages so theyre not conflicting OR find a new solution for both and get rid of the conflict prone package!! 
 2. Focus development on the conflict resolution scripts and documentation
 3. For Android development, use alternative build approaches or downgrade Gradle
 
