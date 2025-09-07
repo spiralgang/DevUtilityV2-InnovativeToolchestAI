@@ -40,6 +40,9 @@ class ComprehensiveAIManager(
     private lateinit var webNetCasteAI: WebNetCasteAI
     private lateinit var securityAnalyzer: SecurityAnalyzer
     
+    // Secondary AI Validation System
+    private lateinit var secondaryAIValidationSystem: SecondaryAIValidationSystem
+    
     // Storage and System Management
     private lateinit var duhdupePautoreaver: DUHDUPEAUTOReaver
     private lateinit var enhancedPermissionManager: EnhancedPermissionManager
@@ -489,7 +492,7 @@ class ComprehensiveAIManager(
             
             _initializationProgress.value = InitializationProgress(
                 stage = InitStage.INITIALIZING_CORE_AI,
-                totalSystems = 14 // Total number of systems to initialize
+                totalSystems = 15 // Updated total to include SecondaryAIValidationSystem
             )
             
             // Task Segment 1: Initialize Core AI Systems
@@ -566,9 +569,13 @@ class ComprehensiveAIManager(
         
         // Initialize Security Analyzer
         updateProgress("SecurityAnalyzer")
-        securityAnalyzer = SecurityAnalyzer(context, aiEnvironmentAwareness)
-        securityAnalyzer.initialize()
+        securityAnalyzer = SecurityAnalyzer()
         markSystemComplete("SecurityAnalyzer")
+        
+        // Initialize Secondary AI Validation System
+        updateProgress("SecondaryAIValidationSystem")
+        secondaryAIValidationSystem = SecondaryAIValidationSystem(securityAnalyzer, CodeReviewService())
+        markSystemComplete("SecondaryAIValidationSystem")
         
         Timber.i("Core AI Systems initialization completed")
     }
@@ -1009,6 +1016,39 @@ class ComprehensiveAIManager(
             // Fallback to local operation if cloud kernel not available
             localOperation()
         }
+    }
+    
+    /**
+     * Get access to the Secondary AI Validation System
+     */
+    fun getSecondaryValidationSystem(): SecondaryAIValidationSystem {
+        if (!::secondaryAIValidationSystem.isInitialized) {
+            throw IllegalStateException("SecondaryAIValidationSystem not yet initialized. Call initializeAllSystems() first.")
+        }
+        return secondaryAIValidationSystem
+    }
+    
+    /**
+     * Validate code using the smart secondary AI workflows
+     */
+    suspend fun validateCodeWithSecondaryAI(
+        code: String,
+        language: String,
+        validationType: SecondaryAIValidationSystem.ValidationType = SecondaryAIValidationSystem.ValidationType.COMPREHENSIVE,
+        priority: SecondaryAIValidationSystem.ValidationPriority = SecondaryAIValidationSystem.ValidationPriority.MEDIUM
+    ): SecondaryAIValidationSystem.ValidationResult {
+        if (!::secondaryAIValidationSystem.isInitialized) {
+            throw IllegalStateException("SecondaryAIValidationSystem not yet initialized")
+        }
+        
+        val request = SecondaryAIValidationSystem.ValidationRequest(
+            code = code,
+            language = language,
+            validationType = validationType,
+            priority = priority
+        )
+        
+        return secondaryAIValidationSystem.validateCode(request)
     }
     
     /**
