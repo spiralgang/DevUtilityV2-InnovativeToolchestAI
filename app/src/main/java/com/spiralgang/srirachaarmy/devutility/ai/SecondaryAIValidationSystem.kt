@@ -588,8 +588,16 @@ class SecondaryAIValidationSystem @Inject constructor(
     }
 
     private fun calculateModelAgreements(modelOpinions: Map<String, Any>): Map<String, Boolean> {
-        // Simplified agreement calculation
-        return modelOpinions.mapValues { true } // Placeholder
+        // Calculate agreement for each model based on majority opinion
+        if (modelOpinions.isEmpty()) return emptyMap()
+        // Use string representation for comparison
+        val opinionCounts = modelOpinions.values
+            .groupingBy { it.toString() }
+            .eachCount()
+        val majorityOpinion = opinionCounts.maxByOrNull { it.value }?.key
+        return modelOpinions.mapValues { (_, opinion) ->
+            opinion.toString() == majorityOpinion
+        }
     }
 
     private fun calculateConsensusScore(agreements: Map<String, Boolean>): Int {
