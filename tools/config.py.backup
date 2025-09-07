@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Runtime configuration for iceman_drone_tool.
 

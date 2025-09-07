@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Pluggable AI Provider adapters for ICEDMAN
 

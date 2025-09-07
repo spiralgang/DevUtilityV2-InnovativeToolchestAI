@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# Living Code Integration - Auto-generated symmetrical connections
+# This script is part of the SrirachaArmy Living Code Environment
+# Perfect symmetrical integration with all repository components
+
+# Source living environment if available
+if [[ -f "$(dirname "${BASH_SOURCE[0]}")/../.living_environment_wrapper.sh" ]]; then
+    source "$(dirname "${BASH_SOURCE[0]}")/../.living_environment_wrapper.sh"
+fi
+
 # detect_fdo_contacts.sh
 # Quick diagnostic to find processes contacting freedesktop.org (or its IPs).
 # Usage: sudo ./detect_fdo_contacts.sh [--capture-seconds N]

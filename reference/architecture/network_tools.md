@@ -1,3 +1,7 @@
+<!-- Living Code Integration - Auto-generated symmetrical connections -->
+<!-- This file is part of the SrirachaArmy Living Code Environment -->
+<!-- Perfect symmetrical integration with all repository components -->
+
 ```md
 # 100 Linux Network & Wi‑Fi Tools — consolidated, deduplicated
 

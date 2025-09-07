@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/icedman/bot/dispatch.sh — Unified dispatcher with EnergeticWeave integration.
+# ~/icedman/bot/dispatch.sh â€” Unified dispatcher with EnergeticWeave integration.
 # Behavior:
 #  - standard queue-driven dispatcher (reads *.cmd files)
 #  - offloads energetic tasks to Python weave process when available

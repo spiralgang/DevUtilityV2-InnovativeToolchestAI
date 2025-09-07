@@ -77,7 +77,7 @@ Options:
   --ftp-pass PASS              FTP password
   --exec-host                  Attempt to run host 'su -c tar ...' from this environment (may fail)
   --remove-archive-after-upload Remove local archive after a successful FTP upload
-  --remove-src                 Remove app source directory after success (DANGEROUS — requires --yes)
+  --remove-src                 Remove app source directory after success (DANGEROUS â€” requires --yes)
   --yes                        Assume yes to prompts
   --dry-run                    Do diagnostic steps only, no destructive actions
   --verbose                    Verbose output

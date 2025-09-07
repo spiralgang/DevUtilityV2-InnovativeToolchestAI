@@ -238,47 +238,47 @@ class AgenticCommandSystem @Inject constructor(
             CommandIntent.BUILD_OPERATIONS -> generateBuildInsight(input, context)
             CommandIntent.GIT_OPERATIONS -> generateGitInsight(input, context)
             CommandIntent.AI_COLLABORATION -> generateAIInsight(input, context)
-            else -> "🤖 Processing command in current development context"
+            else -> "ðŸ¤– Processing command in current development context"
         }
     }
     
     private fun generateNavigationInsight(input: String, context: DevelopmentContext): String {
         return when {
-            input.startsWith("cd") -> "🗂️ Navigating in ${context.projectType} project structure"
-            input.startsWith("ls") -> "📋 Exploring directory contents - I can help analyze what you find"
-            input.startsWith("find") -> "🔍 Searching codebase - want me to analyze patterns in the results?"
-            else -> "🧭 Navigating project structure with AI awareness"
+            input.startsWith("cd") -> "ðŸ—‚ï¸� Navigating in ${context.projectType} project structure"
+            input.startsWith("ls") -> "ðŸ“‹ Exploring directory contents - I can help analyze what you find"
+            input.startsWith("find") -> "ðŸ”� Searching codebase - want me to analyze patterns in the results?"
+            else -> "ðŸ§­ Navigating project structure with AI awareness"
         }
     }
     
     private fun generateAnalysisInsight(input: String, context: DevelopmentContext): String {
         return when {
-            input.startsWith("grep") -> "🔍 Pattern search in ${context.languageContext.joinToString(", ")} context"
-            input.startsWith("cat") -> "📖 Examining file content - I can provide code analysis"
-            else -> "🧠 Analyzing code with contextual understanding"
+            input.startsWith("grep") -> "ðŸ”� Pattern search in ${context.languageContext.joinToString(", ")} context"
+            input.startsWith("cat") -> "ðŸ“– Examining file content - I can provide code analysis"
+            else -> "ðŸ§  Analyzing code with contextual understanding"
         }
     }
     
     private fun generateBuildInsight(input: String, context: DevelopmentContext): String {
-        return "🔧 Build operation for ${context.projectType} project - I'll monitor for issues"
+        return "ðŸ”§ Build operation for ${context.projectType} project - I'll monitor for issues"
     }
     
     private fun generateGitInsight(input: String, context: DevelopmentContext): String {
-        return "📝 Git operation on ${context.currentBranch} branch - maintaining development workflow"
+        return "ðŸ“� Git operation on ${context.currentBranch} branch - maintaining development workflow"
     }
     
     private fun generateAIInsight(input: String, context: DevelopmentContext): String {
-        return "🌶️ SrirachaArmy AI collaboration in ${context.projectType} context"
+        return "ðŸŒ¶ï¸� SrirachaArmy AI collaboration in ${context.projectType} context"
     }
     
     private suspend fun executeCommand(command: String): String {
         // Simulate command execution for now
         return when {
-            command.contains("ls") -> "📁 app/  📁 docs/  📁 scripts/  📄 README.md  📄 build.gradle"
-            command.contains("git status") -> "🔄 On branch main\n✅ Working tree clean"
-            command.contains("gradle") -> "🔧 BUILD SUCCESSFUL in 2s"
-            command.contains("sriracha") -> "🌶️ SrirachaArmy systems online - AI ready for collaboration"
-            else -> "✅ Command executed successfully"
+            command.contains("ls") -> "ðŸ“� app/  ðŸ“� docs/  ðŸ“� scripts/  ðŸ“„ README.md  ðŸ“„ build.gradle"
+            command.contains("git status") -> "ðŸ”„ On branch main\nâœ… Working tree clean"
+            command.contains("gradle") -> "ðŸ”§ BUILD SUCCESSFUL in 2s"
+            command.contains("sriracha") -> "ðŸŒ¶ï¸� SrirachaArmy systems online - AI ready for collaboration"
+            else -> "âœ… Command executed successfully"
         }
     }
     
@@ -301,21 +301,21 @@ class AgenticCommandSystem @Inject constructor(
     ): List<String> {
         return when (intent) {
             CommandIntent.FILE_NAVIGATION -> listOf(
-                "🔍 Analyze files in this directory",
-                "📝 Edit the most relevant file",
-                "🔧 Run build commands here"
+                "ðŸ”� Analyze files in this directory",
+                "ðŸ“� Edit the most relevant file",
+                "ðŸ”§ Run build commands here"
             )
             CommandIntent.CODE_ANALYSIS -> listOf(
-                "🧠 Get AI explanation of patterns found",
-                "✨ Suggest code improvements",
-                "🔍 Search for related patterns"
+                "ðŸ§  Get AI explanation of patterns found",
+                "âœ¨ Suggest code improvements",
+                "ðŸ”� Search for related patterns"
             )
             CommandIntent.BUILD_OPERATIONS -> listOf(
-                "📊 Analyze build output",
-                "🚀 Deploy or test the build",
-                "🔍 Check for optimization opportunities"
+                "ðŸ“Š Analyze build output",
+                "ðŸš€ Deploy or test the build",
+                "ðŸ”� Check for optimization opportunities"
             )
-            else -> listOf("🤖 Ask AI for next steps", "📚 Learn more about this command")
+            else -> listOf("ðŸ¤– Ask AI for next steps", "ðŸ“š Learn more about this command")
         }
     }
     

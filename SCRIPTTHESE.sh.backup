@@ -336,7 +336,7 @@ create_combined_archive
 if [ -f "$COMBINED_PATH" ] && [ "$(stat -c%s "$COMBINED_PATH" 2>/dev/null || echo 0)" -ge 1024 ]; then
   copy_to_host_visible
 else
-  err "Combined archive missing or too small — likely host protections. Creating host snippet."
+  err "Combined archive missing or too small â€” likely host protections. Creating host snippet."
   write_host_snippet
   attempt_exec_host_tar
 fi

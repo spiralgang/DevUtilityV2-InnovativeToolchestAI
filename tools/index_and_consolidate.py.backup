@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Tech.Ula Multi-Profile Indexer & Consolidator
 - Builds a SQLite inventory

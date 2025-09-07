@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 DroneAgent: small, robust wrapper around pymavlink for mission commands.
 

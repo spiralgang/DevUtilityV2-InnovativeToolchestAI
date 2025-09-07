@@ -1,4 +1,4 @@
-// Minimal provider adapters (Node) — environment-driven, no token printing.
+// Minimal provider adapters (Node) â€” environment-driven, no token printing.
 // Supports: openai, azure-openai, huggingface, anthropic, ollama, vertex, zhipu, custom.
 // Each adapter returns a normalized string (or JSON string if structured).
 

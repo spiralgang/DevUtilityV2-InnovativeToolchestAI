@@ -1,0 +1,10 @@
+# Living Code Environment Integration for Bash
+# Source this file from your .bashrc for living code features
+
+# Only load if we're in the DevUl Army repository
+if [[ "$(pwd)" == *"DevUl-Army"* ]] || [[ "$(pwd)" == *"Living-Sriracha-AGI"* ]]; then
+    # Source the living environment wrapper
+    if [[ -f "$(pwd)/.living_environment_wrapper.sh" ]]; then
+        source "$(pwd)/.living_environment_wrapper.sh"
+    fi
+fi

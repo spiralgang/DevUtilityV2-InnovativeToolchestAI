@@ -64,7 +64,7 @@ class AgenticModeSystem @Inject constructor(
         object EightS : AgenticMode(
             name = "8S (Pissed Mode)",
             description = "Aggressive and urgent task crushing",
-            motto = "8S: Shit's real—I'm pissed and hopping screens to crush this NOW!",
+            motto = "8S: Shit's real‚ÄîI'm pissed and hopping screens to crush this NOW!",
             urgencyLevel = UrgencyLevel.CRITICAL_URGENT,
             permissionLevel = PermissionLevel.SCREEN_HOP_PERMITS_PERMISSIONS_HOP_PISSED,
             screenHopCapability = ScreenHopCapability.AGGRESSIVE_AUTOMATION
@@ -216,7 +216,7 @@ class AgenticModeSystem @Inject constructor(
      */
     suspend fun initialize() = withContext(Dispatchers.IO) {
         try {
-            Timber.d("🤖 Initializing 5S/8S Agentic Mode System")
+            Timber.d("ü§ñ Initializing 5S/8S Agentic Mode System")
             
             // Initialize float window watcher
             floatWindowWatcher.initialize()
@@ -224,10 +224,10 @@ class AgenticModeSystem @Inject constructor(
             // Register agentic modes in guidance system
             registerAgenticModes()
             
-            Timber.d("✅ Agentic Mode System initialized successfully")
+            Timber.d("‚úÖ Agentic Mode System initialized successfully")
             
         } catch (e: Exception) {
-            Timber.e(e, "❌ Failed to initialize Agentic Mode System")
+            Timber.e(e, "‚ùå Failed to initialize Agentic Mode System")
         }
     }
 
@@ -239,14 +239,14 @@ class AgenticModeSystem @Inject constructor(
         context: Map<String, Any> = emptyMap()
     ): String = withContext(Dispatchers.IO) {
         try {
-            Timber.d("😎 ${AgenticMode.FiveS.motto}")
+            Timber.d("üòé ${AgenticMode.FiveS.motto}")
             
             _currentMode.value = AgenticMode.FiveS
             
             return@withContext startAgenticSession(AgenticMode.FiveS, taskDescription, context)
             
         } catch (e: Exception) {
-            Timber.e(e, "❌ Failed to activate 5S mode")
+            Timber.e(e, "‚ùå Failed to activate 5S mode")
             return@withContext "5S mode activation failed: ${e.message}"
         }
     }
@@ -259,14 +259,14 @@ class AgenticModeSystem @Inject constructor(
         context: Map<String, Any> = emptyMap()
     ): String = withContext(Dispatchers.IO) {
         try {
-            Timber.d("😡 ${AgenticMode.EightS.motto}")
+            Timber.d("üò° ${AgenticMode.EightS.motto}")
             
             _currentMode.value = AgenticMode.EightS
             
             return@withContext startAgenticSession(AgenticMode.EightS, taskDescription, context)
             
         } catch (e: Exception) {
-            Timber.e(e, "❌ Failed to activate 8S mode")
+            Timber.e(e, "‚ùå Failed to activate 8S mode")
             return@withContext "8S mode activation failed: ${e.message}"
         }
     }
@@ -330,7 +330,7 @@ class AgenticModeSystem @Inject constructor(
             
         } catch (e: Exception) {
             session.status = SessionStatus.FAILED
-            Timber.e(e, "❌ 5S session failed")
+            Timber.e(e, "‚ùå 5S session failed")
             return@withContext "5S session failed: ${e.message}"
         }
     }
@@ -367,7 +367,7 @@ class AgenticModeSystem @Inject constructor(
             
         } catch (e: Exception) {
             session.status = SessionStatus.FAILED
-            Timber.e(e, "❌ 8S session failed")
+            Timber.e(e, "‚ùå 8S session failed")
             return@withContext "8S session failed: ${e.message}"
         }
     }
@@ -388,7 +388,7 @@ class AgenticModeSystem @Inject constructor(
                     "SYSTEM_ALERT_WINDOW",
                     "BIND_ACCESSIBILITY_SERVICE"
                 ))
-                Timber.d("📱 Requesting SHP (Screen-Hop-Permit) permissions")
+                Timber.d("üì± Requesting SHP (Screen-Hop-Permit) permissions")
             }
             
             PermissionLevel.SCREEN_HOP_PERMITS_PERMISSIONS_HOP_PISSED -> {
@@ -402,7 +402,7 @@ class AgenticModeSystem @Inject constructor(
                     "WAKE_LOCK",
                     "DISABLE_KEYGUARD"
                 ))
-                Timber.d("🔥 Requesting SHPPHP (Screen-Hop-Permits-Permissions-Hop-Pissed) permissions")
+                Timber.d("üî• Requesting SHPPHP (Screen-Hop-Permits-Permissions-Hop-Pissed) permissions")
             }
         }
         
@@ -433,7 +433,7 @@ class AgenticModeSystem @Inject constructor(
         screenContext: Map<String, Any>
     ): List<ScreenHopActionResult> = withContext(Dispatchers.IO) {
         
-        Timber.d("😎 Planning chill approach: Taking time to do this right")
+        Timber.d("üòé Planning chill approach: Taking time to do this right")
         
         return@withContext listOf(
             ScreenHopActionResult(
@@ -465,7 +465,7 @@ class AgenticModeSystem @Inject constructor(
         screenContext: Map<String, Any>
     ): List<ScreenHopActionResult> = withContext(Dispatchers.IO) {
         
-        Timber.d("😡 Planning aggressive approach: CRUSHING THIS NOW!")
+        Timber.d("üò° Planning aggressive approach: CRUSHING THIS NOW!")
         
         return@withContext listOf(
             ScreenHopActionResult(
@@ -506,7 +506,7 @@ class AgenticModeSystem @Inject constructor(
         plan: List<ScreenHopActionResult>
     ): String = withContext(Dispatchers.IO) {
         
-        Timber.d("🧭 Executing guided navigation (5S style)")
+        Timber.d("üß≠ Executing guided navigation (5S style)")
         
         session.status = SessionStatus.SCREEN_HOPPING
         
@@ -546,7 +546,7 @@ class AgenticModeSystem @Inject constructor(
         plan: List<ScreenHopActionResult>
     ): String = withContext(Dispatchers.IO) {
         
-        Timber.d("⚡ Executing aggressive automation (8S style)")
+        Timber.d("‚ö° Executing aggressive automation (8S style)")
         
         session.status = SessionStatus.SCREEN_HOPPING
         
@@ -586,7 +586,7 @@ class AgenticModeSystem @Inject constructor(
         action: ScreenHopActionResult
     ) = withContext(Dispatchers.IO) {
         
-        Timber.d("🎯 Executing screen-hop action: ${action.action} on ${action.targetScreen}")
+        Timber.d("üéØ Executing screen-hop action: ${action.action} on ${action.targetScreen}")
         
         session.screenHopActions.add(action)
         session.metrics.screensAccessed.add(action.targetScreen)
@@ -606,7 +606,7 @@ class AgenticModeSystem @Inject constructor(
      * Validate task completion
      */
     private suspend fun validateTaskCompletion(session: AgenticSession): Boolean = withContext(Dispatchers.IO) {
-        Timber.d("✅ Validating task completion for session: ${session.sessionId}")
+        Timber.d("‚úÖ Validating task completion for session: ${session.sessionId}")
         
         val successRate = if (session.metrics.totalScreenHops > 0) {
             session.metrics.successfulActions.toFloat() / session.metrics.totalScreenHops
@@ -641,7 +641,7 @@ class AgenticModeSystem @Inject constructor(
         _activeSession.value = null
         _currentMode.value = null
         
-        Timber.d("🎉 Agentic session completed: ${session.sessionId}")
+        Timber.d("üéâ Agentic session completed: ${session.sessionId}")
     }
 
     /**
@@ -671,7 +671,7 @@ class AgenticModeSystem @Inject constructor(
      */
     fun setScreenHopEnabled(enabled: Boolean) {
         _screenHopEnabled.value = enabled
-        Timber.d("📱 Screen-hopping ${if (enabled) "enabled" else "disabled"}")
+        Timber.d("üì± Screen-hopping ${if (enabled) "enabled" else "disabled"}")
     }
 
     /**

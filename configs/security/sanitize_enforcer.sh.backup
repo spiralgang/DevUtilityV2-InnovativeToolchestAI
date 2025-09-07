@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# sanitize_enforcer.sh — repository banlist scanner (no echoes of banned tokens)
+# sanitize_enforcer.sh â€” repository banlist scanner (no echoes of banned tokens)
 # Purpose
 # - Fail fast if any banned token appears anywhere in the repo (code, docs, examples).
 # - Default banlist: ./.banned_tokens.txt (one token per line, # comments allowed).

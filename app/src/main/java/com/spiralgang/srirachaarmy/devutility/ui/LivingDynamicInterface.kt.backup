@@ -178,7 +178,7 @@ fun LivingHeader(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "🌶️ SrirachaArmy Living Interface",
+                    text = "üå∂Ô∏è SrirachaArmy Living Interface",
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -302,7 +302,7 @@ fun MessageBubble(
                 message.shellOutput?.let { output ->
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "⚡ $output",
+                        text = "‚ö° $output",
                         style = MaterialTheme.typography.bodySmall,
                         fontFamily = FontFamily.Monospace,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -345,7 +345,7 @@ fun AISuggestionsRow(
             modifier = Modifier.padding(12.dp)
         ) {
             Text(
-                text = "💡 AI Suggestions",
+                text = "üí° AI Suggestions",
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onTertiaryContainer
             )
@@ -414,7 +414,7 @@ fun LivingInputArea(
                 IconButton(
                     onClick = { if (inputText.isNotBlank()) onSubmit(inputText) }
                 ) {
-                    Text("⚡", fontSize = 18.sp)
+                    Text("‚ö°", fontSize = 18.sp)
                 }
             },
             keyboardOptions = KeyboardOptions(
@@ -450,7 +450,7 @@ fun FloatingAIPersonality(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "🤖",
+                text = "ü§ñ",
                 fontSize = 24.sp
             )
             Text(
@@ -483,7 +483,7 @@ fun AdaptiveContextHints(
         )
     ) {
         Text(
-            text = "🎯 ${context.developmentPhase} | 🔥 ${context.userMood.name.lowercase()}",
+            text = "üéØ ${context.developmentPhase} | üî• ${context.userMood.name.lowercase()}",
             style = MaterialTheme.typography.labelSmall,
             modifier = Modifier.padding(8.dp)
         )
@@ -507,7 +507,7 @@ fun EnergyIndicator(
             .background(energyColor, CircleShape)
     ) {
         Text(
-            text = "⚡",
+            text = "‚ö°",
             fontSize = 12.sp,
             modifier = Modifier.align(Alignment.Center)
         )
@@ -537,19 +537,19 @@ fun ContextualChip(
 }
 
 enum class InputMode(val displayName: String, val emoji: String) {
-    SHELL("Shell", "💻"),
-    AI("Chat", "🤖"),
-    HYBRID("Both", "🔥"),
-    LEARN("Learn", "🧠")
+    SHELL("Shell", "üíª"),
+    AI("Chat", "ü§ñ"),
+    HYBRID("Both", "üî•"),
+    LEARN("Learn", "üß†")
 }
 
 fun getMessageTypeEmoji(type: LivingAINativeInterface.MessageType): String {
     return when (type) {
-        LivingAINativeInterface.MessageType.SHELL_COMMAND -> "💻"
-        LivingAINativeInterface.MessageType.AI_QUESTION -> "🤖"
-        LivingAINativeInterface.MessageType.HYBRID_REQUEST -> "🔥"
-        LivingAINativeInterface.MessageType.AMBIENT_THOUGHT -> "💭"
-        LivingAINativeInterface.MessageType.LEARNING_MOMENT -> "🌱"
+        LivingAINativeInterface.MessageType.SHELL_COMMAND -> "üíª"
+        LivingAINativeInterface.MessageType.AI_QUESTION -> "ü§ñ"
+        LivingAINativeInterface.MessageType.HYBRID_REQUEST -> "üî•"
+        LivingAINativeInterface.MessageType.AMBIENT_THOUGHT -> "üí≠"
+        LivingAINativeInterface.MessageType.LEARNING_MOMENT -> "üå±"
     }
 }
 

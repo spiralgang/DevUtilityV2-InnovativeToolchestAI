@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 """
-EnergeticWeave — reflex module
+EnergeticWeave â€” reflex module
 
 Responsibilities:
  - Monitor a command queue directory (~/icedman/bot/queue)

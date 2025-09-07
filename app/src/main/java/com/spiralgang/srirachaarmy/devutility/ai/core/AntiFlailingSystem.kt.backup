@@ -116,7 +116,7 @@ class AntiFlailingSystem @Inject constructor() {
         contextInfo: Map<String, Any>
     ): KnowledgeGapAnalysis {
         
-        Timber.d("🔍 Analyzing knowledge gap for task: $requiredTask")
+        Timber.d("üîç Analyzing knowledge gap for task: $requiredTask")
         
         // Analyze what's actually needed vs. what's available
         val missingCapabilities = analyzeMissingCapabilities(currentCapabilities, requiredTask)
@@ -138,7 +138,7 @@ class AntiFlailingSystem @Inject constructor() {
             preventiveActions = preventiveActions
         )
         
-        Timber.d("📊 Knowledge gap analysis: ${gapType.name}, severity: $gapSeverity")
+        Timber.d("üìä Knowledge gap analysis: ${gapType.name}, severity: $gapSeverity")
         return analysis
     }
 
@@ -154,7 +154,7 @@ class AntiFlailingSystem @Inject constructor() {
         currentSystem: Map<String, Any>
     ): ExpansionDecision {
         
-        Timber.d("🤔 Evaluating capability expansion: $proposedCapability")
+        Timber.d("ü§î Evaluating capability expansion: $proposedCapability")
         
         // Check if expansion is actually needed
         val existingAlternatives = findExistingAlternatives(proposedCapability, currentSystem)
@@ -191,7 +191,7 @@ class AntiFlailingSystem @Inject constructor() {
         // Track decision for flailing risk assessment
         trackExpansionDecision(proposedCapability, decision)
         
-        Timber.d("⚖️ Expansion decision: ${decision.expansionType.name}, should expand: ${decision.shouldExpand}")
+        Timber.d("‚öñÔ∏è Expansion decision: ${decision.expansionType.name}, should expand: ${decision.shouldExpand}")
         return decision
     }
 
@@ -221,7 +221,7 @@ class AntiFlailingSystem @Inject constructor() {
         _flailingRisk.value = risk
         
         if (risk >= FlailingRisk.HIGH) {
-            Timber.w("⚠️ High flailing risk detected: score=$riskScore, reactive_decisions=$reactiveDecisions")
+            Timber.w("‚ö†Ô∏è High flailing risk detected: score=$riskScore, reactive_decisions=$reactiveDecisions")
         }
         
         return risk

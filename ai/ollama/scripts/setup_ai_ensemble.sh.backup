@@ -1,7 +1,7 @@
 #!/bin/bash
 """
 Complete AI Model Ensemble Setup Script
-DevUtilityV2.5—InnovativeToolchestAI
+DevUtilityV2.5â€”InnovativeToolchestAI
 
 This script sets up and validates the complete AI model ensemble:
 - LLaMA 3.1 Core Model
@@ -29,7 +29,7 @@ AI_OLLAMA_DIR="$(dirname "$SCRIPT_DIR")"
 AI_DIR="$(dirname "$AI_OLLAMA_DIR")"
 ROOT_DIR="$(dirname "$AI_DIR")"
 
-echo -e "${BLUE}🚀 DevUtility AI Model Ensemble Setup${NC}"
+echo -e "${BLUE}ðŸš€ DevUtility AI Model Ensemble Setup${NC}"
 echo "=============================================="
 echo "Root Directory: $ROOT_DIR"
 echo "AI Ollama Directory: $AI_OLLAMA_DIR"
@@ -40,13 +40,13 @@ print_status() {
     local status=$1
     local message=$2
     if [ "$status" == "success" ]; then
-        echo -e "${GREEN}✅ $message${NC}"
+        echo -e "${GREEN}âœ… $message${NC}"
     elif [ "$status" == "warning" ]; then
-        echo -e "${YELLOW}⚠️  $message${NC}"
+        echo -e "${YELLOW}âš ï¸�  $message${NC}"
     elif [ "$status" == "error" ]; then
-        echo -e "${RED}❌ $message${NC}"
+        echo -e "${RED}â�Œ $message${NC}"
     else
-        echo -e "${BLUE}ℹ️  $message${NC}"
+        echo -e "${BLUE}â„¹ï¸�  $message${NC}"
     fi
 }
 
@@ -184,7 +184,7 @@ done
 
 echo ""
 echo "=============================================="
-echo -e "${BLUE}🤖 AI Model Ensemble Setup Complete${NC}"
+echo -e "${BLUE}ðŸ¤– AI Model Ensemble Setup Complete${NC}"
 echo "=============================================="
 echo "Models Successfully Integrated: $SUCCESS_COUNT/$TOTAL_COUNT"
 echo ""

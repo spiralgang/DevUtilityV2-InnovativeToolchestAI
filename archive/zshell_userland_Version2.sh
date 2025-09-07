@@ -1,4 +1,14 @@
 #!/bin/bash
+# -*- coding: utf-8 -*-
+# Living Code Integration - Auto-generated symmetrical connections
+# This script is part of the SrirachaArmy Living Code Environment
+# Perfect symmetrical integration with all repository components
+
+# Source living environment if available
+if [[ -f "$(dirname "${BASH_SOURCE[0]}")/../.living_environment_wrapper.sh" ]]; then
+    source "$(dirname "${BASH_SOURCE[0]}")/../.living_environment_wrapper.sh"
+fi
+
 # ZShell UserLAnd Integration (Non-Root)
 # Android 10 / SM-G965U1 Compatible
 # v1.1.0

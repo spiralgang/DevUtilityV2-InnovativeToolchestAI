@@ -282,7 +282,7 @@ class AIEnvironmentAwareness @Inject constructor() {
      */
     private suspend fun registerAdvancedAISystems() = withContext(Dispatchers.IO) {
         try {
-            Timber.d("🤖 Registering advanced AI systems in tool capability registry")
+            Timber.d("ü§ñ Registering advanced AI systems in tool capability registry")
             
             // Register UIYI Collaboration System
             registerTool(ToolCapability(
@@ -429,10 +429,10 @@ class AIEnvironmentAwareness @Inject constructor() {
                 postConditions = listOf("Solution validated", "Learning captured")
             ))
             
-            Timber.d("✅ Advanced AI systems registered successfully")
+            Timber.d("‚úÖ Advanced AI systems registered successfully")
             
         } catch (e: Exception) {
-            Timber.e(e, "❌ Failed to register advanced AI systems")
+            Timber.e(e, "‚ùå Failed to register advanced AI systems")
         }
     }
     

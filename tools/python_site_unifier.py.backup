@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Generate per-profile Python .pth injectors pointing to a shared site-packages
 to avoid path fragmentation under changing binds.

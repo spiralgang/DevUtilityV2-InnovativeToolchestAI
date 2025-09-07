@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Living Environment Activator
+# Run this to activate the living code environment in your shell
+
+echo "🧬 Activating SrirachaArmy Living Code Environment..."
+
+# Set environment variables
+export LIVING_CODE_ENABLED=1
+export LIVING_CODE_ROOT="$(pwd)"
+export LIVING_CODE_VERSION="2025-Living-Code-v1.0"
+
+# Source the wrapper if it exists
+if [[ -f "$(pwd)/.living_environment_wrapper.sh" ]]; then
+    source "$(pwd)/.living_environment_wrapper.sh"
+    echo "✅ Living environment wrapper loaded"
+fi
+
+# Add living code functions to current shell
+living_status() {
+    echo "🧬 Living Code Environment Status:"
+    echo "   Enabled: $LIVING_CODE_ENABLED"
+    echo "   Root: $LIVING_CODE_ROOT"
+    echo "   Version: $LIVING_CODE_VERSION"
+    if [[ -f "$LIVING_CODE_ROOT/.living_environment.db" ]]; then
+        echo "   Database: Active"
+    else
+        echo "   Database: Not initialized"
+    fi
+}
+
+# Export functions
+export -f living_status
+
+echo "✅ Living Code Environment activated!"
+echo "   Use 'living_status' to check status"
+echo "   All repository files are now perfectly integrated"

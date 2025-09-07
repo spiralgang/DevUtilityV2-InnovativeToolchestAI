@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 # examples/nimm_mind_zarr_helper.py
 # NIMM-MIND style helper: compressed chunked storage using Zarr + Blosc (userland alternative to ZRAM)
 #

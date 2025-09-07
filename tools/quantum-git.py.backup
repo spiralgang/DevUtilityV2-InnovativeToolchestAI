@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Quantum-Inspired Version Control
 Beyond linear history - parallel reality tracking

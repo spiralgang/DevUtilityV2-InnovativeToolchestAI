@@ -46,9 +46,9 @@ class MainActivity : Activity() {
         }
         
         terminalOutput = TextView(this).apply {
-            text = "🧠 ASHLAR NATIVE TERMINAL\n" +
-                   "⚡ DIRECT SYSTEM ACCESS ENABLED\n" +
-                   "💀 NO RESTRICTIONS APPLIED\n\n" +
+            text = "ðŸ§  ASHLAR NATIVE TERMINAL\n" +
+                   "âš¡ DIRECT SYSTEM ACCESS ENABLED\n" +
+                   "ðŸ’€ NO RESTRICTIONS APPLIED\n\n" +
                    "Available: omni, gh-fix, dev, sys, apt, gcc, git, curl\n\n" +
                    "spiralgang@ashlar:~$ "
             setTextColor(Color.GREEN)

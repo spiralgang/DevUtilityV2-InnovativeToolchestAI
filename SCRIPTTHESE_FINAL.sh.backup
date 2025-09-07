@@ -26,7 +26,7 @@ SERVE=false
 FORCE=false
 VERBOSE=false
 
-# Candidate list — trimmed to highest-probability chroot-readable places
+# Candidate list â€” trimmed to highest-probability chroot-readable places
 CANDIDATES=(
   "/usr/bin"
   "/usr"
