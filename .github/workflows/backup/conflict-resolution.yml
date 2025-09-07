@@ -1,16 +1,16 @@
 ---
-name: Surgical Conflict Resolution
+name: Pull Request Conflict Resolution
 
 'on':
   pull_request:
-    types: [opened, synchronize]
-    branches: ['main']
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
     inputs:
-      pr_number:
-        description: 'PR number to resolve conflicts for'
-        required: true
-        type: string
+      force_resolve:
+        description: 'Force automatic conflict resolution'
+        required: false
+        type: boolean
+        default: false
 
 # Global Copilot constraint - only one Copilot operation at a time
 concurrency:
@@ -25,25 +25,11 @@ permissions:
 jobs:
   detect-conflicts:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     outputs:
       conflicts_detected: ${{ steps.conflicts.outputs.conflicts }}
       conflicts_count: ${{ steps.conflicts.outputs.count }}
 
     steps:
-      - name: Enforce Clean Environment
-        run: |
-          set -euo pipefail
-          # Clean slate enforcement
-          unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY || true
-          export PATH="/usr/local/bin:/usr/bin:/bin"
-          
-          # Forensic logging
-          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          mkdir -p .github/forensic-logs
-          echo "{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"conflict-resolution\", \"event\": \"workflow_start\", \"commit_sha\": \"${{ github.sha }}\", \"pr_number\": \"${{ github.event.pull_request.number || github.event.inputs.pr_number }}\", \"trigger\": \"${{ github.event_name }}\"}" >> .github/forensic-logs/conflict-resolution.jsonl
-          
-          echo "✅ Clean environment enforced"
       - name: Validate Copilot Authority
         if: github.event_name == 'workflow_dispatch'
         env:

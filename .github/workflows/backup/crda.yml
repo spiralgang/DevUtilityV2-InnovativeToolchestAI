@@ -48,16 +48,33 @@ name: CRDA Scan
 
 # Controls when the workflow will run
 'on':
+  # TODO: Customize trigger events based on your DevSecOps processes
+  #
+  # This workflow is made to run with OpenShift starter workflow
+  # https://github.com/actions/starter-workflows/blob/main/deployments/
+  # openshift.yml
+  # However, if you want to run this workflow as a standalone workflow,
+  # please uncomment the 'push' trigger below and configure it based on your
+  # requirements.
+  #
   workflow_call:
     secrets:
       CRDA_KEY:
         required: false
-  pull_request:
+      SNYK_TOKEN:
+        required: false
+  workflow_dispatch:
+
+  # push:
+  #   branches: ["main"]
+
+  # pull_request_target is used to securely share secret to the PR's workflow
+  # run. For more info visit:
+  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-
+  # workflows#pull_request_target
+  pull_request_target:
     branches: ["main"]
-    paths:
-      - 'app/**'
-      - 'build.gradle'
-      - 'gradle/**'
+    types: [assigned, opened, synchronize, reopened, labeled, edited]
 
 permissions:
   contents: read

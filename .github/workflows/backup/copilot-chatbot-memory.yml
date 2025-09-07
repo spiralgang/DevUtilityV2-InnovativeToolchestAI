@@ -3,11 +3,7 @@ name: Copilot Chatbot Memory System
 
 'on':
   push:
-    branches: 
-      - 'main'
-    paths:
-      - '.github/copilot-memory/**'
-      - 'copilot-instructions.md'
+    branches: ['**']
   workflow_dispatch:
     inputs:
       message:
@@ -64,19 +60,6 @@ jobs:
         run: |
           git config --global user.name "DevUl Army Copilot[bot]"
           git config --global user.email "devul-copilot@noreply.github.com"
-
-      - name: Initialize Forensic Logging
-        run: |
-          set -euo pipefail
-          
-          # Create forensic log entry with timestamp and version stamp
-          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          LOG_ENTRY="{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"copilot-chatbot-memory\", \"event\": \"workflow_start\", \"commit_sha\": \"${{ github.sha }}\", \"trigger\": \"${{ github.event_name }}\", \"branch\": \"${{ github.ref_name }}\"}"
-          
-          mkdir -p .github/forensic-logs
-          echo "$LOG_ENTRY" >> .github/forensic-logs/chatbot-memory.jsonl
-          
-          echo "✅ Forensic logging initialized"
 
       - name: Initialize Persistent Memory
         run: |

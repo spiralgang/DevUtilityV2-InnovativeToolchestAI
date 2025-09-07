@@ -1,0 +1,94 @@
+---
+name: Focused Quantum Integration
+
+'on':
+  push:
+    paths:
+      - 'tools/qdataset_adapter.py'
+      - 'app/src/main/java/**/agentic/**'
+    branches:
+      - 'main'
+      - 'copilot/fix-*'
+  workflow_dispatch:
+    inputs:
+      validation_only:
+        description: 'Run validation only (no integration)'
+        required: false
+        type: boolean
+        default: true
+
+# Global Copilot constraint - only one Copilot operation at a time
+concurrency:
+  group: copilot-operations
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  validate-quantum-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Enforce Clean Environment
+        run: |
+          set -euo pipefail
+          # Clean slate enforcement
+          unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY GOOGLE_APPLICATION_CREDENTIALS || true
+          export PATH="/usr/local/bin:/usr/bin:/bin"
+          cd "$GITHUB_WORKSPACE"
+          
+          # Forensic logging
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          mkdir -p .github/forensic-logs
+          echo "{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"quantum-integration\", \"event\": \"clean_environment\", \"commit_sha\": \"${{ github.sha }}\", \"validation_only\": \"${{ github.event.inputs.validation_only || 'true' }}\"}" >> .github/forensic-logs/quantum-integration.jsonl
+          
+          echo "✅ Clean environment enforced"
+
+      - name: Validate Authority
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: |
+          if [[ "$GITHUB_ACTOR" != "github-actions[bot]" && "$GITHUB_ACTOR" != "spiralgang" ]]; then
+            echo "⚠️ Quantum integration limited to authorized users"
+            echo "Current actor: $GITHUB_ACTOR"
+            exit 1
+          fi
+          echo "✅ Authority validated for: $GITHUB_ACTOR"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Validate Quantum Adapter Only
+        run: |
+          set -euo pipefail
+          
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"quantum-integration\", \"event\": \"validation_start\", \"file\": \"tools/qdataset_adapter.py\"}" >> .github/forensic-logs/quantum-integration.jsonl
+
+          # Basic validation only - no complex integrations
+          if [[ -f "tools/qdataset_adapter.py" ]]; then
+            echo "🔬 Validating quantum dataset adapter syntax..."
+            python -m py_compile tools/qdataset_adapter.py
+            echo "✅ Quantum adapter syntax valid"
+          else
+            echo "ℹ️ No quantum adapter found, skipping validation"
+          fi
+          
+          echo "{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"quantum-integration\", \"event\": \"validation_complete\", \"status\": \"success\"}" >> .github/forensic-logs/quantum-integration.jsonl
+
+      - name: Upload Forensic Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quantum-integration-forensic-logs
+          path: .github/forensic-logs/quantum-integration.jsonl
+          if-no-files-found: ignore

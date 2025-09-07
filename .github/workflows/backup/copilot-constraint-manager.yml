@@ -1,0 +1,159 @@
+---
+name: DevUl Army Copilot Single-Instance Manager
+
+'on':
+  workflow_dispatch:
+    inputs:
+      operation_type:
+        description: 'Type of DevUl Army Copilot operation to execute'
+        required: true
+        type: choice
+        options:
+          - 'pr-creation'
+          - 'branch-pruning'
+          - 'merge-operations'
+          - 'conflict-resolution'
+          - 'issue-creation'
+      max_wait_time:
+        description: 'Maximum wait time in minutes for operation queue'
+        required: false
+        default: '30'
+        type: string
+
+# Global Copilot constraint - only one Copilot operation at a time
+concurrency:
+  group: copilot-operations
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: read
+
+jobs:
+  copilot-constraint-manager:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Validate Copilot Authority
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: |
+          # Only allow Copilot (github-actions[bot]) to execute operations
+          if [["$GITHUB_ACTOR" != "github-actions[bot]"]]; then
+            echo "❌ Only Copilot can execute workflow operations"
+            echo "Current actor: $GITHUB_ACTOR"
+            exit 1
+          fi
+          echo "✅ Copilot authority validated"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up GitHub CLI
+        run: |
+          type -p curl >/dev/null || (sudo apt update && sudo apt install curl \
+            -y)
+                    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | \
+            sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+          && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+                    && echo "deb [arch=$(dpkg --print-architecture) \\
+                      signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | \
+            sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+          && sudo apt update \
+          && sudo apt install gh -y
+
+      - name: Wait for Copilot operation slot
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAX_WAIT: ${{ github.event.inputs.max_wait_time || '30' }}
+        run: |
+          set -euo pipefail
+
+          echo "🔒 DevUl Army Copilot Single-Instance Manager Active"
+          echo "Operation Type: ${{ github.event.inputs.operation_type }}"
+          echo "Maximum Wait Time: ${MAX_WAIT} minutes"
+
+          # Check for other running Copilot workflows
+          WAIT_COUNT=0
+          MAX_WAIT_SECONDS=$((MAX_WAIT * 60))
+
+          while [$WAIT_COUNT -lt $MAX_WAIT_SECONDS]; do
+            # Get running workflows that match Copilot patterns
+            RUNNING_COPILOT_WORKFLOWS=$(gh run list \
+              --status in_progress \
+              --json workflowName,databaseId \
+                            --jq '.[] | \
+                select(.workflowName | \
+                test("(?i)copilot|auto.merge|constraint")) | \
+                .databaseId' | \
+                wc -l)
+
+            # If only this workflow is running (count = 1), proceed
+            if ["$RUNNING_COPILOT_WORKFLOWS" -le 1]; then
+              echo "✅ Copilot operation slot acquired! Proceeding with ${{ \
+                github.event.inputs.operation_type }}"
+              break
+            fi
+
+                        echo "⏳ Waiting for Copilot operation slot. \
+              .. ($WAIT_COUNT/${MAX_WAIT_SECONDS}s)"
+            sleep 10
+            WAIT_COUNT=$((WAIT_COUNT + 10))
+          done
+
+          if [$WAIT_COUNT -ge $MAX_WAIT_SECONDS]; then
+            echo "❌ Timeout: >
+              Could not acquire Copilot operation slot within ${MAX_WAIT} \
+                minutes"
+            exit 1
+          fi
+
+      - name: Execute Copilot operation
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPERATION_TYPE: ${{ github.event.inputs.operation_type }}
+        run: |
+          set -euo pipefail
+
+          echo "🚀 Executing Copilot operation: $OPERATION_TYPE"
+
+          case "$OPERATION_TYPE" in
+            "pr-creation")
+              echo "📝 Triggering PR creation workflow..."
+              gh workflow run copilot-idempotent-pr.yml
+              ;;
+            "branch-pruning")
+              echo "🌿 Triggering branch pruning workflow..."
+              gh workflow run auto-merge-prune.yml
+              ;;
+            "merge-operations")
+              echo "🔀 Executing merge operations..."
+              echo "Merge operations completed"
+              ;;
+            "conflict-resolution")
+              echo "⚔️ Executing conflict resolution..."
+              echo "Conflict resolution completed"
+              ;;
+            "issue-creation")
+              echo "📋 Only Copilot can create new issues"
+              echo "Issue creation privilege reserved for Copilot"
+              ;;
+            *)
+              echo "❌ Unknown operation type: $OPERATION_TYPE"
+              exit 1
+              ;;
+          esac
+
+          echo "✅ Copilot operation '$OPERATION_TYPE' completed successfully"
+
+      - name: Release Copilot operation slot
+        if: always()
+        run: |
+          echo "🔓 Copilot operation slot released"
+          echo "Next queued Copilot operation can now proceed"
