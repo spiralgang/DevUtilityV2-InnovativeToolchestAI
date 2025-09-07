@@ -1,0 +1,30 @@
+{
+  "branches": ["main", "copilot/fix-*"],
+  "paths": [
+    ".github/workflows/**",
+    "scripts/**",
+    "configs/activation_rules.json",
+    "ai/**",
+    "app/src/**"
+  ],
+  "agents": ["core", "validation", "android"]
+}
+{
+  object ActivationRules {
+    data class Rules(
+        val branches: List<String>,
+        val paths: List<String>,
+        val agents: List<String>
+    )
+
+    fun load(context: android.content.Context): Rules {
+        val cfg = context.assets.open("activation_rules.json").bufferedReader().use { it.readText() }
+        return kotlinx.serialization.json.Json.decodeFromString(cfg)
+    }
+
+    fun matchesBranch(rules: Rules, branch: String): Boolean =
+        rules.branches.any { glob -> Regex(glob.replace("*", ".*")).matches(branch) }
+
+    fun matchesPath(rules: Rules, path: String): Boolean =
+        rules.paths.any { glob -> Regex(glob.replace("**", ".*").replace("*", "[^/]*")).matches(path) }
+        }
