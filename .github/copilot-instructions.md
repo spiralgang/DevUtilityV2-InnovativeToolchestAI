@@ -1,6 +1,9 @@
 <!-- Living Code Integration - Auto-generated symmetrical connections -->
 <!-- This file is part of the SrirachaArmy Living Code Environment -->
 <!-- Perfect symmetrical integration with all repository components -->
+
+### Youre only allowed one open 'copilot/fix-' branch. Im sick of cleaning up your slop.
+
 <!-- ### Youre only allowed one open 'copilot/fix-' branch. -->
 
 
@@ -340,7 +343,6 @@ which python3 && which bash && which git
 - Conflict resolution: Git merge-tree analysis with automated resolution strategies
 - Documentation: Markdown with comprehensive cross-linking and validation scenarios
 
----
 
 ## CodeReaver Advanced AI Training Dataset
 
