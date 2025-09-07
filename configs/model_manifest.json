@@ -1,6 +1,7 @@
 {
   "models": [
     { "repo": "https://huggingface.co/Qwen/Qwen2.5-0.5B", "dir": "Qwen2.5-0.5B" },
-    { "repo": "https://huggingface.co/microsoft/phi-2", "dir": "Phi-2" }
+    { "repo": "https://huggingface.co/microsoft/phi-2", "dir": "Phi-2" },
+    { "repo": "https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1", "dir": "Mixtral-8x7B" }
   ]
 }
