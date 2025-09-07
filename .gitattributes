@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4376bedb23759379b5aadb6f3fca811f164fbababe1335c1bbb60cfbb4cd13c3
-size 1013
+# Git LFS configuration for AI models only
+ai/ollama/**/model.gguf filter=lfs diff=lfs merge=lfs -text
+ai/ollama/**/pytorch_model.bin filter=lfs diff=lfs merge=lfs -text
+ai/ollama/**/model.safetensors filter=lfs diff=lfs merge=lfs -text
+ai/ollama/**/*.gguf filter=lfs diff=lfs merge=lfs -text
+ai/ollama/**/*.bin filter=lfs diff=lfs merge=lfs -text
+ai/ollama/**/*.safetensors filter=lfs diff=lfs merge=lfs -text
+ai/ollama/**/*.msgpack filter=lfs diff=lfs merge=lfs -text
