@@ -569,7 +569,7 @@ class ComprehensiveAIManager(
         
         // Initialize Security Analyzer
         updateProgress("SecurityAnalyzer")
-        securityAnalyzer = SecurityAnalyzer()
+        securityAnalyzer = SecurityAnalyzer(context, aiEnvironmentAwareness)
         markSystemComplete("SecurityAnalyzer")
         
         // Initialize Secondary AI Validation System
