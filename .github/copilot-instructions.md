@@ -35,7 +35,7 @@ jobs:
 
 # DevUl Army : Living Sriracha AGI - CodeReaver Enhanced Developer Instructions
 
-Always follow these instructions first and only search for additional information if these instructions are incomplete or found to be in error.
+Always follow these instructions first -- until you cant even write a simple script like workflows correctly. Then referbto your abc's docs again, github copilot best practices, 'big brain'.
 
 ## CodeReaver Integration: Strategic Empathy + Adaptive Pragmatism Framework
 
