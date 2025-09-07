@@ -74,3 +74,8 @@ Thumbs.db
 # Optional: Generated Files
 captures/
 
+# Hugging Face Models (use workflow caching instead)
+models/
+*.bin
+*.safetensors
+
