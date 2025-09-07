@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-09-07T09:29:29.177102",
+  "operation": "ai_function_calling_tools_collection",
+  "status": "completed",
+  "tools_collected": [
+    "langchain_tools",
+    "openai_function_calling",
+    "autogen_tools",
+    "semantic_kernel_skills",
+    "crewai_tools",
+    "haystack_tools",
+    "llamaindex_tools",
+    "anthropic_tools",
+    "litellm_tools",
+    "instructor_tools"
+  ],
+  "source_directories": {
+    "source_code": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai_function_calling_tools/source_code",
+    "hosting_configs": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai_function_calling_tools/hosting_configs",
+    "analysis_reports": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai_function_calling_tools/analysis_reports"
+  },
+  "deployment_ready": true,
+  "hosting_methods": [
+    "docker",
+    "docker_compose",
+    "api_wrapper"
+  ],
+  "total_files": 42958
+}

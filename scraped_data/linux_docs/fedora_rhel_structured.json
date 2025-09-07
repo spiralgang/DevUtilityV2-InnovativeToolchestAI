@@ -1,0 +1,18 @@
+{
+  "platform": "linux",
+  "timestamp": "2025-09-07T09:28:41.047368",
+  "guides": [
+    {
+      "title": "Fedora and Red Hat Enterprise Linux",
+      "content": "Fedora and Red Hat Enterprise Linuxyohaan vakil, hankuoffroad, mikerkelly87Version F38Last review: 2023-05-15What is the difference between Fedora and Red Hat Enterprise Linux?Relationship between Fedora and RHELRed Hat Enterprise Linux (RHEL) and Fedora both are open source operating systems. They are related projects, with Fedora being \"upstream\" of Red Hat Enterprise Linux. Whereas Fedora is a community-supported project suitable for different kinds of users, Red Hat Enterprise Linux is enterprise business-oriented software supported via commercial subscription options.Red Hat Enterprise LinuxRed Hat Enterprise Linux is an enterprise Linux operating system. It is oriented toward enterprise and commercial users, is certified for many hardware and cloud platforms, and is supported by Red Hat via various subscription options. Compared to Fedora, Red Hat Enterprise Linux emphasizes stability and enterprise-readiness over the latest technologies or rapid releases. More information about "
+    }
+  ],
+  "commands": [],
+  "security_topics": [
+    "Adding a user to sudoers",
+    "Performing administration tasks using sudo",
+    "Resetting a root password",
+    "Red Hat Enterprise Linux updates are more conservative and generally focus on security and bug fixes."
+  ],
+  "links": []
+}
