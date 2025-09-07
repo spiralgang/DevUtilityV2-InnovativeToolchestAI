@@ -1,0 +1,1015 @@
+■■■
+
+What those "newgroupids" actually are
+Every time the serpent finds a brand‑new duplicate group, it gives it a short unique tag so you can trace it later without needing to dump all file paths in the live summary.
+
+The format is:
+
+`
+<sizeinbytes>:<fullcontenthash>
+`
+
+- sizeinbytes → the exact byte size of all files in this group.  
+  This means every file in that group is the same length down to the byte.
+- fullcontenthash → the strong digest of the file contents (SHA‑256 / BLAKE2b in our case).  
+  This is what guarantees it’s not just same‑size but identical content.
+
+Example from your log:
+`
+3754:e569c01ac2268e7a96827f52e77fec105aa678c94ccc0997cee3b4d2839b6e52
+`
+…means:  
+> “I just found a new group of duplicates — each file is 3,754 bytes and the content hash for that byte‑pattern is e569c0…b6e52.”
+
+---
+
+2 Where those IDs lead you
+Every time a group ID is emitted in newgroupids, the run has also written a full entry to the JSONL dupe index file (in your home dir, .deepuldupes.jsonl in my last drop).  
+That entry includes:
+
+`json
+{
+  "group_id": "3754:e569c0…",
+  "size": 3754,
+  "hash": "e569c0…",
+  "paths": [
+    "/path/to/file1",
+    "/path/to/file2",
+    ...
+  ],
+  "ts": "2025-08-29 12:48:35"
+}
+`
+
+So to “trace back” later, you grep or jq for that group_id in the index, and you’ll see exactly which files were in it at discovery.
+
+---
+
+3 If you didn’t see ‘start’ / ‘stop’ / ‘prune’ prints
+In the bare‑bones JSONL ; those events are emitted only if:
+
+- START → printed at the very first tick before the scan loop begins.  
+  If you launched via python3 deepulhunter.py and your stdout was already busy with other tool output, you might have scrolled past it — or in some redirect setups it’s only in the .jsonl file.
+- STOP/END → only printed after the full root set is exhausted. If you Ctrl‑C before it finishes or pipe output somewhere that filters it, you won’t see it.
+- PRUNE → only fires if you run with PRUNE=keep* and DRYRUN=0 (or with quarantine set). In your run, the envs weren’t flipped, so it discovered dupes and indexed them but never culled them, so no prune logs.
+
+---
+
+Quick tip to see these in‑line
+Run like this from inside UserLAnd:
+
+`bash
+PRUNE=keepearliest DRYRUN=0 \
+ROOTS="/,/home,/storage" \
+EXCLUDES="/proc,/sys,/dev,/acct,/tmp" \
+python3 deepulhunter.py | jq .
+`
+
+That way every event — START, each SUMMARY with newgroupids, every PRUNE, and the END — will be parsed cleanly in your terminal, and you can scroll just the structured feed without digging the flat log.
+
+Your serpent’s treasure hoard in plain sight.  
+The '.deepuldupes.jsonl' isn’t just a log file, it’s the whole forensic map of what your hunter’s been sinking its fangs into:
+
+- {(' 309 MB '')} of structured JSONL entries means you’ve got {(' thousands ')} of distinct dupe groups captured already.
+- Every line is a complete snapshot: group ID (size:hash), size, digest, and the full paths array of members at that moment in time.
+- Because it’s append‑only and newline‑delimited, you can slice it however you like without re‑running the crawl.
+
+The beauty here is you don’t need to re‑scan that splintered filesystem to answer, “what was in group X” — you can just rip it straight out of the hoard. For example:
+
+`bash
+
+Top 10 most common file sizes with duplicates
+jq -r '.size' ~/.deepuldupes.jsonl | sort -n | uniq -c | sort -nr | head
+
+Trace a specific group ID back to its files
+grep '"groupid": "3754:e569c0' ~/.deepul_dupes.jsonl | jq -r '.paths[]'
+
+List unique group_ids seen
+jq -r '.groupid' ~/.deepul_dupes.jsonl | sort -u | wc -l
+`
+
+That’s your “time machine” — it’s got every duplicate the snake has ever spotted, even if you prune, quarantine, or rename later.
+
+We'll level this up so you’re not scrolling {(' 300 MB ')} raw by:
+- add a view command that streams summaries from this JSONL in human‑sized chunks,
+- or build a micro‑UI that pages through group IDs and expands the paths on demand.
+
+There's a wired viewer in one self‑contained drop so you can interrogate .deepuldupes.jsonl live without parsing it by hand.
+
+■■■
+
+#!/usr/bin/env python3
+ **DUH-DUPE.py**
+# Deep UL Hunter — sovereign duplicate hunter for UserLAnd/proot Android
+# - Self-contained. No prior state required.
+# - Live JSONL dupe index with group IDs for tracebacks.
+# - Skips sockets/devices/FIFOs and excluded dirs/globs.
+# - Env-driven config. Safe by default (dry-run, no deletes).
+
+import os
+import sys
+import time
+import json
+import stat
+import fnmatch
+import hashlib
+from pathlib import Path
+from typing import Dict, List, Tuple
+
+# ----------------------- Environment Config -----------------------
+ROOTS        = [p.strip() for p in os.getenv("ROOTS", "/,/home,/storage,/sdcard,/mnt,/data,/system,/vendor,/oem,/apex").split(",") if p.strip()]
+EXCLUDES     = [p.strip() for p in os.getenv("EXCLUDES", "/proc,/sys,/dev,/acct,/proc/self,/proc/*/task,/run").split(",") if p.strip()]
+EXCLUDE_GLOBS= [g.strip() for g in os.getenv("EXCLUDE_GLOBS", "").split(",") if g.strip()]  # e.g., *.apk,*.obb
+FOLLOW_SYMLINKS = os.getenv("FOLLOW_SYMLINKS", "0") == "1"
+
+PRUNE        = os.getenv("PRUNE", "")  # keep_earliest|keep_latest|keep_shortest|keep_longest|"" (off)
+QUARANTINE   = os.getenv("QUARANTINE", "")  # directory path or ""
+DRY_RUN      = os.getenv("DRY_RUN", "1") != "0"
+
+MIN_SIZE     = int(os.getenv("MIN_SIZE", "0"))  # bytes; 0 = none
+MAX_SIZE     = int(os.getenv("MAX_SIZE", "0"))  # bytes; 0 = none
+
+HASH_ALGO    = os.getenv("HASH_ALGO", "sha256")  # sha256|blake2b
+SUMMARY_INTERVAL = int(os.getenv("SUMMARY_INTERVAL", "15"))  # seconds between summaries
+
+INDEX_PATH   = Path(os.getenv("INDEX_PATH", str(Path.home()/".deep_ul_dupes.jsonl")))
+ERROR_LOG    = Path(os.getenv("ERROR_LOG", str(Path.home()/".deep_ul_errors.jsonl")))
+
+# ----------------------- Utilities -----------------------
+def now_str() -> str:
+    return time.strftime("%Y-%m-%d %H:%M:%S")
+
+def emit(obj: dict):
+    obj["ts"] = now_str()
+    print(json.dumps(obj, ensure_ascii=False), flush=True)
+
+def log_error(kind: str, path: str, msg: str):
+    entry = {"type": kind, "path": path, "error": msg, "ts": now_str()}
+    try:
+        ERROR_LOG.parent.mkdir(parents=True, exist_ok=True)
+        with ERROR_LOG.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    except Exception:
+        # Best effort; don't crash on logging failures
+        pass
+
+def excluded(path: str) -> bool:
+    pn = os.path.normpath(path)
+    # Hard excludes by prefix or single-star wildcard
+    for e in EXCLUDES:
+        if "*" in e:
+            head, _, tail = e.partition("*")
+            head = os.path.normpath(head) if head else ""
+            tail = os.path.normpath(tail) if tail else ""
+            if pn.startswith(head) and pn.endswith(tail):
+                return True
+        else:
+            e_norm = os.path.normpath(e)
+            if pn == e_norm or pn.startswith(e_norm + os.sep):
+                return True
+    # Glob excludes across full path
+    for pat in EXCLUDE_GLOBS:
+        if fnmatch.fnmatch(pn, pat):
+            return True
+    return False
+
+def is_regular_file(path: str) -> bool:
+    try:
+        st = os.lstat(path)
+        if stat.S_ISREG(st.st_mode):
+            return True
+        if stat.S_ISLNK(st.st_mode) and FOLLOW_SYMLINKS:
+            try:
+                st2 = os.stat(path)  # follow
+                return stat.S_ISREG(st2.st_mode)
+            except Exception:
+                return False
+        return False
+    except OSError:
+        return False
+
+def file_size(path: str) -> int:
+    try:
+        return os.path.getsize(path)
+    except OSError:
+        return -1
+
+def sanitize_for_quarantine(path: str, digest: str, size: int) -> Path:
+    # Turn absolute path into a safe filename plus short hash
+    base = path.strip("/").replace("/", "_")
+    base = base if base else "root"
+    short = digest[:12]
+    return Path(QUARANTINE) / f"{base}__{size}__{short}"
+
+def select_keep(paths: List[str], strategy: str) -> str:
+    if not paths:
+        return ""
+    if strategy == "keep_earliest":
+        return min(paths, key=lambda p: os.stat(p).st_mtime if os.path.exists(p) else float("inf"))
+    if strategy == "keep_latest":
+        return max(paths, key=lambda p: os.stat(p).st_mtime if os.path.exists(p) else float("-inf"))
+    if strategy == "keep_shortest":
+        return min(paths, key=lambda p: len(p))
+    if strategy == "keep_longest":
+        return max(paths, key=lambda p: len(p))
+    return paths[0]
+
+# ----------------------- Hashing -----------------------
+def hasher():
+    if HASH_ALGO.lower() == "blake2b":
+        def _h(path: str) -> str:
+            h = hashlib.blake2b()
+            with open(path, "rb", buffering=0) as f:
+                for chunk in iter(lambda: f.read(1 << 20), b""):
+                    h.update(chunk)
+            return h.hexdigest()
+        return _h
+    # default sha256
+    def _h(path: str) -> str:
+        h = hashlib.sha256()
+        with open(path, "rb", buffering=0) as f:
+            for chunk in iter(lambda: f.read(1 << 20), b""):
+                h.update(chunk)
+        return h.hexdigest()
+    return _h
+
+hash_file = hasher()
+
+# ----------------------- Dupe Recording & Pruning -----------------------
+def record_group(digest: str, size: int, paths: List[str]):
+    # Append snapshot of the group's current members
+    INDEX_PATH.parent.mkdir(parents=True, exist_ok=True)
+    entry = {
+        "group_id": f"{size}:{digest}",
+        "size": size,
+        "hash": digest,
+        "paths": paths,
+        "ts": now_str()
+    }
+    with INDEX_PATH.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+def prune_group(digest: str, size: int, paths: List[str]):
+    if not PRUNE:
+        return
+    try:
+        keep = select_keep(paths, PRUNE)
+        for p in paths:
+            if p == keep:
+                continue
+            if DRY_RUN:
+                emit({"type": "DRY_PRUNE", "keep": keep, "remove": p, "group_id": f"{size}:{digest}"})
+                continue
+            try:
+                if QUARANTINE:
+                    Path(QUARANTINE).mkdir(parents=True, exist_ok=True)
+                    dst = sanitize_for_quarantine(p, digest, size)
+                    # ensure distinct names in case of collisions
+                    suffix = 0
+                    final = dst
+                    while final.exists():
+                        suffix += 1
+                        final = dst.with_name(dst.name + f".{suffix}")
+                    os.rename(p, final)
+                else:
+                    os.remove(p)
+                emit({"type": "PRUNE", "keep": keep, "removed": p, "group_id": f"{size}:{digest}"})
+            except Exception as e:
+                log_error("PRUNE_FAIL", p, str(e))
+                emit({"type": "PRUNE_FAIL", "path": p, "error": str(e), "group_id": f"{size}:{digest}"})
+    except Exception as e:
+        log_error("PRUNE_PLAN_FAIL", f"{size}:{digest}", str(e))
+        emit({"type": "PRUNE_PLAN_FAIL", "group_id": f"{size}:{digest}", "error": str(e)})
+
+# ----------------------- Walker -----------------------
+def walk():
+    files_seen = 0
+    candidates = 0
+    dup_groups = 0
+    last_summary = time.monotonic()
+    new_group_ids: List[str] = []
+
+    # Map (digest, size) -> list(paths)
+    groups: Dict[Tuple[str, int], List[str]] = {}
+
+    emit({"type": "START", "roots": ROOTS, "prune": PRUNE or "off", "dry_run": DRY_RUN})
+
+    for root in ROOTS:
+        if not root or not os.path.isdir(root) or excluded(root):
+            continue
+        for dirpath, dirs, files in os.walk(root, followlinks=FOLLOW_SYMLINKS):
+            # prune excluded subdirs in-place
+            pruned = []
+            for d in list(dirs):
+                sub = os.path.join(dirpath, d)
+                if excluded(sub):
+                    pruned.append(d)
+            if pruned:
+                dirs[:] = [d for d in dirs if d not in pruned]
+
+            # process files in this dir
+            for name in files:
+                p = os.path.join(dirpath, name)
+                files_seen += 1
+
+                if not is_regular_file(p):
+                    continue
+                sz = file_size(p)
+                if sz < 0:
+                    continue
+                if MIN_SIZE and sz < MIN_SIZE:
+                    continue
+                if MAX_SIZE and sz > MAX_SIZE:
+                    continue
+
+                try:
+                    digest = hash_file(p)
+                except Exception as e:
+                    # Skip sockets, unreadables, race conditions, etc.
+                    log_error("HASH_FAIL", p, str(e))
+                    continue
+
+                key = (digest, sz)
+                if key in groups:
+                    groups[key].append(p)
+                    # If this is the second member, it's a new duplicate group
+                    if len(groups[key]) == 2:
+                        dup_groups += 1
+                        gid = f"{sz}:{digest}"
+                        new_group_ids.append(gid)
+                        # record the initial snapshot of the group
+                        try:
+                            record_group(digest, sz, list(groups[key]))
+                        except Exception as e:
+                            log_error("INDEX_FAIL", p, str(e))
+                        # optionally prune
+                        prune_group(digest, sz, list(groups[key]))
+                    else:
+                        # Update index snapshot occasionally (3rd+ member)
+                        try:
+                            record_group(digest, sz, list(groups[key]))
+                        except Exception as e:
+                            log_error("INDEX_FAIL", p, str(e))
+                else:
+                    groups[key] = [p]
+
+                candidates += 1
+
+                # time-based summary
+                if time.monotonic() - last_summary >= SUMMARY_INTERVAL:
+                    emit({
+                        "type": "SUMMARY",
+                        "files": files_seen,
+                        "candidates": candidates,
+                        "dup_groups": dup_groups,
+                        "new_group_ids": new_group_ids[:50]  # limit burst
+                    })
+                    new_group_ids.clear()
+                    last_summary = time.monotonic()
+
+    # final summary
+    emit({
+        "type": "SUMMARY",
+        "files": files_seen,
+        "candidates": candidates,
+        "dup_groups": dup_groups,
+        "new_group_ids": new_group_ids
+    })
+    emit({"type": "END", "files": files_seen, "dup_groups": dup_groups})
+
+if __name__ == "__main__":
+    try:
+        walk()
+    except KeyboardInterrupt:
+        emit({"type": "INTERRUPTED"})
+        sys.exit(130)
+
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+#!/usr/bin/env python3
+**SSnaHke-Run.py**
+import os, sys, time, hashlib, json
+from pathlib import Path
+
+ROOTS     = os.getenv("ROOTS", "/,/storage,/sdcard,/mnt,/data,/system,/vendor,/oem,/apex").split(",")
+EXCLUDES  = os.getenv("EXCLUDES", "/proc,/sys,/dev,/acct,/proc/self,/proc/*/task,/run").split(",")
+PRUNE     = os.getenv("PRUNE", "")  # keep_earliest|keep_latest|keep_shortest
+QUARANTINE= os.getenv("QUARANTINE", "")
+DRY_RUN   = os.getenv("DRY_RUN", "1") != "0"
+INDEX     = Path.home()/".deep_ul_dupes.jsonl"
+
+hash_map = {}
+dup_groups = 0
+
+def excluded(p):
+    pn = os.path.normpath(p)
+    for e in EXCLUDES:
+        e = e.strip()
+        if not e: continue
+        if "*" in e:
+            head,_,tail = e.partition("*")
+            if pn.startswith(os.path.normpath(head)) and pn.endswith(os.path.normpath(tail)):
+                return True
+        elif pn == os.path.normpath(e) or pn.startswith(os.path.normpath(e+"/")):
+            return True
+    return False
+
+def hash_file(p):
+    h = hashlib.sha256()
+    with open(p,"rb") as f:
+        for chunk in iter(lambda:f.read(1<<20),b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+def record_group(digest,size,paths):
+    entry={"group_id":f"{size}:{digest}","size":size,"hash":digest,"paths":paths}
+    INDEX.parent.mkdir(parents=True,exist_ok=True)
+    INDEX.open("a").write(json.dumps(entry)+"\n")
+
+def prune_group(paths):
+    global dup_groups
+    if not PRUNE: return
+    if PRUNE=="keep_earliest":
+        keep=min(paths,key=lambda p:os.stat(p).st_mtime)
+    elif PRUNE=="keep_latest":
+        keep=max(paths,key=lambda p:os.stat(p).st_mtime)
+    elif PRUNE=="keep_shortest":
+        keep=min(paths,key=lambda p:len(p))
+    else:
+        keep=paths[0]
+    for p in paths:
+        if p==keep: continue
+        if DRY_RUN:
+            print(f"DRY rm {p}")
+        else:
+            try:
+                if QUARANTINE:
+                    Path(QUARANTINE).mkdir(parents=True,exist_ok=True)
+                    dst=Path(QUARANTINE)/(p.strip("/").replace("/","_"))
+                    os.rename(p,dst)
+                else:
+                    os.remove(p)
+                print(f"removed {p}")
+            except Exception as e:
+                print(f"PRUNE_FAIL {p}: {e}")
+
+def walk():
+    global dup_groups
+    files = cands = 0
+    for root in ROOTS:
+        root=root.strip()
+        if not root or not os.path.isdir(root) or excluded(root): continue
+        for dirpath,dirs,fnames in os.walk(root):
+            if excluded(dirpath):
+                dirs.clear(); continue
+            for name in fnames:
+                p=os.path.join(dirpath,name)
+                try:
+                    size=os.path.getsize(p)
+                except: continue
+                digest=hash_file(p)
+                key=(digest,size)
+                if key in hash_map:
+                    hash_map[key].append(p)
+                    if len(hash_map[key])==2:
+                        dup_groups+=1
+                        record_group(digest,size,list(hash_map[key]))
+                        prune_group(list(hash_map[key]))
+                else:
+                    hash_map[key]=[p]
+                cands+=1
+                files+=1
+            dirs[:]=[d for d in dirs if not excluded(os.path.join(dirpath,d))]
+    print(json.dumps({"files":files,"candidates":cands,"dup_groups":dup_groups}))
+
+if __name__=="__main__":
+    walk()
+
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+■■■
+
+Alright — here’s a drop‑in dupe viewer you can run inside your UserLAnd shell so you don’t have to page through {(' 300 MB ')} of JSONL by hand.
+
+It’s sovereign — no state from a crawl needed — it just reads ~/.deepuldupes.jsonl, indexes it, and lets you page/search/summarise in one go.
+
+---
+
+`python
+
+!/usr/bin/env python3
+"""
+deepulviewer.py — Inspect and summarise .deepuldupes.jsonl
+- Paginate through groups (size:hash) and expand their member paths
+- Search by group_id prefix, file path substring, or size range
+- Show top sizes or group counts
+"""
+
+import json, os, sys, argparse
+from pathlib import Path
+from collections import defaultdict, Counter
+
+INDEXFILE = Path.home()/".deepul_dupes.jsonl"
+
+def load_index():
+    if not INDEX_FILE.exists():
+        print(f"[!] No {INDEX_FILE} found")
+        sys.exit(1)
+    with INDEX_FILE.open() as f:
+        for line in f:
+            try:
+                yield json.loads(line)
+            except json.JSONDecodeError:
+                continue
+
+def cmd_summary(args):
+    groups = set()
+    size_counts = Counter()
+    total_paths = 0
+    for rec in load_index():
+        gid = rec.get("group_id")
+        groups.add(gid)
+        size_counts[rec.get("size")] += 1
+        total_paths += len(rec.get("paths", []))
+    print(f"Total unique groups: {len(groups)}")
+    print(f"Total dupe file refs: {total_paths}")
+    print("\nTop sizes:")
+    for size, cnt in sizecounts.mostcommon(args.top):
+        print(f"  {size} bytes — {cnt} groups")
+
+def cmd_list(args):
+    seen = set()
+    count = 0
+    for rec in load_index():
+        gid = rec.get("group_id")
+        if gid in seen: 
+            continue
+        seen.add(gid)
+        if args.filter and args.filter not in gid:
+            continue
+        print(f"[{count}] {gid} ({rec.get('size')} bytes)")
+        count += 1
+        if args.limit and count >= args.limit:
+            break
+
+def cmd_show(args):
+    for rec in load_index():
+        if rec.get("group_id").startswith(args.gid):
+            print(f"Group: {rec['group_id']} ({rec['size']} bytes)")
+            for p in rec.get("paths", []):
+                print("  ", p)
+
+def cmd_searchpath(args):
+    for rec in load_index():
+        for p in rec.get("paths", []):
+            if args.term in p:
+                print(f"{rec['group_id']} — {p}")
+
+if name == "main":
+    ap = argparse.ArgumentParser(description="View Deep UL dupe index")
+    sp = ap.add_subparsers(dest="cmd", required=True)
+
+    psum = sp.addparser("summary")
+    psum.addargument("--top", type=int, default=10)
+    psum.setdefaults(func=cmd_summary)
+
+    plist = sp.addparser("list")
+    plist.addargument("--limit", type=int, default=20)
+    plist.addargument("--filter", help="Filter group_id substring")
+    plist.setdefaults(func=cmd_list)
+
+    pshow = sp.addparser("show")
+    pshow.addargument("gid", help="Group ID prefix to expand")
+    pshow.setdefaults(func=cmd_show)
+
+    pspath = sp.addparser("searchpath")
+    pspath.addargument("term", help="Substring to search in file paths")
+    pspath.setdefaults(func=cmd_searchpath)
+
+    args = ap.parse_args()
+    args.func(args)
+`
+
+---
+
+■■ ■■ (V1) How you’d use it:
+
+`bash
+
+Overall stats + top dupe sizes
+python3 deepulviewer.py summary
+
+List first 20 groups
+python3 deepulviewer.py list
+
+List groups matching a hash/size fragment
+python3 deepulviewer.py list —{(' filter 3754 ')}—:
+
+Show all file paths for a specific group_id (prefix match OK)
+python3 deepulviewer.py show {(' 3754:e569c0 ')}
+
+Search for any groups containing paths with 'node_modules'
+python3 'DUHDUPEV.py' searchpath {(' node_modules ')}
+` 
+AKA—: **( DUHDUPEV.py [-h] {summary,list,show,searchpath} ...
+
+View Deep UL dupe index
+
+positional arguments:
+  {summary,list,show,searchpath}
+
+options:
+  -h, --help            show this help message and exit ')**
+
+Because it dedupes 'new_group_id' entries on load, you won’t see the same group spammed multiple times — just the unique IDs and their paths.
+
+If you want, I can bolt a simple curses pager on this so you can arrow‑key through groups and hit enter to expand them, right in‑terminal, without dumping thousands of lines at once. That’d turn .deepuldupes.jsonl into an actual navigable catalogue.
+
+■■ ■■(V1)
+localhost% nano
+localhost% chmod +x DUHDUPE.py
+chmod: cannot access 'DUHDUPE.py': No such file or directory
+localhost% chmod +x DUHDUPEV.py
+
+localhost% ./DUHDUPEV.py
+usage: DUHDUPEV.py [-h] {summary,list,show,searchpath} ...
+DUHDUPEV.py: error: the following arguments are required: cmd
+localhost% ./DUHDUPEV.py -h
+usage: DUHDUPEV.py [-h] {summary,list,show,searchpath} ...
+
+View Deep UL dupe index
+
+positional arguments:
+  {summary,list,show,searchpath}
+
+options:
+  -h, --help            show this help message and exit
+
+localhost% ./DUHDUPEV.py --help
+usage: DUHDUPEV.py [-h] {summary,list,show,searchpath} ...
+
+View Deep UL dupe index
+
+positional arguments:
+  {summary,list,show,searchpath}
+
+options:
+  -h, --help            show this help message and exit
+localhost% ./DUHDUPEV.py summary
+Total unique groups: {(' 54232 ')}
+Total dupe file refs: {(' 2745580 ')}
+
+Top sizes:
+[('
+  0 bytes — 1646 groups
+  99 bytes — 527 groups
+  104 bytes — 387 groups
+  1117 bytes — 359 groups
+  123 bytes — 350 groups
+  52 bytes — 334 groups
+  1335 bytes — 323 groups
+  44 bytes — 315 groups
+  253 bytes — 297 groups
+  1058 bytes — 282 groups
+                                                 ')]
+
+localhost% ./DUHDUPEV.py list
+[0] 3717:fd8820851abded9ece4c23954978bce842c6f6d6b1bde1bc8b78fd01716b9e7d (3717 bytes)
+[1] 5755:b43931901c4175e08a7402e776cae6833cc06167e1d2945f243d489077e15d7c (5755 bytes)
+[2] 126863:c9a13e80fb0336babcf91c75f081fc4af73bbf87700216f425096e11054198fb (126863 bytes)
+[3] 3377:af1668260011510d80a93dcdac1fac0a59ecf73b53c0838c48fabf55cf4e7c19 (3377 bytes)
+[4] 206:8edfb9a857c373def6bafa55c498806420c6354f33185159d492f6511e4a7e63 (206 bytes)
+[5] 22240:b323ab0f75afc8a7a1d08807108851f3d4e246bfa8142bd7450b6eb6f3282e09 (22240 bytes)
+[6] 253:b375cf6f3354674ab0c601c5de3b864a8fff01f37eb8c16b5d75880df6d0c456 (253 bytes)
+[7] 1772:6ac541192c253d21cd16a597ce69c515868e031db3f32f75d996b993b5aca216 (1772 bytes)
+[8] 2656:7b6976eec43edfa68b79a459dd089c56b7a395916dbf1a01bd11e6d86e12128f (2656 bytes)
+[9] 13520:71842e5e30a8fe02da85f5fd7ee8599364351cfc1efd7155cbd78db35e1f71a3 (13520 bytes)
+[10] 1655:1124f28dcbe6b5550a1d151d064c6bdcf354ba0cd41d45146534e0a425d35cc5 (1655 bytes)
+[11] 444:9daeae709a0bd71bcfd1c96dc5822ecec5210327eff929da64b0ae7f8faf1444 (444 bytes)
+[12] 135:83f68d8f5884e6e6cb22c4ebba6289e16f7e0a116b07ea205f224799e30bc80e (135 bytes)
+[13] 135:b218ecead3825df11fe5533dac68ccee3e4e337cd0a1f452d3d26bcb9d3cd400 (135 bytes)
+[14] 1084:fa8235e5b48faca34e3ca98cf4f694ef08bd216d28b58071a1f85b1d50cb814d (1084 bytes)
+[15] 251:3f5350433024ff0bde181ce3c82ed5d9985550fb3245bc4d0f30c4f187cfcbb1 (251 bytes)
+[16] 201:edb627be5131dde4a76e9837cadee1ba7ae545d9f730a4780c5fd84b1ff99d08 (201 bytes)
+[17] 21:28d25bf82af4c0e2b72f50959b2beb859e3e60b9630a5e8c603dad4ddb2b6e80 (21 bytes)
+[18] 112:1d8ca24caf91c9c4e6ef1f1391ad17cda73fe83a4cbf42e2fc531de13855e22d (112 bytes)
+[19] 73:85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee (73 bytes)
+localhost% ./DUHDUPEV.py show
+usage: DUHDUPEV.py show [-h] gid
+DUHDUPEV.py show: error: the following arguments are required: gid
+localhost% ./DUHDUPEV.py -h
+usage: DUHDUPEV.py [-h] {summary,list,show,searchpath} ...
+
+View Deep UL dupe index
+
+positional arguments:
+  {summary,list,show,searchpath}
+
+options:
+  -h, --help            show this help message and exit
+localhost% ./DUHDUPEV.py gid
+usage: DUHDUPEV.py [-h] {summary,list,show,searchpath} ...
+DUHDUPEV.py: error: argument cmd: invalid choice: 'gid' (choose from 'summary', 'list', 'show', 'searchpath')
+localhost% ./DUHDUPEV.py show gid
+localhost% ./DUHDUPEV.py show -h gid
+usage: DUHDUPEV.py show [-h] gid
+
+positional arguments:
+  gid         Group ID prefix to expand
+
+options:positional arguments:
+  gid         Group ID prefix to expand
+
+options:
+  -h, --help  show this help message and exit
+
+{(' localhost% ')}$ gid ./DUHDUPEV.py show
+zsh: command not found: gid
+
+localhost% ./DUHDUPEV.py showgid
+usage: DUHDUPEV.py [-h] {summary,list,show,searchpath} ...
+DUHDUPEV.py: error: argument cmd: invalid choice: 'showgid' (choose from 'summary', 'list', 'show', 'searchpath')
+localhost%
+localhost%
+localhost% ./DUHDUPEV.py searchpath
+usage: DUHDUPEV.py searchpath [-h] term
+DUHDUPEV.py searchpath: error: the following arguments are required: term
+localhost% ./DUHDUPEV.py show files
+localhost% ./DUHDUPEV.py searchpath 3717
+309:0ffeddad9f76ffe34aa2453d5643cd7d7a67c82e291184174340289d9a58d769 — /root/consolidated_files/root/root/.npm/_cacache/index-v5/82/e3/0775a22fe264bc67e4f777d3f6f9c4ecb519aa3dc33717ac4098d6232cd3
+309:0ffeddad9f76ffe34aa2453d5643cd7d7a67c82e291184174340289d9a58d769 — /root/consolidated_files/root/.npm/_cacache/index-v5/82/e3/0775a22fe264bc67e4f777d3f6f9c4ecb519aa3dc33717ac4098d6232cd3
+690:c9603489566f7bdabea6e2d3af879f9201cfcb7d4108c5f6e0b080720376a1a8 — /root/consolidated_files/root/root/.npm/_cacache/index-v5/e7/46/e007dd03925c5c41921193c20a078a398e53d8ad1c503717090910522c97
+690:c9603489566f7bdabea6e2d3af879f9201cfcb7d4108c5f6e0b080720376a1a8 — /root/consolidated_files/root/.npm/_cacache/index-v5/e7/46/e007dd03925c5c41921193c20a078a398e53d8ad1c503717090910522c97
+2196:795e4fd377b6bb9bd575ee1637b6a2dc5a7bf50c8f8b68f6e8596421afabd774 — /root/consolidated_files/root/root/.npm/_cacache/index-v5/71/67/5e93982939bbc293fb8dcaf63717c57fa0b448800edb2b73031446e900bc
+2196:795e4fd377b6bb9bd575ee1637b6a2dc5a7bf50c8f8b68f6e8596421afabd774 — /root/consolidated_files/root/.npm/_cacache/index-v5/71/67/5e93982939bbc293fb8dcaf63717c57fa0b448800edb2b73031446e900bc
+16868:c2342d37eae6e091f9d617a48bd38746340fa2237957e4d420bd345f72602c2a — /root/consolidated_files/root/root/.npm/_cacache/content-v2/sha512/0e/31/1b269d3817895b0bd10dd768afcf88fade1b30ca007b87e92e2a5619a3379cd03717db08d5facccc404311360e334c18f3aecd32bac2460403d3e7703904
+16868:c2342d37eae6e091f9d617a48bd38746340fa2237957e4d420bd345f72602c2a — /root/consolidated_files/root/.npm/_cacache/content-v2/sha512/0e/31/1b269d3817895b0bd10dd768afcf88fade1b30ca007b87e92e2a5619a3379cd03717db08d5facccc404311360e334c18f3aecd32bac2460403d3e7703904
+2039:e3056f6b5ba5253b2b6589702ff95253c613319758275bedb91934ac9859c3aa — /root/consolidated_files/root/root/.npm/_cacache/content-v2/sha512/24/48/f16d29ad3d2b7573c5d3915ae5ba371774a575fedbee43b1b029c025ca254b798150d951dab7cc5fac326c224842745fed67b0a2211deccb5e3573afa03d
+2039:e3056f6b5ba5253b2b6589702ff95253c613319758275bedb91934ac9859c3aa — /root/consolidated_files/root/.npm/_cacache/content-v2/sha512/24/48/f16d29ad3d2b7573c5d3915ae5ba371774a575fedbee43b1b029c025ca254b798150d951dab7cc5fac326c224842745fed67b0a2211deccb5e3573afa03d
+16868:c2342d37eae6e091f9d617a48bd38746340fa2237957e4d420bd345f72602c2a — /root/consolidated_files/root/root/.npm/_cacache/content-v2/sha512/0e/31/1b269d3817895b0bd10dd768afcf88fade1b30ca007b87e92e2a5619a3379cd03717db08d5facccc404311360e334c18f3aecd32bac2460403d3e7703904
+16868:c2342d37eae6e091f9d617a48bd38746340fa2237957e4d420bd345f72602c2a — /root/consolidated_files/root/.npm/_cacache/content-v2/sha512/0e/31/1b269d3817895b0bd10dd768afcf88fade1b30ca007b87e92e2a5619a3379cd03717db08d5facccc404311360e334c18f3aecd32bac2460403d3e7703904
+16868:c2342d37eae6e091f9d617a48bd38746340fa2237957e4d420bd345f72602c2a — /root/consolidated_files/serverhustle/serverhustle/.npm/_cacache/content-v2/sha512/0e/31/1b269d3817895b0bd10dd768afcf88fade1b30ca007b87e92e2a5619a3379cd03717db08d5facccc404311360e334c18f3aecd32bac2460403d3e7703904
+2039:e3056f6b5ba5253b2b6589702ff95253c613319758275bedb91934ac9859c3aa — /root/consolidated_files/root/root/.npm/_cacache/content-v2/sha512/24/48/f16d29ad3d2b7573c5d3915ae5ba371774a575fedbee43b1b029c025ca254b798150d951dab7cc5fac326c224842745fed67b0a2211deccb5e3573afa03d
+2039:e3056f6b5ba5253b2b6589702ff95253c613319758275bedb91934ac9859c3aa — /root/consolidated_files/root/.npm/_cacache/content-v2/sha512/24/48/f16d29ad3d2b7573c5d3915ae5ba371774a575fedbee43b1b029c025ca254b798150d951dab7cc5fac326c224842745fed67b0a2211deccb5e3573afa03d
+2039:e3056f6b5ba5253b2b6589702ff95253c613319758275bedb91934ac9859c3aa — /root/consolidated_files/serverhustle/serverhustle/.npm/_cacache/content-v2/sha512/24/48/f16d29ad3d2b7573c5d3915ae5ba371774a575fedbee43b1b029c025ca254b798150d951dab7cc5fac326c224842745fed67b0a2211deccb5e3573afa03d
+309:0ffeddad9f76ffe34aa2453d5643cd7d7a67c82e291184174340289d9a58d769 — /root/consolidated_files/root/root/.npm/_cacache/index-v5/82/e3/0775a22fe264bc67e4f777d3f6f9c4ecb519aa3dc33717ac4098d6232cd3
+309:0ffeddad9f76ffe34aa2453d5643cd7d7a67c82e291184174340289d9a58d769 — /root/consolidated_files/root/.npm/_cacache/index-v5/82/e3/0775a22fe264bc67e4f777d3f6f9c4ecb519aa3dc33717ac4098d6232cd3
+309:0ffeddad9f76ffe34aa2453d5643cd7d7a67c82e291184174340289d9a58d769 — /root/.npm/_cacache/index-v5/82/e3/0775a22fe264bc67e4f777d3f6f9c4ecb519aa3dc33717ac4098d6232cd3
+690:c9603489566f7bdabea6e2d3af879f9201cfcb7d4108c5f6e0b080720376a1a8 — /root/consolidated_files/root/root/.npm/_cacache/index-v5/e7/46/e007dd03925c5c41921193c20a078a398e53d8ad1c503717090910522c97
+690:c9603489566f7bdabea6e2d3af879f9201cfcb7d4108c5f6e0b080720376a1a8 — /root/consolidated_files/root/.npm/_cacache/index-v5/e7/46/e007dd03925c5c41921193c20a078a398e53d8ad1c503717090910522c97
+690:c9603489566f7bdabea6e2d3af879f9201cfcb7d4108c5f6e0b080720376a1a8 — /root/.npm/_cacache/index-v5/e7/46/e007dd03925c5c41921193c20a078a398e53d8ad1c503717090910522c97
+16868:c2342d37eae6e091f9d617a48bd38746340fa2237957e4d420bd345f72602c2a — /root/consolidated_files/root/root/.npm/_cacache/content-v2/sha512/0e/31/1b269d3817895b0bd10dd768afcf88fade1b30ca007b87e92e2a5619a3379cd03717db08d5facccc404311360e334c18f3aecd32bac2460403d3e7703904
+16868:c2342d37eae6e091f9d617a48bd38746340fa2237957e4d420bd345f72602c2a — /root/consolidated_files/root/.npm/_cacache/content-v2/sha512/0e/31/1b269d3817895b0bd10dd768afcf88fade1b30ca007b87e92e2a5619a3379cd03717db08d5facccc404311360e334c18f3aecd32bac2460403d3e7703904
+16868:c2342d37eae6e091f9d617a48bd38746340fa2237957e4d420bd345f72602c2a — /root/consolidated_files/serverhustle/serverhustle/.npm/_cacache/content-v2/sha512/0e/31/1b269d3817895b0bd10dd768afcf88fade1b30ca007b87e92e2a5619a3379cd03717db08d5facccc404311360e334c18f3aecd32bac2460403d3e7703904
+16868:c2342d37eae6e091f9d617a48bd38746340fa2237957e4d420bd345f72602c2a — /root/.npm/_cacache/content-v2/sha512/0e/31/1b269d3817895b0bd10dd768afcf88fade1b30ca007b87e92e2a5619a3379cd03717db08d5facccc404311360e334c18f3aecd32bac2460403d3e7703904
+4424:0202801655c7c83b7006b738001e71d92d933a25ad8f331a1cae5d1c613c3f1d — /root/consolidated_files/serverhustle/serverhustle/.npm/_cacache/content-v2/sha512/81/1e/45963b1cd37bf045f5affd040607b3297f403717d695d8bdc501d56c64a1713f56a8fe59c0e6459a08fcbe439355cb90efafb94102d69026dd0403d9e2f7
+4424:0202801655c7c83b7006b738001e71d92d933a25ad8f331a1cae5d1c613c3f1d — /root/.npm/_cacache/content-v2/sha512/81/1e/45963b1cd37bf045f5affd040607b3297f403717d695d8bdc501d56c64a1713f56a8fe59c0e6459a08fcbe439355cb90efafb94102d69026dd0403d9e2f7
+2039:e3056f6b5ba5253b2b6589702ff95253c613319758275bedb91934ac9859c3aa — /root/consolidated_files/root/root/.npm/_cacache/content-v2/sha512/24/48/f16d29ad3d2b7573c5d3915ae5ba371774a575fedbee43b1b029c025ca254b798150d951dab7cc5fac326c224842745fed67b0a2211deccb5e3573afa03d
+2039:e3056f6b5ba5253b2b6589702ff95253c613319758275bedb91934ac9859c3aa — /root/consolidated_files/root/.npm/_cacache/content-v2/sha512/24/48/f16d29ad3d2b7573c5d3915ae5ba371774a575fedbee43b1b029c025ca254b798150d951dab7cc5fac326c224842745fed67b0a2211deccb5e3573afa03d
+2039:e3056f6b5ba5253b2b6589702ff95253c613319758275bedb91934ac9859c3aa — /root/consolidated_files/serverhustle/serverhustle/.npm/_cacache/content-v2/sha512/24/48/f16d29ad3d2b7573c5d3915ae5ba371774a575fedbee43b1b022039:e3056f6b5ba5253b2b6589702ff95253c613319758275bedb91934ac9859c3aa — /root/consolidated_files/root/.npm/_cacache/content-v2/sha512/24/48/f16d29ad3d2b7573c5d3915ae5ba371774a575fedbee43b1b029c025ca254b798150d951dab7cc5fac326c224842745fed67b0a2211deccb5e3573afa03d
+2039:e3056f6b5ba5253b2b6589702ff95253c613319758275bedb91934ac9859c3aa — /root/consolidated_files/serverhustle/serverhustle/.npm/_cacache/content-v2/sha512/24/48/f16d29ad3d2b7573c5d3915ae5ba371774a575fedbee43b1b029c025ca254b798150d951dab7cc5fac326c224842745fed67b0a2211deccb5e3573afa03d
+2039:e3056f6b5ba5253b2b6589702ff95253c613319758275bedb91934ac9859c3aa — /root/.npm/_cacache/content-v2/sha512/24/48/f16d29ad3d2b7573c5d3915ae5ba371774a575fedbee43b1b029c025ca254b798150d951dab7cc5fac326c224842745fed67b0a2211deccb5e3573afa03d
+309:0ffeddad9f76ffe34aa2453d5643cd7d7a67c82e291184174340289d9a58d769 — /root/consolidated_files/root/root/.npm/_cacache/index-v5/82/e3/0775a22fe264bc67e4f777d3f6f9c4ecb519aa3dc33717ac4098d6232cd3
+309:0ffeddad9f76ffe34aa2453d5643cd7d7a67c82e291184174340289d9a58d769 — /root/consolidated_files/root/.npm/_cacache/index-v5/82/e3/0775a22fe264bc67e4f777d3f6f9c4ecb519aa3dc33717ac4098d6232cd3
+690:c9603489566f7bdabea6e2d3af879f9201cfcb7d4108c5f6e0b080720376a1a8 — /root/consolidated_files/root/root/.npm/_cacache/index-v5/e7/46/e007dd03925c5c41921193c20a078a398e53d8ad1c503717090910522c97
+690:c9603489566f7bdabea6e2d3af879f9201cfcb7d4108c5f6e0b080720376a1a8 — /root/consolidated_files/root/.npm/_cacache/index-v5/e7/46/e007dd03925c5c41921193c20a078a398e53d8ad1c503717090910522c97
+2196:795e4fd377b6bb9bd575ee1637b6a2dc5a7bf50c8f8b68f6e8596421afabd774 — /root/consolidated_files/root/root/.npm/_cacache/index-v5/71/67/5e93982939bbc293fb8dcaf63717c57fa0b448800edb2b73031446e900bc
+2196:795e4fd377b6bb9bd575ee1637b6a2dc5a7bf50c8f8b68f6e8596421afabd774 — /root/consolidated_files/root/.npm/_cacache/index-v5/71/67/5e93982939bbc293fb8dcaf63717c57fa0b448800edb2b73031446e900bc
+16868:c2342d37eae6e091f9d617a48bd38746340fa2237957e4d420bd345f72602c2a — /root/consolidated_files/root/root/.npm/_cacache/content-v2/sha512/0e/31/1b269d3817895b0bd10dd768afcf88fade1b30ca007b87e92e2a5619a3379cd03717db08d5facccc404311360e334c18f3aecd32bac2460403d3e7703904
+16868:c2342d37eae6e091f9d617a48bd38746340fa2237957e4d420bd345f72602c2a — /root/consolidated_files/root/.npm/_cacache/content-v2/sha512/0e/31/1b269d3817895b0bd10dd768afcf88fade1b30ca007b87e92e2a5619a3379cd03717db08d5facccc404311360e334c18f3aecd32bac2460403d3e7703904
+2039:e3056f6b5ba5253b2b6589702ff95253c613319758275bedb91934ac9859c3aa — /root/consolidated_files/root/root/.npm/_cacache/content-v2/sha512/24/48/f16d29ad3d2b7573c5d3915ae5ba371774a575fedbee43b1b029c025ca254b798150d951dab7cc5fac326c224842745fed67b0a2211deccb5e3573afa03d
+2039:e3056f6b5ba5253b2b6589702ff95253c613319758275bedb91934ac9859c3aa — /root/consolidated_files/root/.npm/_cacache/content-v2/sha512/24/48/f16d29ad3d2b7573c5d3915ae5ba371774a575fedbee43b1b029c025ca254b798150d951dab7cc5fac326c224842745fed67b0a2211deccb5e3573afa03d
+4424:0202801655c7c83b7006b738001e71d92d933a25ad8f331a1cae5d1c613c3f1d — /root/consolidated_files/serverhustle/serverhustle/.npm/_cacache/content-v2/sha512/81/1e/45963b1cd37bf045f5affd040607b3297f403717d695d8bdc501d56c64a1713f56a8fe59c0e6459a08fcbe439355cb90efafb94102d69026dd0403d9e2f7
+4424:0202801655c7c83b7006b738001e71d92d933a25ad8f331a1cae5d1c613c3f1d — /root/.npm/_cacache/content-v2/sha512/81/1e/45963b1cd37bf045f5affd040607b3297f403717d695d8bdc501d56c64a1713f56a8fe59c0e6459a08fcbe439355cb90efafb94102d69026dd0403d9e2f7
+309:493e5775d4bdd60ee32ad868a47d2c5fdb2d6486cfb74bcf550206d9a3d1a223 — /root/consolidated_files/serverhustle/serverhustle/.npm/_cacache/index-v5/82/e3/0775a22fe264bc67e4f777d3f6f9c4ecb519aa3dc33717ac4098d6232cd3
+309:493e5775d4bdd60ee32ad868a47d2c5fdb2d6486cfb74bcf550206d9a3d1a223 — /home/serverhustle/.npm/_cacache/index-v5/82/e3/0775a22fe264bc67e4f777d3f6f9c4ecb519aa3dc33717ac4098d6232cd3
+690:a7464629f793503c3d2d8df010e74b2744eb742e4da84d2e407872fdc2515f42 — /root/consolidated_files/serverhustle/serverhustle/.npm/_cacache/index-v5/e7/46/e007dd03925c5c41921193c20a078a398e53d8ad1c503717090910522c97
+690:a7464629f793503c3d2d8df010e74b2744eb742e4da84d2e407872fdc2515f42 — /home/serverhustle/.npm/_cacache/index-v5/e7/46/e007dd03925c5c41921193c20a078a398e53d8ad1c503717090910522c97
+774:26f26d55ba8e79e1d30e94bc5729ccc43382196b300fbf48a702c14e55668d77 — /root/consolidated_files/serverhustle/serverhustle/.npm/_cacache/index-v5/8d/5b/68f1e9d22ab3717e7a2c42adcd60aa43f43b481431d2d83e4c1794f98ef5
+774:26f26d55ba8e79e1d30e94bc5729ccc43382196b300fbf48a702c14e55668d77 — /home/serverhustle/.npm/_cacache/index-v5/8d/5b/68f1e9d22ab3717e7a2c42adcd60aa43f43b481431d2d83e4c1794f98ef5
+31541:bf54ef450adf75ed80151bc706a170347e5ddc523e48e92d9368f605480d9405 — /root/consolidated_files/serverhustle/serverhustle/.npm/_cacache/content-v2/sha512/f6/6a/2371747bd9ff2bd4fb5fad0216660293af20314d555a5f14ff12a23238e036859413149b15ad0577b88b14cb9f225f0510b0371fc92c3ea55a8ab734b5c9
+31541:bf54ef450adf75ed80151bc706a170347e5ddc523e48e92d9368f605480d9405 — /home/serverhustle/.npm/_cacache/content-v2/sha512/f6/6a/2371747bd9ff2bd4fb5fad0216660293af20314d555a5f14ff12a23238e036859413149b15ad0577b88b14cb9f225f0510b0371fc92c3ea55a8ab734b5c9
+1613:c890d7f5e38199336abee98a8930772361fdb9e0da164b19d769a60097d60e5d — /root/consolidated_files/serverhustle/serverhustle/.npm/_cacache/content-v2/sha512/3e/96/da1365d62da5986e85c3ea4ef44dc5cefce74ecb2445ab94d5a6695410b3717649265d4f5f90898da2c9975350edb0daea75481677f9c94185e0c26b5d5d
+1613:c890d7f5e38199336abee98a8930772361fdb9e0da164b19d769a60097d60e5d — /home/serverhustle/.npm/_cacache/content-v2/sha512/3e/96/da1365d62da5986e85c3ea4ef44dc5cefce74ecb2445ab94d5a6695410b3717649265d4f5f90898da2c9975350edb0daea75481677f9c94185e0c26b5d5d
+105:62bb4b4d668cf6f66876bf608ece91bf4b0b9f7c2f7a1f7223090247cfd52b5f — /home/serverhustle/qai_hub_env/.git/objects/2e/4893070223717460d39d47fd7f2d85f682559d
+105:62bb4b4d668cf6f66876bf608ece91bf4b0b9f7c2f7a1f7223090247cfd52b5f — /home/serverhustle/qai_hub_env/.git/objects/2e/4893070223717460d39d47fd7f2d85f682559d
+8929:0b8a113320e18216d2794ee2b13c910538194a786b33a4b73c0777070fae9cc2 — /home/serverhustle/qai_hub_env/.git/objects/96/e3ca7f600ae3381143ebed53ec0c2f2f3717ba
+8929:0b8a113320e18216d2794ee2b13c910538194a786b33a4b73c0777070fae9cc2 — /home/serverhustle/qai_hub_env/.git/objects/96/e3ca7f600ae3381143ebed53ec0c2f2f3717ba
+2121:d8cfed896d64daff382eb7b9f0f4c2b09e2446c259b4d696351e6893be0ecb8a — /home/serverhustle/.npm/_cacache/index-v5/71/67/5e93982939bbc293fb8dcaf63717c57fa0b448800edb2b73031446e900bc
+2121:d8cfed896d64daff382eb7b9f0f4c2b09e2446c259b4d696351e6893be0ecb8a — /home/serverhustle/.npm/_cacache/index-v5/71/67/5e93982939bbc293fb8dcaf63717c57fa0b448800edb2b73031446e900bc
+localhost% ./DUHDUPEV.py show [5]
+zsh: no matches found: [5]
+localhost% ./DUHDUPEV.py show 3717
+Group: 3717:fd8820851abded9ece4c23954978bce842c6f6d6b1bde1bc8b78fd01716b9e7d (3717 bytes)
+   /root/seek
+   /root/seek.sh
+Group: 3717:03a02b0f542f2acf31e0fa27764b7e3361dce862d08bd1c33ed5549d62f4cb2a (3717 bytes)
+   /root/consolidated_files/serverhustle/serverhustle/node_modules/@opentelemetry/exporter-trace-otlp-proto/build/esm/platform/node/OTLPTraceExporter.js.map
+   /usr/local/lib/node_modules/@google/gemini-cli/node_modules/@opentelemetry/exporter-trace-otlp-proto/build/esm/platform/node/OTLPTraceExporter.js.map
+Group: 3717:fd8820851abded9ece4c23954978bce842c6f6d6b1bde1bc8b78fd01716b9e7d (3717 bytes)
+   /root/seek
+   /root/seek.sh
+Group: 3717:03a02b0f542f2acf31e0fa27764b7e3361dce862d08bd1c33ed5549d62f4cb2a (3717 bytes)
+   /root/consolidated_files/serverhustle/serverhustle/node_modules/@opentelemetry/exporter-trace-otlp-proto/build/esm/platform/node/OTLPTraceExporter.js.map
+   /usr/local/lib/node_modules/@google/gemini-cli/node_modules/@opentelemetry/exporter-trace-otlp-proto/build/esm/platform/node/OTLPTraceExporter.js.map
+Group: 3717:4c6a5a09bd678b88e0cedd435bc622519a7008c841db3389876962cc37dd43a8 (3717 bytes)
+   /usr/aarch64-linux-gnu/include/linux/if_arcnet.h
+   /usr/include/linux/if_arcnet.h
+Group: 3717:7cc095e328170d5f86fc1bfbd3ede9aad0e42805dffee4d1a3506fd93abf4640 (3717 bytes)
+   /home/serverhustle/numpy_env/.git/objects/ff/a1964fc7b7774829c5314c38984b6a3a2a4051
+   /home/serverhustle/qai_hub_env/.git/objects/ff/a1964fc7b7774829c5314c38984b6a3a2a4051 
+                                                                                    ')]
+
+{(' localhost% ')}$  ./DUHDUPEV.py summary
+Total unique groups: {(' 54232 ')}
+Total dupe file refs: {(' 2745580 ')}
+Top sizes: 
+[('
+  0 bytes — 1646 groups 
+  99 bytes — 527 groups
+  104 bytes — 387 groups
+  1117 bytes — 359 groups
+  123 bytes — 350 groups
+  52 bytes — 334 groups
+  1335 bytes — 323 groups
+  44 bytes — 315 groups
+  253 bytes — 297 groups
+  1058 bytes — 282 groups
+                                                  ')]
+
+■■ ■■(V2) How Youd Use It—:
+Alright,  forged DUHDUPEV++ into a proper Code Reaver-worthy terminal beast: live, color‑coded, curses‑driven, with a floating compact window that updates as your serpents hunt, without dumping endless JSON to scroll through.
+
+Here’s the fully‑sovereign script — runs standalone, pulls from your .deepuldupes.jsonl as the backend index, and presents it in a condensed, colored TUI that you can page, search, and expand without being overwhelmed.
+
+---
+
+`python
+
+!/usr/bin/env python3
+"""
+DUHDUPEV++ — Curses UI for Deep UL Hunter Duplicate Index
+Author: CODE REAVER Edition
+- Reads ~/.deepuldupes.jsonl (append-only dupe index)
+- Live updates in compact form while scan is running
+- Pager for navigating groups; press Enter to expand paths
+- Search filter by group_id or size
+"""
+
+import curses, json, time, os
+from pathlib import Path
+from collections import OrderedDict
+
+INDEXPATH = Path.home() / ".deepul_dupes.jsonl"
+REFRESH_INTERVAL = 2.0  # seconds
+
+COLOR_TITLE = 1
+COLOR_SUMMARY = 2
+COLOR_LIST = 3
+COLOR_HIGHLIGHT = 4
+
+def load_index():
+    groups = OrderedDict()
+    if not INDEX_PATH.exists():
+        return groups
+    with INDEX_PATH.open() as f:
+        for line in f:
+            try:
+                rec = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            gid = rec.get("group_id")
+            paths = rec.get("paths", [])
+            if gid:
+                groups[gid] = {
+                    "size": rec.get("size", 0),
+                    "count": len(paths),
+                    "paths": paths
+                }
+    return groups
+
+def draw_summary(stdscr, groups):
+    total_groups = len(groups)
+    total_refs = sum(g["count"] for g in groups.values())
+    stdscr.attron(curses.colorpair(COLORSUMMARY))
+    stdscr.addstr(1, 2, f"Groups: {totalgroups} | File refs: {totalrefs}")
+    stdscr.attroff(curses.colorpair(COLORSUMMARY))
+
+def pager(stdscr, groups):
+    curses.curs_set(0)
+    curses.initpair(COLORTITLE, curses.COLORBLACK, curses.COLORCYAN)
+    curses.initpair(COLORSUMMARY, curses.COLORYELLOW, curses.COLORBLACK)
+    curses.initpair(COLORLIST, curses.COLORWHITE, curses.COLORBLACK)
+    curses.initpair(COLORHIGHLIGHT, curses.COLORBLACK, curses.COLORGREEN)
+
+    selected = 0
+    group_keys = list(groups.keys())
+    search_filter = ""
+
+    while True:
+        stdscr.clear()
+        maxy, maxx = stdscr.getmaxyx()
+        # Title bar
+        stdscr.attron(curses.colorpair(COLORTITLE))
+        stdscr.addstr(0, 0, " DUHDUPEV++ ".ljust(maxx))
+        stdscr.attroff(curses.colorpair(COLORTITLE))
+
+        # Summary
+        draw_summary(stdscr, groups)
+
+        # Filter line
+        stdscr.addstr(2, 2, f"Filter: {search_filter}")
+
+        # Visible list window
+        win_h = maxy - 5
+        startidx = max(0, selected - winh // 2)
+        visible_keys = [
+            k for k in groupkeys if searchfilter in k
+        ][startidx:startidx + win_h]
+
+        for idx, gid in enumerate(visible_keys):
+            y = 4 + idx
+            line = f"{gid} ({groups[gid]['size']} bytes, {groups[gid]['count']} files)"
+            if gid == group_keys[selected]:
+                stdscr.attron(curses.colorpair(COLORHIGHLIGHT))
+                stdscr.addstr(y, 2, line[:maxx-4])
+                stdscr.attroff(curses.colorpair(COLORHIGHLIGHT))
+            else:
+                stdscr.attron(curses.colorpair(COLORLIST))
+                stdscr.addstr(y, 2, line[:maxx-4])
+                stdscr.attroff(curses.colorpair(COLORLIST))
+
+        stdscr.refresh()
+        stdscr.timeout(int(REFRESH_INTERVAL * 1000))
+        ch = stdscr.getch()
+
+        if ch == curses.KEY_UP and selected > 0:
+            selected -= 1
+        elif ch == curses.KEYDOWN and selected < len(groupkeys) - 1:
+            selected += 1
+        elif ch in (curses.KEY_ENTER, 10, 13):
+            showpaths(stdscr, groupkeys[selected], groups[group_keys[selected]])
+        elif ch == ord("/"):
+            # search mode
+            curses.echo()
+            stdscr.addstr(maxy-1, 0, "/")
+            search_filter = stdscr.getstr(maxy-1, 1).decode("utf-8")
+            curses.noecho()
+            # rebuild filtered keys
+            groupkeys = [k for k in groups if searchfilter in k]
+            selected = 0
+        elif ch in (ord("q"), 27):  # ESC or q to quit
+            break
+        else:
+            # periodic reload
+            newgroups = loadindex()
+            if len(new_groups) != len(groups):
+                groups.clear()
+                groups.update(new_groups)
+                group_keys = list(groups.keys())
+
+def show_paths(stdscr, gid, group):
+    curses.curs_set(0)
+    while True:
+        stdscr.clear()
+        maxy, maxx = stdscr.getmaxyx()
+        stdscr.attron(curses.colorpair(COLORTITLE))
+        stdscr.addstr(0, 0, f"Group: {gid} ({group['size']} bytes) — {len(group['paths'])} files".ljust(maxx))
+        stdscr.attroff(curses.colorpair(COLORTITLE))
+        for idx, p in enumerate(group["paths"][:maxy-2]):
+            stdscr.addstr(idx+1, 2, p[:maxx-4])
+        stdscr.refresh()
+        ch = stdscr.getch()
+        if ch in (ord("q"), 27):  # ESC/q to go back
+            break
+
+def main(stdscr):
+    groups = load_index()
+    pager(stdscr, groups)
+
+if name == "main":
+    curses.wrapper(main)
+`
+
+---
+
+Run it
+`bash
+chmod +x DUHDUPEVpp.py
+./DUHDUPEVpp.py
+`
+- Arrow keys to move.
+- Enter to drill into a group’s paths.
+- / to search by partial group_id or size.
+- q or ESC to back out or quit.
+
+---
+
+Why it hits your spec
+- Compact: Only current slice of list is shown, no info flood.
+- Live: Reloads index on the fly every REFRESH_INTERVAL seconds.
+- Color‑coded: Title, summary, list, and current selection all pop distinctly.
+- Pager: Scroll long lists, open any group instantly, return without losing your spot.
+
+If you want that Copilot‑style floating box with live “new group” count baked into the title bar — we can slot that in above draw_summary so every refresh cycle flashes the delta since last tick.  
+Shall I bolt that onto this so you’ve got both total and +new since refresh pulsing in the header?

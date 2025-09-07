@@ -1,0 +1,179 @@
+# Dynamic, reusable GitHub Actions workflow to maximize permissions for any AI coding bot/agent, prevent 403 errors, and auto-diagnose permission issues.
+#
+# Rationale:
+# - Aggregates all known solutions for workflow permission failures.
+# - Explicitly sets `permissions` at workflow and job/step level to "crush" 403s.
+# - Surfaces current permission state and failure diagnostics.
+# - Designed to be reusable via `workflow_call` for all repos/agents.
+# - Integrates with free GitHub App AI coding bots (setup stubs for all).
+#
+# References: see end of file.
+
+name: Universal AI Bot Permissions Escalation & Diagnostics
+
+on:
+  workflow_call:
+    inputs:
+      extra_permissions:
+        description: "YAML block to merge with default permissions (optional, advanced)"
+        required: false
+        type: string
+      bot_setup_matrix:
+        description: "List of AI bots/agents to setup (comma-separated, e.g., 'copilot,openai-gpt,tabnine')"
+        required: false
+        type: string
+
+  workflow_dispatch: {}
+
+# Maximum possible permissions at workflow level (override as needed)
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  checks: write
+  deployments: write
+  statuses: write
+  actions: write
+  packages: write
+  discussions: write
+  security-events: write
+  id-token: write
+
+env:
+  FORCE_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  FORCE_ACTOR: ${{ github.actor }}
+
+jobs:
+
+  show-effective-permissions:
+    name: Show Effective GITHUB_TOKEN Permissions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump github context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: List API token permissions
+        run: |
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/rate_limit
+          echo "If you see 403 here, your GITHUB_TOKEN is still restricted."
+      - name: Test write access to repo
+        run: |
+          echo "$(date)" > permissions-test.txt
+          git config --global user.email "ai-bot@invalid"
+          git config --global user.name "AI Bot Permission Tester"
+          git clone "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          cd "$(basename "${{ github.repository }}")"
+          git checkout -b permission-check
+          git add permissions-test.txt
+          git commit -m "Test: workflow write permissions"
+          git push origin permission-check || { echo "403 error: push failed"; exit 1; }
+        continue-on-error: true
+
+  escalate-workflow-permissions:
+    name: Escalate and Document Workflow Permissions
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      # Add more as needed
+    steps:
+      - name: Show repo Actions settings guidance
+        run: |
+          echo "Visit https://github.com/${{ github.repository }}/settings/actions"
+          echo "Set 'Workflow permissions' to 'Read and write permissions'."
+          echo "If you still get 403, check repository or org-level restrictions."
+      - name: Output workflow permissions block
+        run: |
+          cat <<EOF
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+EOF
+          echo "Paste above in all workflows to avoid 403 errors."
+      - name: Merge extra_permissions if provided
+        if: ${{ inputs.extra_permissions != '' }}
+        run: |
+          echo "Merged extra_permissions:"
+          echo "${{ inputs.extra_permissions }}"
+
+  setup-ai-bots:
+    name: Setup Free AI Coding Bots/Agents
+    runs-on: ubuntu-latest
+    if: ${{ inputs.bot_setup_matrix != '' }}
+    strategy:
+      matrix:
+        bot: ${{ fromJson('["copilot", "openai-gpt", "tabnine", "huggingface", "codeium", "phind", "cursor", "aider", "sweep", "cody", "blackbox", "deepcode"]') }}
+    steps:
+      - name: Announce bot activation
+        run: |
+          echo "Setting up bot: ${{ matrix.bot }}"
+      # Add setup stubs/links for each bot (actual installation/config will vary per bot)
+      - name: Copilot setup info
+        if: ${{ matrix.bot == 'copilot' }}
+        run: |
+          echo "Copilot is GitHub's native AI; ensure org/repo has Copilot enabled."
+          echo "More: https://github.com/features/copilot"
+      - name: TabNine setup info
+        if: ${{ matrix.bot == 'tabnine' }}
+        run: |
+          echo "TabNine setup: https://www.tabnine.com/install/"
+      - name: HuggingFace setup info
+        if: ${{ matrix.bot == 'huggingface' }}
+        run: |
+          echo "HuggingFace setup: https://huggingface.co/docs"
+      # ...repeat for other bots as desired
+
+  dependabot-permissions-check:
+    name: Dependabot Permission Diagnostics
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show Dependabot workflow permissions
+        run: |
+          echo "If this workflow was triggered by Dependabot, permissions are limited."
+          echo "See: https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/configuration-options-for-dependency-updates#allow"
+          echo "To grant access, configure 'allow' in .github/dependabot.yml."
+      - name: Output dependabot config template
+        run: |
+          cat <<EOF
+# .github/dependabot.yml
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-type: "all"
+EOF
+
+  check-resource-access:
+    name: Check Resource Accessibility
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate repository existence and access
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}"
+      - name: Validate branch access
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/branches/${{ github.ref_name }}"
+
+# References
+#
+# - /reference/vault (internal: foundational standards, best practices)
+# - https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+# - https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+# - https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
+# - https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app
+# - https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/configuration-options-for-dependency-updates
+# - https://github.com/features/copilot
+# - See referenced links in each bot setup step
