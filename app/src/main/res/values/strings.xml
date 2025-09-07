@@ -1,6 +1,6 @@
 <resources>
     <!-- App Name -->
-    <string name="app_name">DevUtility-V2.5—Innovative-Toolchest-AI</string>
+    <string name="app_name">DevUl Army : Living Sriracha AGI</string>
     <string name="app_name_informal">AI DevUl 👹</string>
     <string name="app_description">Revolutionary Agentic AI System with Living-Code Augmentation &amp; Autonomous Development Capabilities</string>
     
@@ -85,6 +85,6 @@
     
     <!-- Version Info -->
     <string name="version_info">Version 2.5.0-sriracha</string>
-    <string name="build_info">DevUtility-V2.5—Innovative-Toolchest-AI Agentic Living-Code Augmentation System</string>
+    <string name="build_info">DevUl Army : Living Sriracha AGI - Agentic Living-Code Augmentation System</string>
 
 </resources>

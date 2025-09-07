@@ -1,4 +1,4 @@
-# DevUtility-V2.5—Innovative-Toolchest-AI Repository Index
+# DevUl Army : Living Sriracha AGI Repository Index
 <!-- @GATT Guided-AI-Tutorial-Tips Navigation -->
 
 ## Quick Navigation (@EG Easy-to-Grasp)

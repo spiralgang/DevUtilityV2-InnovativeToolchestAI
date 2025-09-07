@@ -1,4 +1,4 @@
-# DevUtility-V2.5—Innovative-Toolchest-AI
+# DevUl Army : Living Sriracha AGI
 
 <div align="center">
 
@@ -18,7 +18,7 @@
 
 ## Overview
 
-**DevUtility-V2.5—Innovative-Toolchest-AI** is a groundbreaking **Agentic Living-Code Augmentation System** that revolutionizes how developers interact with code. This isn't just a development utility—it's a living, breathing AI ecosystem where code adapts, evolves, and grows smarter with every interaction.
+**DevUl Army : Living Sriracha AGI** is a groundbreaking **Agentic Living-Code Augmentation System** that revolutionizes how developers interact with code. This isn't just a development utility—it's a living, breathing AI ecosystem where code adapts, evolves, and grows smarter with every interaction.
 
 ### 🧬 What is Living-Code Augmentation?
 
