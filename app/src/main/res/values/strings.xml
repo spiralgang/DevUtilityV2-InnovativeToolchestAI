@@ -1,7 +1,7 @@
 <resources>
     <!-- App Name -->
-    <string name="app_name">SrirachaArmy DevUtilityV2.5 IDE</string>
-    <string name="app_description">Comprehensive Android IDE V2.5 with AI-powered development assistance</string>
+    <string name="app_name">SrirachaArmy Agentic Living-Code IDE</string>
+    <string name="app_description">Revolutionary Agentic AI System with Living-Code Augmentation &amp; Autonomous Development Capabilities</string>
     
     <!-- Bot Names and Personalities -->
     <string name="ssa_name">SSA (Structure/Optimization Agent)</string>
@@ -53,7 +53,7 @@
     <string name="editor_tab">Code Editor</string>
     <string name="ai_assistant_tab">AI Assistant</string>
     <string name="settings_tab">Settings</string>
-    <string name="floating_window_title">DevUtility Assistant</string>
+    <string name="floating_window_title">Agentic AI Assistant</string>
     <string name="code_analysis">Code Analysis</string>
     <string name="terminal_integration">Terminal Integration</string>
     <string name="ai_assistance">AI Assistance</string>
@@ -84,6 +84,6 @@
     
     <!-- Version Info -->
     <string name="version_info">Version 2.5.0-sriracha</string>
-    <string name="build_info">SrirachaArmy DevUtility Android IDE</string>
+    <string name="build_info">SrirachaArmy Agentic Living-Code Augmentation System</string>
 
 </resources>
