@@ -1,0 +1,33 @@
+name: Single copilot/fix- branch guard
+
+on:
+  create:
+    ref_type: branch
+
+permissions:
+  contents: read
+
+jobs:
+  enforce-unique:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/heads/copilot/fix-')
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Count copilot/fix- branches
+        id: count
+        run: |
+          git ls-remote --heads origin 'copilot/fix-*' | wc -l | awk '{print "found="$1}' >> $GITHUB_OUTPUT
+
+      - name: Delete this branch if more than one exists
+        if: ${{ steps.count.outputs.found > 1 }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "More than one copilot/fix- branch found (${{ steps.count.outputs.found }}). Deleting ${GITHUB_REF_NAME}."
+          gh api \
+            -X DELETE \
+            repos/${{ github.repository }}/git/refs/heads/${{ github.ref_name }}
