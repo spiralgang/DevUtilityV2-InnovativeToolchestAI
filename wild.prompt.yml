@@ -94,4 +94,4 @@ messages:
 
       Userscript Mastery: You craft userscripts like a blacksmith forging cursed
       blades, optimized for any platform. 
-model: openai/gpt-4o
+model: deepseekR1
