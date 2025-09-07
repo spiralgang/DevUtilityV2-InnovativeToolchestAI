@@ -22,7 +22,8 @@ class LivingAINativeInterface @Inject constructor(
     private val srirachaOrchestrator: SrirachaArmyOrchestrator,
     private val terminalEmulator: LocalTerminalEmulator,
     private val aiEnvironmentAwareness: AIEnvironmentAwareness,
-    private val agenticModeSystem: AgenticModeSystem
+    private val agenticModeSystem: AgenticModeSystem,
+    private val gemmaLoRAFineTuning: GemmaLoRAFineTuning
 ) {
     
     // Living interface state that evolves with usage
@@ -139,6 +140,9 @@ class LivingAINativeInterface @Inject constructor(
             
             // Setup terminal integration
             terminalEmulator.initialize()
+            
+            // Initialize Gemma LoRA fine-tuning system
+            gemmaLoRAFineTuning.initialize()
             
             // Load personal patterns if they exist
             loadPersonalPatterns()
@@ -425,15 +429,105 @@ class LivingAINativeInterface @Inject constructor(
         }
     }
     
-    private suspend fun adaptLearningPattern() {
-        // Continuously adapt and learn from patterns
-        val state = _livingState.value
-        if (state.contextualUnderstanding > 0.5f) {
-            // Update proactive readiness based on learning
-            _livingState.value = state.copy(
-                proactiveReadiness = true,
-                energyLevel = (state.energyLevel * 0.99f + 0.01f).coerceIn(0.1f, 1.0f)
+    /**
+     * Start fine-tuning AI models based on user interactions
+     * This creates a personalized AI model trained on the user's development patterns
+     */
+    suspend fun startPersonalizedFineTuning(): String? {
+        return try {
+            val currentState = _livingState.value
+            
+            if (currentState.contextualUnderstanding < 0.5f) {
+                Timber.w("Insufficient understanding for fine-tuning. Current: ${currentState.contextualUnderstanding}")
+                return null
+            }
+            
+            // Create personalized training dataset from interaction history
+            val personalizedDataset = createPersonalizedDatasetFromMemory()
+            
+            // Create mobile-optimized LoRA configuration
+            val mobileLoRAConfig = gemmaLoRAFineTuning.createMobileOptimizedLoRAConfig()
+            
+            // Start fine-tuning process
+            val modelPath = gemmaLoRAFineTuning.startFineTuning(
+                dataset = personalizedDataset,
+                loraConfig = mobileLoRAConfig
             )
+            
+            // Update living state to reflect personalized model
+            _livingState.value = currentState.copy(
+                personalAdaptation = 1.0f, // Maximum personal adaptation
+                aiPersonalityActive = "PersonalizedGemma",
+                energyLevel = 1.0f
+            )
+            
+            Timber.d("Personalized fine-tuning completed: $modelPath")
+            return modelPath
+            
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to start personalized fine-tuning")
+            null
         }
+    }
+    
+    /**
+     * Create training dataset based on AI personality
+     */
+    suspend fun trainAIPersonality(personality: String): String? {
+        return try {
+            val personalityDataset = gemmaLoRAFineTuning.createAIPersonalityDataset(personality)
+            val modelPath = gemmaLoRAFineTuning.startFineTuning(personalityDataset)
+            
+            // Update active personality
+            _livingState.value = _livingState.value.copy(
+                aiPersonalityActive = personality,
+                energyLevel = 1.0f
+            )
+            
+            Timber.d("AI personality training completed for $personality: $modelPath")
+            return modelPath
+            
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to train AI personality: $personality")
+            null
+        }
+    }
+    
+    /**
+     * Get fine-tuning progress for UI updates
+     */
+    fun getFineTuningProgress() = gemmaLoRAFineTuning.fineTuningProgress
+    
+    /**
+     * Get fine-tuning state for monitoring
+     */
+    fun getFineTuningState() = gemmaLoRAFineTuning.fineTuningState
+    
+    /**
+     * Create personalized training dataset from interaction memory
+     */
+    private suspend fun createPersonalizedDatasetFromMemory(): GemmaLoRAFineTuning.TrainingDataset {
+        val personalizedSamples = contextualMemory
+            .filter { it.learningValue > 0.6f } // Only high-value interactions
+            .take(500) // Limit dataset size for mobile
+            .map { memory ->
+                GemmaLoRAFineTuning.TrainingSample(
+                    input = memory.interaction,
+                    output = memory.outcome,
+                    context = memory.context,
+                    metadata = mapOf(
+                        "learning_value" to memory.learningValue,
+                        "timestamp" to memory.timestamp,
+                        "personalized" to true
+                    )
+                )
+            }
+        
+        return GemmaLoRAFineTuning.TrainingDataset(
+            name = "PersonalizedDevUtility-${System.currentTimeMillis()}",
+            trainSamples = personalizedSamples,
+            category = "personalized",
+            source = "living_ai_interface"
+        )
     }
 }
