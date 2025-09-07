@@ -598,7 +598,20 @@ class SecondaryAIValidationSystem @Inject constructor(
     }
 
     private fun findConflictingOpinions(modelOpinions: Map<String, Any>): List<String> {
-        return listOf("Sample conflicting opinion") // Placeholder
+        // Detect disagreements between model opinions
+        if (modelOpinions.isEmpty()) return emptyList()
+
+        // Group models by their opinion value
+        val opinionGroups = modelOpinions.entries.groupBy { it.value }
+
+        // If all models agree, there are no conflicts
+        if (opinionGroups.size <= 1) return emptyList()
+
+        // Otherwise, report which models disagree and what their opinions are
+        return opinionGroups.map { (opinion, entries) ->
+            val modelNames = entries.map { it.key }
+            "Models ${modelNames.joinToString(", ")} have opinion: $opinion"
+        }
     }
 
     private fun generateFinalAIRecommendation(modelOpinions: Map<String, Any>, consensusScore: Int): String {
