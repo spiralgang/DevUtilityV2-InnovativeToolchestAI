@@ -1,0 +1,12 @@
+# .banned_tokens.txt — one token per line (no quotes). Lines starting with # are comments.
+# Example (placeholders):
+REDACTED_TOKEN_1
+REDACTED_TOKEN_2
+
+# Notes
+# - This file is consumed by tools/sanitize_enforcer.sh.
+# - Prefer the env override BANNED_TOKENS in CI for private lists.
+# - Keep this file in sync with team conventions. Do not commit real secrets here.
+
+# References
+# - /reference/vault

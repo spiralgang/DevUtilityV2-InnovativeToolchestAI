@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Patch snippet - add explicit initialization for ROOTS to avoid "unbound variable" with set -u
+
+# ... earlier lines ...
+set -euo pipefail
+IFS=$'\n\t'
+
+# --- Fix: initialize ROOTS so -u won't complain ---
+ROOTS=()
+# --- end fix ---
+# ... rest of script ...
