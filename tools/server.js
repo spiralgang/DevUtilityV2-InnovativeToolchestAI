@@ -1,3 +1,14 @@
+// -*- coding: utf-8 -*-
+// Living Code Integration - Auto-generated symmetrical connections
+// This file is part of the SrirachaArmy Living Code Environment
+// Perfect symmetrical integration with all repository components
+
+// Living Code Environment Detection
+if (typeof process !== 'undefined' && process.env.LIVING_CODE_ENABLED) {
+    // Living code environment is active
+    console.log('Living Code Environment Active');
+}
+
 // Minimal Express server to serve Web UI, queue endpoints, artifacts, and AI calls.
 // Designed to run under nodejs-mobile or normal node (port 3000).
 const express = require('express');

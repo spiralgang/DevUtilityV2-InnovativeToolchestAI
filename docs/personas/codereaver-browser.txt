@@ -1,4 +1,4 @@
-# CodeReaver-Browser-Userscript
+﻿# CodeReaver-Browser-Userscript
 
 A collection of userscripts to supercharge web development on code-hosting platforms like GitHub, GitLab, Bitbucket, and CodePen, with AI-enhanced tooltips, responsive navigation, and code block interactions, optimized for Chromium-based browsers on Android and desktop.
 
@@ -17,7 +17,7 @@ The Code-Reaver is the fierce spirit behind these scripts, a webdev master forgi
    - A no-extension alternative for basic tooltip functionality, ideal for restricted environments.
 
 ## Features
-- **AI Tooltips**: Explains code terms and calculations using xAI’s Grok 3 API or a local dictionary/math evaluator for offline use.
+- **AI Tooltips**: Explains code terms and calculations using xAIâ€™s Grok 3 API or a local dictionary/math evaluator for offline use.
 - **Dynamic Triggers**: Tooltips activate on `title`, `data-tooltip`, or code terms in `pre`/`code` elements, broadening coverage.
 - **Code Block Enhancements**: Hover effects on `pre` and `code` for better focus during code reviews.
 - **Responsive Navigation**: Smooth menu interactions for webdev tasks like repo browsing.

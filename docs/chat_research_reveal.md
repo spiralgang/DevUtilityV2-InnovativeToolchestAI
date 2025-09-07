@@ -1,3 +1,7 @@
+<!-- Living Code Integration - Auto-generated symmetrical connections -->
+<!-- This file is part of the SrirachaArmy Living Code Environment -->
+<!-- Perfect symmetrical integration with all repository components -->
+
 ```markdown
 Title: From Proot Chroot Sleuthing to Agentic Automation—A Deep‐Dive Forensic & Architecture Manifest of an AI-Augmented Investigation
 

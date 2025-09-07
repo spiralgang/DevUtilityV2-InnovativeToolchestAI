@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# Living Code Integration - Auto-generated symmetrical connections
+# This script is part of the SrirachaArmy Living Code Environment
+# Perfect symmetrical integration with all repository components
+
+# Source living environment if available
+if [[ -f "$(dirname "${BASH_SOURCE[0]}")/../.living_environment_wrapper.sh" ]]; then
+    source "$(dirname "${BASH_SOURCE[0]}")/../.living_environment_wrapper.sh"
+fi
+
 # SCRIPTTHESE_RUNALL.sh
 # Purpose: Try multiple safe recovery/export methods (in-process tar, selective chroot tar,
 # host-root tar snippet, optional FTP upload), stop further attempts when one succeeds,
@@ -77,7 +87,7 @@ Options:
   --ftp-pass PASS              FTP password
   --exec-host                  Attempt to run host 'su -c tar ...' from this environment (may fail)
   --remove-archive-after-upload Remove local archive after a successful FTP upload
-  --remove-src                 Remove app source directory after success (DANGEROUS — requires --yes)
+  --remove-src                 Remove app source directory after success (DANGEROUS â€” requires --yes)
   --yes                        Assume yes to prompts
   --dry-run                    Do diagnostic steps only, no destructive actions
   --verbose                    Verbose output

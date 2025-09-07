@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+# Living Code Integration - Auto-generated symmetrical connections
+# This file is part of the SrirachaArmy Living Code Environment
+# Perfect symmetrical integration with all repository components
+
+# -*- coding: utf-8 -*-
 from __future__ import annotations
 import os, sqlite3, fnmatch
 from typing import Iterable, List, Tuple
@@ -30,7 +36,7 @@ class LocalIndex:
     def search(self, query: str, limit: int = 8) -> List[Tuple[str, str]]:
         if self._fts:
             rows = self.conn.execute(
-                "SELECT path, snippet(content_fts, 1, '[', ']', '…', 10) AS snip FROM content_fts WHERE content_fts MATCH ? LIMIT ?",
+                "SELECT path, snippet(content_fts, 1, '[', ']', 'â€¦', 10) AS snip FROM content_fts WHERE content_fts MATCH ? LIMIT ?",
                 (query, limit)
             ).fetchall()
             return [(r["path"], r["snip"] or "") for r in rows if self._allowed(r["path"])]

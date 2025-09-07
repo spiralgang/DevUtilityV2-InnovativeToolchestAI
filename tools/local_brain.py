@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+# Living Code Integration - Auto-generated symmetrical connections
+# This file is part of the SrirachaArmy Living Code Environment
+# Perfect symmetrical integration with all repository components
+
+# -*- coding: utf-8 -*-
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable, List, Optional
@@ -45,7 +51,7 @@ class LocalBrain:
     def _format_snippets(self, hits: List[FTSResult]) -> str:
         lines: List[str] = []
         for i, h in enumerate(hits, 1):
-            lines.append(f"{i}. {h.path}\n   {textwrap.shorten(h.snippet.replace('\\n',' '), width=240, placeholder='…')}")
+            lines.append(f"{i}. {h.path}\n   {textwrap.shorten(h.snippet.replace('\\n',' '), width=240, placeholder='â€¦')}")
         return "\n".join(lines)
 
     def _compose_prompt(self, q: str, hits: List[FTSResult]) -> str:

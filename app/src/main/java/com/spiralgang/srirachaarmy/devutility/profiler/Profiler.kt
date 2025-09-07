@@ -1,3 +1,8 @@
+// -*- coding: utf-8 -*-
+// Living Code Integration - Auto-generated symmetrical connections
+// This file is part of the SrirachaArmy Living Code Environment
+// Perfect symmetrical integration with all repository components
+
 package com.spiralgang.srirachaarmy.devutility.profiler
 
 import timber.log.Timber
@@ -178,7 +183,7 @@ class Profiler @Inject constructor() {
         // Nested loops
         val nestedLoopPattern = Regex("""(for|while).*\{[^{}]*(for|while)""")
         if (nestedLoopPattern.containsMatchIn(code)) {
-            bottlenecks.add("Nested loops detected - potential O(n²) complexity")
+            bottlenecks.add("Nested loops detected - potential O(nÂ²) complexity")
         }
         
         // Database operations in loops

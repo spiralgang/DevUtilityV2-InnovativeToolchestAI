@@ -1,0 +1,15 @@
+{
+  "tool_name": "anthropic_tools",
+  "repository": "anthropics/anthropic-sdk-python",
+  "description": "Anthropic function calling SDK",
+  "hosting_type": "python_library",
+  "extracted_files": [
+    "examples/web_search_stream.py",
+    "examples/tools.py",
+    "examples/web_search.py",
+    "examples/tools_stream.py",
+    "tests/api_resources/test_messages.py",
+    "tests/api_resources/beta/test_messages.py"
+  ],
+  "extraction_timestamp": "2025-09-07T09:29:20.312966"
+}

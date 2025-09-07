@@ -1,0 +1,107 @@
+#!/bin/bash
+# SPIRALGANG DYNAMIC POWER PROFILE MANAGER
+
+PROFILE_ROOT="${HOME}/.power-profiles"
+ACTIVE_PROFILE="${PROFILE_ROOT}/active"
+PROFILE_DB="${PROFILE_ROOT}/profiles.db"
+
+mkdir -p "$PROFILE_ROOT"
+
+# Profile definitions
+create_omniscient_profile() {
+    cat > "${PROFILE_ROOT}/omniscient.profile" << 'EOF'
+# OMNISCIENT POWER PROFILE - Maximum Capability Mode
+export GITHUB_TOKEN_PRIMARY="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"
+export GITHUB_TOKEN_SECONDARY="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"
+export SPIRALGANG_MODE="omniscient"
+export AUTO_FIX="enabled"
+export LEARNING_AGGRESSIVE="true"
+export PATH="/usr/local/bin:$PATH"
+
+# Aliases for maximum efficiency
+alias ll='ls -lahF'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias fix='omni fix'
+alias dev='omni dev'
+alias sys='omni sys'
+alias gst='git status'
+alias gaa='git add .'
+alias gcm='git commit -m'
+alias gp='git push'
+alias gl='git log --oneline -10'
+
+# Functions for power operations
+fcd() { mkdir -p "$1" && cd "$1"; }
+mkexec() { touch "$1" && chmod +x "$1" && nano "$1"; }
+quickcommit() { git add . && git commit -m "${1:-Quick update}" && git push; }
+pkginfo() { apt show "$1" 2>/dev/null || pip show "$1"; }
+
+# Auto-completion enhancement
+complete -C omni omni
+complete -C sfo sfo
+EOF
+}
+
+# Context-aware profile switching
+switch_profile() {
+    local profile="$1"
+    local profile_file="${PROFILE_ROOT}/${profile}.profile"
+    
+    if [[ -f "$profile_file" ]]; then
+        ln -sf "$profile_file" "$ACTIVE_PROFILE"
+        echo "Switched to profile: $profile"
+        echo "$(date):$profile" >> "$PROFILE_DB"
+        source "$profile_file"
+    else
+        echo "Profile not found: $profile"
+        echo "Available profiles:"
+        ls "${PROFILE_ROOT}"/*.profile 2>/dev/null | xargs -n1 basename -s .profile
+    fi
+}
+
+# Auto-profile detection based on context
+detect_context() {
+    local current_dir=$(pwd)
+    local git_repo=""
+    
+    if git rev-parse --git-dir >/dev/null 2>&1; then
+        git_repo=$(basename $(git rev-parse --show-toplevel))
+    fi
+    
+    # Context-based profile suggestions
+    if [[ "$current_dir" == *"android"* ]] || [[ "$git_repo" == *"android"* ]]; then
+        echo "android-dev"
+    elif [[ "$current_dir" == *"github"* ]] || [[ -n "$git_repo" ]]; then
+        echo "github-ops"
+    elif [[ "$current_dir" == "/root" ]]; then
+        echo "omniscient"
+    else
+        echo "general"
+    fi
+}
+
+case "$1" in
+    "create")
+        create_omniscient_profile
+        echo "Omniscient profile created"
+        ;;
+    "switch")
+        switch_profile "$2"
+        ;;
+    "auto")
+        suggested=$(detect_context)
+        echo "Suggested profile: $suggested"
+        switch_profile "$suggested"
+        ;;
+    "current")
+        if [[ -L "$ACTIVE_PROFILE" ]]; then
+            basename $(readlink "$ACTIVE_PROFILE") .profile
+        else
+            echo "No active profile"
+        fi
+        ;;
+    *)
+        echo "Usage: power-profile create|switch|auto|current [profile_name]"
+        ;;
+esac

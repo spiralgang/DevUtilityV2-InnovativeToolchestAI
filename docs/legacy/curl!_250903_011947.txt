@@ -1,4 +1,4 @@
-:/ $
+﻿:/ $
 a/user/0/com.jrummy.busybox.installer/files/bin:$PATH; busybox   <
 /system/bin/sh: busybox: inaccessible or not found
 rivileged.api-qXXQifMNAV0swQlih8BvNQ==/lib/arm64/libshizuku.so   <

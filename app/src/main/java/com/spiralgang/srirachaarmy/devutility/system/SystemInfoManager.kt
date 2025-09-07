@@ -1,3 +1,8 @@
+// -*- coding: utf-8 -*-
+// Living Code Integration - Auto-generated symmetrical connections
+// This file is part of the SrirachaArmy Living Code Environment
+// Perfect symmetrical integration with all repository components
+
 package com.spiralgang.srirachaarmy.devutility.system
 
 import android.content.Context
@@ -236,15 +241,15 @@ class SystemInfoManager @Inject constructor(
     fun getFormattedSystemInfo(): String {
         val info = _systemInfo.value
         return buildString {
-            appendLine("🔥 SrirachaArmy DevUtility System Information")
-            appendLine("═".repeat(50))
-            appendLine("📱 Device: ${info.deviceModel}")
-            appendLine("🤖 Android: ${info.androidVersion} (API ${info.apiLevel})")
-            appendLine("📦 App Version: ${info.appVersion}")
-            appendLine("🏗️ Package: ${info.packageName}")
-            appendLine("🏛️ Architectures: ${info.architectures.joinToString(", ")}")
-            appendLine("💾 Memory: ${formatBytes(info.memoryInfo.usedRam)}/${formatBytes(info.memoryInfo.totalRam)}")
-            appendLine("💿 Storage: ${formatBytes(info.storageInfo.usedStorage)}/${formatBytes(info.storageInfo.totalStorage)}")
+            appendLine("ðŸ”¥ SrirachaArmy DevUtility System Information")
+            appendLine("â•�".repeat(50))
+            appendLine("ðŸ“± Device: ${info.deviceModel}")
+            appendLine("ðŸ¤– Android: ${info.androidVersion} (API ${info.apiLevel})")
+            appendLine("ðŸ“¦ App Version: ${info.appVersion}")
+            appendLine("ðŸ�—ï¸� Package: ${info.packageName}")
+            appendLine("ðŸ�›ï¸� Architectures: ${info.architectures.joinToString(", ")}")
+            appendLine("ðŸ’¾ Memory: ${formatBytes(info.memoryInfo.usedRam)}/${formatBytes(info.memoryInfo.totalRam)}")
+            appendLine("ðŸ’¿ Storage: ${formatBytes(info.storageInfo.usedStorage)}/${formatBytes(info.storageInfo.totalStorage)}")
         }
     }
     
@@ -254,27 +259,27 @@ class SystemInfoManager @Inject constructor(
     fun getFormattedHealthStatus(): String {
         val health = _healthStatus.value
         return buildString {
-            appendLine("🏥 System Health Status")
-            appendLine("═".repeat(30))
-            appendLine("🔮 Overall: ${formatHealth(health.overall)}")
-            appendLine("💉 Hilt DI: ${formatHealth(health.hiltInjection)}")
-            appendLine("🗄️ Database: ${formatHealth(health.roomDatabase)}")
-            appendLine("🧠 AI Systems: ${formatHealth(health.aiSystems)}")
-            appendLine("🖥️ Terminal: ${formatHealth(health.terminalEmulator)}")
-            appendLine("🐧 RootFS: ${formatHealth(health.rootfsManager)}")
-            appendLine("🌐 Network: ${formatHealth(health.networkConnectivity)}")
+            appendLine("ðŸ�¥ System Health Status")
+            appendLine("â•�".repeat(30))
+            appendLine("ðŸ”® Overall: ${formatHealth(health.overall)}")
+            appendLine("ðŸ’‰ Hilt DI: ${formatHealth(health.hiltInjection)}")
+            appendLine("ðŸ—„ï¸� Database: ${formatHealth(health.roomDatabase)}")
+            appendLine("ðŸ§  AI Systems: ${formatHealth(health.aiSystems)}")
+            appendLine("ðŸ–¥ï¸� Terminal: ${formatHealth(health.terminalEmulator)}")
+            appendLine("ðŸ�§ RootFS: ${formatHealth(health.rootfsManager)}")
+            appendLine("ðŸŒ� Network: ${formatHealth(health.networkConnectivity)}")
             if (health.lastChecked > 0) {
-                appendLine("🕐 Last Check: ${java.text.SimpleDateFormat("HH:mm:ss").format(java.util.Date(health.lastChecked))}")
+                appendLine("ðŸ•� Last Check: ${java.text.SimpleDateFormat("HH:mm:ss").format(java.util.Date(health.lastChecked))}")
             }
         }
     }
     
     private fun formatHealth(health: SystemHealth): String {
         return when (health) {
-            SystemHealth.HEALTHY -> "✅ Healthy"
-            SystemHealth.WARNING -> "⚠️ Warning"
-            SystemHealth.ERROR -> "❌ Error"
-            SystemHealth.UNKNOWN -> "❓ Unknown"
+            SystemHealth.HEALTHY -> "âœ… Healthy"
+            SystemHealth.WARNING -> "âš ï¸� Warning"
+            SystemHealth.ERROR -> "â�Œ Error"
+            SystemHealth.UNKNOWN -> "â�“ Unknown"
         }
     }
     

@@ -1,4 +1,10 @@
+# -*- coding: utf-8 -*-
+# Living Code Integration - Auto-generated symmetrical connections
+# This file is part of the SrirachaArmy Living Code Environment
+# Perfect symmetrical integration with all repository components
+
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Query content index:
 - FTS5: SELECT path FROM content_fts WHERE content_fts MATCH ?

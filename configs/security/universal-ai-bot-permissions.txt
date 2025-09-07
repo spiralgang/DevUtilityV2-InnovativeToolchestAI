@@ -1,4 +1,4 @@
-# Dynamic, reusable GitHub Actions workflow to maximize permissions for any AI coding bot/agent, prevent 403 errors, and auto-diagnose permission issues.
+﻿# Dynamic, reusable GitHub Actions workflow to maximize permissions for any AI coding bot/agent, prevent 403 errors, and auto-diagnose permission issues.
 #
 # Rationale:
 # - Aggregates all known solutions for workflow permission failures.

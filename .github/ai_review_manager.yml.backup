@@ -1,0 +1,20 @@
+# AI Review Manager Workflow Configuration
+name: AI Review Manager
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run AI Review
+        uses: ai-review-manager@v1
+        with:
+          reviewers: 'Gemini, Claude, Deepseek-Coder, BigModel.cn 3.5/4.0'
+          standards: 'vault'

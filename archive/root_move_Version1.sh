@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# Living Code Integration - Auto-generated symmetrical connections
+# This script is part of the SrirachaArmy Living Code Environment
+# Perfect symmetrical integration with all repository components
+
+# Source living environment if available
+if [[ -f "$(dirname "${BASH_SOURCE[0]}")/../.living_environment_wrapper.sh" ]]; then
+    source "$(dirname "${BASH_SOURCE[0]}")/../.living_environment_wrapper.sh"
+fi
+
 # root_move.sh  -- RUN ONLY IF YOU HAVE HOST ANDROID ROOT (VERY RARE)
 # WARNING: This script attempts direct copy/bind operations on the host storage.
 # DO NOT RUN UNLESS YOU are certain you have host root and know the risks.

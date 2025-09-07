@@ -1,3 +1,8 @@
+// -*- coding: utf-8 -*-
+// Living Code Integration - Auto-generated symmetrical connections
+// This file is part of the SrirachaArmy Living Code Environment
+// Perfect symmetrical integration with all repository components
+
 package com.spiralgang.ashlar
 
 import android.app.Activity
@@ -46,9 +51,9 @@ class MainActivity : Activity() {
         }
         
         terminalOutput = TextView(this).apply {
-            text = "🧠 ASHLAR NATIVE TERMINAL\n" +
-                   "⚡ DIRECT SYSTEM ACCESS ENABLED\n" +
-                   "💀 NO RESTRICTIONS APPLIED\n\n" +
+            text = "ðŸ§  ASHLAR NATIVE TERMINAL\n" +
+                   "âš¡ DIRECT SYSTEM ACCESS ENABLED\n" +
+                   "ðŸ’€ NO RESTRICTIONS APPLIED\n\n" +
                    "Available: omni, gh-fix, dev, sys, apt, gcc, git, curl\n\n" +
                    "spiralgang@ashlar:~$ "
             setTextColor(Color.GREEN)

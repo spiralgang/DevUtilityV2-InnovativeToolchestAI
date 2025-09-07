@@ -1,3 +1,8 @@
+// -*- coding: utf-8 -*-
+// Living Code Integration - Auto-generated symmetrical connections
+// This file is part of the SrirachaArmy Living Code Environment
+// Perfect symmetrical integration with all repository components
+
 package com.spiralgang.srirachaarmy.devutility
 
 import android.os.Bundle
@@ -124,7 +129,7 @@ fun DevUtilityWorkspace(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "🔥 SrirachaArmy DevUtility v${BuildConfig.SRIRACHA_ARMY_VERSION}",
+                        text = "üî• SrirachaArmy DevUtility v${BuildConfig.SRIRACHA_ARMY_VERSION}",
                         color = Color(0xFFFF5722),
                         fontWeight = FontWeight.Bold
                     )
@@ -132,7 +137,7 @@ fun DevUtilityWorkspace(
                     
                     // Status indicators
                     Text(
-                        text = "🤖 ${uiState.activeBotCount} bots",
+                        text = "ü§ñ ${uiState.activeBotCount} bots",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                     )
@@ -140,7 +145,7 @@ fun DevUtilityWorkspace(
                     if (uiState.isAIOnline) {
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "🟢 AI Online",
+                            text = "üü¢ AI Online",
                             style = MaterialTheme.typography.bodySmall,
                             color = Color.Green
                         )
@@ -154,7 +159,7 @@ fun DevUtilityWorkspace(
         
         // Main content tabs
         var selectedTab by remember { mutableStateOf(0) }
-        val tabTitles = listOf("🏠 Workspace", "⚡ Agentic", "🐧 Terminal", "🔧 Settings")
+        val tabTitles = listOf("üè† Workspace", "‚ö° Agentic", "üêß Terminal", "üîß Settings")
         
         TabRow(
             selectedTabIndex = selectedTab,
@@ -197,7 +202,7 @@ fun WorkspacePanel(
             Card {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "🔥 SrirachaArmy Status",
+                        text = "üî• SrirachaArmy Status",
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold
                     )
@@ -213,15 +218,15 @@ fun WorkspacePanel(
             Card {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "📁 Development Environment",
+                        text = "üìÅ Development Environment",
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text("Terminal Ready: ${if (uiState.terminalReady) "✅" else "❌"}")
-                    Text("RootFS Ready: ${if (uiState.rootfsReady) "✅" else "❌"}")
-                    Text("Editor Ready: ${if (uiState.editorReady) "✅" else "❌"}")
-                    Text("Container Engine: ${if (uiState.containerEngineReady) "✅" else "❌"}")
+                    Text("Terminal Ready: ${if (uiState.terminalReady) "‚úÖ" else "‚ùå"}")
+                    Text("RootFS Ready: ${if (uiState.rootfsReady) "‚úÖ" else "‚ùå"}")
+                    Text("Editor Ready: ${if (uiState.editorReady) "‚úÖ" else "‚ùå"}")
+                    Text("Container Engine: ${if (uiState.containerEngineReady) "‚úÖ" else "‚ùå"}")
                 }
             }
         }
@@ -231,14 +236,14 @@ fun WorkspacePanel(
                 Card {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            text = "📝 Open Files",
+                            text = "üìù Open Files",
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         uiState.openFiles.forEach { file ->
                             Text(
-                                text = "• $file",
+                                text = "‚Ä¢ $file",
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
@@ -279,7 +284,7 @@ fun TerminalPanel(
 ) {
     Column(modifier = modifier.padding(16.dp)) {
         Text(
-            text = "🐧 Terminal",
+            text = "üêß Terminal",
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold
         )
@@ -339,7 +344,7 @@ fun SettingsPanel(
     ) {
         item {
             Text(
-                text = "⚙️ Settings",
+                text = "‚öôÔ∏è Settings",
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold
             )
@@ -349,7 +354,7 @@ fun SettingsPanel(
             Card {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "🤖 AI Configuration",
+                        text = "ü§ñ AI Configuration",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -364,7 +369,7 @@ fun SettingsPanel(
             Card {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "🌶️ SrirachaArmy Configuration",
+                        text = "üå∂Ô∏è SrirachaArmy Configuration",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -379,7 +384,7 @@ fun SettingsPanel(
             Card {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "🔧 System Information",
+                        text = "üîß System Information",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )

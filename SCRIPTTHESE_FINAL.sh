@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# Living Code Integration - Auto-generated symmetrical connections
+# This script is part of the SrirachaArmy Living Code Environment
+# Perfect symmetrical integration with all repository components
+
+# Source living environment if available
+if [[ -f "$(dirname "${BASH_SOURCE[0]}")/../.living_environment_wrapper.sh" ]]; then
+    source "$(dirname "${BASH_SOURCE[0]}")/../.living_environment_wrapper.sh"
+fi
+
 #
 # SCRIPTTHESE_FINAL.sh
 # Single-file, resilient recovery helper for chrooted UserLAnd environments.
@@ -26,7 +36,7 @@ SERVE=false
 FORCE=false
 VERBOSE=false
 
-# Candidate list — trimmed to highest-probability chroot-readable places
+# Candidate list â€” trimmed to highest-probability chroot-readable places
 CANDIDATES=(
   "/usr/bin"
   "/usr"

@@ -1,3 +1,8 @@
+// -*- coding: utf-8 -*-
+// Living Code Integration - Auto-generated symmetrical connections
+// This file is part of the SrirachaArmy Living Code Environment
+// Perfect symmetrical integration with all repository components
+
 package com.spiralgang.srirachaarmy.devutility.agentic
 
 import androidx.compose.animation.*
@@ -569,7 +574,7 @@ private fun LivingCodeInstanceCard(
             )
             instance.transformationHistory.takeLast(3).forEach { change ->
                 Text(
-                    text = "• $change",
+                    text = "â€¢ $change",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

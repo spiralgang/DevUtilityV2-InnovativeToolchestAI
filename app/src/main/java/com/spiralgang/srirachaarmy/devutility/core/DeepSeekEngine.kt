@@ -1,3 +1,8 @@
+// -*- coding: utf-8 -*-
+// Living Code Integration - Auto-generated symmetrical connections
+// This file is part of the SrirachaArmy Living Code Environment
+// Perfect symmetrical integration with all repository components
+
 package com.spiralgang.srirachaarmy.devutility.core
 
 import com.spiralgang.srirachaarmy.devutility.ai.DeepSeekAIService

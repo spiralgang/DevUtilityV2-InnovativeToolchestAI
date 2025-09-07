@@ -1,3 +1,8 @@
+// -*- coding: utf-8 -*-
+// Living Code Integration - Auto-generated symmetrical connections
+// This file is part of the SrirachaArmy Living Code Environment
+// Perfect symmetrical integration with all repository components
+
 package com.spiralgang.srirachaarmy.devutility.ai
 
 import android.content.Context
@@ -191,7 +196,7 @@ class CompatibleModelLoRAFineTuning @Inject constructor(
     private fun generatePersonalityResponse(prompt: String, personality: String): String {
         return when (personality.lowercase()) {
             "codereaver" -> "Let me analyze this technically and provide an optimized solution..."
-            "sriracha" -> "🌶️ Let's add some spice to this code and make it blazing fast!"
+            "sriracha" -> "ðŸŒ¶ï¸� Let's add some spice to this code and make it blazing fast!"
             "assistant" -> "I'd be happy to help you with that. Let me break this down step by step..."
             else -> "Here's how I can help you with that..."
         }

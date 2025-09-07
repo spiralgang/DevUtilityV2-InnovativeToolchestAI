@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  semantic-kernel-skills:
+    build: .
+    container_name: semantic_kernel_skills_service
+    ports:
+      - "8000:8000"
+    environment:
+      - TOOL_NAME=semantic_kernel_skills
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - ai_tools_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: semantic_kernel_skills_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/ssl
+    depends_on:
+      - semantic-kernel-skills
+    networks:
+      - ai_tools_network
+
+networks:
+  ai_tools_network:
+    driver: bridge
+
+volumes:
+  data:
+  logs:
