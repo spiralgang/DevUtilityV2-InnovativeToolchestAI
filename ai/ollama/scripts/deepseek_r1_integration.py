@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-DeepSeek R1 Reasoning Integration
+CodeReaver (DevUtility-AI) - DeepSeek R1 Reasoning Integration
 DevUtilityV2.5—InnovativeToolchestAI
 
+"CodeReaver (DevUtility-AI)" - Primary coding intelligence with advanced reasoning and development capabilities
 Integration script for the DeepSeek reasoning model:
 - Model: deepseek-ai/DeepSeek-R1
-- Purpose: Advanced reasoning and complex problem solving
-- Features: Logical reasoning, analytical thinking, complex problem decomposition
+- Role: Main coding AI with advanced reasoning and development capabilities
+- Features: Primary coding intelligence, deep code analysis, advanced reasoning, DevUtility AI integration
 """
 
 import os
@@ -15,7 +16,8 @@ import subprocess
 import json
 from pathlib import Path
 
-class DeepSeekR1Integration:
+class CodeReaverDevUtilityAI:
+    """CodeReaver (DevUtility-AI) - Primary coding intelligence with advanced reasoning"""
     def __init__(self):
         self.model_path = Path(__file__).parent.parent / "deepseek-r1"
         self.model_name = "DeepSeek-R1"
@@ -183,7 +185,7 @@ def main():
     
     args = parser.parse_args()
     
-    integration = DeepSeekR1Integration()
+    integration = CodeReaverDevUtilityAI()
     
     if args.status:
         status, message = integration.check_model_status()

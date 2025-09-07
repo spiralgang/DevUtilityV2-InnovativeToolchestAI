@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-Replit Code Assistant Integration
+Orchestrator - Replit Code Assistant Integration
 DevUtilityV2.5—InnovativeToolchestAI
 
+"Orchestrator" - Advanced code workflow coordination and task management
 Integration script for the Replit code generation model:
-- Model: replit/replit-code-v1-3b
-- Purpose: Specialized code generation and completion
-- Features: Code completion, generation, and optimization
+- Model: replit/replit-code-v1-3b  
+- Role: Orchestrates and coordinates all coding workflows
+- Features: Code workflow orchestration, generation, completion, and task coordination
 """
 
 import os
@@ -15,7 +16,8 @@ import subprocess
 import json
 from pathlib import Path
 
-class ReplitCodeIntegration:
+class OrchestratorIntegration:
+    """Orchestrator - Code workflow coordination and task management"""
     def __init__(self):
         self.model_path = Path(__file__).parent.parent / "replit-code-v1-3b"
         self.model_name = "replit-code-v1-3b"
@@ -101,7 +103,7 @@ def main():
     
     args = parser.parse_args()
     
-    integration = ReplitCodeIntegration()
+    integration = OrchestratorIntegration()
     
     if args.status:
         status, message = integration.check_model_status()

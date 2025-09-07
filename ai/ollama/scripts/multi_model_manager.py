@@ -3,13 +3,11 @@
 Multi-Model AI Integration Manager
 DevUtilityV2.5—InnovativeToolchestAI
 
-Master integration script for managing all AI models:
-- LLaMA 3.1 Core Model (llama3.1_ollama_v3)
-- Replit Code Assistant (replit-code-v1-3b)
-- Qwen Mathematical Reasoning (qwen2.5-math-1.5b)
-- DeepSeek R1 Reasoning (deepseek-r1)
-- Google Gemma Interface (google-gemma-1.1-7b-it)
-- DevUtility V2.5 Space (devutility-v2-5)
+Master integration script for managing all AI models with specialized roles:
+- LLaMA 3.1 Core Model → "Big Bottle Sriracha" (Autonomous Bot Clone Delegator)
+- Replit Code Assistant → "Orchestrator" (Code workflow coordination)
+- Qwen Mathematical Reasoning → "Anti-Flail && Errors" (Error prevention & handling)
+- DeepSeek R1 Reasoning → "CodeReaver (DevUtility-AI)" (Primary coding intelligence)
 """
 
 import os
@@ -25,46 +23,44 @@ class MultiModelManager:
         self.scripts_path = Path(__file__).parent
         
         self.models = {
-            "llama3.1": {
-                "name": "LLaMA 3.1 Core",
+            "big-bottle-sriracha": {
+                "name": "Big Bottle Sriracha",
+                "alias": "LLaMA 3.1 Core (Autonomous Bot Clone Delegator)",
                 "path": self.base_path / "llama3.1_ollama_v3",
-                "script": None,  # Uses existing integration
-                "type": "Core AI Model",
+                "script": self.scripts_path / "ollama_integration.py",
+                "type": "Autonomous Bot Clone Delegator",
+                "role": "Unrestricted AI delegating mini autonomous bot clones",
+                "capabilities": ["autonomous_delegation", "bot_cloning", "unrestricted_ai"],
                 "status": "active"
             },
-            "replit-code": {
-                "name": "Replit Code Assistant",
+            "orchestrator": {
+                "name": "Orchestrator",
+                "alias": "Replit Code Assistant (Workflow Coordinator)",
                 "path": self.base_path / "replit-code-v1-3b",
                 "script": self.scripts_path / "replit_code_integration.py",
-                "type": "Code Generation",
+                "type": "Code Workflow Orchestrator",
+                "role": "Orchestrates and coordinates all coding workflows",
+                "capabilities": ["code_generation", "workflow_orchestration", "task_coordination"],
                 "status": "active"
             },
-            "qwen-math": {
-                "name": "Qwen Mathematical Reasoning",
+            "anti-flail-errors": {
+                "name": "Anti-Flail && Errors",
+                "alias": "Qwen Mathematical Reasoning (Error Prevention)",
                 "path": self.base_path / "qwen2.5-math-1.5b",
                 "script": self.scripts_path / "qwen_math_integration.py",
-                "type": "Mathematical Reasoning",
+                "type": "Error Prevention & Handling",
+                "role": "Prevents errors and handles mathematical reasoning to avoid flails",
+                "capabilities": ["error_prevention", "mathematical_reasoning", "anti_flail_logic"],
                 "status": "active"
             },
-            "deepseek-r1": {
-                "name": "DeepSeek R1 Reasoning",
+            "codereaver": {
+                "name": "CodeReaver (DevUtility-AI)",
+                "alias": "DeepSeek R1 Reasoning (Primary Coding Intelligence)",
                 "path": self.base_path / "deepseek-r1",
                 "script": self.scripts_path / "deepseek_r1_integration.py",
-                "type": "Advanced Reasoning",
-                "status": "active"
-            },
-            "gemma-interface": {
-                "name": "Google Gemma Interface",
-                "path": self.base_path / "google-gemma-1.1-7b-it",
-                "script": self.scripts_path / "gemma_interface_integration.py",
-                "type": "Interactive Interface",
-                "status": "active"
-            },
-            "devutility-space": {
-                "name": "DevUtility V2.5 Space",
-                "path": self.base_path / "devutility-v2-5",
-                "script": self.scripts_path / "devutility_space_integration.py",
-                "type": "Integrated Interface",
+                "type": "Primary Coding Intelligence",
+                "role": "Main coding AI with advanced reasoning and development capabilities",
+                "capabilities": ["advanced_reasoning", "primary_coding", "devutility_ai", "deep_code_analysis"],
                 "status": "active"
             }
         }
@@ -95,6 +91,9 @@ class MultiModelManager:
                     
                 results[model_id] = {
                     "name": model_info["name"],
+                    "alias": model_info["alias"],
+                    "role": model_info["role"],
+                    "capabilities": model_info["capabilities"],
                     "status": status,
                     "message": message,
                     "type": model_info["type"]
@@ -102,6 +101,9 @@ class MultiModelManager:
             except Exception as e:
                 results[model_id] = {
                     "name": model_info["name"],
+                    "alias": model_info["alias"],
+                    "role": model_info["role"],
+                    "capabilities": model_info["capabilities"],
                     "status": "Error",
                     "message": str(e),
                     "type": model_info["type"]
@@ -158,6 +160,9 @@ class MultiModelManager:
             model_data = {
                 "id": model_id,
                 "name": model_info["name"],
+                "alias": model_info["alias"],
+                "role": model_info["role"],
+                "capabilities": model_info["capabilities"],
                 "type": model_type,
                 "path": str(model_info["path"]),
                 "has_script": model_info["script"] is not None,
@@ -166,16 +171,16 @@ class MultiModelManager:
             
             ensemble_info["models"].append(model_data)
         
-        # Define ensemble capabilities
+        # Define ensemble capabilities based on new AI roles
         ensemble_info["capabilities"] = [
-            "🤖 General AI assistance and conversation",
-            "💻 Advanced code generation and completion",
-            "🧮 Mathematical reasoning and problem solving",
-            "🧠 Complex reasoning and analytical thinking",
-            "🎛️ Interactive model interfaces",
-            "🚀 Integrated development environments",
-            "🔧 Multi-model AI ensemble coordination",
-            "⚡ Specialized task routing and optimization"
+            "🔥 Big Bottle Sriracha: Unrestricted autonomous bot clone delegation",
+            "🎭 Orchestrator: Advanced code workflow coordination and task management",
+            "🛡️ Anti-Flail && Errors: Mathematical reasoning with error prevention logic",
+            "⚔️ CodeReaver (DevUtility-AI): Primary coding intelligence with deep analysis",
+            "🤖 Integrated autonomous AI development ecosystem",
+            "💻 Advanced code generation and completion across all models",
+            "🧠 Complex reasoning and analytical thinking coordination",
+            "⚡ Specialized task routing and multi-model optimization"
         ]
         
         return ensemble_info
@@ -263,8 +268,11 @@ class MultiModelManager:
         
         for model_id, status in model_status.items():
             status_icon = "✅" if status["status"] in ["Ready", "Ready (Basic)"] else "❌"
-            report.append(f"{status_icon} **{status['name']}** ({status['type']})")
+            report.append(f"{status_icon} **{status['name']}** ({status['alias']})")
+            report.append(f"   Role: {status['role']}")
+            report.append(f"   Type: {status['type']}")
             report.append(f"   Status: {status['status']}")
+            report.append(f"   Capabilities: {', '.join(status['capabilities'])}")
             if status.get("message"):
                 report.append(f"   Details: {status['message']}")
             report.append("")
@@ -310,8 +318,12 @@ def main():
         print("=" * 40)
         for model_id, status in results.items():
             status_icon = "✅" if status["status"] in ["Ready", "Ready (Basic)"] else "❌"
-            print(f"{status_icon} {status['name']} ({status['type']})")
+            print(f"{status_icon} {status['name']}")
+            print(f"   Alias: {status['alias']}")
+            print(f"   Role: {status['role']}")
+            print(f"   Type: {status['type']}")
             print(f"   Status: {status['status']}")
+            print(f"   Capabilities: {', '.join(status['capabilities'])}")
             if status.get("message"):
                 print(f"   Details: {status['message']}")
             print()
@@ -341,7 +353,10 @@ def main():
         print("\nModels:")
         for model in info['models']:
             print(f"  - {model['name']} ({model['id']})")
+            print(f"    Alias: {model['alias']}")
+            print(f"    Role: {model['role']}")
             print(f"    Type: {model['type']}")
+            print(f"    Capabilities: {', '.join(model['capabilities'])}")
             print(f"    Status: {model['status']}")
     
     elif args.download:

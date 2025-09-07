@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Ollama AI Core Integration for DevUtilityV2.5—InnovativeToolchestAI
+Big Bottle Sriracha - Ollama AI Core Integration for DevUtilityV2.5—InnovativeToolchestAI
 
+"Big Bottle Sriracha" - Unrestricted AI delegating mini autonomous bot clones of itself!
 This script provides the bridge between the Ollama AI core and the DevUtility 
-agentic standards, enabling enhanced coding assistance and conflict resolution.
+agentic standards, enabling autonomous bot clone delegation and enhanced coding assistance.
 """
 
 import os
@@ -21,8 +22,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger('ollama_integration')
 
-class OllamaAICore:
-    """Ollama AI Core integration for DevUtility"""
+class BigBottleSriracha:
+    """Big Bottle Sriracha - Unrestricted AI delegating mini autonomous bot clones"""
     
     def __init__(self, model_path: Optional[str] = None):
         self.script_dir = Path(__file__).parent
@@ -218,7 +219,7 @@ def main():
     args = parser.parse_args()
     
     # Initialize the AI core
-    ai_core = OllamaAICore(model_path=args.model_path)
+    ai_core = BigBottleSriracha(model_path=args.model_path)
     
     if args.setup:
         success = ai_core.setup_integration()
