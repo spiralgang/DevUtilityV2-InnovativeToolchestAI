@@ -37,12 +37,18 @@ jobs:
           # Clean slate enforcement
           unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY || true
           export PATH="/usr/local/bin:/usr/bin:/bin"
-          
+
           # Forensic logging
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           mkdir -p .github/forensic-logs
-          echo "{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"conflict-resolution\", \"event\": \"workflow_start\", \"commit_sha\": \"${{ github.sha }}\", \"pr_number\": \"${{ github.event.pull_request.number || github.event.inputs.pr_number }}\", \"trigger\": \"${{ github.event_name }}\"}" >> .github/forensic-logs/conflict-resolution.jsonl
-          
+          echo "{\"timestamp\": \"$TIMESTAMP\", \
+            \"workflow\": \"conflict-resolution\", \
+            \"event\": \"workflow_start\", \
+            \"commit_sha\": \"${{ github.sha }}\", \
+            \"pr_number\": \"${{ github.event.pull_request.number || github.event.inputs.pr_number }}\", \
+            \"trigger\": \"${{ github.event_name }}\"}" \
+            >> .github/forensic-logs/conflict-resolution.jsonl
+
           echo "✅ Clean environment enforced"
       - name: Validate Copilot Authority
         if: github.event_name == 'workflow_dispatch'
@@ -188,7 +194,8 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const conflictCount = ${{ needs.detect-conflicts.outputs.conflicts_count }};
+            const conflictCount = \
+              ${{ needs.detect-conflicts.outputs.conflicts_count }};
 
             if (conflictCount > 0) {
               github.rest.issues.createComment({

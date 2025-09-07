@@ -34,12 +34,12 @@ jobs:
           # Clean slate enforcement
           unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY || true
           export PATH="/usr/local/bin:/usr/bin:/bin"
-          
+
           # Forensic logging
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           mkdir -p .github/forensic-logs
           echo "{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"pr-management\", \"event\": \"workflow_start\", \"commit_sha\": \"${{ github.sha }}\", \"branch\": \"${{ github.ref_name }}\", \"trigger\": \"${{ github.event_name }}\"}" >> .github/forensic-logs/pr-management.jsonl
-          
+
           echo "✅ Clean environment enforced"
       - name: Validate Copilot Authority
         env:

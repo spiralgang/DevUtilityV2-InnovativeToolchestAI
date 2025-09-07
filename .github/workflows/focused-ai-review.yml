@@ -22,7 +22,7 @@ jobs:
     name: Run focused AI review
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    
+
     steps:
       - name: Enforce Clean Environment
         run: |
@@ -30,12 +30,12 @@ jobs:
           # Clean slate enforcement
           unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY GOOGLE_APPLICATION_CREDENTIALS || true
           export PATH="/usr/local/bin:/usr/bin:/bin"
-          
+
           # Forensic logging
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           mkdir -p .github/forensic-logs
           echo "{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"ai-review\", \"event\": \"workflow_start\", \"commit_sha\": \"${{ github.sha }}\", \"pr_number\": \"${{ github.event.pull_request.number }}\"}" >> .github/forensic-logs/ai-review.jsonl
-          
+
           echo "✅ Clean environment enforced"
 
       - name: Checkout repository
@@ -46,24 +46,24 @@ jobs:
       - name: Basic Code Quality Check
         run: |
           set -euo pipefail
-          
+
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           echo "{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"ai-review\", \"event\": \"quality_check_start\"}" >> .github/forensic-logs/ai-review.jsonl
 
           # Simple focused checks only
           echo "🔍 Running focused code quality checks..."
-          
+
           # Check for wildcard imports in Kotlin files
           if find app/src -name "*.kt" -exec grep -l "import.*\.\*" {} \; | head -5; then
             echo "⚠️ Found wildcard imports in Kotlin files"
             echo "{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"ai-review\", \"event\": \"wildcard_imports_found\", \"status\": \"warning\"}" >> .github/forensic-logs/ai-review.jsonl
           fi
-          
+
           # Check YAML syntax for workflows
           if command -v yamllint >/dev/null 2>&1; then
             yamllint .github/workflows/ || echo "⚠️ YAML linting issues found"
           fi
-          
+
           echo "{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"ai-review\", \"event\": \"quality_check_complete\", \"status\": \"success\"}" >> .github/forensic-logs/ai-review.jsonl
           echo "✅ Code quality check complete"
 

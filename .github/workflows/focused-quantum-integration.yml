@@ -38,12 +38,12 @@ jobs:
           unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY GOOGLE_APPLICATION_CREDENTIALS || true
           export PATH="/usr/local/bin:/usr/bin:/bin"
           cd "$GITHUB_WORKSPACE"
-          
+
           # Forensic logging
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           mkdir -p .github/forensic-logs
           echo "{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"quantum-integration\", \"event\": \"clean_environment\", \"commit_sha\": \"${{ github.sha }}\", \"validation_only\": \"${{ github.event.inputs.validation_only || 'true' }}\"}" >> .github/forensic-logs/quantum-integration.jsonl
-          
+
           echo "✅ Clean environment enforced"
 
       - name: Validate Authority
@@ -70,7 +70,7 @@ jobs:
       - name: Validate Quantum Adapter Only
         run: |
           set -euo pipefail
-          
+
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           echo "{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"quantum-integration\", \"event\": \"validation_start\", \"file\": \"tools/qdataset_adapter.py\"}" >> .github/forensic-logs/quantum-integration.jsonl
 
@@ -82,7 +82,7 @@ jobs:
           else
             echo "ℹ️ No quantum adapter found, skipping validation"
           fi
-          
+
           echo "{\"timestamp\": \"$TIMESTAMP\", \"workflow\": \"quantum-integration\", \"event\": \"validation_complete\", \"status\": \"success\"}" >> .github/forensic-logs/quantum-integration.jsonl
 
       - name: Upload Forensic Logs
