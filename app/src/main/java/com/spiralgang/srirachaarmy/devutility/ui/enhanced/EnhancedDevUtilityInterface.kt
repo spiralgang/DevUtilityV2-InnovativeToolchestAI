@@ -135,7 +135,7 @@ fun EnhancedDevUtilityInterface(
                     onStartFineTuning = { 
                         // Start LoRA fine-tuning process
                         scope.launch {
-                            livingAIInterface.startPersonalizedTraining()
+                            livingAIInterface.startPersonalizedFineTuning()
                         }
                     },
                     onTrainPersonality = { personality ->
@@ -158,7 +158,10 @@ fun EnhancedDevUtilityInterface(
                     onCreateEnvironment = { distribution ->
                         // Create new environment from distribution
                         scope.launch {
-                            rootFSManager.createEnvironment(distribution.name, distribution)
+                            rootFSManager.createXShadowChrootEnvironment(
+                                distributionName = distribution.name,
+                                category = distribution.category
+                            )
                         }
                     },
                     modifier = Modifier.fillMaxSize()
