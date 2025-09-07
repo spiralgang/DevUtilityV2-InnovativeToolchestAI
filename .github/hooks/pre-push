@@ -1,0 +1,31 @@
+(async function() {
+  // same logic as the userscript, but using fetch() and chrome.storage
+  const [owner, repo] = location.pathname.split('/').slice(1, 3);
+  if (!repo) return;
+
+  // wait for branch input
+  const input = await new Promise(res => {
+    const id = setInterval(() => {
+      const el = document.querySelector('input.js-new-branch-name');
+      if (el) { clearInterval(id); res(el); }
+    }, 200);
+  });
+
+  // prompt once, then save token
+  let token = await chrome.storage.local.get('ghToken').then(r => r.ghToken);
+  if (!token) {
+    token = prompt('Enter GitHub PAT (repo scope)');
+    chrome.storage.local.set({ ghToken: token });
+  }
+
+  const resp = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads`, {
+    headers: { Authorization: `token ${token}` }
+  });
+  if (!resp.ok) return;
+  const refs = await resp.json();
+  const hasCopilot = refs.some(r => r.ref.startsWith('refs/heads/copilot/fix-'));
+  if (hasCopilot) {
+    input.disabled = true;
+    input.placeholder = '🚫 Only one copilot/fix- branch allowed';
+  }
+})();

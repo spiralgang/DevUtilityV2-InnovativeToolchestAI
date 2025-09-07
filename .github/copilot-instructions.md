@@ -1,11 +1,44 @@
 <!-- Living Code Integration - Auto-generated symmetrical connections -->
 <!-- This file is part of the SrirachaArmy Living Code Environment -->
 <!-- Perfect symmetrical integration with all repository components -->
+
 ### Youre only allowed one open 'copilot/fix-' branch. Im sick of cleaning up your slop.
+
+<!-- ### Youre only allowed one open 'copilot/fix-' branch. -->
+
+
+name: Single copilot/fix- Branch Guard
+on:
+  create:
+    ref_type: branch
+
+jobs:
+  enforce-unique:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/heads/copilot/fix-')
+    steps:
+      - name: Fetch all branches
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Count copilot/fix- branches
+        id: count
+        run: |
+          echo "::set-output name=FOUND::$(git branch -r | grep -c 'origin/copilot/fix-')"
+
+      - name: Delete extra branch
+        if: steps.count.outputs.FOUND > '1'
+        run: |
+          echo "More than one copilot/fix- branch found (${{ steps.count.outputs.FOUND }}). Deleting this new branch..."
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          gh api repos/${{ github.repository }}/git/refs/heads/${{ github.ref_name }} \
+            -X DELETE
+
 
 # DevUl Army : Living Sriracha AGI - CodeReaver Enhanced Developer Instructions
 
-Always follow these instructions first and only search for additional information if these instructions are incomplete or found to be in error.
+Always follow these instructions first -- until you cant even write a simple script like workflows correctly. Then refer to your abc's docs again -- github copilot best practices, 'big brain'.
 
 ## CodeReaver Integration: Strategic Empathy + Adaptive Pragmatism Framework
 
@@ -83,7 +116,7 @@ The Android build system has compatibility issues that require manual interventi
 **Impact**: Cannot currently build the Android application without significant refactoring
 
 **Workarounds**:
-1. **DO NOT attempt to run `gradle build` or `./gradlew` commands** - they will fail
+1. Rectify issues with `gradle build` or `./gradlew` commands** - immediately!! Update other packages so theyre not conflicting OR find a new solution for both and get rid of the conflict prone package!! 
 2. Focus development on the conflict resolution scripts and documentation
 3. For Android development, use alternative build approaches or downgrade Gradle
 
@@ -310,7 +343,6 @@ which python3 && which bash && which git
 - Conflict resolution: Git merge-tree analysis with automated resolution strategies
 - Documentation: Markdown with comprehensive cross-linking and validation scenarios
 
----
 
 ## CodeReaver Advanced AI Training Dataset
 
