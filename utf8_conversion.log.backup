@@ -1,0 +1,556 @@
+2025-09-07 08:53:03,982 - INFO - Starting UTF-8 encoding process for: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI
+2025-09-07 08:53:03,982 - INFO - Dry run mode: False
+2025-09-07 08:53:03,989 - INFO - Found 488 text files out of 507 total files
+2025-09-07 08:53:03,990 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/_data_data_tech.ula_files_home_.omniscient_optimization_performance-tuner-1.sh from ascii to utf-8
+2025-09-07 08:53:03,991 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/install_ca.sh from ascii to utf-8
+2025-09-07 08:53:04,022 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/README.md
+2025-09-07 08:53:04,023 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/AUDIT_SUMMARY.md from ascii to utf-8
+2025-09-07 08:53:04,024 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/generate_profile_env.sh from ascii to utf-8
+2025-09-07 08:53:04,025 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/_data_data_tech.ula_files_home_.omniscient_network_tunnel-manager.sh from ascii to utf-8
+2025-09-07 08:53:04,041 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/LICENSE
+2025-09-07 08:53:04,041 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/move_apks_to_shared.sh from ascii to utf-8
+2025-09-07 08:53:04,042 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/_data_data_tech.ula_files_home_.omniscient_core_system-bootstrap.sh from ascii to utf-8
+2025-09-07 08:53:04,046 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/01_env_tell_all.sh
+2025-09-07 08:53:04,047 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/gradlew.bat from ascii to utf-8
+2025-09-07 08:53:04,048 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/prepare_transfer.sh from ascii to utf-8
+2025-09-07 08:53:04,076 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/knows.sh
+2025-09-07 08:53:04,082 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/gradlew
+2025-09-07 08:53:04,085 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/map_everything.sh from ascii to utf-8
+2025-09-07 08:53:04,094 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/INDEX.md
+2025-09-07 08:53:04,097 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/proot_inspector.sh from ascii to utf-8
+2025-09-07 08:53:04,098 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/_data_data_tech.ula_files_home_.omniscient_optimization_performance-tuner.sh from ascii to utf-8
+2025-09-07 08:53:04,600 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/COMPREHENSIVE_AUDIT_REPORT.json
+2025-09-07 08:53:04,601 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/quick_fix_local_2022.sh from ascii to utf-8
+2025-09-07 08:53:04,601 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/poller.sh from ascii to utf-8
+2025-09-07 08:53:04,602 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/direct-apk-assembly.sh from ascii to utf-8
+2025-09-07 08:53:04,610 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/icedman_dispatch.sh from windows-1252 to utf-8
+2025-09-07 08:53:04,614 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/SCRIPTTHESE_CLEANUP_RUN.sh from ascii to utf-8
+2025-09-07 08:53:04,615 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/parse_proc_transcript.sh from ascii to utf-8
+2025-09-07 08:53:04,616 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ipset_sync.sh from ascii to utf-8
+2025-09-07 08:53:04,617 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/free_space_cleanup.sh from ascii to utf-8
+2025-09-07 08:53:04,617 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/problem-analysis.sh from ascii to utf-8
+2025-09-07 08:53:05,111 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/DevUl Army : Living Sriracha AGI
+2025-09-07 08:53:05,120 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/github_remediation_omniscient.sh
+2025-09-07 08:53:05,121 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.gitattributes from ascii to utf-8
+2025-09-07 08:53:05,121 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/root_move.sh from ascii to utf-8
+2025-09-07 08:53:05,140 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/unstoppable agentics.sh
+2025-09-07 08:53:05,141 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/proot_cmdline_audit.sh from ascii to utf-8
+2025-09-07 08:53:05,183 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/SCRIPTTHESE_RUNALL.sh from windows-1252 to utf-8
+2025-09-07 08:53:05,185 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/cloud.sh from ascii to utf-8
+2025-09-07 08:53:05,185 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/build.gradle from ascii to utf-8
+2025-09-07 08:53:05,187 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/push.sh
+2025-09-07 08:53:05,189 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/unstoppable_agentics.sh from ascii to utf-8
+2025-09-07 08:53:05,190 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/_data_data_tech.ula_files_home_.omniscient_dev_mobile-ide-server.sh from ascii to utf-8
+2025-09-07 08:53:05,190 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.gitignore from ascii to utf-8
+2025-09-07 08:53:05,192 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/find_and_backup.sh from ascii to utf-8
+2025-09-07 08:53:05,193 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/detect_fdo_contacts.sh from ascii to utf-8
+2025-09-07 08:53:05,194 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/proot_diagnostics.sh from ascii to utf-8
+2025-09-07 08:53:05,194 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/extract_and_copy_apk.sh from ascii to utf-8
+2025-09-07 08:53:05,196 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/execute-now.sh
+2025-09-07 08:53:05,200 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/02_space_init_and_sync.sh
+2025-09-07 08:53:05,203 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/map_everything_fixed.sh from ascii to utf-8
+2025-09-07 08:53:05,205 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/android_investigate_net_dropbear.sh from ascii to utf-8
+2025-09-07 08:53:05,275 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/SCRIPTTHESE.sh from windows-1252 to utf-8
+2025-09-07 08:53:05,277 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/utf8_conversion.log from ascii to utf-8
+2025-09-07 08:53:05,293 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/SCRIPTTHESE_FINAL.sh from windows-1252 to utf-8
+2025-09-07 08:53:05,302 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/merge_main_into_pr.sh from windows-1252 to utf-8
+2025-09-07 08:53:05,302 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/gradle/wrapper/gradle-wrapper.properties from ascii to utf-8
+2025-09-07 08:53:05,305 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/setup.sh
+2025-09-07 08:53:05,311 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/manual-conflict-resolver.sh
+2025-09-07 08:53:05,314 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/organize-repository.py from ascii to utf-8
+2025-09-07 08:53:05,317 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/deploy.sh
+2025-09-07 08:53:05,332 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/demo-living-ai-interface.sh
+2025-09-07 08:53:05,355 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/demonstrate-big-brain.sh
+2025-09-07 08:53:05,373 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/resolve-active-conflicts.py
+2025-09-07 08:53:05,377 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/comprehensive-audit.py from ascii to utf-8
+2025-09-07 08:53:05,400 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/agentic-living-code-demo.sh
+2025-09-07 08:53:05,403 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/utf8-encoder.py from ascii to utf-8
+2025-09-07 08:53:05,419 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/demo-conflict-system.sh
+2025-09-07 08:53:05,426 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/validate-system.sh
+2025-09-07 08:53:05,487 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/conflict_resolver.py
+2025-09-07 08:53:05,488 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/ollama_conflict_assistant.py from ascii to utf-8
+2025-09-07 08:53:05,500 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/demo-enhanced-devenv.sh
+2025-09-07 08:53:05,501 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/proguard-rules.pro from ascii to utf-8
+2025-09-07 08:53:05,502 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/build.gradle from ascii to utf-8
+2025-09-07 08:53:05,504 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/AndroidManifest.xml from ascii to utf-8
+2025-09-07 08:53:05,504 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/xml/backup_rules.xml from ascii to utf-8
+2025-09-07 08:53:05,505 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/xml/data_extraction_rules.xml from ascii to utf-8
+2025-09-07 08:53:05,505 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/xml/accessibility_service_config.xml from ascii to utf-8
+2025-09-07 08:53:05,505 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.xml from ascii to utf-8
+2025-09-07 08:53:05,506 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/mipmap-xxxhdpi/ic_launcher.xml from ascii to utf-8
+2025-09-07 08:53:05,506 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/layout/floating_dev_window.xml from ascii to utf-8
+2025-09-07 08:53:05,506 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.xml from ascii to utf-8
+2025-09-07 08:53:05,507 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/mipmap-xxhdpi/ic_launcher.xml from ascii to utf-8
+2025-09-07 08:53:05,507 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/mipmap-hdpi/ic_launcher_round.xml from ascii to utf-8
+2025-09-07 08:53:05,507 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/mipmap-hdpi/ic_launcher.xml from ascii to utf-8
+2025-09-07 08:53:05,508 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/mipmap-xhdpi/ic_launcher_round.xml from ascii to utf-8
+2025-09-07 08:53:05,508 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/mipmap-xhdpi/ic_launcher.xml from ascii to utf-8
+2025-09-07 08:53:05,508 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml from ascii to utf-8
+2025-09-07 08:53:05,509 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml from ascii to utf-8
+2025-09-07 08:53:05,509 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/values/themes.xml from ascii to utf-8
+2025-09-07 08:53:05,523 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/values/strings.xml from windows-1252 to utf-8
+2025-09-07 08:53:05,524 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/values/colors.xml from ascii to utf-8
+2025-09-07 08:53:05,525 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/mipmap-mdpi/ic_launcher_round.xml from ascii to utf-8
+2025-09-07 08:53:05,525 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/mipmap-mdpi/ic_launcher.xml from ascii to utf-8
+2025-09-07 08:53:05,525 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/drawable/ic_launcher_foreground.xml from ascii to utf-8
+2025-09-07 08:53:05,526 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/drawable/ic_launcher_background.xml from ascii to utf-8
+2025-09-07 08:53:05,526 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/res/drawable/bot_status_circle.xml from ascii to utf-8
+2025-09-07 08:53:05,526 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/SrirachaArmyApplication.kt from ascii to utf-8
+2025-09-07 08:53:05,576 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/MainActivity.kt from macroman to utf-8
+2025-09-07 08:53:05,577 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/enhancements-1.kt from ascii to utf-8
+2025-09-07 08:53:05,578 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/execution/FloatWindowWatcher.kt from ascii to utf-8
+2025-09-07 08:53:05,580 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/execution/CodeExecutor.kt from ascii to utf-8
+2025-09-07 08:53:05,584 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/editor/CodeEditor.kt from ascii to utf-8
+2025-09-07 08:53:05,589 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/vm/ContainerEngine.kt from ascii to utf-8
+2025-09-07 08:53:05,593 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/user/FeedbackManager.kt from ascii to utf-8
+2025-09-07 08:53:05,597 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/user/AnalyticsManager.kt from ascii to utf-8
+2025-09-07 08:53:05,601 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/agentic/README.md
+2025-09-07 08:53:05,608 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/agentic/DynamicResourceLoader.kt from ascii to utf-8
+2025-09-07 08:53:05,664 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/agentic/QuantumAgenticIntegration.kt
+2025-09-07 08:53:05,670 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/agentic/LivingCodeAdapter.kt from ascii to utf-8
+2025-09-07 08:53:05,674 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/agentic/AgenticRepositoryManager.kt from ascii to utf-8
+2025-09-07 08:53:05,863 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/agentic/AgenticIntegrationInterface.kt from windows-1252 to utf-8
+2025-09-07 08:53:05,869 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/agentic/AgenticWorkflowEngine.kt from ascii to utf-8
+2025-09-07 08:53:05,877 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/system/EnhancedPermissionManager.kt from ascii to utf-8
+2025-09-07 08:53:05,880 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/system/PermissionManager.kt from ascii to utf-8
+2025-09-07 08:53:05,885 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/system/ResourceManager.kt from ascii to utf-8
+2025-09-07 08:53:05,898 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/system/RootFSManager.kt from ascii to utf-8
+2025-09-07 08:53:05,955 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/system/SystemInfoManager.kt from windows-1252 to utf-8
+2025-09-07 08:53:06,001 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ui/SrirachaArmyInterface.kt from windows-1252 to utf-8
+2025-09-07 08:53:06,103 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ui/UFUICOFramework.kt from macroman to utf-8
+2025-09-07 08:53:06,170 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ui/LivingDynamicInterface.kt from macroman to utf-8
+2025-09-07 08:53:06,254 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ui/DevUtilityViewModelV2.kt
+2025-09-07 08:53:06,293 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ui/enhanced/EnhancedDevUtilityInterface.kt
+2025-09-07 08:53:06,293 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ui/theme/Theme.kt from ascii to utf-8
+2025-09-07 08:53:06,294 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ui/theme/Type.kt from ascii to utf-8
+2025-09-07 08:53:06,295 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ui/theme/Color.kt from ascii to utf-8
+2025-09-07 08:53:06,301 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/storage/DUHDUPEAUTOReaver.kt from ascii to utf-8
+2025-09-07 08:53:06,304 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/storage/StorageOptimizer.kt from ascii to utf-8
+2025-09-07 08:53:06,307 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/storage/CloudSyncService.kt from ascii to utf-8
+2025-09-07 08:53:06,311 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/storage/ZRAMManager.kt from ascii to utf-8
+2025-09-07 08:53:06,319 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/storage/CloudKernelAdapter.kt from ascii to utf-8
+2025-09-07 08:53:06,341 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/storage/CustomCompressor.kt
+2025-09-07 08:53:06,347 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/plugins/PluginManager.kt from ascii to utf-8
+2025-09-07 08:53:06,347 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/db/CodeTemplate.kt from ascii to utf-8
+2025-09-07 08:53:06,348 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/db/CodeSnippetDao.kt from ascii to utf-8
+2025-09-07 08:53:06,349 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/db/AppDatabase.kt from ascii to utf-8
+2025-09-07 08:53:06,349 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/db/CodeTemplateDao.kt from ascii to utf-8
+2025-09-07 08:53:06,350 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/db/CodeSnippet.kt from ascii to utf-8
+2025-09-07 08:53:06,352 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/core/DeepSeekEngine.kt from ascii to utf-8
+2025-09-07 08:53:06,384 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/core/IDECoordinator.kt
+2025-09-07 08:53:06,387 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/core/SrirachaArmyOrchestrator.kt from ascii to utf-8
+2025-09-07 08:53:06,389 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/business/SettingsLogic.kt from ascii to utf-8
+2025-09-07 08:53:06,391 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/business/AICodingLogic.kt from ascii to utf-8
+2025-09-07 08:53:06,391 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/di/SrirachaArmyModule.kt from ascii to utf-8
+2025-09-07 08:53:06,394 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/terminal/LocalTerminalEmulator.kt from ascii to utf-8
+2025-09-07 08:53:06,396 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/terminal/SSHClient.kt from ascii to utf-8
+2025-09-07 08:53:06,397 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/accessibility/SrirachaScreenHopService.kt from ascii to utf-8
+2025-09-07 08:53:06,456 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/WebNetCasteAI.kt
+2025-09-07 08:53:06,459 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/SecurityAnalyzer.kt from ascii to utf-8
+2025-09-07 08:53:06,632 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/DevUtilityCustomAICoreTraining.kt from macroman to utf-8
+2025-09-07 08:53:06,637 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/AITrainingSetManager.kt from ascii to utf-8
+2025-09-07 08:53:06,821 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/AIThinkModule.kt from macroman to utf-8
+2025-09-07 08:53:06,868 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/CompatibleModelLoRAFineTuning.kt from windows-1252 to utf-8
+2025-09-07 08:53:06,983 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/DualMindCollaborationSystem.kt from macroman to utf-8
+2025-09-07 08:53:07,048 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/AgenticModeSystem.kt from macroman to utf-8
+2025-09-07 08:53:07,055 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/OfflineAIService.kt
+2025-09-07 08:53:07,058 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/CodeReviewService.kt from ascii to utf-8
+2025-09-07 08:53:07,126 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/UIYICollaborationSystem.kt
+2025-09-07 08:53:07,189 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/SrirachaAgentBehaviorPrompts.kt
+2025-09-07 08:53:07,276 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/AgenticCommandSystem.kt from windows-1252 to utf-8
+2025-09-07 08:53:07,285 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/LearningBot.kt from ascii to utf-8
+2025-09-07 08:53:07,292 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/ComprehensiveAIManager.kt from ascii to utf-8
+2025-09-07 08:53:07,372 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/LivingAINativeInterface.kt from windows-1252 to utf-8
+2025-09-07 08:53:07,383 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/RealWorldProblemSolver.kt from ascii to utf-8
+2025-09-07 08:53:07,384 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/SrirachaAI.kt from ascii to utf-8
+2025-09-07 08:53:07,386 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/CodeSummarizer.kt from ascii to utf-8
+2025-09-07 08:53:07,554 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/AIEnvironmentAwareness.kt from macroman to utf-8
+2025-09-07 08:53:07,556 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/DeepSeekAIService.kt from ascii to utf-8
+2025-09-07 08:53:07,635 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/BigBrainIntelligenceService.kt
+2025-09-07 08:53:07,728 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/core/AntiFlailingSystem.kt from macroman to utf-8
+2025-09-07 08:53:07,875 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/core/AIGuideNetCoordinator.kt from macroman to utf-8
+2025-09-07 08:53:07,879 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/core/TaskStateManager.kt from ascii to utf-8
+2025-09-07 08:53:07,883 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/core/LivingCodeSystem.kt from ascii to utf-8
+2025-09-07 08:53:07,965 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/core/DevUtilityMasterAISystem.kt
+2025-09-07 08:53:07,996 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/core/LivingCodeSystemDemo.kt
+2025-09-07 08:53:08,019 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/core/AIPreTrainingSystem.kt
+2025-09-07 08:53:08,033 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/core/AIAdvancedTrainingDatasetConfig.kt
+2025-09-07 08:53:08,145 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/core/KnowledgeGapRecoverySystem.kt from windows-1252 to utf-8
+2025-09-07 08:53:08,153 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/core/AIGuidanceSystem.kt from ascii to utf-8
+2025-09-07 08:53:08,157 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/core/EvolutionaryAIGuideNet.kt from ascii to utf-8
+2025-09-07 08:53:08,173 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/ai/test/BigBrainTestRunner.kt
+2025-09-07 08:53:08,245 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/main/java/com/spiralgang/srirachaarmy/devutility/profiler/Profiler.kt from iso-8859-1 to utf-8
+2025-09-07 08:53:08,248 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/app/src/test/java/com/spiralgang/srirachaarmy/devutility/ai/core/AIGuideNetIntegrationTest.kt from ascii to utf-8
+2025-09-07 08:53:08,261 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/reference/architecture/ANDROID_SOURCE_SUMMARY.md from windows-1252 to utf-8
+2025-09-07 08:53:08,269 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/reference/architecture/ultimate_linux_android_discography.md
+2025-09-07 08:53:08,272 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/reference/architecture/network_tools.md
+2025-09-07 08:53:08,272 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/reference/architecture/INDEX.md from ascii to utf-8
+2025-09-07 08:53:08,275 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/reference/training/INDEX.md
+2025-09-07 08:53:08,275 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/reference/training/bots.example.yaml from ascii to utf-8
+2025-09-07 08:53:08,277 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/reference/training/Đroidify_settings.json.txt from utf-8-sig to utf-8-sig
+2025-09-07 08:53:08,277 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/reference/training/nnmm-bots.example.yaml from ascii to utf-8
+2025-09-07 08:53:08,278 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/reference/training/profiles.example.yaml from ascii to utf-8
+2025-09-07 08:53:08,282 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/reference/standards/DevUtilityAndroidV2.5_Terms_Concepts_Dictionary.md
+2025-09-07 08:53:08,284 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/reference/standards/DevUtilityAgenticStandards.md
+2025-09-07 08:53:08,307 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/README.md
+2025-09-07 08:53:08,318 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/INDEXING.md
+2025-09-07 08:53:08,319 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/PUTER_API_REFERENCE.md
+2025-09-07 08:53:08,344 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/LIVING_CODE_SYSTEM.md
+2025-09-07 08:53:08,347 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/AI_PRE_TRAINING_SYSTEM.md from ascii to utf-8
+2025-09-07 08:53:08,350 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/ORGANIZATION_REPORT.md
+2025-09-07 08:53:08,371 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/CONFLICT_RESOLUTION.md
+2025-09-07 08:53:08,408 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/LIVING_AI_NATIVE_INTERFACE.md
+2025-09-07 08:53:08,412 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/chat_research_reveal.md
+2025-09-07 08:53:08,444 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/ENHANCED_ROOTFS_OPTIONS.md
+2025-09-07 08:53:08,447 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/hidden_symlinks_and_proot_doorways.md
+2025-09-07 08:53:08,447 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/OPERATIONS.md from ascii to utf-8
+2025-09-07 08:53:08,449 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/USERLAND_TO_ANDROID.md
+2025-09-07 08:53:08,465 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/Modularizing scripts for portability across platforms · GitHub Copilot.txt
+2025-09-07 08:53:08,475 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/LINUX_NETWORKING_COMMANDS_CHEATSHEET.md
+2025-09-07 08:53:08,477 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/cloud_recommendations.md
+2025-09-07 08:53:08,502 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/GEMMA_LORA_FINE_TUNING.md from windows-1252 to utf-8
+2025-09-07 08:53:08,505 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/A.10.G.B-H.Proot_Exploit.md
+2025-09-07 08:53:08,507 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/README_proot_inspector.md
+2025-09-07 08:53:08,508 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/APPLYING_SRIRACHA_LESSONS.md
+2025-09-07 08:53:08,523 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/README_SRIRACHA.md
+2025-09-07 08:53:08,527 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/HOTSPOTS.md
+2025-09-07 08:53:08,528 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/ORGANIZATION_SUMMARY.md
+2025-09-07 08:53:08,533 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/PUTER_INTEGRATION.md
+2025-09-07 08:53:08,535 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/exciting_breakdown.md
+2025-09-07 08:53:08,537 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/README_NNMM_ORCHESTRATOR.md
+2025-09-07 08:53:08,607 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/ANTI_FLAILING_SYSTEM.md from windows-1252 to utf-8
+2025-09-07 08:53:08,625 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/BIG_BRAIN_IMPLEMENTATION_SUMMARY.md from windows-1252 to utf-8
+2025-09-07 08:53:08,629 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/agentic_filesystem_traversal_deep_dive.md
+2025-09-07 08:53:08,631 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/README.ubulite_apk.md
+2025-09-07 08:53:08,636 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/README.ubulite_weave.md
+2025-09-07 08:53:08,657 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/GITHUB_COPILOT_WORKFLOW_CONSTRAINT.md
+2025-09-07 08:53:08,669 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/COPILOT_ADVANCED_FEATURES.md
+2025-09-07 08:53:08,703 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/ENHANCED_DEVELOPMENT_ENVIRONMENT.md
+2025-09-07 08:53:08,710 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/QUANTUM_AGENTIC_INTEGRATION.md
+2025-09-07 08:53:08,734 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/BIG_BRAIN_INTELLIGENCE.md
+2025-09-07 08:53:08,736 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/README.android.md
+2025-09-07 08:53:08,778 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/specifications/**New Version (#V2.5)** (DevUtilityAndroidV2.5).txt
+2025-09-07 08:53:08,845 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/specifications/cCc  #V252 _250810_043955.txt
+2025-09-07 08:53:08,845 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/specifications/INDEX.md from ascii to utf-8
+2025-09-07 08:53:08,850 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/specifications/DevUtilityAndroidV2.5_Terms_Concepts_Dictionary_1.md
+2025-09-07 08:53:08,917 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/specifications/#V252 _250807_130618.txt
+2025-09-07 08:53:08,921 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/architecture/oOo  Index Librarian Directory_250810_055226.txt
+2025-09-07 08:53:08,937 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/architecture/1 C  K  Libraries , Repositories & Requirements_250810_055420.txt
+2025-09-07 08:53:08,953 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/architecture/¡1! Locations-Access Quantum AI Libraries-Resources.txt
+2025-09-07 08:53:08,959 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/architecture/AIGuideNet_Architecture.md
+2025-09-07 08:53:08,975 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/architecture/Locations-Access Quantum AI Libraries-Resources_250810_220759.txt
+2025-09-07 08:53:09,166 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/architecture/Illuminati-Structured(2ndHalf).txt from windows-1252 to utf-8-sig
+2025-09-07 08:53:09,202 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/architecture/AIGuideNet_Implementation_Summary.md
+2025-09-07 08:53:09,203 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/_usr_local_bin_omni.txt from ascii to utf-8-sig
+2025-09-07 08:53:09,218 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/sSs  Siracha Army_250817_152429.txt
+2025-09-07 08:53:09,224 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/sSs  MainActivitykt_250810_055028.txt from ascii to utf-8-sig
+2025-09-07 08:53:09,429 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/USE USERLAND  BASH SSH SHELL _250820_093212.txt
+2025-09-07 08:53:09,430 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/sSs  SirachaArmy AndroidManifestxml_250810_044025.txt from ascii to utf-8-sig
+2025-09-07 08:53:09,436 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/sSs  MainActivitykt_250810_053128.txt from ascii to utf-8-sig
+2025-09-07 08:53:09,446 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/USERLAND AUTOMATED PY-AI_250827_111853.txt
+2025-09-07 08:53:09,479 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/curl!_250903_011947.txt from ascii to utf-8-sig
+2025-09-07 08:53:09,519 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/autonomous-agency-ll nightmare_250812_045923.txt
+2025-09-07 08:53:09,519 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/banlist.txt from ascii to utf-8-sig
+2025-09-07 08:53:09,546 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/DUHDUPEV+++.txt
+2025-09-07 08:53:09,547 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/_usr_local_bin_power-profile.txt from ascii to utf-8-sig
+2025-09-07 08:53:09,547 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/Puterjs Flow_250903_084430.txt
+2025-09-07 08:53:09,547 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/integration_plan_top_ten_repos.mdv1
+2025-09-07 08:53:09,586 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/HackLiberty.txt
+2025-09-07 08:53:09,594 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/UTF-8-demo.txt
+2025-09-07 08:53:09,594 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/_usr_local_bin_setup-spiralgang-env.txt from ascii to utf-8-sig
+2025-09-07 08:53:09,607 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/**Old version (#V2.3)**
+2025-09-07 08:53:09,607 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/sSs  AndroidManifestxml_250810_044621.txt from ascii to utf-8-sig
+2025-09-07 08:53:09,698 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/rRr  Insider-Code Permissions_250810_055609.txt from macroman to utf-8-sig
+2025-09-07 08:53:09,709 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/neuralagentic.txt
+2025-09-07 08:53:09,710 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/_usr_local_bin_sfo.txt from ascii to utf-8-sig
+2025-09-07 08:53:09,710 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/integration_plan_top_ten_repos.mdv2
+2025-09-07 08:53:09,721 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/'Deep' Terminal Augment_250828_004041.txt
+2025-09-07 08:53:09,823 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/Heidegger.txt
+2025-09-07 08:53:09,900 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/chmod -SystemPromptsh.txt
+2025-09-07 08:53:09,917 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/nnmm-aa-explained.txt
+2025-09-07 08:53:09,928 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/USERLAND AUTOMATED PY-AI_250827_111853 (2).txt
+2025-09-07 08:53:09,933 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/zZz  Pt0 Monolithic Code Bot  READMEmd_250810_054824.txt
+2025-09-07 08:53:10,082 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/README_VERBOSE_ORIGINAL.md
+2025-09-07 08:53:10,160 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/rRr  SystemPromptsh_250810_054724.txt
+2025-09-07 08:53:10,168 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/legacy/EATEN_250816_215649.txt
+2025-09-07 08:53:10,169 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/assets/INDEX.md from ascii to utf-8
+2025-09-07 08:53:10,176 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/training/DevUtility_TrainingSet_250807_Formatted.md
+2025-09-07 08:53:10,258 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/training/DevUtility Trainingset_250807_151722.txt
+2025-09-07 08:53:10,286 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/training/1 K  Quantum TrainingSet DevUtility Specialized _250810_055312.txt
+2025-09-07 08:53:10,383 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/training/LearnedEmotion.md from windows-1252 to utf-8
+2025-09-07 08:53:10,388 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/training/Optimized_TrainingSet_for_DevUtilityAndroidV2.5.md
+2025-09-07 08:53:10,416 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/training/K-Near-Quantum TrainingSet DevUtility Specialized.txt
+2025-09-07 08:53:10,445 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/training/C-Near-Quantum TrainingSet DevUtility Specialized.txt
+2025-09-07 08:53:10,482 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/training/IceMaster AI  aAa  TrainingSet & Dataset_250813_111358.txt
+2025-09-07 08:53:10,510 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/training/Near-Quantum TrainingSet DevUtility Specialized.txt
+2025-09-07 08:53:10,608 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/training/LearnedEmotion.txt from windows-1252 to utf-8-sig
+2025-09-07 08:53:10,637 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/training/1 C Quantum TrainingSet DevUtility Specialized_250810_055337.txt
+2025-09-07 08:53:10,654 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/training/NNMM-AA.txt
+2025-09-07 08:53:10,738 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/training/LearnedEntity.txt
+2025-09-07 08:53:10,742 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/CODEREAVER #2_250817_184120.txt
+2025-09-07 08:53:10,745 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/CodeReaver Harden Space_250817_184009.txt
+2025-09-07 08:53:10,748 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/codereaver-gitpilot.txt
+2025-09-07 08:53:10,911 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/CODEREAVER - AGENTI-SH PERSONALITY DUMP4
+2025-09-07 08:53:10,940 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/Near-Quantum TrainingSet DevUtility Specialized (CodeReaver & CodeRebel).txt
+2025-09-07 08:53:10,944 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/CODE-REAVER's SUDO-PERSONA oƏƏo copilotSUDOprompt.md
+2025-09-07 08:53:11,503 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/CODEREAVER - AGENTI-SH PERSONALITY DUMP3
+2025-09-07 08:53:11,511 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/# PerplexXx Quantum WAP Monolithic Persona Core .txt
+2025-09-07 08:53:11,516 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/CODEREAVER #1_250817_183830.txt
+2025-09-07 08:53:11,519 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/(¡¡Cognitive!!) ##CodeReaver Prompt## (¡¡NOW!!).txt
+2025-09-07 08:53:11,616 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/CODEREAVER - AGENTI-SH PERSONALITY DUMP1
+2025-09-07 08:53:11,635 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/codereaver-browser.txt from windows-1252 to utf-8-sig
+2025-09-07 08:53:11,681 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/PerplexXx.txt
+2025-09-07 08:53:11,694 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/Consolidated CODEREAVER_250817_184146.txt from windows-1252 to utf-8-sig
+2025-09-07 08:53:12,018 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/CODEREAVER  - AGENTI-SH PERSONALITY DUMP2
+2025-09-07 08:53:12,021 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/personas/xXx  Persona Code-Vanguard_250810_043359.txt
+2025-09-07 08:53:12,227 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/copilot-instructions.md
+2025-09-07 08:53:12,228 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/dependabot.yml from ascii to utf-8
+2025-09-07 08:53:12,228 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/FUNDING.yml from ascii to utf-8
+2025-09-07 08:53:12,228 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/REFERENCE.md from ascii to utf-8
+2025-09-07 08:53:12,229 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/ai_review_manager.yml from ascii to utf-8
+2025-09-07 08:53:12,229 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/ISSUE_TEMPLATE/custom.md from ascii to utf-8
+2025-09-07 08:53:12,229 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/ISSUE_TEMPLATE/bug_report.md from ascii to utf-8
+2025-09-07 08:53:12,230 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/ISSUE_TEMPLATE/feature_request.md from ascii to utf-8
+2025-09-07 08:53:12,245 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/workflows/crda.yml from macroman to utf-8
+2025-09-07 08:53:12,259 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/workflows/copilot-constraint-manager.yml
+2025-09-07 08:53:12,270 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/workflows/copilot-idempotent-pr.yml
+2025-09-07 08:53:12,294 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/workflows/comprehensive-quantum-integration.yml
+2025-09-07 08:53:12,305 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/workflows/auto-merge-prune.yml
+2025-09-07 08:53:12,326 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/workflows/copilot-chatbot-memory.yml
+2025-09-07 08:53:12,347 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.github/workflows/conflict-resolution.yml
+2025-09-07 08:53:12,348 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/nftables-ban.nft from ascii to utf-8
+2025-09-07 08:53:12,348 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/org.ban.enforcer.policy from ascii to utf-8
+2025-09-07 08:53:12,349 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/ban_enforcer-seccomp.json from ascii to utf-8
+2025-09-07 08:53:12,350 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/map_everything.service from ascii to utf-8
+2025-09-07 08:53:12,355 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/sanitize_enforcer.sh from windows-1252 to utf-8
+2025-09-07 08:53:12,355 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/99-banlist.conf from ascii to utf-8
+2025-09-07 08:53:12,355 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/ban-ipset-sync.timer from ascii to utf-8
+2025-09-07 08:53:12,356 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/ban_enforcer.fc from ascii to utf-8
+2025-09-07 08:53:12,356 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/ban_enforcer.te from ascii to utf-8
+2025-09-07 08:53:12,356 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/INDEX.md from ascii to utf-8
+2025-09-07 08:53:12,357 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/ban-ipset-sync.service from ascii to utf-8
+2025-09-07 08:53:12,357 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/SECURITY.md from ascii to utf-8
+2025-09-07 08:53:12,359 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/universal-ai-bot-permissions.txt from ascii to utf-8-sig
+2025-09-07 08:53:12,365 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/privapp-permissions-masters'XLT.xml
+2025-09-07 08:53:12,365 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/PowerFeatureConfig.xml from ascii to utf-8
+2025-09-07 08:53:12,367 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/AndroidManifest_snippet.xml from windows-1252 to utf-8
+2025-09-07 08:53:12,368 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/privapp-permissions-qti.xml from ascii to utf-8
+2025-09-07 08:53:12,369 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/main.xml from ascii to utf-8
+2025-09-07 08:53:12,369 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/INDEX.md from ascii to utf-8
+2025-09-07 08:53:12,375 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/permissions.xml
+2025-09-07 08:53:12,375 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/AndroidManifest.xml from ascii to utf-8
+2025-09-07 08:53:12,376 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/styles.xml from ascii to utf-8
+2025-09-07 08:53:12,376 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/app_src_main_AndroidManifest-1.xml from ascii to utf-8
+2025-09-07 08:53:12,377 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/_usr_local_share_spiralgang-syntax.xml from ascii to utf-8
+2025-09-07 08:53:12,382 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/services-platform-compat-config.xml from ascii to utf-8
+2025-09-07 08:53:12,382 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/strings.xml from ascii to utf-8
+2025-09-07 08:53:12,389 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/powerhint.xml from ascii to utf-8
+2025-09-07 08:53:12,390 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/network_security_config.xml from ascii to utf-8
+2025-09-07 08:53:12,391 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/perfconfigstore.xml from ascii to utf-8
+2025-09-07 08:53:12,392 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/app_src_main_AndroidManifest.xml from ascii to utf-8
+2025-09-07 08:53:12,399 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/android/perfboostsconfig.xml from ascii to utf-8
+2025-09-07 08:53:12,403 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/userland_transfer_dynamic_Version1.sh from ascii to utf-8
+2025-09-07 08:53:12,403 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/base.py from ascii to utf-8
+2025-09-07 08:53:12,404 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/whisper.py from ascii to utf-8
+2025-09-07 08:53:12,432 - ERROR - Error detecting encoding for /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/SPRINKLE ME MANG (actual colored formatting) #.bash setup-dev-kit.sh: 'NoneType' object has no attribute 'lower'
+2025-09-07 08:53:12,432 - WARNING - Could not determine encoding for /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/SPRINKLE ME MANG (actual colored formatting) #.bash setup-dev-kit.sh
+2025-09-07 08:53:12,436 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/iceman_drone_tool_providers_Version2.py from ascii to utf-8
+2025-09-07 08:53:12,442 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/quantumgit.py
+2025-09-07 08:53:12,443 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/quick_start_userland_Version1.sh from ascii to utf-8
+2025-09-07 08:53:12,444 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/build_and_load.sh from ascii to utf-8
+2025-09-07 08:53:12,457 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/local_brain.py from windows-1252 to utf-8
+2025-09-07 08:53:12,458 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/nimm_mind_zarr_example.py from ascii to utf-8
+2025-09-07 08:53:12,458 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/types.py from ascii to utf-8
+2025-09-07 08:53:12,459 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/orchestrator.py from ascii to utf-8
+2025-09-07 08:53:12,475 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/providers.js from windows-1252 to utf-8
+2025-09-07 08:53:12,476 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/quick_start.sh from ascii to utf-8
+2025-09-07 08:53:12,477 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/scripts_collect_and_encrypt_upload_Version2.sh from ascii to utf-8
+2025-09-07 08:53:12,481 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/providers.py from ascii to utf-8
+2025-09-07 08:53:12,482 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/scripts_collect_and_encrypt_upload_Version6.sh from ascii to utf-8
+2025-09-07 08:53:12,483 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/run_bot.py from ascii to utf-8
+2025-09-07 08:53:12,484 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/iceman_drone_tool_whisper_Version2.py from ascii to utf-8
+2025-09-07 08:53:12,484 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/router.py from ascii to utf-8
+2025-09-07 08:53:12,487 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/index_and_consolidate.py from ascii to utf-8
+2025-09-07 08:53:12,490 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/userland_get_all_appdata.sh from ascii to utf-8
+2025-09-07 08:53:12,506 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/energetic_weave.py from windows-1252 to utf-8
+2025-09-07 08:53:12,507 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/llm.py from ascii to utf-8
+2025-09-07 08:53:12,510 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/build_lineageos_root_cell_Version3.sh
+2025-09-07 08:53:12,511 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/examples_nimm_mind_zarr_helper_Version2.py from ascii to utf-8
+2025-09-07 08:53:12,515 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/userland_recover_techula.sh from ascii to utf-8
+2025-09-07 08:53:12,516 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/collect_and_encrypt_upload.sh from ascii to utf-8
+2025-09-07 08:53:12,545 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/TermiMation.py
+2025-09-07 08:53:12,545 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/__init__.py from ascii to utf-8
+2025-09-07 08:53:12,546 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/INDEX.md from ascii to utf-8
+2025-09-07 08:53:12,549 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/collect_and_serve_dynamic.sh from ascii to utf-8
+2025-09-07 08:53:12,552 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/userland_transfer_dynamic_Version2.sh from ascii to utf-8
+2025-09-07 08:53:12,552 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/bus.py from ascii to utf-8
+2025-09-07 08:53:12,553 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/puter-proxy.js from ascii to utf-8
+2025-09-07 08:53:12,553 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/run_nnmm_bots.py from ascii to utf-8
+2025-09-07 08:53:12,554 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/fts_search.py from ascii to utf-8
+2025-09-07 08:53:12,555 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/cloud-build-setup.sh from ascii to utf-8
+2025-09-07 08:53:12,556 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/drone_controller.py from ascii to utf-8
+2025-09-07 08:53:12,557 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/prepare_transfer_Version1.sh from ascii to utf-8
+2025-09-07 08:53:12,560 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/userland_transfer_dynamic.sh from ascii to utf-8
+2025-09-07 08:53:12,561 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/config.py from ascii to utf-8
+2025-09-07 08:53:12,583 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/zram_helper.sh
+2025-09-07 08:53:12,584 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/content_indexer.py from ascii to utf-8
+2025-09-07 08:53:12,590 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/puter-integration.html
+2025-09-07 08:53:12,591 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/chunker.py from ascii to utf-8
+2025-09-07 08:53:12,592 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/health_check.py from ascii to utf-8
+2025-09-07 08:53:12,595 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/userland_recover_dynamic.sh from ascii to utf-8
+2025-09-07 08:53:12,596 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/nimm_mind_zarr_helper.py from ascii to utf-8
+2025-09-07 08:53:12,597 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/_data_data_tech.ula_files_home_.omniscient_build_mobile-ci-cd.sh from ascii to utf-8
+2025-09-07 08:53:12,598 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/cleanup_recovery_archives.sh from ascii to utf-8
+2025-09-07 08:53:12,599 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/sqlite_dupe_audit.py from ascii to utf-8
+2025-09-07 08:53:12,599 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/quantum-git.py from ascii to utf-8
+2025-09-07 08:53:12,604 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/learn.py
+2025-09-07 08:53:12,605 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/app.py from ascii to utf-8
+2025-09-07 08:53:12,606 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/server.js from ascii to utf-8
+2025-09-07 08:53:12,619 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/deploy_Version3.sh
+2025-09-07 08:53:12,645 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/userland_recover_techula_fix.sh
+2025-09-07 08:53:12,646 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/webintel.py from ascii to utf-8
+2025-09-07 08:53:12,646 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/build.sh from ascii to utf-8
+2025-09-07 08:53:12,649 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/scripts_build_apk_Version2.sh from windows-1252 to utf-8
+2025-09-07 08:53:12,650 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/toggle_net.sh from ascii to utf-8
+2025-09-07 08:53:12,652 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/living-code-coreV2!!.js
+2025-09-07 08:53:12,653 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/quick_start_Version1.sh from ascii to utf-8
+2025-09-07 08:53:12,659 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/puter-integration (2).html
+2025-09-07 08:53:12,747 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/qdataset_adapter.py
+2025-09-07 08:53:12,759 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/index_adapter.py from windows-1252 to utf-8
+2025-09-07 08:53:12,759 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/quick_start_userland.sh from ascii to utf-8
+2025-09-07 08:53:12,760 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/think.py from ascii to utf-8
+2025-09-07 08:53:12,764 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/userland_transfer_universal.sh from ascii to utf-8
+2025-09-07 08:53:12,766 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/integration_plan_top_ten_repos.md
+2025-09-07 08:53:12,769 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/userland_recover_techula_dotfiles.sh from ascii to utf-8
+2025-09-07 08:53:12,769 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/python_site_unifier.py from ascii to utf-8
+2025-09-07 08:53:12,770 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/techula_caretaker.sh from ascii to utf-8
+2025-09-07 08:53:12,771 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/guidance.py from ascii to utf-8
+2025-09-07 08:53:12,777 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/_data_data_tech.ula_files_home_.omniscient_deploy.sh from windows-1252 to utf-8
+2025-09-07 08:53:12,780 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/build_apk.sh from windows-1252 to utf-8
+2025-09-07 08:53:12,780 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/userland_integration_Version2.sh from ascii to utf-8
+2025-09-07 08:53:12,795 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/sqlite_fts.py
+2025-09-07 08:53:12,796 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/near_duplicate.py from ascii to utf-8
+2025-09-07 08:53:12,797 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/logs/organization_log.json from ascii to utf-8
+2025-09-07 08:53:12,804 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/datasets/DevUtility_TrainingSet_250807_Formatted.md
+2025-09-07 08:53:12,887 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/datasets/DevUtility Trainingset_250807_151722.txt
+2025-09-07 08:53:12,916 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/datasets/Near-Quantum TrainingSet DevUtility Specialized (CodeReaver & CodeRebel).txt
+2025-09-07 08:53:12,921 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/datasets/Optimized_TrainingSet_for_DevUtilityAndroidV2.5.md
+2025-09-07 08:53:12,921 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/datasets/INDEX.md from ascii to utf-8
+2025-09-07 08:53:12,949 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/datasets/K-Near-Quantum TrainingSet DevUtility Specialized.txt
+2025-09-07 08:53:12,978 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/datasets/C-Near-Quantum TrainingSet DevUtility Specialized.txt
+2025-09-07 08:53:13,007 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/datasets/Near-Quantum TrainingSet DevUtility Specialized.txt
+2025-09-07 08:53:13,008 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/datasets/NNIMM_TRAINING_GUIDE.md
+2025-09-07 08:53:13,008 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/code_reaver/term_dictionary.json
+2025-09-07 08:53:13,008 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/code_reaver/adapters/android.kt
+2025-09-07 08:53:13,009 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/code_reaver/adapters/web.ts
+2025-09-07 08:53:13,009 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/code_reaver/prompts/system_prompts.md
+2025-09-07 08:53:13,009 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/code_reaver/vault/reference.md
+2025-09-07 08:53:13,009 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/code_reaver/datasets/agentic_master.jsonl
+2025-09-07 08:53:13,009 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/README.md from ascii to utf-8
+2025-09-07 08:53:13,015 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/dev_assistant.py from windows-1252 to utf-8
+2025-09-07 08:53:13,022 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/INTEGRATION_REPORT.md
+2025-09-07 08:53:13,022 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/LOCAL_INTEGRATION_COMPLETE.md from ascii to utf-8
+2025-09-07 08:53:13,035 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/replit_code_integration.py
+2025-09-07 08:53:13,035 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/local_model_manager.py from ascii to utf-8
+2025-09-07 08:53:13,040 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/setup_ollama.sh
+2025-09-07 08:53:13,060 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/deepseek_r1_integration.py
+2025-09-07 08:53:13,077 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/qwen_math_integration.py
+2025-09-07 08:53:13,106 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/multi_model_manager.py
+2025-09-07 08:53:13,126 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/ollama_integration.py from windows-1252 to utf-8
+2025-09-07 08:53:13,139 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/setup_ai_ensemble.sh from windows-1252 to utf-8
+2025-09-07 08:53:13,143 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/github_omniscient_final_Version2.sh
+2025-09-07 08:53:13,144 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/native_terminal_core_Version2.cpp from ascii to utf-8
+2025-09-07 08:53:13,159 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/web-apk-builder-1.html from windows-1252 to utf-8
+2025-09-07 08:53:13,160 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/token_manager_Version2.sh from ascii to utf-8
+2025-09-07 08:53:13,161 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/scripts_find_and_backup_Version2.sh from ascii to utf-8
+2025-09-07 08:53:13,188 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/Recreating-DUHDUPE
+2025-09-07 08:53:13,211 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/scripts_zram_helper_Version2.sh
+2025-09-07 08:53:13,226 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/web-apk-builder.html from windows-1252 to utf-8
+2025-09-07 08:53:13,227 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/root_move_Version1.sh from ascii to utf-8
+2025-09-07 08:53:13,434 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/USE USERLAND  BASH SSH SHELL _250826_002942.txt
+2025-09-07 08:53:13,491 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/whats-up-with-deadsnakesppa.txt
+2025-09-07 08:53:13,491 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/INDEX.md from ascii to utf-8
+2025-09-07 08:53:13,497 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/MainActivity.java from ascii to utf-8
+2025-09-07 08:53:13,503 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/github_strategic_auth_Version2-1.sh
+2025-09-07 08:53:13,506 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/src_quantum_state.rs from ascii to utf-8
+2025-09-07 08:53:13,506 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/scripts_toggle_net_Version2.sh from ascii to utf-8
+2025-09-07 08:53:13,542 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/Oracle Storage!! 09-2025.txt
+2025-09-07 08:53:13,545 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/README (3).md
+2025-09-07 08:53:13,548 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/USERLAND_TO_ANDROID_Version1.md
+2025-09-07 08:53:13,616 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/FROM-ONLINE-EXAMPLE.txt
+2025-09-07 08:53:13,618 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/zshell_userland_Version2.sh from ascii to utf-8
+2025-09-07 08:53:13,618 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/package.json from ascii to utf-8
+2025-09-07 08:53:13,620 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/ul_config_manager_Version2.sh from ascii to utf-8
+2025-09-07 08:53:13,620 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/jni_bridge_Version2.cpp from ascii to utf-8
+2025-09-07 08:53:13,622 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/gh-repo-discovery-fix_Version2.sh
+2025-09-07 08:53:13,628 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/github_strategic_auth_Version2.sh
+2025-09-07 08:53:13,648 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/MainActivity_Version2.kt from windows-1252 to utf-8
+2025-09-07 08:53:13,649 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/src_temporal_merge.rs from ascii to utf-8
+2025-09-07 08:53:13,650 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/README (2).md
+2025-09-07 08:53:13,652 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/public_key.asc from ascii to utf-8
+2025-09-07 08:53:13,657 - INFO - File already UTF-8: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/index.html
+2025-09-07 08:53:13,658 - INFO - Converted /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/archive/jni_bridge.cpp from ascii to utf-8
+2025-09-07 08:53:13,660 - INFO - 
+==================================================
+2025-09-07 08:53:13,660 - INFO - UTF-8 CONVERSION REPORT
+2025-09-07 08:53:13,660 - INFO - ==================================================
+2025-09-07 08:53:13,661 - INFO - Total files scanned: 507
+2025-09-07 08:53:13,661 - INFO - Text files processed: 488
+2025-09-07 08:53:13,661 - INFO - Already UTF-8: 189
+2025-09-07 08:53:13,661 - INFO - Converted to UTF-8: 298
+2025-09-07 08:53:13,661 - INFO - Errors: 1
+2025-09-07 08:53:13,661 - INFO - Detailed report saved to: /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/utf8_conversion_report.json
+2025-09-07 08:53:13,661 - INFO - ==================================================
+2025-09-07 08:53:13,661 - INFO - Adding UTF-8 headers to source files...
+2025-09-07 08:53:13,677 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/organize-repository.py
+2025-09-07 08:53:13,677 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/resolve-active-conflicts.py
+2025-09-07 08:53:13,677 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/comprehensive-audit.py
+2025-09-07 08:53:13,677 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/utf8-encoder.py
+2025-09-07 08:53:13,678 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/conflict_resolver.py
+2025-09-07 08:53:13,678 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/ollama_conflict_assistant.py
+2025-09-07 08:53:13,678 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/base.py
+2025-09-07 08:53:13,678 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/whisper.py
+2025-09-07 08:53:13,679 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/iceman_drone_tool_providers_Version2.py
+2025-09-07 08:53:13,679 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/quantumgit.py
+2025-09-07 08:53:13,679 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/local_brain.py
+2025-09-07 08:53:13,679 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/nimm_mind_zarr_example.py
+2025-09-07 08:53:13,679 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/types.py
+2025-09-07 08:53:13,680 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/orchestrator.py
+2025-09-07 08:53:13,680 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/providers.py
+2025-09-07 08:53:13,680 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/run_bot.py
+2025-09-07 08:53:13,680 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/iceman_drone_tool_whisper_Version2.py
+2025-09-07 08:53:13,680 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/router.py
+2025-09-07 08:53:13,681 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/index_and_consolidate.py
+2025-09-07 08:53:13,681 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/energetic_weave.py
+2025-09-07 08:53:13,681 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/llm.py
+2025-09-07 08:53:13,681 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/examples_nimm_mind_zarr_helper_Version2.py
+2025-09-07 08:53:13,682 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/TermiMation.py
+2025-09-07 08:53:13,682 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/__init__.py
+2025-09-07 08:53:13,682 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/bus.py
+2025-09-07 08:53:13,682 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/run_nnmm_bots.py
+2025-09-07 08:53:13,682 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/fts_search.py
+2025-09-07 08:53:13,683 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/drone_controller.py
+2025-09-07 08:53:13,683 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/config.py
+2025-09-07 08:53:13,683 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/content_indexer.py
+2025-09-07 08:53:13,683 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/chunker.py
+2025-09-07 08:53:13,683 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/health_check.py
+2025-09-07 08:53:13,684 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/nimm_mind_zarr_helper.py
+2025-09-07 08:53:13,684 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/sqlite_dupe_audit.py
+2025-09-07 08:53:13,684 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/quantum-git.py
+2025-09-07 08:53:13,684 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/learn.py
+2025-09-07 08:53:13,684 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/app.py
+2025-09-07 08:53:13,684 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/webintel.py
+2025-09-07 08:53:13,685 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/qdataset_adapter.py
+2025-09-07 08:53:13,685 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/index_adapter.py
+2025-09-07 08:53:13,685 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/think.py
+2025-09-07 08:53:13,685 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/python_site_unifier.py
+2025-09-07 08:53:13,686 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/guidance.py
+2025-09-07 08:53:13,686 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/sqlite_fts.py
+2025-09-07 08:53:13,686 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/near_duplicate.py
+2025-09-07 08:53:13,686 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/dev_assistant.py
+2025-09-07 08:53:13,686 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/replit_code_integration.py
+2025-09-07 08:53:13,687 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/local_model_manager.py
+2025-09-07 08:53:13,687 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/deepseek_r1_integration.py
+2025-09-07 08:53:13,687 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/qwen_math_integration.py
+2025-09-07 08:53:13,687 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/multi_model_manager.py
+2025-09-07 08:53:13,688 - INFO - Added UTF-8 declaration to /home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/ollama_integration.py
