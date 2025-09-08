@@ -1,0 +1,8 @@
+{
+  "files": [
+    "frontend/agent_server.py",
+    "frontend/components/",
+    "frontend/widgets/",
+    "frontend/agent-hooks/"
+  ]
+}

@@ -1,0 +1,22 @@
+name: Merge gate (assimilation required)
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [ "main" ]
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: fetch-depth: 0
+      - name: Fast assimilation check
+        run: |
+          python3 tools/assimilation_audit.py \
+            --manifest configs/frontend_manifest.json \
+            --mapping  configs/frontend_to_backend_map.json \
+            --base     origin/${{ github.base_ref || 'main' }} \
+            --log      /tmp/assimilation.jsonl \
+            --strict

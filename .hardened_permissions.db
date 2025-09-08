@@ -1,57 +1,8 @@
 {
-  "timestamp": 1757314570,
+  "timestamp": 1757314836,
   "applied_permissions": [
     {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/_data_data_tech.ula_files_home_.omniscient_optimization_performance-tuner-1.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/install_ca.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/demo-enhanced-ai-cores.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/generate_profile_env.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/_data_data_tech.ula_files_home_.omniscient_network_tunnel-manager.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/move_apks_to_shared.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/_data_data_tech.ula_files_home_.omniscient_core_system-bootstrap.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/01_env_tell_all.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -66,34 +17,6 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/DEMONSTRATE_CAPABILITIES.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/knows.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/map_everything.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/proot_inspector.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/_data_data_tech.ula_files_home_.omniscient_optimization_performance-tuner.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -156,13 +79,6 @@
       "set": "scripts"
     },
     {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/free_space_cleanup.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/problem-analysis.sh",
       "permissions": "0755",
       "owner": "user",
@@ -170,28 +86,7 @@
       "set": "scripts"
     },
     {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/github_remediation_omniscient.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/root_move.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/unstoppable agentics.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/proot_cmdline_audit.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -219,20 +114,6 @@
       "set": "scripts"
     },
     {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/unstoppable_agentics.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/_data_data_tech.ula_files_home_.omniscient_dev_mobile-ide-server.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/find_and_backup.sh",
       "permissions": "0755",
       "owner": "user",
@@ -254,13 +135,6 @@
       "set": "scripts"
     },
     {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/proot_diagnostics.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/extract_and_copy_apk.sh",
       "permissions": "0755",
       "owner": "user",
@@ -269,20 +143,6 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/execute-now.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/02_space_init_and_sync.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/map_everything_fixed.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -345,6 +205,13 @@
       "set": "scripts"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/install_ca.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/manual-conflict-resolver.sh",
       "permissions": "0755",
       "owner": "user",
@@ -366,6 +233,13 @@
       "set": "scripts"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/generate_profile_env.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/demo-living-ai-interface.sh",
       "permissions": "0755",
       "owner": "user",
@@ -381,6 +255,13 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/ssnahke-local-installer.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/01_env_tell_all.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -450,6 +331,13 @@
       "set": "scripts"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/free_space_cleanup.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/demonstrate-living-integration.sh",
       "permissions": "0755",
       "owner": "user",
@@ -458,6 +346,13 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/validate-system.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/organize-root-cleanup.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -485,6 +380,13 @@
       "set": "scripts"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/02_space_init_and_sync.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/demo_comprehensive.sh",
       "permissions": "0755",
       "owner": "user",
@@ -506,7 +408,21 @@
       "set": "scripts"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/_data_data_tech.ula_files_home_.omniscient_optimization_performance-tuner-1.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/SPRINKLE ME MANG (actual colored formatting) #.bash setup-dev-kit.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/demo-enhanced-ai-cores.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -541,7 +457,21 @@
       "set": "scripts"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/_data_data_tech.ula_files_home_.omniscient_network_tunnel-manager.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/scripts_collect_and_encrypt_upload_Version6.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/_data_data_tech.ula_files_home_.omniscient_core_system-bootstrap.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -562,7 +492,21 @@
       "set": "scripts"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/knows.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/userland_recover_techula.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/map_everything.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -584,6 +528,20 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/userland_transfer_dynamic_Version2.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/proot_inspector.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/_data_data_tech.ula_files_home_.omniscient_optimization_performance-tuner.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -653,6 +611,20 @@
       "set": "scripts"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/github_remediation_omniscient.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/proot_cmdline_audit.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/build.sh",
       "permissions": "0755",
       "owner": "user",
@@ -681,6 +653,20 @@
       "set": "scripts"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/_data_data_tech.ula_files_home_.omniscient_dev_mobile-ide-server.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/proot_diagnostics.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/quick_start_userland.sh",
       "permissions": "0755",
       "owner": "user",
@@ -696,6 +682,13 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/userland_recover_techula_dotfiles.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/map_everything_fixed.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -738,6 +731,20 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai_function_calling_tools/deploy_all_tools.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/unstoppable agentics.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/unstoppable_agentics.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -906,13 +913,6 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/ollama/scripts/setup_ai_ensemble.sh",
-      "permissions": "0755",
-      "owner": "user",
-      "group": "user",
-      "set": "scripts"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/agent_core.py",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -1269,6 +1269,13 @@
       "set": "scripts"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/assimilation_audit.py",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/sqlite_fts.py",
       "permissions": "0755",
       "owner": "user",
@@ -1284,6 +1291,13 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/backend/agent_server.py",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/agent_core.py",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -11706,6 +11720,20 @@
       "set": "configs"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/frontend_to_backend_map.json",
+      "permissions": "0644",
+      "owner": "root",
+      "group": "root",
+      "set": "configs"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/frontend_manifest.json",
+      "permissions": "0644",
+      "owner": "root",
+      "group": "root",
+      "set": "configs"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/pgp_security.json",
       "permissions": "0644",
       "owner": "root",
@@ -13393,34 +13421,6 @@
       "set": "data"
     },
     {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/AUDIT_SUMMARY.md",
-      "permissions": "0644",
-      "owner": "user",
-      "group": "user",
-      "set": "data"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/PROTECTION_STATUS.md",
-      "permissions": "0644",
-      "owner": "user",
-      "group": "user",
-      "set": "data"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/MASTER_COMPREHENSIVE_REPORT.md",
-      "permissions": "0644",
-      "owner": "user",
-      "group": "user",
-      "set": "data"
-    },
-    {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/SSNAHKE_LOCAL_DOCUMENTATION.md",
-      "permissions": "0644",
-      "owner": "user",
-      "group": "user",
-      "set": "data"
-    },
-    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/INDEX.md",
       "permissions": "0644",
       "owner": "user",
@@ -13505,6 +13505,13 @@
       "set": "data"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/AUDIT_SUMMARY.md",
+      "permissions": "0644",
+      "owner": "user",
+      "group": "user",
+      "set": "data"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/chat_research_reveal.md",
       "permissions": "0644",
       "owner": "user",
@@ -13533,6 +13540,13 @@
       "set": "data"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/PROTECTION_STATUS.md",
+      "permissions": "0644",
+      "owner": "user",
+      "group": "user",
+      "set": "data"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/workflow-hf-models.md",
       "permissions": "0644",
       "owner": "user",
@@ -13541,6 +13555,20 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/USERLAND_TO_ANDROID.md",
+      "permissions": "0644",
+      "owner": "user",
+      "group": "user",
+      "set": "data"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/MASTER_COMPREHENSIVE_REPORT.md",
+      "permissions": "0644",
+      "owner": "user",
+      "group": "user",
+      "set": "data"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/SSNAHKE_LOCAL_DOCUMENTATION.md",
       "permissions": "0644",
       "owner": "user",
       "group": "user",
@@ -14667,7 +14695,7 @@
       "set": "living_code_db"
     }
   ],
-  "total_files": 2095,
+  "total_files": 2099,
   "security_level": "maximum",
   "living_code_integrated": true
 }

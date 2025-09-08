@@ -9,5 +9,29 @@
     { "from_ext": ".yml", "bind_hint": ".github/workflows/" },
     { "from_ext": ".yaml", "bind_hint": ".github/workflows/" },
     { "from_ext": ".json", "bind_hint": "configs/" }
-  ]
+  ],
+  "branches": ["main", "copilot/fix-*"],
+  "paths": [
+    ".github/workflows/",
+    "scripts/",
+    "configs/activation_rules.json",
+    "ai/",
+    "app/src/",
+    "tools/",
+    "docs/"
+  ],
+  "agents": ["core", "validation", "android", "assimilation"],
+  "validation": {
+    "required_checks": [
+      "system_validation",
+      "assimilation_audit"
+    ],
+    "allow_auto_merge": false,
+    "require_manual_review": true
+  },
+  "organization": {
+    "root_file_limit": 50,
+    "allowed_root_extensions": [".md", ".gradle", ".yml", ".json", ".sh"],
+    "auto_organize_threshold": 10
+  }
 }

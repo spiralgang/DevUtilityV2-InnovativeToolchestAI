@@ -1,0 +1,18 @@
+{
+  "frontend/agent_server.py": {
+    "target": "backend/agent_server.py",
+    "binds": ["scripts/interact_agent.sh", "ai/"]
+  },
+  "frontend/components/": {
+    "target": "app/src/main/java/com/spiralgang/ui/",
+    "binds": ["app/src/main/AndroidManifest.xml"]
+  },
+  "frontend/widgets/": {
+    "target": "app/src/main/res/layout/",
+    "binds": ["app/src/main/res/values/"]
+  },
+  "frontend/agent-hooks/": {
+    "target": "ai/bridges/",
+    "binds": ["configs/agents.json", "ai/"]
+  }
+}

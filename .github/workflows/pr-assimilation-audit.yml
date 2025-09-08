@@ -1,0 +1,64 @@
+name: PR assimilation audit
+on:
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: PR number
+        required: true
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+    branches: [ "main" ]
+permissions:
+  contents: read
+  pull-requests: write
+  actions: read
+concurrency:
+  group: pr-assimilate-${{ github.event.pull_request.number || inputs.pr }}
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set PR context
+        id: ctx
+        run: |
+          if [ -n "${{ github.event.pull_request.number }}" ]; then
+            echo "pr=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+          else
+            echo "pr=${{ inputs.pr }}" >> $GITHUB_OUTPUT
+          fi
+      - name: Fetch PR head
+        if: ${{ inputs.pr }}
+        run: |
+          PR=${{ steps.ctx.outputs.pr }}
+          gh pr checkout "$PR"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Python deps
+        run: |
+          python3 -V
+      - name: Run assimilation audit
+        run: |
+          mkdir -p logs
+          python3 tools/assimilation_audit.py \
+            --manifest configs/frontend_manifest.json \
+            --mapping  configs/frontend_to_backend_map.json \
+            --base     origin/${{ github.base_ref || 'main' }} \
+            --log      logs/assimilation.jsonl
+      - name: Upload forensic log
+        uses: actions/upload-artifact@v4
+        with:
+          name: assimilation-log-${{ steps.ctx.outputs.pr }}
+          path: logs/assimilation.jsonl
+      - name: Comment results
+        if: ${{ inputs.pr }}
+        run: |
+          PR=${{ steps.ctx.outputs.pr }}
+          echo "Posting audit summary to PR #$PR"
+          tail -n 50 logs/assimilation.jsonl | sed -e 's/^/    /' > .audit_tail.txt
+          gh pr comment "$PR" -F .audit_tail.txt
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
