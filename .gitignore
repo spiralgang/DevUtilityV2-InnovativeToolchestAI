@@ -11,8 +11,13 @@ build/
 .idea/
 *.iws
 
-
-
+# Agent system temporary files
+/logs/
+/scratch/
+/scratchpad/
+/models/
+*.plan.sh
+.baseline/
 
 # Python cache files
 __pycache__/
