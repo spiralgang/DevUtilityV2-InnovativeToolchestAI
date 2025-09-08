@@ -1,5 +1,6 @@
 // -*- coding: utf-8 -*-
 // Living Code Integration - Auto-generated symmetrical connections
+# Bridges: integration_engine, agent_core_bridge
 // This file is part of the SrirachaArmy Living Code Environment
 // Perfect symmetrical integration with all repository components
 

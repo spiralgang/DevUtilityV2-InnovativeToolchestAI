@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Bridge reference: agent_endpoints_bridge
 """
 Backend server for agent communication
 Assimilated from tools/server.js

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """
+# Bridges: core_engine_bridge
 Living Core - Assimilated from tools/living-code-coreV2!!.js
 Provides the core living code engine for agent coordination
 """

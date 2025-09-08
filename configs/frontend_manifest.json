@@ -19,7 +19,24 @@
     "backend/api/agent_endpoints.py",
     "backend/api/assimilation_api.py",
     "backend/services/integration_engine.py",
-    "backend/services/forensic_service.py"
+    "backend/services/forensic_service.py",
+    "backend/ui/agent_dashboard_bridge.py",
+    "backend/ui/status_panel_bridge.py", 
+    "backend/ui/assimilation_monitor_bridge.py",
+    "backend/api/agent_api_bridge.py",
+    "backend/api/assimilation_client_bridge.py",
+    "backend/utils/forensic_logger_bridge.py",
+    "backend/services/github_integration_bridge.py",
+    "backend/services/workflow_runner_bridge.py",
+    "backend/validation/assimilation_validator_bridge.py",
+    "backend/services/agent_core_bridge.py",
+    "backend/services/core_engine_bridge.py",
+    "backend/bridges/github_bridge_adapter.py",
+    "backend/bridges/workflow_bridge_adapter.py",
+    "backend/api/agent_endpoints_bridge.py",
+    "backend/api/assimilation_api_bridge.py",
+    "backend/services/integration_engine_bridge.py",
+    "backend/services/forensic_service_bridge.py"
   ],
   "metadata": {
     "version": "2.0",
@@ -30,7 +47,10 @@
       "frontend/src/utils/agentApi.js",
       "tools/assimilation_audit.py", 
       "ai/agent_core.py",
-      "backend/services/integration_engine.py"
+      "backend/services/integration_engine.py",
+      "backend/ui/agent_dashboard_bridge.py",
+      "backend/api/agent_api_bridge.py",
+      "backend/services/agent_core_bridge.py"
     ],
     "categories": {
       "frontend_components": 3,

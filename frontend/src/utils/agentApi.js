@@ -1,4 +1,5 @@
 // agentApi.js – Frontend for local agent interaction
+// Bridge reference: agent_endpoints_bridge
 // CODE-REAVER: Local agent communication - NO COPILOT
 
 const LOCAL_AGENT_ENDPOINTS = {

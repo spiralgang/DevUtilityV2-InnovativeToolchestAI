@@ -15,7 +15,7 @@
       "precision_triggers_only": true,
       "curated_paths_only": [
         ".github/workflows/**",
-        "scripts/ops-guard/**", 
+        "scripts/ops-guard/**",
         "configs/**",
         "ai/**",
         "app/src/**"
@@ -26,7 +26,7 @@
     },
     "protected_files": [
       "scripts/validate-system.sh",
-      "scripts/manual-conflict-resolver.sh", 
+      "scripts/manual-conflict-resolver.sh",
       "app/build.gradle",
       "build.gradle",
       "gradlew",
@@ -36,18 +36,61 @@
     ],
     "destructive_actions_disabled": true
   },
-  "frontend_globs": ["./", ".github/", "scripts/", "configs/", "docs/", ".ops/"],
-  "backend_globs":  ["app/src/", "ai/", "logs/", "scratch/"],
-  "extensions": [".sh", ".py", ".md", ".yml", ".yaml", ".json", ".kt", ".java", ".js", ".ts"],
-  "bind_rules": [
-    { "from_ext": ".sh", "bind_hint": "scripts/" },
-    { "from_ext": ".py", "bind_hint": "ai/" },
-    { "from_ext": ".md", "bind_hint": "docs/" },
-    { "from_ext": ".yml", "bind_hint": ".github/workflows/" },
-    { "from_ext": ".yaml", "bind_hint": ".github/workflows/" },
-    { "from_ext": ".json", "bind_hint": "configs/" }
+  "frontend_globs": [
+    "./",
+    ".github/",
+    "scripts/",
+    "configs/",
+    "docs/",
+    ".ops/"
   ],
-  "branches": ["copilot/fix-*"],
+  "backend_globs": [
+    "app/src/",
+    "ai/",
+    "logs/",
+    "scratch/"
+  ],
+  "extensions": [
+    ".sh",
+    ".py",
+    ".md",
+    ".yml",
+    ".yaml",
+    ".json",
+    ".kt",
+    ".java",
+    ".js",
+    ".ts"
+  ],
+  "bind_rules": [
+    {
+      "from_ext": ".sh",
+      "bind_hint": "scripts/"
+    },
+    {
+      "from_ext": ".py",
+      "bind_hint": "ai/"
+    },
+    {
+      "from_ext": ".md",
+      "bind_hint": "docs/"
+    },
+    {
+      "from_ext": ".yml",
+      "bind_hint": ".github/workflows/"
+    },
+    {
+      "from_ext": ".yaml",
+      "bind_hint": ".github/workflows/"
+    },
+    {
+      "from_ext": ".json",
+      "bind_hint": "configs/"
+    }
+  ],
+  "branches": [
+    "copilot/fix-*"
+  ],
   "paths": [
     ".github/workflows/**",
     "scripts/ops-guard/**",
@@ -57,7 +100,12 @@
     "tools/**",
     "docs/**"
   ],
-  "agents": ["core", "validation", "android", "assimilation"],
+  "agents": [
+    "core",
+    "validation",
+    "android",
+    "assimilation"
+  ],
   "validation": {
     "required_checks": [
       "system_validation",
@@ -66,11 +114,26 @@
     ],
     "allow_auto_merge": false,
     "require_manual_review": true,
-    "audit_first": true
+    "audit_first": true,
+    "bridge_references": [
+      "forensic_logger_bridge",
+      "workflow_runner_bridge",
+      "core_engine_bridge",
+      "workflow_bridge_adapter"
+    ]
   },
   "organization": {
     "root_file_limit": 50,
-    "allowed_root_extensions": [".md", ".gradle", ".yml", ".json", ".sh"],
+    "allowed_root_extensions": [
+      ".md",
+      ".gradle",
+      ".yml",
+      ".json",
+      ".sh"
+    ],
     "auto_organize_threshold": 10
-  }
+  },
+  "bridge_references": [
+    "living_core"
+  ]
 }

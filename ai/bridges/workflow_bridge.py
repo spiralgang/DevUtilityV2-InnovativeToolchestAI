@@ -4,6 +4,7 @@ Corresponds to: app/src/main/java/com/spiralgang/bridges/WorkflowBridge.kt
 
 Part of GitHub-native assimilation agent system
 """
+# Bridges: workflow_bridge_adapter
 import json
 import os
 

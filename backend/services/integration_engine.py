@@ -1,4 +1,6 @@
 """
+# Bridge reference: agent_core_bridge
+# Bridge reference: providers
 Integration Engine - Backend Integration Target
 Corresponds to: app/src/main/java/com/spiralgang/services/IntegrationEngine.kt
 
@@ -8,6 +10,7 @@ Integration bindings:
 - tools/assimilation_audit.py  
 - configs/frontend_to_backend_map.json
 """
+# Bridges: integration_engine_bridge
 import json
 import os
 

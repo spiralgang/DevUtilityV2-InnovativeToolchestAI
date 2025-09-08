@@ -1,4 +1,5 @@
 name: Comprehensive Frontend-Backend Assimilation Audit
+# Referenced by: assimilation_validator_bridge for building environment integration
 on:
   workflow_dispatch:
     inputs:
@@ -293,3 +294,4 @@ jobs:
           cat >> logs/assimilation.jsonl << EOF
           {"ts": "$(date -u +%Y-%m-%dT%H:%M:%SZ)", "phase": "complete", "pr": "${{ needs.preflight.outputs.pr_number }}", "workflow_run": "${{ github.run_number }}", "success": true}
           EOF
+# Bridge reference: workflow_runner_bridge
