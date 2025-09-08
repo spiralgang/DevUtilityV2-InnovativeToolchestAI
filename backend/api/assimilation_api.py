@@ -1,4 +1,5 @@
 """
+# Bridge reference: server
 Assimilation API - API Integration Target
 Corresponds to: app/src/main/java/com/spiralgang/api/AssimilationApi.kt
 

@@ -1,4 +1,6 @@
 """
+# Bridge reference: agent_core_bridge
+# Bridge reference: providers
 Integration Engine - Backend Integration Target
 Corresponds to: app/src/main/java/com/spiralgang/services/IntegrationEngine.kt
 

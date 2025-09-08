@@ -294,3 +294,4 @@ jobs:
           cat >> logs/assimilation.jsonl << EOF
           {"ts": "$(date -u +%Y-%m-%dT%H:%M:%SZ)", "phase": "complete", "pr": "${{ needs.preflight.outputs.pr_number }}", "workflow_run": "${{ github.run_number }}", "success": true}
           EOF
+# Bridge reference: workflow_runner_bridge

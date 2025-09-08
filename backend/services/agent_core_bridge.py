@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Bridge reference: agent_api_bridge
 """
 Agent Core Bridge - GitHub Building Environment Frontend-Backend Bridge
 Part of DevUl Army Living Sriracha AGI - Building Environment Integration

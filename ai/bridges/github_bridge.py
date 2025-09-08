@@ -1,4 +1,5 @@
 """
+# Bridge reference: github_integration_bridge
 GitHub Bridge - Integration Bridge Target
 Corresponds to: app/src/main/java/com/spiralgang/bridges/GitHubBridge.kt
 

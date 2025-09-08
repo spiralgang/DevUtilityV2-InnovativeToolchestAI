@@ -1,4 +1,5 @@
 // Forensic Logger - GitHub Building Environment Frontend Integration
+// Bridge reference: forensic_service_bridge
 // Part of DevUl Army Living Sriracha AGI - Building Environment Integration
 
 class ForensicLogger {

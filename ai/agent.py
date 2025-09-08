@@ -1,4 +1,5 @@
 """
+# Bridge reference: providers
 AI Agent - AI Integration Target
 Corresponds to: app/src/main/java/com/spiralgang/agents/AgentCore.kt
 

@@ -1,4 +1,5 @@
 // GitHub Integration Service - GitHub Building Environment Frontend Integration
+// Bridge reference: github_bridge_adapter
 // Part of DevUl Army Living Sriracha AGI - Building Environment Integration
 
 class GitHubIntegrationService {

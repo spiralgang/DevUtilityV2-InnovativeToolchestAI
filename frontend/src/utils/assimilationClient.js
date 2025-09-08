@@ -1,4 +1,5 @@
 // Assimilation Client - GitHub Building Environment Frontend Integration
+// Bridge reference: assimilation_api_bridge
 // Part of DevUl Army Living Sriracha AGI - Building Environment Integration
 
 class AssimilationClient {

@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Bridge reference: integration_engine_bridge
+# Bridge reference: assimilation_api_bridge
+# Bridge reference: assimilation_client_bridge
 """
 GitHub-Native Assimilation Agent - Frontend-Backend Integration Auditor
 
