@@ -46,12 +46,23 @@
       "color": "#ff4444",
       "icon": "🚀",
       "priority": 5
+    },
+    "zhipu-bigmodel": {
+      "name": "Zhipu BigModel",
+      "description": "Android 10 compatible local inference with simulation fallback",
+      "model_path": "models/zhipu-bigmodel",
+      "capabilities": ["android10_compatible", "local_inference", "simulation_fallback"],
+      "color": "#00cccc",
+      "icon": "📱",
+      "priority": 6
     }
   },
   "settings": {
     "default_agent": "deepseek",
     "log_interactions": true,
     "offline_mode": true,
-    "no_copilot": true
+    "no_copilot": true,
+    "forensic_logging": true,
+    "android_compatibility": true
   }
 }

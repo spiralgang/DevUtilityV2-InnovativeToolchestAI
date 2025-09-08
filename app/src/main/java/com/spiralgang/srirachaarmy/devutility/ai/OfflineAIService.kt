@@ -14,35 +14,121 @@ import javax.inject.Singleton
 /**
  * Offline AI service for local processing
  * Part of DevUtility V2.5 offline AI capabilities
+ * 
+ * Enhanced with CODE-REAVER local agent system integration:
+ * - Local-only operation (no external dependencies)
+ * - ZhipuBigModel integration for Android 10 compatibility
+ * - Forensic logging integration
+ * - CODE-REAVER agent orchestration
  */
 @Singleton
-class OfflineAIService @Inject constructor() {
+class OfflineAIService @Inject constructor(
+    private val localAIConfigManager: LocalAIConfigurationManager,
+    private val forensicLoggingService: ForensicLoggingService
+) {
     
     /**
-     * Process query using local AI models
+     * Initialize the offline AI service with CODE-REAVER agents
+     */
+    suspend fun initialize(): Boolean = withContext(Dispatchers.IO) {
+        try {
+            Timber.d("Initializing Offline AI Service with CODE-REAVER integration...")
+            
+            // Initialize local AI configuration
+            val configInitialized = localAIConfigManager.initialize()
+            
+            // Initialize forensic logging
+            val loggingInitialized = forensicLoggingService.initialize()
+            
+            // Enable local-only mode
+            localAIConfigManager.enableLocalOnlyMode()
+            
+            // Log initialization
+            if (loggingInitialized) {
+                val operationId = forensicLoggingService.startOperation("offline_ai_init")
+                forensicLoggingService.logOperationStep(operationId, "config_init", "Local AI configuration: $configInitialized")
+                forensicLoggingService.logOperationStep(operationId, "logging_init", "Forensic logging: $loggingInitialized")
+                forensicLoggingService.endOperation(operationId, configInitialized && loggingInitialized)
+            }
+            
+            val success = configInitialized && loggingInitialized
+            Timber.d("Offline AI Service initialization: $success")
+            success
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to initialize Offline AI Service")
+            false
+        }
+    }
+    
+    /**
+     * Process query using CODE-REAVER local agents
      */
     suspend fun processQuery(query: String, context: String = ""): String = withContext(Dispatchers.IO) {
+        val startTime = System.currentTimeMillis()
+        
         try {
-            Timber.d("Processing offline AI query: $query")
+            Timber.d("Processing offline AI query with CODE-REAVER agents: $query")
+            
+            // Start forensic logging
+            val operationId = forensicLoggingService.startOperation("process_query")
+            forensicLoggingService.logOperationStep(operationId, "query_received", "Query length: ${query.length}")
             
             // Analyze query type
             val queryType = classifyQuery(query)
+            forensicLoggingService.logOperationStep(operationId, "query_classified", "Type: $queryType")
             
-            // Generate response based on query type
-            val response = when (queryType) {
-                QueryType.CODE_EXPLANATION -> explainCode(query, context)
-                QueryType.CODE_GENERATION -> generateCode(query, context)
-                QueryType.DEBUGGING_HELP -> provideDebuggingHelp(query, context)
-                QueryType.BEST_PRACTICES -> provideBestPractices(query, context)
-                QueryType.OPTIMIZATION -> provideOptimizationTips(query, context)
-                QueryType.GENERAL -> provideGeneralAssistance(query, context)
+            // Select appropriate agent based on query type
+            val agentName = selectAgentForQuery(queryType)
+            val taskType = mapQueryTypeToTaskType(queryType)
+            
+            forensicLoggingService.logOperationStep(operationId, "agent_selected", "Agent: $agentName, Task: $taskType")
+            
+            // Execute with CODE-REAVER agent
+            val agentResponse = localAIConfigManager.executeWithAgent(agentName, query, taskType)
+            
+            val duration = System.currentTimeMillis() - startTime
+            
+            // Log the interaction
+            forensicLoggingService.logAIInteraction(
+                agent = agentResponse.agentUsed,
+                task = query,
+                response = agentResponse.content,
+                success = agentResponse.success,
+                duration = duration
+            )
+            
+            // End operation logging
+            forensicLoggingService.endOperation(operationId, agentResponse.success, agentResponse.error)
+            
+            // Log performance metrics
+            forensicLoggingService.logPerformanceMetrics(
+                operation = "ai_query_processing",
+                duration = duration,
+                additionalMetrics = mapOf(
+                    "query_type" to queryType.name,
+                    "agent_used" to agentResponse.agentUsed,
+                    "task_type" to taskType.name
+                )
+            )
+            
+            if (agentResponse.success) {
+                agentResponse.content
+            } else {
+                "CODE-REAVER Local AI Error: ${agentResponse.error ?: "Unknown error occurred"}"
             }
             
-            response
-            
         } catch (e: Exception) {
+            val duration = System.currentTimeMillis() - startTime
             Timber.e(e, "Offline AI processing failed")
-            "I'm sorry, I encountered an error while processing your request: ${e.message}"
+            
+            // Log error
+            forensicLoggingService.logSecurityEvent(
+                "ai_processing_error",
+                SecuritySeverity.MEDIUM,
+                mapOf("error" to e.message, "query_length" to query.length)
+            )
+            
+            "CODE-REAVER Local AI encountered an error: ${e.message}. All processing remains local and secure."
         }
     }
     
@@ -301,5 +387,62 @@ class Example {
     
     private fun generateGenericCode(query: String): String {
         return "// Generated code template\n// Please specify the programming language for more specific code generation"
+    }
+    
+    /**
+     * Select appropriate CODE-REAVER agent based on query type
+     */
+    private fun selectAgentForQuery(queryType: QueryType): String {
+        return when (queryType) {
+            QueryType.CODE_EXPLANATION, QueryType.CODE_GENERATION -> "deepseek" // Advanced reasoning
+            QueryType.DEBUGGING_HELP, QueryType.OPTIMIZATION -> "mixtral" // High performance
+            QueryType.BEST_PRACTICES -> "qwen" // Multilingual and best practices
+            QueryType.GENERAL -> "phi2" // Lightweight for general tasks
+        }
+    }
+    
+    /**
+     * Map query type to agent task type
+     */
+    private fun mapQueryTypeToTaskType(queryType: QueryType): TaskType {
+        return when (queryType) {
+            QueryType.CODE_EXPLANATION -> TaskType.CODE_ANALYSIS
+            QueryType.CODE_GENERATION -> TaskType.CODE_GENERATION
+            QueryType.DEBUGGING_HELP, QueryType.OPTIMIZATION, QueryType.BEST_PRACTICES -> TaskType.CODE_ANALYSIS
+            QueryType.GENERAL -> TaskType.GENERAL
+        }
+    }
+    
+    /**
+     * Get agent status information
+     */
+    suspend fun getAgentStatus(): Map<String, AgentStatus> {
+        return try {
+            localAIConfigManager.getAgentStatus()
+        } catch (e: Exception) {
+            Timber.w(e, "Failed to get agent status")
+            emptyMap()
+        }
+    }
+    
+    /**
+     * Execute task with specific agent (direct agent access)
+     */
+    suspend fun executeWithSpecificAgent(
+        agentName: String,
+        task: String,
+        taskType: TaskType = TaskType.GENERAL
+    ): String {
+        return try {
+            val response = localAIConfigManager.executeWithAgent(agentName, task, taskType)
+            if (response.success) {
+                response.content
+            } else {
+                "Agent execution failed: ${response.error}"
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to execute with agent $agentName")
+            "Error executing with agent $agentName: ${e.message}"
+        }
     }
 }
