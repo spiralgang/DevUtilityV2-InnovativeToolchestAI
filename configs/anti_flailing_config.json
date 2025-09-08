@@ -1,0 +1,247 @@
+{
+  "anti_flailing_config": {
+    "version": "1.0.0",
+    "description": "Anti-Flailing System configuration for preventing reactive capability expansion",
+    "flailing_thresholds": {
+      "consecutive_expansions": 3,
+      "expansion_frequency_per_hour": 2.0,
+      "integration_failure_rate": 0.3,
+      "decision_reversal_rate": 0.2,
+      "capability_utilization_threshold": 0.7
+    },
+    "mandatory_gates": [
+      "knowledge_gap_analysis",
+      "alternative_exploration",
+      "integration_planning", 
+      "risk_assessment"
+    ],
+    "gate_requirements": {
+      "knowledge_gap_analysis": {
+        "required": true,
+        "min_alternatives_identified": 2,
+        "max_gap_severity_without_justification": 0.6
+      },
+      "alternative_exploration": {
+        "required": true,
+        "min_alternatives_explored": 1,
+        "enhancement_alternatives_preferred": true
+      },
+      "integration_planning": {
+        "required_for": ["controlled_addition", "emergency_expansion"],
+        "must_include": ["rollback_plan", "monitoring_strategy", "resource_requirements"]
+      },
+      "risk_assessment": {
+        "required_for": ["controlled_addition", "emergency_expansion"],
+        "must_include": ["security_impact", "performance_impact", "maintenance_burden"]
+      }
+    },
+    "cooling_periods": {
+      "after_rejection": 3600,
+      "after_emergency": 7200,
+      "after_critical_flailing": 86400,
+      "between_expansion_requests": 300
+    },
+    "enhancement_thresholds": {
+      "min_enhancement_potential": 0.6,
+      "max_gap_severity_for_enhancement": 0.8,
+      "prefer_enhancement_over_expansion": true
+    },
+    "decision_weights": {
+      "gap_severity": 0.3,
+      "enhancement_potential": 0.25,
+      "integration_complexity": 0.2,
+      "flailing_history": 0.15,
+      "resource_availability": 0.1
+    }
+  },
+  "sriracha_army_policy": {
+    "version": "1.0.0",
+    "description": "Sriracha Army Persona configuration for Big Bottle + Little Bottles architecture",
+    "big_bottle_config": {
+      "max_concurrent_operations": 10,
+      "decision_timeout_ms": 5000,
+      "heat_escalation_threshold": 3,
+      "authority_levels": ["coordination", "resource_allocation", "strategic_planning"],
+      "delegation_strategies": ["specialized_execution", "collaborative_effort", "parallel_processing"]
+    },
+    "little_bottles_config": {
+      "max_instances_per_type": 2,
+      "resource_sharing_enabled": true,
+      "heat_response_enabled": true,
+      "inter_bottle_communication": true,
+      "specialization_areas": {
+        "think_module": ["analysis", "reasoning", "problem_decomposition"],
+        "learning_bot": ["adaptation", "pattern_recognition", "knowledge_synthesis"],
+        "guidance_system": ["user_assistance", "workflow_optimization", "recommendations"],
+        "webnet_caste": ["information_gathering", "web_navigation", "content_analysis"],
+        "float_window": ["ui_coordination", "screen_automation", "interface_optimization"]
+      }
+    },
+    "heat_level_policies": {
+      "mild": {
+        "cpu_limit_percent": 30,
+        "memory_limit_mb": 256,
+        "response_time_target_ms": 100,
+        "behavior_profile": "gentle_supportive_cautious"
+      },
+      "medium": {
+        "cpu_limit_percent": 50,
+        "memory_limit_mb": 512,
+        "response_time_target_ms": 50,
+        "behavior_profile": "assertive_proactive_optimizing"
+      },
+      "spicy": {
+        "cpu_limit_percent": 70,
+        "memory_limit_mb": 1024,
+        "response_time_target_ms": 25,
+        "behavior_profile": "aggressive_fast_paced_intensive"
+      },
+      "ghost_pepper": {
+        "cpu_limit_percent": 90,
+        "memory_limit_mb": 2048,
+        "response_time_target_ms": 10,
+        "behavior_profile": "maximum_intensity_coordinated"
+      }
+    },
+    "coordination_policies": {
+      "inter_bottle_communication": {
+        "max_messages_per_second": 10,
+        "message_timeout_ms": 1000,
+        "broadcast_enabled": true,
+        "priority_queuing": true
+      },
+      "resource_allocation": {
+        "fair_sharing": true,
+        "priority_based": true,
+        "heat_level_scaling": true,
+        "overflow_handling": "queue_and_retry"
+      },
+      "conflict_resolution": {
+        "big_bottle_arbitration": true,
+        "voting_mechanisms": false,
+        "escalation_to_human": true,
+        "timeout_based_resolution": true
+      }
+    }
+  },
+  "beschooled_principles_config": {
+    "version": "1.0.0", 
+    "description": "Beschooled BigBottleSriracha principles implementation configuration",
+    "educational_framework": {
+      "systematic_knowledge_building": {
+        "enabled": true,
+        "learning_progression_tracking": true,
+        "competency_validation_required": true,
+        "knowledge_retention_monitoring": true
+      },
+      "incremental_competency_development": {
+        "enabled": true,
+        "prerequisite_checking": true,
+        "milestone_validation": true,
+        "regression_testing": true
+      },
+      "evidence_based_decision_making": {
+        "enabled": true,
+        "decision_audit_trails": true,
+        "evidence_source_tracking": true,
+        "alternative_evaluation_required": true
+      }
+    },
+    "hierarchical_coordination": {
+      "big_bottle_authority": {
+        "enabled": true,
+        "authority_boundary_enforcement": true,
+        "delegation_protocol_compliance": true,
+        "escalation_procedure_validation": true
+      },
+      "heat_responsive_allocation": {
+        "enabled": true,
+        "dynamic_adjustment": true,
+        "resource_monitoring": true,
+        "performance_correlation_tracking": true
+      },
+      "inter_agent_learning": {
+        "enabled": true,
+        "knowledge_sharing_protocols": true,
+        "learning_transfer_measurement": true,
+        "collective_intelligence_optimization": true
+      }
+    },
+    "safety_reliability": {
+      "fail_safe_degradation": {
+        "enabled": true,
+        "fallback_mechanisms": true,
+        "graceful_degradation_paths": true,
+        "recovery_procedures": true
+      },
+      "auditable_decision_chains": {
+        "enabled": true,
+        "complete_traceability": true,
+        "decision_provenance": true,
+        "input_output_logging": true
+      },
+      "continuous_validation": {
+        "enabled": true,
+        "automated_testing": true,
+        "real_time_monitoring": true,
+        "deviation_detection": true
+      }
+    },
+    "audit_schedule": {
+      "daily_checks": ["decision_chains", "learning_progressions"],
+      "weekly_reviews": ["coordination_effectiveness", "resource_optimization"],
+      "monthly_assessments": ["principle_compliance", "educational_effectiveness"],
+      "quarterly_analysis": ["architectural_coherence", "system_evolution"]
+    },
+    "compliance_thresholds": {
+      "minimum_compliance_score": 0.8,
+      "warning_threshold": 0.85,
+      "excellent_threshold": 0.95,
+      "audit_trail_completeness": 0.9
+    }
+  },
+  "integration_policies": {
+    "android_bridge": {
+      "communication_timeout_ms": 5000,
+      "retry_attempts": 3,
+      "fallback_to_local_processing": true,
+      "error_reporting_enabled": true
+    },
+    "python_host_integration": {
+      "process_isolation": true,
+      "resource_limits": {
+        "max_memory_mb": 1024,
+        "max_cpu_percent": 80,
+        "max_execution_time_ms": 30000
+      },
+      "logging_level": "INFO",
+      "error_escalation": true
+    },
+    "policy_enforcement": {
+      "strict_mode": true,
+      "policy_validation_on_startup": true,
+      "runtime_compliance_checking": true,
+      "violation_reporting": true
+    }
+  },
+  "monitoring_and_logging": {
+    "log_levels": {
+      "anti_flailing": "INFO",
+      "sriracha_army": "DEBUG", 
+      "beschooled_principles": "INFO",
+      "integration": "WARN"
+    },
+    "audit_retention": {
+      "decision_logs_days": 90,
+      "learning_records_days": 365,
+      "performance_metrics_days": 30,
+      "compliance_reports_days": 180
+    },
+    "real_time_monitoring": {
+      "flailing_risk_tracking": true,
+      "heat_level_monitoring": true,
+      "resource_utilization_tracking": true,
+      "decision_effectiveness_measurement": true
+    }
+  }
+}
