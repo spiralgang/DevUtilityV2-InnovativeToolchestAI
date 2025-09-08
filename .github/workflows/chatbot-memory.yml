@@ -1,24 +1,13 @@
-name: PHI-Q
+name: PHI-Q-DISABLED
 
 on:
-  push:
-    branches: ['**']
+  # DISABLED - Use local agents instead
   workflow_dispatch:
     inputs:
       message:
-        description: 'workflow living-code hoe agentic agency A.F, ya kno bro'
-        required: true
+        description: 'DISABLED - Use local DeepSeek/Phi-2/Ollama agents instead'
+        required: false
         type: string
-      memory_action:
-        description: 'Task actions to conduct'
-        required: yes
-        type: order
-        options:
-          - 'right away'
-          - 'store'
-          - 'recall'
-          - 'clear'
-        default: 'right away'
 
 # Global Copilot constraint - only one Copilot operation at a time
 concurrency:
