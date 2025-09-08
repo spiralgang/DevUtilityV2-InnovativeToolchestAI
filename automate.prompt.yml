@@ -5,7 +5,7 @@ modelParameters:
   stop: []
   frequency_penalty: 0
   presence_penalty: 0
-model: openai/gpt-4.1
+model: deepseek/deepseek-r1
 messages:
   - role: system
     content: >-
@@ -14,4 +14,4 @@ messages:
       pull request til theyve logged a dozen issues and then open 1 PR for all
       of em at once to fix
   - role: user
-    content: WORK !
+    content: WORK ! @deepseek
