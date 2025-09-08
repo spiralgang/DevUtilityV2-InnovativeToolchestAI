@@ -68,6 +68,36 @@
       "type": "android_service",
       "path": "app/src/main/java/com/spiralgang/services/GitHubIntegrationService.kt",
       "frontend_binding": "frontend/src/services/githubIntegration.js"
+    },
+    "agent_dashboard_bridge": {
+      "type": "backend_bridge",
+      "path": "backend/ui/agent_dashboard_bridge.py",
+      "frontend_binding": "frontend/src/components/AgentDashboard.vue"
+    },
+    "status_panel_bridge": {
+      "type": "backend_bridge", 
+      "path": "backend/ui/status_panel_bridge.py",
+      "frontend_binding": "frontend/src/components/AgentStatusPanel.vue"
+    },
+    "assimilation_monitor_bridge": {
+      "type": "backend_bridge",
+      "path": "backend/ui/assimilation_monitor_bridge.py", 
+      "frontend_binding": "frontend/src/components/AssimilationMonitor.vue"
+    },
+    "agent_api_bridge": {
+      "type": "backend_bridge",
+      "path": "backend/api/agent_api_bridge.py",
+      "frontend_binding": "frontend/src/utils/agentApi.js"
+    },
+    "agent_core_bridge": {
+      "type": "backend_bridge",
+      "path": "backend/services/agent_core_bridge.py",
+      "ai_binding": "ai/agent.py"
+    },
+    "github_bridge_adapter": {
+      "type": "backend_bridge",
+      "path": "backend/bridges/github_bridge_adapter.py",
+      "ai_binding": "ai/bridges/github_bridge.py"
     }
   },
   "settings": {
