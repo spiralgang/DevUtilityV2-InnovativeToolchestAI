@@ -31,11 +31,13 @@ fi
 
 set -e
 
-# Colors for output
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+# Colors for output (check if already defined)
+if [[ -z "${GREEN:-}" ]]; then
+    GREEN='\033[0;32m'
+    YELLOW='\033[1;33m'
+    BLUE='\033[0;34m'
+    NC='\033[0m'
+fi
 
 echo -e "${BLUE}🧪 Conflict Resolution System Validation Test${NC}"
 printf '=%.0s' {1..50}; echo

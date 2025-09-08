@@ -13,7 +13,12 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+
+    - name: Set offline mode
+      run: |
+        export TRANSFORMERS_OFFLINE=1
+        export HF_HUB_OFFLINE=1
 
     - name: Initialize Submodules
       run: git submodule update --init --recursive || true
@@ -23,143 +28,44 @@ jobs:
 
     - name: Clone Models from Manifest
       run: |
-        jq -r '.models[] | "\(.repo) \(.dir)"' configs/model_manifest.json | while read repo dir; do
-          if [ ! -d "models/$dir" ]; then
-            echo "[FETCH] $repo -> models/$dir"
-            git clone "$repo" "models/$dir"
-            rm -rf "models/$dir/.git"
-          else
-            echo "[SKIP] models/$dir already present"
-          fi
-        done
+        if [[ -f configs/model_manifest.json ]]; then
+          jq -r '.models[] | "\(.repo) \(.dir)"' configs/model_manifest.json | while read repo dir; do
+            if [ ! -d "models/$dir" ]; then
+              echo "[FETCH] $repo -> models/$dir"
+              git clone "$repo" "models/$dir"
+              rm -rf "models/$dir/.git"
+            else
+              echo "[SKIP] models/$dir already present"
+            fi
+          done
+        else
+          echo "[WARN] No model manifest found, using local agent system"
+        fi
 
     - name: Install Python deps
       run: |
         python3 -m pip install --upgrade pip
-        pip install torch --index-url https://download.pytorch.org/whl/cpu
-        pip install transformers accelerate requests
+        pip install torch --index-url https://download.pytorch.org/whl/cpu || true
+        pip install transformers accelerate requests || true
 
-    - name: Activate Phi-2 Integration Agent
+    - name: Run Local Agent System
       run: |
-        python3 - <<'PY'
-        from transformers import AutoModelForCausalLM, AutoTokenizer
-        import torch, os, json
+        chmod +x agent.sh
+        ./agent.sh plan
 
-        model_dir = "models/Phi-2"
-        tok = AutoTokenizer.from_pretrained(model_dir)
-        model = AutoModelForCausalLM.from_pretrained(model_dir, torch_dtype=torch.float32)
-
-        files = []
-        for root, dirs, fs in os.walk(".", topdown=True):
-            for f in fs:
-                if f.endswith((".py", ".js", ".ts", ".java", ".kt", ".vue")):
-                    files.append(os.path.join(root, f))
-
-        prompt = f"""
-        You are the Integration Agent.
-        Repo files: {json.dumps(files[:200])}
-        Task: Map frontend files to backend integration points and output shell commands to apply changes.
-        """
-
-        inputs = tok(prompt, return_tensors="pt")
-        outputs = model.generate(**inputs, max_new_tokens=512)
-        plan = tok.decode(outputs[0], skip_special_tokens=True)
-
-        with open("scratchpad/phi2_plan.sh", "w") as f:
-            f.write(plan)
-        PY
-
-    - name: Activate Qwen Glue-Code Agent
+    - name: Apply Agent Plan
       run: |
-        python3 - <<'PY'
-        from transformers import AutoModelForCausalLM, AutoTokenizer
-        import torch, os, json
-
-        model_dir = "models/Qwen2.5-0.5B"
-        tok = AutoTokenizer.from_pretrained(model_dir)
-        model = AutoModelForCausalLM.from_pretrained(model_dir, torch_dtype=torch.float32)
-
-        files = []
-        for root, dirs, fs in os.walk(".", topdown=True):
-            for f in fs:
-                if f.endswith((".py", ".js", ".ts", ".java", ".kt", ".vue")):
-                    files.append(os.path.join(root, f))
-
-        prompt = f"""
-        You are the Glue-Code Agent.
-        Repo files: {json.dumps(files[:200])}
-        Task: Identify missing integration logic and output shell commands to inject fixes.
-        """
-
-        inputs = tok(prompt, return_tensors="pt")
-        outputs = model.generate(**inputs, max_new_tokens=512)
-        plan = tok.decode(outputs[0], skip_special_tokens=True)
-
-        with open("scratchpad/qwen_plan.sh", "w") as f:
-            f.write(plan)
-        PY
-
-    - name: Activate DeepSeek Code Agent
-      run: |
-        python3 - <<'PY'
-        from transformers import AutoModelForCausalLM, AutoTokenizer
-        import torch, os, json
-
-        model_dir = "models/DeepSeek-Coder-1.3B-Instruct"
-        tok = AutoTokenizer.from_pretrained(model_dir)
-        model = AutoModelForCausalLM.from_pretrained(model_dir, torch_dtype=torch.float32)
-
-        files = []
-        for root, dirs, fs in os.walk(".", topdown=True):
-            for f in fs:
-                if f.endswith((".py", ".js", ".ts", ".java", ".kt", ".vue")):
-                    files.append(os.path.join(root, f))
-
-        prompt = f"""
-        You are the Code Review Agent.
-        Repo files: {json.dumps(files[:200])}
-        Task: Review code for issues and output shell commands to apply fixes.
-        """
-
-        inputs = tok(prompt, return_tensors="pt")
-        outputs = model.generate(**inputs, max_new_tokens=512)
-        plan = tok.decode(outputs[0], skip_special_tokens=True)
-
-        with open("scratchpad/deepseek_plan.sh", "w") as f:
-            f.write(plan)
-        PY
-
-    - name: Activate Ollama Agent
-      uses: ai-action/ollama-action@v1
-      id: ollama
-      with:
-        model: deepseek-coder:1.3b
-        prompt: |
-          You are the Optimization Agent.
-          Repo files: ${{ toJson(files) }}  # Note: This assumes files var, but adjust or truncate
-          Task: Suggest optimizations for the repo and output shell commands to apply them.
-
-    - name: Save Ollama Plan
-      run: echo "${{ steps.ollama.outputs.response }}" > scratchpad/ollama_plan.sh
-
-    - name: Merge Agent Plans and Apply
-      run: |
-        echo "=== Phi-2 Plan ==="
-        cat scratchpad/phi2_plan.sh
-        echo "=== Qwen Plan ==="
-        cat scratchpad/qwen_plan.sh
-        echo "=== DeepSeek Plan ==="
-        cat scratchpad/deepseek_plan.sh
-        echo "=== Ollama Plan ==="
-        cat scratchpad/ollama_plan.sh
-        cat scratchpad/phi2_plan.sh scratchpad/qwen_plan.sh scratchpad/deepseek_plan.sh scratchpad/ollama_plan.sh > scratchpad/combined_plan.sh
-        chmod +x scratchpad/combined_plan.sh
-        bash scratchpad/combined_plan.sh || echo "Plan execution completed with warnings."
+        if [[ -f scratch/plan.sh ]]; then
+          chmod +x scratch/plan.sh
+          bash scratch/plan.sh || echo "Plan execution completed with warnings."
+        else
+          echo "No agent plan generated"
+        fi
 
     - name: Forensic Log
       run: |
         ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-        echo "{ \"ts\": \"$ts\", \"event\": \"agent_run\", \"phi2_plan\": \"$(cat scratchpad/phi2_plan.sh | base64 -w0)\", \"qwen_plan\": \"$(cat scratchpad/qwen_plan.sh | base64 -w0)\", \"deepseek_plan\": \"$(cat scratchpad/deepseek_plan.sh | base64 -w0)\", \"ollama_plan\": \"$(cat scratchpad/ollama_plan.sh | base64 -w0)\" }" >> logs/agent_run.jsonl
+        echo "{ \"ts\": \"$ts\", \"event\": \"agent_run\", \"frontend_files\": \"$(find frontend -name '*.vue' -o -name '*.js' -o -name '*.ts' 2>/dev/null | wc -l)\", \"backend_files\": \"$(find app/src -name '*.kt' -o -name '*.java' 2>/dev/null | wc -l)\" }" >> logs/agent_run.jsonl
 
     - name: Commit and Push Changes
       run: |
