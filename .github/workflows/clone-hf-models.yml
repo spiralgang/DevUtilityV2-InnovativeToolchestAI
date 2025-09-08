@@ -134,30 +134,28 @@ jobs:
         echo "🎯 Fine-tuning local models..."
         
         # Create simple fine-tuning script
-        cat > scripts/simple_finetune.py << 'EOF'
-#!/usr/bin/env python3
-import json
-import os
-from datetime import datetime
-
-def log_finetuning():
-    log_entry = {
-        "timestamp": datetime.utcnow().isoformat(),
-        "event": "finetuning_simulated",
-        "agents": ["deepseek", "phi2", "qwen"],
-        "status": "completed",
-        "note": "Simulated fine-tuning for demo"
-    }
-    
-    os.makedirs("logs", exist_ok=True)
-    with open("logs/training_metrics.jsonl", "a") as f:
-        f.write(json.dumps(log_entry) + "\n")
-    
-    print("✅ Fine-tuning simulation completed")
-
-if __name__ == "__main__":
-    log_finetuning()
-EOF
+        mkdir -p scripts
+        echo '#!/usr/bin/env python3' > scripts/simple_finetune.py
+        echo 'import json' >> scripts/simple_finetune.py
+        echo 'import os' >> scripts/simple_finetune.py
+        echo 'from datetime import datetime' >> scripts/simple_finetune.py
+        echo '' >> scripts/simple_finetune.py
+        echo 'def log_finetuning():' >> scripts/simple_finetune.py
+        echo '    log_entry = {' >> scripts/simple_finetune.py
+        echo '        "timestamp": datetime.utcnow().isoformat(),' >> scripts/simple_finetune.py
+        echo '        "event": "finetuning_simulated",' >> scripts/simple_finetune.py
+        echo '        "agents": ["deepseek", "phi2", "qwen"],' >> scripts/simple_finetune.py
+        echo '        "status": "completed",' >> scripts/simple_finetune.py
+        echo '        "note": "Simulated fine-tuning for demo"' >> scripts/simple_finetune.py
+        echo '    }' >> scripts/simple_finetune.py
+        echo '    os.makedirs("logs", exist_ok=True)' >> scripts/simple_finetune.py
+        echo '    with open("logs/training_metrics.jsonl", "a") as f:' >> scripts/simple_finetune.py
+        echo '        f.write(json.dumps(log_entry) + "\n")' >> scripts/simple_finetune.py
+        echo '    print("✅ Fine-tuning simulation completed")' >> scripts/simple_finetune.py
+        echo '' >> scripts/simple_finetune.py
+        echo 'if __name__ == "__main__":' >> scripts/simple_finetune.py
+        echo '    log_finetuning()' >> scripts/simple_finetune.py
+        chmod +x scripts/simple_finetune.py
         
         python3 scripts/simple_finetune.py
 

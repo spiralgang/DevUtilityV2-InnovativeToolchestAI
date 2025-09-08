@@ -99,7 +99,7 @@ jobs:
       - name: Generate Chatbot Response
         env:
           MESSAGE: ${{ github.event.inputs.message || github.event.head_commit.message || 'Upload processed' }}
-          MEMORY_ACTION: ${{ github.event.inputs.memory_action || 'store' }}
+          MEMORY_ACTION: ${{ github.event.inputs.message || 'store' }}
           MAIN_ORG_WORK: ${{ env.main_org_work || 'false' }}
         run: |
           set -euo pipefail

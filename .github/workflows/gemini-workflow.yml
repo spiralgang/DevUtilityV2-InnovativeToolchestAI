@@ -47,7 +47,7 @@ jobs:
           fi
 
       - name: Comment on PR about conflicts
-        if: ${{ needs.conflict-resolve.outputs.conflicts == 'true' && github.event_name == 'pull_request' }}
+        if: ${{ steps.check_conflict.outputs.conflict_exists == 'true' && github.event_name == 'pull_request' }}
         uses: peter-evans/create-or-update-comment@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -85,6 +85,9 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID || '' }}
+      
+      - name: (gcloud) Get access token
+        if: env.GEMINI_AUTH_MODE == 'gcloud'
         run: |
           TOKEN=$(gcloud auth print-access-token)
           if [ -z "$TOKEN" ]; then
