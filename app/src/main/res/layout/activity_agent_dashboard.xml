@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Agent Dashboard Activity Layout - Frontend Integration Target -->
+<!-- Corresponds to: frontend/src/components/AgentDashboard.vue -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- AgentDashboardActivity integration stub -->
+    <TextView
+        android:id="@+id/tv_dashboard_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agent Dashboard"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/tv_dashboard_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Frontend integration pending"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

@@ -23,7 +23,7 @@ jobs:
           echo "Title: $PR_TITLE"
           echo "Body length: ${#PR_BODY}"
           # Add your regex for allowed areas e.g. workflows|scripts|ai|app/src
-          if ! git diff --name-only origin/${{ github.base_ref }}... | egrep -q '^(\\.github/workflows/|scripts/|configs/activation_rules.json|ai/|app/src/)'; then
+          if ! git diff --name-only origin/${{ github.base_ref }}... | grep -E '^(\\.github/workflows/|scripts/|configs/activation_rules.json|ai/|app/src/)'; then
             echo "PR touches out-of-scope files. Commenting and failing."
             echo "::error::Out-of-scope changes detected."
             exit 1

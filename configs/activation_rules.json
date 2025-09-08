@@ -1,4 +1,41 @@
 {
+  "copilot_safety_policy": {
+    "enabled": true,
+    "non_destructive_guarantees": {
+      "no_writes_to_main": true,
+      "changes_via_draft_prs_only": true,
+      "no_deletes_without_manifest": true,
+      "no_moves_without_manifest": true,
+      "preserve_android_app": true,
+      "preserve_gradle_system": true,
+      "preserve_conflict_resolution": true,
+      "no_branch_deletion": true
+    },
+    "operational_discipline": {
+      "precision_triggers_only": true,
+      "curated_paths_only": [
+        ".github/workflows/**",
+        "scripts/ops-guard/**", 
+        "configs/**",
+        "ai/**",
+        "app/src/**"
+      ],
+      "ephemeral_state_only": true,
+      "forensic_logging_append_only": true,
+      "drift_detection_fail_ci_only": true
+    },
+    "protected_files": [
+      "scripts/validate-system.sh",
+      "scripts/manual-conflict-resolver.sh", 
+      "app/build.gradle",
+      "build.gradle",
+      "gradlew",
+      "gradlew.bat",
+      "app/src/**/*.kt",
+      "app/src/**/*.java"
+    ],
+    "destructive_actions_disabled": true
+  },
   "frontend_globs": ["./", ".github/", "scripts/", "configs/", "docs/", ".ops/"],
   "backend_globs":  ["app/src/", "ai/", "logs/", "scratch/"],
   "extensions": [".sh", ".py", ".md", ".yml", ".yaml", ".json", ".kt", ".java", ".js", ".ts"],
@@ -9,5 +46,31 @@
     { "from_ext": ".yml", "bind_hint": ".github/workflows/" },
     { "from_ext": ".yaml", "bind_hint": ".github/workflows/" },
     { "from_ext": ".json", "bind_hint": "configs/" }
-  ]
+  ],
+  "branches": ["copilot/fix-*"],
+  "paths": [
+    ".github/workflows/**",
+    "scripts/ops-guard/**",
+    "configs/**",
+    "ai/**",
+    "app/src/**",
+    "tools/**",
+    "docs/**"
+  ],
+  "agents": ["core", "validation", "android", "assimilation"],
+  "validation": {
+    "required_checks": [
+      "system_validation",
+      "assimilation_audit",
+      "safety_policy_check"
+    ],
+    "allow_auto_merge": false,
+    "require_manual_review": true,
+    "audit_first": true
+  },
+  "organization": {
+    "root_file_limit": 50,
+    "allowed_root_extensions": [".md", ".gradle", ".yml", ".json", ".sh"],
+    "auto_organize_threshold": 10
+  }
 }

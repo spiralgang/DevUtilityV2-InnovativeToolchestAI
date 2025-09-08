@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Status Panel Fragment Layout - Frontend Integration Target -->
+<!-- Corresponds to: frontend/src/components/AgentStatusPanel.vue -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <!-- StatusPanelFragment integration stub -->
+    <TextView
+        android:id="@+id/tv_status_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agent Status Panel"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_status_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Frontend integration pending"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>

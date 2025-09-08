@@ -1,2 +1,0 @@
-# Label the protected content tree
-/opt/ban-space(/.*)?  gen_context(system_u:object_r:ban_space_t,s0)

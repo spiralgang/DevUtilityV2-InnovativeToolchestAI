@@ -90,6 +90,26 @@
             android:name=".ai.AIThinkModule"
             android:exported="false" />
 
+        <!-- GitHub-Native Assimilation Agent Activities -->
+        <activity
+            android:name="com.spiralgang.ui.AgentDashboardActivity"
+            android:label="Agent Dashboard"
+            android:exported="false" />
+        
+        <activity
+            android:name="com.spiralgang.ui.AssimilationMonitorActivity"
+            android:label="Assimilation Monitor"
+            android:exported="false" />
+
+        <!-- GitHub-Native Assimilation Agent Services -->
+        <service
+            android:name="com.spiralgang.services.GitHubIntegrationService"
+            android:exported="false" />
+            
+        <service
+            android:name="com.spiralgang.services.WorkflowRunnerService"
+            android:exported="false" />
+
         <!-- Work Manager for background tasks -->
         <provider
             android:name="androidx.startup.InitializationProvider"
