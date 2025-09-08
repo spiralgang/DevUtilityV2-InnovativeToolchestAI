@@ -9,6 +9,22 @@ if [[ -f "$(dirname "${BASH_SOURCE[0]}")/../.living_environment_wrapper.sh" ]]; 
     source "$(dirname "${BASH_SOURCE[0]}")/../.living_environment_wrapper.sh"
 fi
 
+# Local-only guard
+export TRANSFORMERS_OFFLINE=1
+export HF_HUB_OFFLINE=1
+
+# Fail fast on missing dependencies
+command -v python3 >/dev/null || { echo "❌ python3 not found"; exit 1; }
+command -v bash >/dev/null || { echo "❌ bash not found"; exit 1; }
+
+# Submodule sanity check
+if git submodule status &>/dev/null; then
+    echo -e "${BLUE}[CHECK]${NC} Submodules present, verifying .gitmodules..."
+    git config -f .gitmodules --get-regexp path >/dev/null || {
+        echo "❌ .gitmodules missing entries for submodules"
+        exit 1
+    }
+fi
 
 # Validation Test for Conflict Resolution System
 # This script validates that the conflict resolution system works correctly
