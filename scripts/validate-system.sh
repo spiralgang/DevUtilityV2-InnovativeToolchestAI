@@ -64,11 +64,20 @@ echo -e "${GREEN}✅ Bash syntax validation passed${NC}"
 
 # Test 4: Check GitHub Actions workflow syntax
 echo -e "${BLUE}[TEST 4]${NC} Validating GitHub Actions workflow..."
+
+# Ensure actionlint is available by running installation script if needed
+if ! command -v actionlint &> /dev/null; then
+    echo "Installing actionlint..."
+    ./scripts/install-actionlint.sh
+    # Add Go bin to PATH
+    export PATH="$PATH:$(go env GOPATH)/bin"
+fi
+
 if command -v actionlint &> /dev/null; then
     actionlint .github/workflows/conflict-resolution.yml
     echo -e "${GREEN}✅ GitHub Actions workflow syntax valid${NC}"
 else
-    echo -e "${YELLOW}⚠️  actionlint not available, skipping workflow validation${NC}"
+    echo -e "${YELLOW}⚠️  actionlint installation failed, skipping workflow validation${NC}"
 fi
 
 # Test 5: Test conflict detection (dry run)

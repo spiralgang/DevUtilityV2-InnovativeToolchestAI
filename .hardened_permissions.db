@@ -1,5 +1,5 @@
 {
-  "timestamp": 1757315381,
+  "timestamp": 1757316609,
   "applied_permissions": [
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/move_apks_to_shared.sh",
@@ -367,6 +367,13 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/pgp-security-wrapper.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/install-actionlint.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -829,6 +836,13 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/security/sanitize_enforcer.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/validation/system-validator.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -14702,7 +14716,7 @@
       "set": "living_code_db"
     }
   ],
-  "total_files": 2100,
+  "total_files": 2102,
   "security_level": "maximum",
   "living_code_integrated": true
 }

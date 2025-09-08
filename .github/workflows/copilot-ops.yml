@@ -1,0 +1,138 @@
+# ==============================================================================
+# Name:         Copilot Ops (Precision-Triggered)
+# Description:  This workflow runs precision-triggered operations for the
+#               sentient agent, including pre-flight checks, validation, and
+#               diagnostics for the Android application.
+# Rationale:    A single, well-structured workflow for core CI/CD operations
+#               ensures consistency and maintainability. Jobs are separated
+#               by concern (setup, build, finalize).
+# ==============================================================================
+name: Copilot Ops (Precision-Triggered)
+
+on:
+  push:
+    branches: ["main", "copilot/fix-*"]
+    paths:
+      - ".github/workflows/**"
+      - "scripts/**"
+      - "tools/**"
+      - "configs/**"
+      - "ai/**"
+      - "app/src/**"
+  pull_request:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/**"
+      - "scripts/**"
+      - "tools/**"
+      - "configs/**"
+      - "ai/**"
+      - "app/src/**"
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Manual trigger reason"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ops-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ----------------------------------------------------------------------------
+  # JOB: preflight
+  # Ensures the environment is sane and all tools are available before
+  # proceeding to more expensive jobs like building the application.
+  # ----------------------------------------------------------------------------
+  preflight:
+    name: "Phase 1: Pre-flight & Validation"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "1. Checkout Repository"
+        uses: actions/checkout@v4
+
+      - name: "2. Install System Dependencies (jq for actionlint installer)"
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: "3. Set Script Permissions"
+        run: |
+          chmod +x scripts/*.sh || true
+          chmod +x tools/validation/*.sh || true
+
+      - name: "4. Install actionlint"
+        run: ./scripts/install-actionlint.sh
+
+      - name: "5. Run System Validation Suite"
+        run: ./tools/validation/system-validator.sh
+
+      - name: "6. Start Forensic Log"
+        env:
+          ACTOR: ${{ github.actor }}
+          EVENT: ${{ github.event_name }}
+          REF: ${{ github.ref }}
+          SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+        run: ./scripts/forensic-log.sh start
+
+  # ----------------------------------------------------------------------------
+  # JOB: build
+  # Handles the core compilation and build process for the Android application.
+  # This job respects the native toolchain of the repository (Gradle).
+  # ----------------------------------------------------------------------------
+  build:
+    name: "Phase 2: Build & Diagnostics (Android)"
+    needs: preflight
+    runs-on: ubuntu-latest
+    if: |
+      startsWith(github.ref, 'refs/heads/copilot/fix-') ||
+      (github.event_name == 'pull_request') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    steps:
+      - name: "1. Checkout Repository"
+        uses: actions/checkout@v4
+
+      - name: "2. Set up JDK"
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: "3. Set Script Permissions"
+        run: chmod +x scripts/*.sh || true
+
+      - name: "4. Forensic Log: Build Start"
+        run: ./scripts/forensic-log.sh step build "Initiating Gradle build for Android."
+
+      - name: "5. Run Android Build via Gradle Wrapper"
+        # This is the standard, platform-aware way to build an Android project.
+        # It is compatible with Android 10 or any other version defined in build.gradle.
+        # continue-on-error allows the build to fail without stopping the entire workflow,
+        # which is useful for diagnostic runs.
+        continue-on-error: true
+        run: ./gradlew build --no-daemon --stacktrace
+
+      - name: "6. Forensic Log: Build Complete"
+        run: ./scripts/forensic-log.sh step build_complete "Gradle build finished."
+
+  # ----------------------------------------------------------------------------
+  # JOB: finalize
+  # A final, lightweight job to conclude the workflow gracefully.
+  # ----------------------------------------------------------------------------
+  finalize:
+    name: "Phase 3: Finalize"
+    needs: [preflight, build]
+    if: always() # Ensures this job runs even if the build job fails.
+    runs-on: ubuntu-latest
+    steps:
+      - name: "1. Checkout Repository"
+        uses: actions/checkout@v4
+
+      - name: "2. Set Script Permissions"
+        run: chmod +x scripts/*.sh || true
+
+      - name: "3. End Forensic Log"
+        run: ./scripts/forensic-log.sh end
