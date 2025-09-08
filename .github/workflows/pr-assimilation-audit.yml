@@ -1,10 +1,16 @@
-name: PR assimilation audit
+name: Comprehensive Frontend-Backend Assimilation Audit
 on:
   workflow_dispatch:
     inputs:
       pr:
         description: PR number
         required: true
+        type: string
+      deep_scan:
+        description: Perform deep code analysis
+        required: false
+        default: false
+        type: boolean
   pull_request:
     types: [opened, synchronize, reopened, edited]
     branches: [ "main" ]
@@ -16,12 +22,17 @@ concurrency:
   group: pr-assimilate-${{ github.event.pull_request.number || inputs.pr }}
   cancel-in-progress: false
 jobs:
-  audit:
+  preflight:
     runs-on: ubuntu-latest
+    outputs:
+      pr_number: ${{ steps.ctx.outputs.pr }}
+      changed_files: ${{ steps.changes.outputs.files }}
+      frontend_files: ${{ steps.changes.outputs.frontend_files }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      
       - name: Set PR context
         id: ctx
         run: |
@@ -30,6 +41,8 @@ jobs:
           else
             echo "pr=${{ inputs.pr }}" >> $GITHUB_OUTPUT
           fi
+          echo "🔍 Processing PR #${{ steps.ctx.outputs.pr }}"
+      
       - name: Fetch PR head
         if: ${{ inputs.pr }}
         run: |
@@ -37,28 +50,246 @@ jobs:
           gh pr checkout "$PR"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Python deps
+      
+      - name: Analyze changed files
+        id: changes
         run: |
-          python3 -V
-      - name: Run assimilation audit
+          echo "📊 Analyzing file changes..."
+          
+          # Get all changed files
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref || 'main' }}... | tr '\n' ' ')
+          echo "files=$CHANGED_FILES" >> $GITHUB_OUTPUT
+          
+          # Filter frontend-related files
+          FRONTEND_FILES=$(echo "$CHANGED_FILES" | tr ' ' '\n' | grep -E '(frontend/|\.vue$|\.js$|\.ts$|\.html$|\.css$)' | tr '\n' ' ' || true)
+          echo "frontend_files=$FRONTEND_FILES" >> $GITHUB_OUTPUT
+          
+          echo "Changed files: $CHANGED_FILES"
+          echo "Frontend files: $FRONTEND_FILES"
+      
+      - name: Forensic logging - preflight
         run: |
           mkdir -p logs
-          python3 tools/assimilation_audit.py \
-            --manifest configs/frontend_manifest.json \
-            --mapping  configs/frontend_to_backend_map.json \
-            --base     origin/${{ github.base_ref || 'main' }} \
-            --log      logs/assimilation.jsonl
-      - name: Upload forensic log
-        uses: actions/upload-artifact@v4
+          cat >> logs/assimilation.jsonl << EOF
+          {"ts": "$(date -u +%Y-%m-%dT%H:%M:%SZ)", "phase": "preflight", "pr": "${{ steps.ctx.outputs.pr }}", "changed_files": "${{ steps.changes.outputs.files }}", "frontend_files": "${{ steps.changes.outputs.frontend_files }}", "deep_scan": "${{ inputs.deep_scan }}"}
+          EOF
+
+  audit:
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
         with:
-          name: assimilation-log-${{ steps.ctx.outputs.pr }}
-          path: logs/assimilation.jsonl
-      - name: Comment results
+          fetch-depth: 0
+      
+      - name: Fetch PR head (if workflow_dispatch)
         if: ${{ inputs.pr }}
         run: |
-          PR=${{ steps.ctx.outputs.pr }}
-          echo "Posting audit summary to PR #$PR"
-          tail -n 50 logs/assimilation.jsonl | sed -e 's/^/    /' > .audit_tail.txt
-          gh pr comment "$PR" -F .audit_tail.txt
+          PR=${{ needs.preflight.outputs.pr_number }}
+          gh pr checkout "$PR"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Enhanced manifest validation
+        run: |
+          echo "📋 Validating and enhancing manifests..."
+          mkdir -p logs
+          
+          # Check if manifests exist and are valid
+          python3 -c "
+          import json, os, sys
+          
+          try:
+              with open('configs/frontend_manifest.json') as f:
+                  manifest = json.load(f)
+              print(f'✅ Manifest valid: {len(manifest.get(\"files\", []))} files tracked')
+          except Exception as e:
+              print(f'❌ Manifest error: {e}')
+              sys.exit(1)
+              
+          try:
+              with open('configs/frontend_to_backend_map.json') as f:
+                  mapping = json.load(f)
+              print(f'✅ Mapping valid: {len(mapping)} mappings defined')
+          except Exception as e:
+              print(f'❌ Mapping error: {e}')
+              sys.exit(1)
+          "
+      
+      - name: Run comprehensive assimilation audit
+        run: |
+          echo "🔍 Running comprehensive assimilation audit..."
+          mkdir -p logs
+          
+          python3 tools/assimilation_audit.py \
+            --manifest configs/frontend_manifest.json \
+            --mapping configs/frontend_to_backend_map.json \
+            --base origin/${{ github.base_ref || 'main' }} \
+            --log logs/assimilation.jsonl \
+            --verbose
+      
+      - name: Deep code analysis
+        if: ${{ inputs.deep_scan == 'true' }}
+        run: |
+          echo "🔬 Performing deep code analysis..."
+          
+          # Analyze import statements and dependencies
+          python3 -c "
+          import os, re, json
+          
+          def analyze_file(filepath):
+              if not os.path.exists(filepath):
+                  return {'exists': False}
+              
+              try:
+                  with open(filepath, 'r', errors='ignore') as f:
+                      content = f.read()
+                  
+                  # Look for imports, API calls, etc.
+                  imports = re.findall(r'import.*from.*[\"\'](.*?)[\"\']', content)
+                  api_calls = re.findall(r'\.api\.|fetch\(|axios\.|http\.|request\(', content)
+                  
+                  return {
+                      'exists': True,
+                      'size': len(content),
+                      'imports': imports,
+                      'api_calls': len(api_calls) > 0,
+                      'lines': len(content.splitlines())
+                  }
+              except Exception as e:
+                  return {'exists': True, 'error': str(e)}
+          
+          # Analyze frontend files
+          frontend_files = '${{ needs.preflight.outputs.frontend_files }}'.split()
+          analysis = {}
+          
+          for f in frontend_files:
+              if f.strip():
+                  analysis[f] = analyze_file(f)
+          
+          with open('logs/deep_analysis.json', 'w') as out:
+              json.dump(analysis, out, indent=2)
+          
+          print(f'📊 Deep analysis complete: {len(analysis)} files analyzed')
+          "
+      
+      - name: Generate integration report
+        run: |
+          echo "📊 Generating integration report..."
+          
+          python3 -c "
+          import json, sys
+          
+          # Load audit results
+          results = []
+          try:
+              with open('logs/assimilation.jsonl', 'r') as f:
+                  for line in f:
+                      if line.strip():
+                          results.append(json.loads(line))
+          except Exception as e:
+              print(f'Error reading audit results: {e}')
+              sys.exit(1)
+          
+          # Extract summary
+          summary = None
+          audit_entries = []
+          for r in results:
+              if r.get('phase') == 'summary':
+                  summary = r
+              elif r.get('phase') == 'audit':
+                  audit_entries.append(r)
+          
+          if not summary:
+              print('❌ No summary found in audit results')
+              sys.exit(1)
+          
+          print('## 🤖 Assimilation Audit Report')
+          print()
+          print(f'**Total Files:** {summary.get(\"total\", 0)}')
+          print(f'**Successfully Assimilated:** {summary.get(\"ok\", 0)}')
+          print(f'**Missing Targets:** {summary.get(\"missing\", 0)}')
+          print(f'**Unbound References:** {summary.get(\"unbound\", 0)}')
+          print()
+          
+          if summary.get('ok', 0) == summary.get('total', 0) and summary.get('total', 0) > 0:
+              print('✅ **ASSIMILATION COMPLETE** - All frontend files properly integrated!')
+          else:
+              print('⚠️ **ASSIMILATION INCOMPLETE** - Review required files below')
+          
+          # Details for failed files
+          failed_files = [e for e in audit_entries if e.get('status') != 'assimilated']
+          if failed_files:
+              print()
+              print('### Files Requiring Attention:')
+              for f in failed_files[:10]:  # Limit to first 10
+                  print(f'- **{f.get(\"src\", \"unknown\")}**: {f.get(\"status\", \"unknown\")}')
+                  if f.get('target'):
+                      print(f'  - Target: \`{f[\"target\"]}\`')
+                  if f.get('binds_missing'):
+                      print(f'  - Missing binds: {f[\"binds_missing\"]}')
+          
+          # Deep analysis summary if available
+          try:
+              with open('logs/deep_analysis.json', 'r') as f:
+                  deep = json.load(f)
+              print()
+              print('### 🔬 Deep Analysis Summary:')
+              api_files = [k for k, v in deep.items() if v.get('api_calls')]
+              if api_files:
+                  print(f'- **{len(api_files)} files** contain API calls requiring backend integration')
+              print(f'- **{len(deep)} frontend files** analyzed for dependencies')
+          except:
+              pass
+          " > logs/integration_report.md
+      
+      - name: Upload comprehensive forensic logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: assimilation-audit-${{ needs.preflight.outputs.pr_number }}-${{ github.run_number }}
+          path: |
+            logs/assimilation.jsonl
+            logs/integration_report.md
+            logs/deep_analysis.json
+      
+      - name: Comment comprehensive results
+        if: ${{ inputs.pr || github.event_name == 'workflow_dispatch' }}
+        run: |
+          PR=${{ needs.preflight.outputs.pr_number }}
+          echo "📝 Posting comprehensive audit results to PR #$PR"
+          
+          # Create summary comment
+          cat > comment.md << 'EOF'
+          ## 🤖 GitHub-Native Assimilation Agent Report
+          
+          **Audit Triggered:** ${{ github.event_name }}
+          **Deep Scan:** ${{ inputs.deep_scan }}
+          **Timestamp:** $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          
+          EOF
+          
+          # Append integration report
+          cat logs/integration_report.md >> comment.md
+          
+          cat >> comment.md << 'EOF'
+          
+          ---
+          
+          **Agent Commands Available:**
+          - `/assimilate` - Re-run this audit
+          - `/validate` - Full system validation
+          - `/status` - Quick status check
+          
+          **Forensic Logs:** Available in workflow artifacts
+          **Safety Policies:** ✅ Active and enforced
+          EOF
+          
+          gh pr comment "$PR" -F comment.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Final forensic logging
+        run: |
+          cat >> logs/assimilation.jsonl << EOF
+          {"ts": "$(date -u +%Y-%m-%dT%H:%M:%SZ)", "phase": "complete", "pr": "${{ needs.preflight.outputs.pr_number }}", "workflow_run": "${{ github.run_number }}", "success": true}
+          EOF

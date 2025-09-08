@@ -1,46 +1,201 @@
 {
+  "frontend/src/components/AgentDashboard.vue": {
+    "target": "app/src/main/java/com/spiralgang/ui/AgentDashboardActivity.kt",
+    "binds": [
+      "app/src/main/res/layout/activity_agent_dashboard.xml", 
+      "app/src/main/AndroidManifest.xml",
+      "configs/agent_registry.json"
+    ],
+    "integration_type": "ui_component",
+    "requires_api": true
+  },
+  "frontend/src/components/AgentStatusPanel.vue": {
+    "target": "app/src/main/java/com/spiralgang/ui/StatusPanelFragment.kt",
+    "binds": [
+      "app/src/main/res/layout/fragment_status_panel.xml",
+      "app/src/main/AndroidManifest.xml"
+    ],
+    "integration_type": "ui_component",
+    "requires_api": false
+  },
+  "frontend/src/components/AssimilationMonitor.vue": {
+    "target": "app/src/main/java/com/spiralgang/ui/AssimilationMonitorActivity.kt",
+    "binds": [
+      "app/src/main/res/layout/activity_assimilation_monitor.xml",
+      "app/src/main/AndroidManifest.xml",
+      "configs/frontend_manifest.json"
+    ],
+    "integration_type": "ui_component",
+    "requires_api": true
+  },
   "frontend/src/utils/agentApi.js": {
     "target": "app/src/main/java/com/spiralgang/agents/AgentApiClient.kt",
-    "binds": ["app/src/main/AndroidManifest.xml", "configs/agent_registry.json"]
+    "binds": [
+      "app/src/main/AndroidManifest.xml", 
+      "configs/agent_registry.json",
+      "app/src/main/java/com/spiralgang/agents/AgentCore.kt"
+    ],
+    "integration_type": "api_client",
+    "requires_api": true
   },
-  "frontend/src/components/AgentDashboard.vue": {
-    "target": "app/src/main/java/com/spiralgang/ui/DashboardActivity.kt",
-    "binds": ["app/src/main/res/layout/activity_dashboard.xml", "app/src/main/AndroidManifest.xml"]
+  "frontend/src/utils/assimilationClient.js": {
+    "target": "app/src/main/java/com/spiralgang/agents/AssimilationClient.kt",
+    "binds": [
+      "configs/frontend_manifest.json",
+      "configs/frontend_to_backend_map.json",
+      "tools/assimilation_audit.py"
+    ],
+    "integration_type": "api_client",
+    "requires_api": true
   },
-  "frontend/src/components/": {
-    "target": "app/src/main/java/com/spiralgang/ui/",
-    "binds": ["app/src/main/AndroidManifest.xml", "app/src/main/res/layout/"]
+  "frontend/src/utils/forensicLogger.js": {
+    "target": "app/src/main/java/com/spiralgang/utils/ForensicLogger.kt",
+    "binds": [
+      "logs/activation.jsonl",
+      "configs/activation_rules.json"
+    ],
+    "integration_type": "utility",
+    "requires_api": false
   },
-  "frontend/src/utils/": {
-    "target": "app/src/main/java/com/spiralgang/utils/",
-    "binds": ["app/src/main/AndroidManifest.xml"]
+  "frontend/src/services/githubIntegration.js": {
+    "target": "app/src/main/java/com/spiralgang/services/GitHubIntegrationService.kt",
+    "binds": [
+      "ai/bridges/github_bridge.py",
+      "configs/agent_registry.json",
+      ".github/workflows/"
+    ],
+    "integration_type": "service",
+    "requires_api": true
+  },
+  "frontend/src/services/workflowRunner.js": {
+    "target": "app/src/main/java/com/spiralgang/services/WorkflowRunnerService.kt",
+    "binds": [
+      ".github/workflows/agent-command-router.yml",
+      ".github/workflows/pr-assimilation-audit.yml",
+      "configs/activation_rules.json"
+    ],
+    "integration_type": "service",
+    "requires_api": true
   },
   "tools/living-code-coreV2!!.js": {
     "target": "ai/living_core.py",
-    "binds": ["configs/activation_rules.json", "ai/"]
+    "binds": [
+      "configs/activation_rules.json", 
+      "ai/agent_core.py",
+      "logs/activation.jsonl"
+    ],
+    "integration_type": "core_system",
+    "requires_api": false
   },
   "tools/providers.js": {
     "target": "ai/providers.py",
-    "binds": ["configs/agent_registry.json", "ai/"]
+    "binds": [
+      "configs/agent_registry.json", 
+      "ai/agent.py",
+      "backend/services/integration_engine.py"
+    ],
+    "integration_type": "provider",
+    "requires_api": false
   },
   "tools/server.js": {
     "target": "backend/server.py",
-    "binds": ["scripts/", "ai/"]
-  },
-  "ai/agent.py": {
-    "target": "app/src/main/java/com/spiralgang/agents/AgentCore.kt",
-    "binds": ["configs/agent_registry.json", "ai/"]
-  },
-  "ai/agent_core.py": {
-    "target": "app/src/main/java/com/spiralgang/agents/CoreEngine.kt",
-    "binds": ["configs/activation_rules.json", "ai/"]
-  },
-  "ai/bridges/": {
-    "target": "app/src/main/java/com/spiralgang/bridges/",
-    "binds": ["configs/agent_registry.json", "ai/"]
+    "binds": [
+      "backend/api/agent_endpoints.py",
+      "backend/api/assimilation_api.py", 
+      "scripts/",
+      "ai/"
+    ],
+    "integration_type": "server",
+    "requires_api": true
   },
   "tools/assimilation_audit.py": {
     "target": "app/src/main/java/com/spiralgang/validation/AssimilationValidator.kt",
-    "binds": ["configs/frontend_manifest.json", "configs/frontend_to_backend_map.json"]
+    "binds": [
+      "configs/frontend_manifest.json", 
+      "configs/frontend_to_backend_map.json",
+      ".github/workflows/pr-assimilation-audit.yml"
+    ],
+    "integration_type": "validation",
+    "requires_api": false
+  },
+  "ai/agent.py": {
+    "target": "app/src/main/java/com/spiralgang/agents/AgentCore.kt",
+    "binds": [
+      "configs/agent_registry.json", 
+      "ai/agent_core.py",
+      "backend/services/integration_engine.py"
+    ],
+    "integration_type": "ai_core",
+    "requires_api": false
+  },
+  "ai/agent_core.py": {
+    "target": "app/src/main/java/com/spiralgang/agents/CoreEngine.kt",
+    "binds": [
+      "configs/activation_rules.json", 
+      "ai/living_core.py",
+      "logs/activation.jsonl"
+    ],
+    "integration_type": "ai_core",
+    "requires_api": false
+  },
+  "ai/bridges/github_bridge.py": {
+    "target": "app/src/main/java/com/spiralgang/bridges/GitHubBridge.kt",
+    "binds": [
+      "configs/agent_registry.json", 
+      ".github/workflows/",
+      "frontend/src/services/githubIntegration.js"
+    ],
+    "integration_type": "bridge",
+    "requires_api": true
+  },
+  "ai/bridges/workflow_bridge.py": {
+    "target": "app/src/main/java/com/spiralgang/bridges/WorkflowBridge.kt",
+    "binds": [
+      ".github/workflows/agent-command-router.yml",
+      "configs/activation_rules.json",
+      "frontend/src/services/workflowRunner.js"
+    ],
+    "integration_type": "bridge",
+    "requires_api": true
+  },
+  "backend/api/agent_endpoints.py": {
+    "target": "app/src/main/java/com/spiralgang/api/AgentEndpoints.kt",
+    "binds": [
+      "backend/server.py",
+      "ai/agent_core.py",
+      "frontend/src/utils/agentApi.js"
+    ],
+    "integration_type": "api_endpoint",
+    "requires_api": true
+  },
+  "backend/api/assimilation_api.py": {
+    "target": "app/src/main/java/com/spiralgang/api/AssimilationApi.kt",
+    "binds": [
+      "tools/assimilation_audit.py",
+      "configs/frontend_manifest.json",
+      "frontend/src/utils/assimilationClient.js"
+    ],
+    "integration_type": "api_endpoint",
+    "requires_api": true
+  },
+  "backend/services/integration_engine.py": {
+    "target": "app/src/main/java/com/spiralgang/services/IntegrationEngine.kt",
+    "binds": [
+      "ai/agent_core.py",
+      "tools/assimilation_audit.py",
+      "configs/frontend_to_backend_map.json"
+    ],
+    "integration_type": "core_service",
+    "requires_api": false
+  },
+  "backend/services/forensic_service.py": {
+    "target": "app/src/main/java/com/spiralgang/services/ForensicService.kt",
+    "binds": [
+      "logs/activation.jsonl",
+      "logs/assimilation.jsonl",
+      "frontend/src/utils/forensicLogger.js"
+    ],
+    "integration_type": "core_service",
+    "requires_api": false
   }
 }

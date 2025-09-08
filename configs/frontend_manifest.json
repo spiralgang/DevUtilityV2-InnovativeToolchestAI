@@ -1,15 +1,50 @@
 {
   "files": [
-    "frontend/src/utils/agentApi.js",
     "frontend/src/components/AgentDashboard.vue",
-    "frontend/src/components/",
-    "frontend/src/utils/",
+    "frontend/src/components/AgentStatusPanel.vue", 
+    "frontend/src/components/AssimilationMonitor.vue",
+    "frontend/src/utils/agentApi.js",
+    "frontend/src/utils/assimilationClient.js",
+    "frontend/src/utils/forensicLogger.js",
+    "frontend/src/services/githubIntegration.js",
+    "frontend/src/services/workflowRunner.js",
     "tools/living-code-coreV2!!.js",
     "tools/providers.js",
     "tools/server.js",
+    "tools/assimilation_audit.py",
     "ai/agent.py",
     "ai/agent_core.py",
-    "ai/bridges/",
-    "tools/assimilation_audit.py"
-  ]
+    "ai/bridges/github_bridge.py",
+    "ai/bridges/workflow_bridge.py",
+    "backend/api/agent_endpoints.py",
+    "backend/api/assimilation_api.py",
+    "backend/services/integration_engine.py",
+    "backend/services/forensic_service.py"
+  ],
+  "metadata": {
+    "version": "2.0",
+    "created_at": "2025-01-28T10:00:00Z",
+    "description": "Comprehensive frontend-backend integration manifest for GitHub-native assimilation agent system",
+    "total_expected_files": 200,
+    "critical_files": [
+      "frontend/src/utils/agentApi.js",
+      "tools/assimilation_audit.py", 
+      "ai/agent_core.py",
+      "backend/services/integration_engine.py"
+    ],
+    "categories": {
+      "frontend_components": 3,
+      "frontend_utils": 3,
+      "frontend_services": 2,
+      "tools": 4,
+      "ai_core": 4,
+      "backend_services": 4
+    }
+  },
+  "validation_rules": {
+    "require_backend_mapping": true,
+    "enforce_binding_validation": true,
+    "mandate_forensic_logging": true,
+    "android_integration_required": true
+  }
 }
