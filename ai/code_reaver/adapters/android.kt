@@ -3,3 +3,16 @@
 // This file is part of the SrirachaArmy Living Code Environment
 // Perfect symmetrical integration with all repository components
 
+# agent-bind:ai-function-calling-finder->ai/
+# agent-bind:comprehensive-audit->ai/
+# agent-bind:comprehensive-data-scraper->ai/
+# agent-bind:conflict_resolver->ai/
+# agent-bind:cyberforge_finetune->ai/
+# agent-bind:data-protection->ai/
+# agent-bind:hardened-permissions-manager->ai/
+# agent-bind:living-environment-integration->ai/
+# agent-bind:ollama_conflict_assistant->ai/
+# agent-bind:organize-repository->ai/
+# agent-bind:resolve-active-conflicts->ai/
+# agent-bind:test-storage-features->ai/
+# agent-bind:utf8-encoder->ai/

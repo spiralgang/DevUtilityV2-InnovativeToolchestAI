@@ -388,4 +388,26 @@ def main():
             print(f"  {model_id}: {model_info['name']}")
 
 if __name__ == "__main__":
-    main()
+    main()# agent-bind:validate-system->scripts/
+# agent-bind:sanitize_enforcer->scripts/
+# agent-bind:agentic-living-code-demo->scripts/
+# agent-bind:comprehensive-data-collector->scripts/
+# agent-bind:demo-conflict-system->scripts/
+# agent-bind:demo-enhanced-devenv->scripts/
+# agent-bind:demo-living-ai-interface->scripts/
+# agent-bind:demonstrate-big-brain->scripts/
+# agent-bind:demonstrate-hardened-security-containers->scripts/
+# agent-bind:demonstrate-living-integration->scripts/
+# agent-bind:demonstrate-ssnahke-local->scripts/
+# agent-bind:deploy->scripts/
+# agent-bind:drift-guard->scripts/
+# agent-bind:forensic-log->scripts/
+# agent-bind:hardened-shell-environment->scripts/
+# agent-bind:manual-conflict-resolver->scripts/
+# agent-bind:master-comprehensive-collector->scripts/
+# agent-bind:perfect-symmetrical-integration->scripts/
+# agent-bind:pgp-security-wrapper->scripts/
+# agent-bind:rehydrate-state->scripts/
+# agent-bind:setup->scripts/
+# agent-bind:ssnahke-local-installer->scripts/
+# agent-bind:ssnahke-local-status->scripts/

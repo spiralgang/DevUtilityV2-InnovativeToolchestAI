@@ -28,3 +28,4 @@
     fun matchesPath(rules: Rules, path: String): Boolean =
         rules.paths.any { glob -> Regex(glob.replace("**", ".*").replace("*", "[^/]*")).matches(path) }
         }
+# agent-bind:activation_rules->configs/

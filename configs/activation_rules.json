@@ -1,12 +1,13 @@
 {
-  "frontend_globs": ["frontend/", "web/", "app/src/main/res/"],
-  "backend_globs":  ["app/src/", "server/", "ai/"],
-  "extensions": [".js", ".ts", ".vue", ".kt", ".java", ".py", ".sh"],
+  "frontend_globs": ["./", ".github/", "scripts/", "configs/", "docs/", ".ops/"],
+  "backend_globs":  ["app/src/", "ai/", "logs/", "scratch/"],
+  "extensions": [".sh", ".py", ".md", ".yml", ".yaml", ".json", ".kt", ".java", ".js", ".ts"],
   "bind_rules": [
-    { "from_ext": ".vue", "bind_hint": "ModuleUi" },
-    { "from_ext": ".js",  "bind_hint": "Registry" },
-    { "from_ext": ".ts",  "bind_hint": "Registry" },
-    { "from_ext": ".kt",  "bind_hint": "di/" },
-    { "from_ext": ".py",  "bind_hint": "scripts/" }
+    { "from_ext": ".sh", "bind_hint": "scripts/" },
+    { "from_ext": ".py", "bind_hint": "ai/" },
+    { "from_ext": ".md", "bind_hint": "docs/" },
+    { "from_ext": ".yml", "bind_hint": ".github/workflows/" },
+    { "from_ext": ".yaml", "bind_hint": ".github/workflows/" },
+    { "from_ext": ".json", "bind_hint": "configs/" }
   ]
 }
