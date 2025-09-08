@@ -1,7 +1,0 @@
-# One host or CIDR per line. Domains (for DNS marking) or IP/CIDR (for direct block).
-# Comments allowed with '#'. Keep this canonical; automation consumes it.
-
-example.bad
-telemetry.badcorp.com
-203.0.113.66
-2001:db8::/32
