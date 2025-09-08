@@ -41,9 +41,9 @@ jobs:
         id: check_conflict
         run: |
           if git merge --no-commit --no-ff main; then
-            echo "::set-output name=conflict_exists::false"
+            echo "conflict_exists=false" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=conflict_exists::true"
+            echo "conflict_exists=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Comment on PR about conflicts
@@ -75,14 +75,14 @@ jobs:
 
       - name: (gcloud) Authenticate to GCP with Workload Identity
         if: env.GEMINI_AUTH_MODE == 'gcloud'
-        uses: google-github-actions/auth@v1
+        uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
 
       - name: (gcloud) Install gcloud SDK and obtain access token
         if: env.GEMINI_AUTH_MODE == 'gcloud'
-        uses: google-github-actions/setup-gcloud@v1
+        uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID || '' }}
         run: |

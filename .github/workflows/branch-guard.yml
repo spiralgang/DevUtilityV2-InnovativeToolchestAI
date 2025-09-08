@@ -2,7 +2,9 @@ name: Single copilot/fix- branch guard
 
 on:
   create:
-    ref_type: branch
+  push:
+    branches:
+      - 'copilot/fix-*'
 
 permissions:
   contents: read

@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Validate spiralgang Authority
         env:
-          GITHUB_ACTOR: ${{ spiralgang }}
+          GITHUB_ACTOR: ${{ github.actor }}
         run: |
           # Allow authorized users for chatbot interactions
           if [[ "$GITHUB_ACTOR" != "github-actions[bot]" && "$GITHUB_ACTOR" != "spiralgang" ]]; then
