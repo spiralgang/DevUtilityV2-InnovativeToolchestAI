@@ -100,7 +100,11 @@ class AntiFlailingGuard:
         """Load anti-flailing configuration"""
         try:
             with open(self.config_path, 'r') as f:
-                return json.load(f)
+                config = json.load(f)
+                # Extract anti_flailing_config section if it exists
+                if "anti_flailing_config" in config:
+                    return config["anti_flailing_config"]
+                return config
         except FileNotFoundError:
             logger.warning(f"Config file {self.config_path} not found, using defaults")
             return self._default_config()
@@ -533,10 +537,15 @@ class AntiFlailingGuard:
     
     def _log_expansion_evaluation(self, evaluation: ExpansionEvaluation):
         """Log expansion evaluation"""
+        # Convert dataclass to dict and handle enums
+        eval_dict = asdict(evaluation)
+        eval_dict["decision"] = evaluation.decision.value
+        eval_dict["flailing_risk"] = evaluation.flailing_risk.value
+        
         log_entry = {
             "type": "expansion_evaluation", 
             "timestamp": evaluation.timestamp,
-            "data": asdict(evaluation)
+            "data": eval_dict
         }
         self._write_log("anti_flailing_decisions.jsonl", log_entry)
     
