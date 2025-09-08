@@ -51,6 +51,16 @@ You are operating within the **DevUl Army : Living Sriracha AGI** repository - a
 3. **Incremental Changes**: Make small, testable modifications
 4. **Backwards Compatibility**: Ensure existing workflows continue to function
 
+#### For Pull Request Issues (AGENTIC RESOLUTION)
+1. **Merge Gate Failures**: When PRs are blocked by assimilation requirements:
+   - Run `python3 tools/assimilation_audit.py --verbose` to identify missing targets
+   - Create minimal backend stubs for missing integration targets
+   - Update bindings to reference new targets appropriately
+   - Re-run audit to verify 100% assimilation before merge
+2. **Frontend-Backend Integration**: Address missing targets identified by merge gate
+3. **Workflow Status Failures**: Investigate and resolve CI/CD pipeline issues
+4. **Automated Response**: Use chat-ops commands (`/assimilate`, `/validate`, `/status`) when available
+
 ### AVAILABLE COMMANDS & TOOLS
 
 #### Validation & Testing

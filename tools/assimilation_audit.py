@@ -13,6 +13,10 @@ Features:
 - Strict mode for merge gates
 - Deep code analysis
 - Integration completeness scoring
+
+Integration bindings:
+- configs/frontend_manifest.json
+- .github/workflows/pr-assimilation-audit.yml
 """
 import argparse
 import json

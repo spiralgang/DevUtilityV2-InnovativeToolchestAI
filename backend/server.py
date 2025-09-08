@@ -3,6 +3,12 @@
 Backend server for agent communication
 Assimilated from tools/server.js
 Provides HTTP API for frontend-backend integration
+
+Integration bindings:
+- backend/api/agent_endpoints.py
+- backend/api/assimilation_api.py  
+- scripts/ (automation scripts)
+- ai/ (AI modules)
 """
 
 import json

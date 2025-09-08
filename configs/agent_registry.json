@@ -48,6 +48,28 @@
       "priority": 5
     }
   },
+  "integration_targets": {
+    "AgentApiClient": {
+      "type": "android_client",
+      "path": "app/src/main/java/com/spiralgang/agents/AgentApiClient.kt",
+      "frontend_binding": "frontend/src/utils/agentApi.js"
+    },
+    "AgentDashboardActivity": {
+      "type": "android_activity", 
+      "path": "app/src/main/java/com/spiralgang/ui/AgentDashboardActivity.kt",
+      "frontend_binding": "frontend/src/components/AgentDashboard.vue"
+    },
+    "AssimilationClient": {
+      "type": "android_client",
+      "path": "app/src/main/java/com/spiralgang/agents/AssimilationClient.kt", 
+      "frontend_binding": "frontend/src/utils/assimilationClient.js"
+    },
+    "GitHubIntegrationService": {
+      "type": "android_service",
+      "path": "app/src/main/java/com/spiralgang/services/GitHubIntegrationService.kt",
+      "frontend_binding": "frontend/src/services/githubIntegration.js"
+    }
+  },
   "settings": {
     "default_agent": "deepseek",
     "log_interactions": true,
