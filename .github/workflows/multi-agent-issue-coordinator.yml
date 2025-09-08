@@ -1,11 +1,11 @@
-name: Multi-Agent Issue Coordinator
+name: Mixtral AI Coordination (Single Branch)
 on:
   issues:
     types: [opened, edited, labeled]
   workflow_dispatch:
     inputs:
       issue_numbers:
-        description: 'Comma-separated issue numbers to assign agents to (e.g. 47,45,44,42)'
+        description: 'Comma-separated issue numbers for Mixtral coordination (e.g. 47,45,44,42)'
         required: true
         type: string
       force_reassign:
@@ -21,11 +21,11 @@ permissions:
   actions: write
 
 concurrency:
-  group: multi-agent-coordinator-${{ github.event.issue.number || 'manual' }}
+  group: mixtral-coordination-single-branch
   cancel-in-progress: false
 
 jobs:
-  coordinate:
+  mixtral_coordination:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,38 +38,52 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install PyYAML requests
 
-      - name: Setup issue processing
+      - name: Setup issue processing for Mixtral coordination
         id: setup
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "issue_numbers=${{ inputs.issue_numbers }}" >> $GITHUB_OUTPUT
-            echo "force_reassign=${{ inputs.force_reassign }}" >> $GITHUB_OUTPUT
+            echo "issue_numbers=${{ inputs.issue_numbers }}" >> "$GITHUB_OUTPUT"
+            echo "force_reassign=${{ inputs.force_reassign }}" >> "$GITHUB_OUTPUT"
           else
-            echo "issue_numbers=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
-            echo "force_reassign=false" >> $GITHUB_OUTPUT
+            echo "issue_numbers=${{ github.event.issue.number }}" >> "$GITHUB_OUTPUT"
+            echo "force_reassign=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Run Multi-Agent Coordinator
+      - name: Run Mixtral AI Coordinator (Single Branch)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBERS: ${{ steps.setup.outputs.issue_numbers }}
           FORCE_REASSIGN: ${{ steps.setup.outputs.force_reassign }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
+          echo "🧠 Starting Mixtral coordination on single ai-coordination branch..."
           python3 tools/multi_agent_coordinator.py \
             --issues "$ISSUE_NUMBERS" \
             --force-reassign "$FORCE_REASSIGN" \
             --repo "$GITHUB_REPOSITORY"
 
-      - name: Forensic log coordination
+      - name: Cleanup old agent branches (as requested)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🧹 Cleaning up old agent/* branches as requested..."
+          # List all agent branches and delete them to enforce single branch rule
+          git branch -r | grep "origin/agent/" | sed 's/origin\///' | while read -r branch; do
+            echo "Deleting old agent branch: $branch"
+            git push origin --delete "$branch" || echo "Branch $branch already deleted or doesn't exist"
+          done
+          
+          echo "✅ Single branch enforcement complete - only ai-coordination branch allowed"
+
+      - name: Forensic log Mixtral coordination
         run: |
           mkdir -p logs
-          cat >> logs/agent_coordination.jsonl << EOF
-          {"ts": "$(date -u +%Y-%m-%dT%H:%M:%SZ)", "event": "coordination_complete", "issues": "${{ steps.setup.outputs.issue_numbers }}", "trigger": "${{ github.event_name }}", "run_id": "${{ github.run_id }}"}
+          cat >> logs/mixtral_coordination.jsonl << EOF
+          {"ts": "$(date -u +%Y-%m-%dT%H:%M:%SZ)", "event": "mixtral_coordination_complete", "issues": "${{ steps.setup.outputs.issue_numbers }}", "trigger": "${{ github.event_name }}", "run_id": "${{ github.run_id }}", "branch": "ai-coordination", "coordinator": "mixtral"}
           EOF
 
       - name: Upload coordination logs
         uses: actions/upload-artifact@v4
         with:
-          name: agent-coordination-logs-${{ github.run_number }}
-          path: logs/agent_coordination.jsonl
+          name: mixtral-coordination-logs-${{ github.run_number }}
+          path: logs/mixtral_coordination.jsonl

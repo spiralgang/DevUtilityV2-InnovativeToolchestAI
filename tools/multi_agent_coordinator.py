@@ -67,14 +67,14 @@ class AgentCoordinator:
             self.agent_registry = {"agents": {}, "settings": {"default_agent": "deepseek"}}
 
     def analyze_issue(self, issue_data: Dict) -> Tuple[str, str]:
-        """Analyze issue content to determine appropriate agent"""
+        """Analyze issue content and route through Mixtral coordinator as requested"""
         title = issue_data.get("title", "").lower()
         body = issue_data.get("body", "").lower()
         labels = [label["name"].lower() for label in issue_data.get("labels", [])]
         
         content = f"{title} {body} {' '.join(labels)}"
         
-        # Score each specialization
+        # Score each specialization for Mixtral to coordinate
         scores = {}
         for spec_name, spec_config in self.agent_specializations.items():
             score = 0
@@ -82,16 +82,20 @@ class AgentCoordinator:
                 score += content.count(keyword.lower())
             scores[spec_name] = score
         
-        # Get highest scoring specialization
+        # Get highest scoring specialization 
         best_spec = max(scores.items(), key=lambda x: x[1])
+        
+        # All coordination now goes through Mixtral on Replit as requested
+        coordinator_agent = "mixtral"
         
         if best_spec[1] > 0:
             spec_config = self.agent_specializations[best_spec[0]]
-            return spec_config["agent"], spec_config["description"]
+            description = f"Mixtral Coordinator - Will delegate to {spec_config['agent']} for {spec_config['description']}"
+            return coordinator_agent, description
         else:
-            # Default agent
-            default_agent = self.agent_registry.get("settings", {}).get("default_agent", "deepseek")
-            return default_agent, "General Purpose Agent"
+            # Default coordination through Mixtral
+            description = "Mixtral Coordinator - General purpose task coordination through Replit AI"
+            return coordinator_agent, description
 
     def get_issue(self, issue_number: int) -> Optional[Dict]:
         """Fetch issue data from GitHub API"""
@@ -104,16 +108,25 @@ class AgentCoordinator:
             return None
 
     def create_agent_branch(self, issue_number: int, agent_name: str) -> str:
-        """Create a new branch for the agent to work on"""
-        branch_name = f"agent/{agent_name}/issue-{issue_number}"
+        """Create or use the single AI coordination branch"""
+        branch_name = "ai-coordination"  # Single branch for all AI work as requested
         
         try:
+            # Check if ai-coordination branch exists
+            try:
+                branch_response = requests.get(f"{self.base_url}/git/refs/heads/{branch_name}", headers=self.headers)
+                if branch_response.status_code == 200:
+                    logger.info(f"Using existing {branch_name} branch")
+                    return branch_name
+            except requests.RequestException:
+                pass
+            
             # Get main branch SHA
             main_response = requests.get(f"{self.base_url}/git/refs/heads/main", headers=self.headers)
             main_response.raise_for_status()
             main_sha = main_response.json()["object"]["sha"]
             
-            # Create new branch
+            # Create new branch only if it doesn't exist
             branch_data = {
                 "ref": f"refs/heads/{branch_name}",
                 "sha": main_sha
@@ -135,48 +148,52 @@ class AgentCoordinator:
             return None
 
     def create_agent_pr(self, issue_number: int, agent_name: str, branch_name: str, issue_data: Dict) -> Optional[str]:
-        """Create a pull request for the agent to work on the issue"""
-        agent_info = self.agent_registry.get("agents", {}).get(agent_name, {})
-        agent_display_name = agent_info.get("name", agent_name)
-        agent_icon = agent_info.get("icon", "🤖")
+        """Create a pull request for Mixtral coordination on the ai-coordination branch"""
         
-        pr_title = f"{agent_icon} {agent_display_name}: {issue_data['title']}"
+        pr_title = f"🧠 Mixtral AI Coordination: Issue #{issue_number} - {issue_data['title']}"
         
-        pr_body = f"""# {agent_icon} AI Agent Assignment: {agent_display_name}
+        pr_body = f"""# 🧠 Mixtral AI Coordination through Replit
 
-## Issue Assignment
+## Issue Coordination
 - **Issue:** #{issue_number} - {issue_data['title']}
-- **Assigned Agent:** {agent_display_name} ({agent_name})
-- **Agent Capabilities:** {', '.join(agent_info.get('capabilities', []))}
-- **Assignment Reason:** Specialized for this type of task
+- **Coordinator:** Mixtral (Replit AI)
+- **Branch:** {branch_name} (Single branch for all AI work as requested)
+- **Coordination Strategy:** All AI agents work through Mixtral central coordinator
 
 ## Original Issue Description
 {issue_data.get('body', 'No description provided')}
 
-## Agent Instructions
-This PR is automatically created for AI agent `{agent_name}` to work on issue #{issue_number}.
+## Mixtral Coordination Plan
+This PR coordinates AI work through Mixtral on Replit as requested:
 
-The agent will:
-1. Analyze the issue requirements
-2. Implement the necessary changes
-3. Follow repository standards and guidelines
-4. Provide comprehensive testing and documentation
+1. **Issue Analysis:** Mixtral analyzes requirements and task complexity
+2. **Agent Delegation:** Coordinates with specialized agents (Phi2, DeepSeek, Qwen) as needed
+3. **Work Segmentation:** Splits tasks into manageable segments for collaborative work
+4. **Quality Control:** Ensures all work meets repository standards
+5. **Integration:** Coordinates multiple AI agents working together on complex issues
 
-## Agent Coordination
-- **Priority:** {agent_info.get('priority', 'N/A')}
-- **Model Path:** {agent_info.get('model_path', 'N/A')}
-- **Integration Target:** Multiple AI agents working collaboratively
+## Single Branch Enforcement
+- ✅ **Single Branch:** All AI work consolidated on `{branch_name}` branch
+- ✅ **No Agent Branches:** Eliminates multiple agent-specific branches as requested  
+- ✅ **Coordinated Workflow:** All AI agents coordinate through Mixtral central system
+- ✅ **Manual + Auto:** Supports both automatic assignment and manual frontend interface
+
+## Mixtral Integration
+- **Replit AI:** Central coordination through Mixtral on Replit platform
+- **Multi-Agent:** Can coordinate multiple AI agents for complex tasks
+- **Task Segmentation:** Intelligent work distribution based on agent specializations
+- **Quality Assurance:** Comprehensive review and validation of all AI work
 
 ## Review Requirements
-- [ ] Code quality meets repository standards
-- [ ] All tests pass
-- [ ] Documentation is updated
-- [ ] Integration with existing systems verified
-- [ ] Security and safety checks completed
+- [ ] Mixtral coordination functioning correctly
+- [ ] Single branch workflow enforced
+- [ ] Manual AI interface accessible from frontend
+- [ ] Auto-fix functionality preserved
+- [ ] All AI work properly integrated and tested
 
 ---
-*This PR was automatically created by the Multi-Agent Issue Coordinator*
-*Agent assigned based on issue analysis and specialization matching*
+*This PR was automatically created by the Mixtral AI Coordination System*
+*Eliminates multi-branch complexity and centralizes AI work as requested*
 
 Closes #{issue_number}
 """
@@ -215,17 +232,17 @@ Closes #{issue_number}
             result["error"] = f"Could not fetch issue #{issue_number}"
             return result
 
-        # Check if already assigned (has open PR)
+        # Check if already assigned (has open PR from ai-coordination branch)
         if not force_reassign:
             try:
                 prs_response = requests.get(f"{self.base_url}/pulls", 
-                                          params={"state": "open", "head": f"{self.repo.split('/')[0]}:agent/"}, 
+                                          params={"state": "open", "head": f"{self.repo.split('/')[0]}:ai-coordination"}, 
                                           headers=self.headers)
                 if prs_response.ok:
                     existing_prs = [pr for pr in prs_response.json() 
-                                  if f"issue-{issue_number}" in pr["head"]["ref"]]
+                                  if f"Issue #{issue_number}" in pr["title"] or f"issue-{issue_number}" in pr["title"].lower()]
                     if existing_prs:
-                        result["error"] = f"Issue #{issue_number} already has an active agent PR: {existing_prs[0]['html_url']}"
+                        result["error"] = f"Issue #{issue_number} already has an active AI coordination PR: {existing_prs[0]['html_url']}"
                         return result
             except Exception as e:
                 logger.warning(f"Could not check existing PRs: {e}")

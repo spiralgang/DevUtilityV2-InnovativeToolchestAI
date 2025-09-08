@@ -1,9 +1,9 @@
-name: Trigger Multi-Agent Assignment
+name: Trigger Mixtral AI Coordination (Single Branch)
 on:
   workflow_dispatch:
     inputs:
       target_issues:
-        description: 'Issues to assign agents to (default: 47,45,44,42)'
+        description: 'Issues for Mixtral coordination (default: 47,45,44,42)'
         required: false
         type: string
         default: '47,45,44,42'
@@ -20,7 +20,7 @@ permissions:
   actions: write
 
 jobs:
-  trigger-assignment:
+  trigger-mixtral-coordination:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
