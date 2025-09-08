@@ -1,7 +1,7 @@
 # Policy Enforcement Status Summary
 
-Generated: 2025-09-08T13:01:18.607583
-Report Source: 2025-09-08T13:00:22.588887
+Generated: 2025-09-08T13:02:07.758422
+Report Source: 2025-09-08T13:01:26.946024
 
 ## Overall Status: FAIL
 
@@ -23,7 +23,7 @@ Report Source: 2025-09-08T13:00:22.588887
 
 ### File Extension Binding
 - **Status**: FAIL
-- **Violations**: 143
+- **Violations**: 144
 
 ## Policy Documentation References
 
