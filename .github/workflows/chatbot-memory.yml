@@ -151,4 +151,3 @@ jobs:
           else
             echo "ℹ️ Main write request issue already exists"
           fi
-          done

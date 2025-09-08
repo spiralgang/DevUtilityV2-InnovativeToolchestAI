@@ -1,5 +1,5 @@
 {
-  "timestamp": 1757319976,
+  "timestamp": 1757320744,
   "applied_permissions": [
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/move_apks_to_shared.sh",
@@ -1311,7 +1311,21 @@
       "set": "scripts"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/backend/server.py",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/agent_core.py",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/ai/living_core.py",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -14716,7 +14730,7 @@
       "set": "living_code_db"
     }
   ],
-  "total_files": 2102,
+  "total_files": 2104,
   "security_level": "maximum",
   "living_code_integrated": true
 }

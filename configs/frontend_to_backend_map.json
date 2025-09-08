@@ -1,18 +1,46 @@
 {
-  "frontend/agent_server.py": {
-    "target": "backend/agent_server.py",
-    "binds": ["scripts/interact_agent.sh", "ai/"]
+  "frontend/src/utils/agentApi.js": {
+    "target": "app/src/main/java/com/spiralgang/agents/AgentApiClient.kt",
+    "binds": ["app/src/main/AndroidManifest.xml", "configs/agent_registry.json"]
   },
-  "frontend/components/": {
+  "frontend/src/components/AgentDashboard.vue": {
+    "target": "app/src/main/java/com/spiralgang/ui/DashboardActivity.kt",
+    "binds": ["app/src/main/res/layout/activity_dashboard.xml", "app/src/main/AndroidManifest.xml"]
+  },
+  "frontend/src/components/": {
     "target": "app/src/main/java/com/spiralgang/ui/",
+    "binds": ["app/src/main/AndroidManifest.xml", "app/src/main/res/layout/"]
+  },
+  "frontend/src/utils/": {
+    "target": "app/src/main/java/com/spiralgang/utils/",
     "binds": ["app/src/main/AndroidManifest.xml"]
   },
-  "frontend/widgets/": {
-    "target": "app/src/main/res/layout/",
-    "binds": ["app/src/main/res/values/"]
+  "tools/living-code-coreV2!!.js": {
+    "target": "ai/living_core.py",
+    "binds": ["configs/activation_rules.json", "ai/"]
   },
-  "frontend/agent-hooks/": {
-    "target": "ai/bridges/",
-    "binds": ["configs/agents.json", "ai/"]
+  "tools/providers.js": {
+    "target": "ai/providers.py",
+    "binds": ["configs/agent_registry.json", "ai/"]
+  },
+  "tools/server.js": {
+    "target": "backend/server.py",
+    "binds": ["scripts/", "ai/"]
+  },
+  "ai/agent.py": {
+    "target": "app/src/main/java/com/spiralgang/agents/AgentCore.kt",
+    "binds": ["configs/agent_registry.json", "ai/"]
+  },
+  "ai/agent_core.py": {
+    "target": "app/src/main/java/com/spiralgang/agents/CoreEngine.kt",
+    "binds": ["configs/activation_rules.json", "ai/"]
+  },
+  "ai/bridges/": {
+    "target": "app/src/main/java/com/spiralgang/bridges/",
+    "binds": ["configs/agent_registry.json", "ai/"]
+  },
+  "tools/assimilation_audit.py": {
+    "target": "app/src/main/java/com/spiralgang/validation/AssimilationValidator.kt",
+    "binds": ["configs/frontend_manifest.json", "configs/frontend_to_backend_map.json"]
   }
 }

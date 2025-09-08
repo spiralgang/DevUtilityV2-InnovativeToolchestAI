@@ -1,8 +1,15 @@
 {
   "files": [
-    "frontend/agent_server.py",
-    "frontend/components/",
-    "frontend/widgets/",
-    "frontend/agent-hooks/"
+    "frontend/src/utils/agentApi.js",
+    "frontend/src/components/AgentDashboard.vue",
+    "frontend/src/components/",
+    "frontend/src/utils/",
+    "tools/living-code-coreV2!!.js",
+    "tools/providers.js",
+    "tools/server.js",
+    "ai/agent.py",
+    "ai/agent_core.py",
+    "ai/bridges/",
+    "tools/assimilation_audit.py"
   ]
 }
