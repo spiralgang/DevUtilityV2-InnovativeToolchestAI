@@ -8,6 +8,7 @@ Integration bindings:
 - ai/agent_core.py
 - backend/services/integration_engine.py
 """
+# Bridges: agent_core_bridge, integration_engine
 import json
 import os
 

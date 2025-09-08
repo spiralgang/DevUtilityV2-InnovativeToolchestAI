@@ -8,6 +8,7 @@ Integration bindings:
 - tools/assimilation_audit.py  
 - configs/frontend_to_backend_map.json
 """
+# Bridges: integration_engine_bridge
 import json
 import os
 

@@ -8,6 +8,7 @@ Integration bindings:
 - logs/assimilation.jsonl
 - frontend/src/utils/forensicLogger.js
 """
+# Bridges: forensic_service_bridge
 import json
 import os
 from datetime import datetime

@@ -6,6 +6,8 @@ This script is part of the comprehensive GitHub-native assimilation agent system
 It validates that frontend files are properly integrated into backend features,
 ensuring complete assimilation rather than shallow file copying.
 
+Referenced by: assimilationClient.js for frontend audit integration
+
 Features:
 - Manifest-driven validation
 - Backend binding verification  

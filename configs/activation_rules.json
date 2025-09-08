@@ -66,7 +66,13 @@
     ],
     "allow_auto_merge": false,
     "require_manual_review": true,
-    "audit_first": true
+    "audit_first": true,
+    "bridge_references": [
+      "forensic_logger_bridge",
+      "workflow_runner_bridge", 
+      "core_engine_bridge",
+      "workflow_bridge_adapter"
+    ]
   },
   "organization": {
     "root_file_limit": 50,

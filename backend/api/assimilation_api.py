@@ -8,6 +8,7 @@ Integration bindings:
 - configs/frontend_manifest.json
 - frontend/src/utils/assimilationClient.js
 """
+# Bridges: assimilation_api_bridge
 import json
 import os
 

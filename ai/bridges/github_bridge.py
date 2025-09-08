@@ -4,6 +4,7 @@ Corresponds to: app/src/main/java/com/spiralgang/bridges/GitHubBridge.kt
 
 Part of GitHub-native assimilation agent system
 """
+# Bridges: github_bridge_adapter
 import json
 import os
 

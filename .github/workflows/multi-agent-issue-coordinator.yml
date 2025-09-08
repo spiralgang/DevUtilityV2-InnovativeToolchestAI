@@ -1,4 +1,5 @@
 name: Mixtral AI Coordination (Single Branch)
+# Integrates with agent_dashboard_bridge for frontend coordination
 on:
   issues:
     types: [opened, edited, labeled]

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Standard library only. Offline. Local-owned.
+# Bridges: core_engine_bridge, living_core
 import argparse, os, sys, json, hashlib, time, subprocess
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
