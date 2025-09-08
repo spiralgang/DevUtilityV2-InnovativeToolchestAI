@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "safety_policy": "All file moves and deletions must be explicitly listed here",
+  "approved_moves": [],
+  "approved_deletions": [],
+  "protected_patterns": [
+    "app/src/**",
+    "build.gradle",
+    "gradlew*",
+    "scripts/validate-system.sh",
+    "scripts/manual-conflict-resolver.sh",
+    "**/*.kt",
+    "**/*.java"
+  ],
+  "audit_log": [
+    {
+      "timestamp": "2024-12-19T00:00:00Z",
+      "action": "move_manifest_created",
+      "user": "safety_policy_init",
+      "reason": "Implement Copilot Safety Policy - prevent unauthorized file operations"
+    }
+  ]
+}

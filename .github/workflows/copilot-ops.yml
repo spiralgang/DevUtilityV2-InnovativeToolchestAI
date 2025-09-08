@@ -55,18 +55,28 @@ jobs:
       - name: "1. Checkout Repository"
         uses: actions/checkout@v4
 
-      - name: "2. Install System Dependencies (jq for actionlint installer)"
+      - name: "2. Validate Copilot Safety Policy"
+        run: |
+          echo "[SAFETY] Validating Copilot Safety Policy compliance..."
+          if [ -f "scripts/ops-guard/safety-enforcer.sh" ]; then
+            chmod +x scripts/ops-guard/safety-enforcer.sh
+            ./scripts/ops-guard/safety-enforcer.sh
+          else
+            echo "[SAFETY] WARNING: Safety enforcer not found, proceeding with caution"
+          fi
+
+      - name: "3. Install System Dependencies (jq for actionlint installer)"
         run: sudo apt-get update && sudo apt-get install -y jq
 
-      - name: "3. Set Script Permissions"
+      - name: "4. Set Script Permissions"
         run: |
           chmod +x scripts/*.sh || true
           chmod +x tools/validation/*.sh || true
 
-      - name: "4. Install actionlint"
+      - name: "5. Install actionlint"
         run: ./scripts/install-actionlint.sh
 
-      - name: "5. Run System Validation Suite"
+      - name: "6. Run System Validation Suite"
         run: ./tools/validation/system-validator.sh
 
       - name: "6. Start Forensic Log"
