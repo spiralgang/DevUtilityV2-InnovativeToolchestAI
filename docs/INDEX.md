@@ -27,6 +27,12 @@ This repository contains a revolutionary **Agentic Living-Code Augmentation Syst
 - [`datasets/`](datasets/) - Living training data that evolves with system usage
 - [`docs/`](docs/) - Comprehensive agentic system documentation
 
+### 🛡️ Policy and Governance (@GDA)
+- [`docs/SCOPE_ENFORCEMENT_POLICY.md`](docs/SCOPE_ENFORCEMENT_POLICY.md) - Comprehensive scope enforcement rules and boundaries
+- [`docs/NAMING_POLICY.md`](docs/NAMING_POLICY.md) - Consolidated naming conventions across all languages and file types
+- [`reference/VAULT.md`](reference/VAULT.md) - Safety policy and protected resources reference
+- [`scripts/policy-enforcement-validator.py`](scripts/policy-enforcement-validator.py) - Automated policy compliance validation
+
 ## 🌟 Agentic Navigation Tips (@GATT)
 1. **Start with `app/src/main/java/.../agentic/`** for core living-code adaptation engines
 2. **Explore `ai/`** for autonomous AI personality systems and engines

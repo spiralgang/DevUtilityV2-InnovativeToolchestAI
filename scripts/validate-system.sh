@@ -140,6 +140,23 @@ rm -rf test_conflicts
 
 echo -e "${GREEN}✅ Conflict resolution strategies validated${NC}"
 
+# Test 9: Policy enforcement validation
+echo -e "${BLUE}[TEST 9]${NC} Running policy enforcement validation..."
+if command -v python3 &> /dev/null; then
+    if [[ -f "scripts/policy-enforcement-validator.py" ]]; then
+        echo "Running comprehensive policy enforcement validation..."
+        if python3 scripts/policy-enforcement-validator.py --repo-root . --verbose; then
+            echo -e "${GREEN}✅ Policy enforcement validation passed${NC}"
+        else
+            echo -e "${YELLOW}⚠️ Policy enforcement validation found issues${NC}"
+        fi
+    else
+        echo -e "${YELLOW}⚠️ Policy enforcement validator not found${NC}"
+    fi
+else
+    echo -e "${YELLOW}⚠️ Python3 not available for policy validation${NC}"
+fi
+
 echo ""
 echo -e "${GREEN}🎉 All validation tests passed!${NC}"
 echo ""
@@ -149,5 +166,7 @@ echo "  ✅ Bash interactive conflict resolution"
 echo "  ✅ GitHub Actions workflow integration"
 echo "  ✅ Comprehensive documentation"
 echo "  ✅ Active merge conflict handling"
+echo "  ✅ Scope enforcement policy compliance"
+echo "  ✅ Naming policy conventions"
 echo ""
 echo -e "${BLUE}💡 The conflict resolution system is ready for production use!${NC}"

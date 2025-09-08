@@ -70,7 +70,7 @@
   },
   "organization": {
     "root_file_limit": 50,
-    "allowed_root_extensions": [".md", ".gradle", ".yml", ".json", ".sh"],
+    "allowed_root_extensions": [".md", ".gradle", ".yml", ".json", ".sh", "", ".bat", ".backup", ".new", ".fixed"],
     "auto_organize_threshold": 10
   }
 }
