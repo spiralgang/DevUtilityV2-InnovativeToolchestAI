@@ -8,6 +8,7 @@ Integration bindings:
 - ai/agent_core.py  
 - frontend/src/utils/agentApi.js
 """
+# Bridges: agent_endpoints_bridge
 
 class AgentEndpoints:
     """Agent API endpoints for frontend integration"""

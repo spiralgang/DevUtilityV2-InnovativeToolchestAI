@@ -141,6 +141,60 @@
       </div>
     </div>
 
+    <!-- Manual Issue Assignment Section -->
+    <div class="issue-assignment-section">
+      <h2>🎯 Manual Issue Assignment (Mixtral Coordination)</h2>
+      <div class="issue-assignment-controls">
+        <div class="assignment-inputs">
+          <div class="input-group">
+            <label>Issue Number:</label>
+            <input 
+              type="number" 
+              v-model="issueNumber" 
+              placeholder="e.g. 47"
+              class="issue-input"
+              min="1"
+            >
+          </div>
+          <div class="input-group">
+            <label>Force Reassign:</label>
+            <input type="checkbox" v-model="forceReassign" class="force-checkbox">
+            <span class="checkbox-label">Override existing assignments</span>
+          </div>
+        </div>
+        <div class="assignment-actions">
+          <button 
+            @click="assignIssueToMixtral" 
+            :disabled="!issueNumber || issueAssignmentLoading"
+            class="assign-btn"
+          >
+            {{ issueAssignmentLoading ? '🔄 Assigning...' : '🧠 Assign to Mixtral Coordinator' }}
+          </button>
+          <button 
+            @click="checkIssueStatus" 
+            :disabled="!issueNumber || issueStatusLoading"
+            class="status-btn"
+          >
+            {{ issueStatusLoading ? '🔄 Checking...' : '📊 Check Assignment Status' }}
+          </button>
+        </div>
+        <div class="assignment-info" v-if="assignmentResult">
+          <h3>Assignment Result:</h3>
+          <div class="result-content" :class="assignmentResult.success ? 'success' : 'error'">
+            <div v-if="assignmentResult.success">
+              ✅ <strong>Successfully assigned!</strong><br>
+              📝 <strong>Agent:</strong> {{ assignmentResult.agent?.name || 'Mixtral Coordinator' }}<br>
+              🔗 <strong>PR:</strong> <a :href="assignmentResult.pr_url" target="_blank">{{ assignmentResult.pr_url }}</a><br>
+              📋 <strong>Description:</strong> {{ assignmentResult.agent?.description || 'Coordinating through Mixtral' }}
+            </div>
+            <div v-else>
+              ❌ <strong>Assignment failed:</strong> {{ assignmentResult.error }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Interaction History -->
     <div class="history-section">
       <h2>📋 Interaction History</h2>
@@ -194,7 +248,13 @@ export default {
       selectedAgents: [],
       consensusPrompt: '',
       consensusResponse: null,
-      interactionHistory: []
+      interactionHistory: [],
+      // Manual issue assignment properties
+      issueNumber: null,
+      forceReassign: false,
+      issueAssignmentLoading: false,
+      issueStatusLoading: false,
+      assignmentResult: null
     };
   },
   
@@ -420,6 +480,95 @@ export default {
         return JSON.stringify(value, null, 2);
       }
       return String(value);
+    },
+
+    // Manual issue assignment methods
+    async assignIssueToMixtral() {
+      if (!this.issueNumber) return;
+      
+      this.issueAssignmentLoading = true;
+      this.assignmentResult = null;
+      this.clearError();
+      
+      try {
+        // Call the multi-agent coordinator to assign issue through Mixtral
+        const result = await fetch('/api/assign-issue', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            issue_number: this.issueNumber,
+            force_reassign: this.forceReassign,
+            coordinator: 'mixtral'  // Force Mixtral coordination
+          })
+        });
+        
+        if (!result.ok) {
+          throw new Error(`Assignment failed: ${result.statusText}`);
+        }
+        
+        const assignmentData = await result.json();
+        this.assignmentResult = assignmentData;
+        
+        // Add to interaction history
+        this.interactionHistory.unshift({
+          agent: 'mixtral',
+          mode: 'issue-assignment',
+          prompt: `Issue #${this.issueNumber} assignment`,
+          timestamp: new Date().toISOString(),
+          success: assignmentData.success,
+          result: assignmentData
+        });
+        
+      } catch (error) {
+        this.error = `Failed to assign issue: ${error.message}`;
+        this.assignmentResult = {
+          success: false,
+          error: error.message
+        };
+      } finally {
+        this.issueAssignmentLoading = false;
+      }
+    },
+
+    async checkIssueStatus() {
+      if (!this.issueNumber) return;
+      
+      this.issueStatusLoading = true;
+      this.clearError();
+      
+      try {
+        const result = await fetch(`/api/issue-status/${this.issueNumber}`);
+        
+        if (!result.ok) {
+          throw new Error(`Status check failed: ${result.statusText}`);
+        }
+        
+        const statusData = await result.json();
+        
+        // Show status in assignment result area
+        this.assignmentResult = {
+          success: true,
+          status: 'checked',
+          agent: { 
+            name: statusData.assigned_agent || 'None',
+            description: statusData.agent_description || 'No active assignment'
+          },
+          pr_url: statusData.pr_url,
+          issue_url: statusData.issue_url,
+          message: `Issue #${this.issueNumber} status: ${statusData.status || 'Unknown'}`
+        };
+        
+      } catch (error) {
+        this.error = `Failed to check issue status: ${error.message}`;
+        this.assignmentResult = {
+          success: false,
+          error: error.message
+        };
+      } finally {
+        this.issueStatusLoading = false;
+      }
     }
   }
 };
@@ -705,5 +854,134 @@ h2 {
   margin-top: 0;
   margin-bottom: 15px;
   font-size: 1.3em;
+}
+
+/* Issue Assignment Section Styling */
+.issue-assignment-section {
+  background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+  border: 1px solid #00ff00;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.issue-assignment-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.assignment-inputs {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-group label {
+  color: #00ff00;
+  font-weight: bold;
+  min-width: 100px;
+}
+
+.issue-input {
+  background: #0f0f0f;
+  border: 1px solid #00ff00;
+  border-radius: 5px;
+  padding: 8px 12px;
+  color: #00ff00;
+  width: 120px;
+  font-family: 'Courier New', monospace;
+}
+
+.issue-input:focus {
+  outline: none;
+  border-color: #00ff88;
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+}
+
+.force-checkbox {
+  margin-right: 5px;
+}
+
+.checkbox-label {
+  color: #cccccc;
+  font-size: 0.9em;
+}
+
+.assignment-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.assign-btn, .status-btn {
+  background: linear-gradient(135deg, #004400, #008800);
+  border: 1px solid #00ff00;
+  border-radius: 5px;
+  padding: 10px 15px;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.assign-btn:hover:not(:disabled), .status-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #006600, #00aa00);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.assign-btn:disabled, .status-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.assignment-info {
+  background: #0f0f0f;
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 10px;
+}
+
+.assignment-info h3 {
+  color: #00ff00;
+  margin: 0 0 10px 0;
+  font-size: 1.1em;
+}
+
+.result-content {
+  padding: 10px;
+  border-radius: 5px;
+  line-height: 1.6;
+}
+
+.result-content.success {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00ff00;
+  color: #ffffff;
+}
+
+.result-content.error {
+  background: rgba(255, 68, 68, 0.1);
+  border: 1px solid #ff4444;
+  color: #ff4444;
+}
+
+.result-content a {
+  color: #00ff88;
+  text-decoration: none;
+}
+
+.result-content a:hover {
+  text-decoration: underline;
 }
 </style>

@@ -140,4 +140,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: command-log-${{ github.event.issue.number }}-${{ github.run_number }}
-          path: logs/command_history.jsonl
+          path: logs/command_history.jsonl# Backend Integration References
+# Referenced by: workflow_runner_bridge, workflow_bridge_adapter

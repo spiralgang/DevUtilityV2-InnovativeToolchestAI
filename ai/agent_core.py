@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
+# Bridge reference: integration_engine_bridge
+# Bridge reference: agent_endpoints_bridge
+# Bridge reference: agent_core_bridge
 # Standard library only. Offline. Local-owned.
+# Bridges: core_engine_bridge, living_core
 import argparse, os, sys, json, hashlib, time, subprocess
 
 ROOT = os.path.dirname(os.path.abspath(__file__))

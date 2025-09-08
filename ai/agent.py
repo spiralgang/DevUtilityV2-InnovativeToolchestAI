@@ -1,4 +1,5 @@
 """
+# Bridge reference: providers
 AI Agent - AI Integration Target
 Corresponds to: app/src/main/java/com/spiralgang/agents/AgentCore.kt
 
@@ -8,6 +9,7 @@ Integration bindings:
 - ai/agent_core.py
 - backend/services/integration_engine.py
 """
+# Bridges: agent_core_bridge, integration_engine
 import json
 import os
 
