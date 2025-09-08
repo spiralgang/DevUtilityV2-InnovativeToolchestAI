@@ -1,28 +1,22 @@
-name: Clone, Cache & Self‑Test Hugging Face Models
+name: Activate Agents and Reshape Repo
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - '.github/workflows/clone-hf-models.yml'
+      - '.github/workflows/activate-agents.yml'
       - 'configs/model_manifest.json'
 
 jobs:
-  clone-hf-repos:
+  activate-agents:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Install Git LFS (optional)
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y git-lfs
-        git lfs install
-
-    - name: Prepare models directory
-      run: mkdir -p models logs
+    - name: Prepare workspace
+      run: mkdir -p models logs scratchpad
 
     - name: Cache Hugging Face Models
       uses: actions/cache@v3
@@ -38,56 +32,97 @@ jobs:
           if [ ! -d "models/$dir" ]; then
             echo "[FETCH] $repo -> models/$dir"
             git clone "$repo" "models/$dir"
-            rm -rf "models/$dir/.git"  # strip repo metadata to avoid submodule warnings
+            rm -rf "models/$dir/.git"
           else
             echo "[SKIP] models/$dir already present"
           fi
         done
 
-    - name: Forensic Log
-      run: |
-        ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-        echo "{ \"ts\": \"$ts\", \"event\": \"model_sync\", \"models\": $(cat configs/model_manifest.json) }" >> logs/model_sync.jsonl
-
-    - name: Install Python deps for self‑test
+    - name: Install Python deps
       run: |
         python3 -m pip install --upgrade pip
         pip install torch --index-url https://download.pytorch.org/whl/cpu
         pip install transformers accelerate
 
-    - name: Self‑Test Phi‑2
+    - name: Activate Phi‑2 Integration Agent
       run: |
         python3 - <<'PY'
         from transformers import AutoModelForCausalLM, AutoTokenizer
-        import torch
+        import torch, os, json
+
         model_dir = "models/Phi-2"
         tok = AutoTokenizer.from_pretrained(model_dir)
         model = AutoModelForCausalLM.from_pretrained(model_dir, torch_dtype=torch.float32)
-        prompt = "'''Python\n# Write a function to compute the nth Fibonacci number\n"
+
+        files = []
+        for root, dirs, fs in os.walk(".", topdown=True):
+            for f in fs:
+                if f.endswith((".py", ".js", ".ts", ".java", ".kt", ".vue")):
+                    files.append(os.path.join(root, f))
+
+        prompt = f"""
+        You are the Integration Agent.
+        Repo files: {json.dumps(files[:200])}
+        Task: Map frontend files to backend integration points and output shell commands to apply changes.
+        """
+
         inputs = tok(prompt, return_tensors="pt")
-        outputs = model.generate(**inputs, max_new_tokens=40)
-        print(tok.decode(outputs[0], skip_special_tokens=True))
+        outputs = model.generate(**inputs, max_new_tokens=512)
+        plan = tok.decode(outputs[0], skip_special_tokens=True)
+
+        with open("scratchpad/phi2_plan.sh", "w") as f:
+            f.write(plan)
         PY
 
-    - name: Self‑Test Qwen2.5‑0.5B
+    - name: Activate Qwen Glue‑Code Agent
       run: |
         python3 - <<'PY'
         from transformers import AutoModelForCausalLM, AutoTokenizer
-        import torch
+        import torch, os, json
+
         model_dir = "models/Qwen2.5-0.5B"
         tok = AutoTokenizer.from_pretrained(model_dir)
         model = AutoModelForCausalLM.from_pretrained(model_dir, torch_dtype=torch.float32)
-        prompt = "Explain what an agentic AI is in one sentence."
+
+        files = []
+        for root, dirs, fs in os.walk(".", topdown=True):
+            for f in fs:
+                if f.endswith((".py", ".js", ".ts", ".java", ".kt", ".vue")):
+                    files.append(os.path.join(root, f))
+
+        prompt = f"""
+        You are the Glue‑Code Agent.
+        Repo files: {json.dumps(files[:200])}
+        Task: Identify missing integration logic and output shell commands to inject fixes.
+        """
+
         inputs = tok(prompt, return_tensors="pt")
-        outputs = model.generate(**inputs, max_new_tokens=40)
-        print(tok.decode(outputs[0], skip_special_tokens=True))
+        outputs = model.generate(**inputs, max_new_tokens=512)
+        plan = tok.decode(outputs[0], skip_special_tokens=True)
+
+        with open("scratchpad/qwen_plan.sh", "w") as f:
+            f.write(plan)
         PY
 
-    # Optional: commit models into repo — skip if you only want them cached
+    - name: Merge Agent Plans and Apply
+      run: |
+        echo "=== Phi‑2 Plan ==="
+        cat scratchpad/phi2_plan.sh
+        echo "=== Qwen Plan ==="
+        cat scratchpad/qwen_plan.sh
+        cat scratchpad/phi2_plan.sh scratchpad/qwen_plan.sh > scratchpad/combined_plan.sh
+        chmod +x scratchpad/combined_plan.sh
+        bash scratchpad/combined_plan.sh || echo "Plan execution completed with warnings."
+
+    - name: Forensic Log
+      run: |
+        ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+        echo "{ \"ts\": \"$ts\", \"event\": \"agent_run\", \"phi2_plan\": \"$(cat scratchpad/phi2_plan.sh | base64 -w0)\", \"qwen_plan\": \"$(cat scratchpad/qwen_plan.sh | base64 -w0)\" }" >> logs/agent_run.jsonl
+
     - name: Commit and Push Changes
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git add models/ logs/model_sync.jsonl
-        git diff --cached --quiet || git commit -m "Sync Hugging Face models from manifest"
+        git add .
+        git diff --cached --quiet || git commit -m "Agent‑driven repo transformation"
         git push
