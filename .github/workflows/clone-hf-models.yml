@@ -1,21 +1,11 @@
-name: Clone and Cache Hugging Face Models
+name: Clone, Cache & Self‑Test Hugging Face Models
 
 on:
   workflow_dispatch:
-    inputs:
-      commit_models:
-        description: 'Commit models to repository (default: false for building only)'
-        required: false
-        default: 'false'
-        type: boolean
   push:
     paths:
       - '.github/workflows/clone-hf-models.yml'
       - 'configs/model_manifest.json'
-
-permissions:
-  contents: write
-  actions: read
 
 jobs:
   clone-hf-repos:
@@ -44,78 +34,60 @@ jobs:
 
     - name: Clone Models from Manifest
       run: |
-        echo "📋 Processing model manifest..."
-        cat configs/model_manifest.json
-        
-        echo "🔄 Starting model clone process..."
-        jq -r '.models[] | "\(.repo) \(.dir)"' configs/model_manifest.json | while read -r repo dir; do
+        jq -r '.models[] | "\(.repo) \(.dir)"' configs/model_manifest.json | while read repo dir; do
           if [ ! -d "models/$dir" ]; then
-            echo "📥 [FETCH] $repo -> models/$dir"
-            if git clone --depth 1 "$repo" "models/$dir"; then
-              rm -rf "models/$dir/.git"  # strip repo metadata to avoid submodule warnings
-              echo "✅ [SUCCESS] Downloaded models/$dir"
-            else
-              echo "❌ [ERROR] Failed to clone $repo"
-              exit 1
-            fi
+            echo "[FETCH] $repo -> models/$dir"
+            git clone "$repo" "models/$dir"
+            rm -rf "models/$dir/.git"  # strip repo metadata to avoid submodule warnings
           else
-            echo "⏭️ [SKIP] models/$dir already present"
+            echo "[SKIP] models/$dir already present"
           fi
         done
-        
-        echo "📊 Final models directory structure:"
-        find models -type f -name "*.bin" -o -name "*.safetensors" -o -name "config.json" | head -10
 
     - name: Forensic Log
       run: |
         ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-        echo "📝 Creating forensic log entry..."
-        
-        # Count actual downloaded models
-        model_count=$(find models -maxdepth 1 -type d | grep -v "^models$" | wc -l || echo "0")
-        
-        # Create detailed log entry
-        echo "{" > temp_log.json
-        echo "  \"ts\": \"$ts\"," >> temp_log.json
-        echo "  \"event\": \"model_sync\"," >> temp_log.json
-        echo "  \"workflow\": \"clone-hf-models\"," >> temp_log.json
-        echo "  \"trigger\": \"${{ github.event_name }}\"," >> temp_log.json
-        echo "  \"actor\": \"${{ github.actor }}\"," >> temp_log.json
-        echo "  \"models_manifest\": $(cat configs/model_manifest.json)," >> temp_log.json
-        echo "  \"models_downloaded\": $model_count," >> temp_log.json
-        echo "  \"commit_mode\": \"${{ github.event.inputs.commit_models || 'false' }}\"" >> temp_log.json
-        echo "}" >> temp_log.json
-        
-        # Append to JSONL log
-        cat temp_log.json >> logs/model_sync.jsonl
-        rm temp_log.json
-        
-        echo "✅ Forensic log updated: logs/model_sync.jsonl"
+        echo "{ \"ts\": \"$ts\", \"event\": \"model_sync\", \"models\": $(cat configs/model_manifest.json) }" >> logs/model_sync.jsonl
 
-    # Optional: commit models into repo — only if explicitly requested
-    - name: Commit and Push Changes
-      if: github.event.inputs.commit_models == 'true'
+    - name: Install Python deps for self‑test
       run: |
-        echo "💾 Committing models to repository..."
+        python3 -m pip install --upgrade pip
+        pip install torch --index-url https://download.pytorch.org/whl/cpu
+        pip install transformers accelerate
+
+    - name: Self‑Test Phi‑2
+      run: |
+        python3 - <<'PY'
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        import torch
+        model_dir = "models/Phi-2"
+        tok = AutoTokenizer.from_pretrained(model_dir)
+        model = AutoModelForCausalLM.from_pretrained(model_dir, torch_dtype=torch.float32)
+        prompt = "'''Python\n# Write a function to compute the nth Fibonacci number\n"
+        inputs = tok(prompt, return_tensors="pt")
+        outputs = model.generate(**inputs, max_new_tokens=40)
+        print(tok.decode(outputs[0], skip_special_tokens=True))
+        PY
+
+    - name: Self‑Test Qwen2.5‑0.5B
+      run: |
+        python3 - <<'PY'
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        import torch
+        model_dir = "models/Qwen2.5-0.5B"
+        tok = AutoTokenizer.from_pretrained(model_dir)
+        model = AutoModelForCausalLM.from_pretrained(model_dir, torch_dtype=torch.float32)
+        prompt = "Explain what an agentic AI is in one sentence."
+        inputs = tok(prompt, return_tensors="pt")
+        outputs = model.generate(**inputs, max_new_tokens=40)
+        print(tok.decode(outputs[0], skip_special_tokens=True))
+        PY
+
+    # Optional: commit models into repo — skip if you only want them cached
+    - name: Commit and Push Changes
+      run: |
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add models/ logs/model_sync.jsonl
-        if git diff --cached --quiet; then
-          echo "📝 No changes to commit"
-        else
-          git commit -m "Sync Hugging Face models from manifest
-          
-          - Updated models cache
-          - Forensic log: logs/model_sync.jsonl
-          - Models for build assistance only"
-          git push
-          echo "✅ Successfully committed and pushed models"
-        fi
-        
-    - name: Build Assistance Summary
-      if: github.event.inputs.commit_models != 'true'
-      run: |
-        echo "🏗️ Models ready for build assistance:"
-        echo "   Models are cached and available for workflows"
-        echo "   Use models/ directory in subsequent build steps"
-        echo "   No commit/push performed (build-only mode)"
+        git diff --cached --quiet || git commit -m "Sync Hugging Face models from manifest"
+        git push
