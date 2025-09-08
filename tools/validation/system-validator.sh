@@ -28,8 +28,8 @@ echo -e "${GREEN}✅ Core dependencies are present.${NC}"
 # Test 2: GitHub Actions Workflow Integrity
 echo -e "\n${BLUE}[TEST 2]${NC} Validating GitHub Actions workflows with actionlint..."
 if command -v actionlint &> /dev/null; then
-    # Lint all YAML files in the workflows directory for correctness.
-    actionlint .github/workflows/*.yml
+    # Lint all workflow files in the workflows directory for correctness.
+    actionlint .github/workflows/
     echo -e "${GREEN}✅ All GitHub Actions workflows passed validation.${NC}"
 else
     # This block should never be reached in a correctly configured CI run.
