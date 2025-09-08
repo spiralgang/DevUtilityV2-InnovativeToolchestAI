@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-import argparse, json, os, re, subprocess, sys, time, hashlib
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+import hashlib
 
 def sh(*cmd):
     return subprocess.check_output(list(cmd), text=True).strip()
