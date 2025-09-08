@@ -84,3 +84,8 @@ models/
 *.bin
 *.safetensors
 
+# Block Copilot Memory System  
+.github/copilot-memory/
+.github/forensics/
+*copilot-memory*
+
