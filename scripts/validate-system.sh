@@ -69,8 +69,12 @@ echo -e "${BLUE}[TEST 4]${NC} Validating GitHub Actions workflow..."
 if ! command -v actionlint &> /dev/null; then
     echo "Installing actionlint..."
     ./scripts/install-actionlint.sh
-    # Add Go bin to PATH
-    export PATH="$PATH:$(go env GOPATH)/bin"
+    # Add Go bin to PATH if Go is available
+    if command -v go &> /dev/null; then
+        export PATH="$PATH:$(go env GOPATH)/bin"
+    else
+        echo -e "${YELLOW}⚠️  Go is not installed; skipping Go bin PATH export${NC}"
+    fi
 fi
 
 if command -v actionlint &> /dev/null; then
