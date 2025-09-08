@@ -1,5 +1,5 @@
 {
-  "timestamp": 1757310894,
+  "timestamp": 1757314570,
   "applied_permissions": [
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/_data_data_tech.ula_files_home_.omniscient_optimization_performance-tuner-1.sh",
@@ -324,6 +324,13 @@
       "set": "scripts"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/agent_cli.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/master-comprehensive-collector.sh",
       "permissions": "0755",
       "owner": "user",
@@ -374,6 +381,13 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/ssnahke-local-installer.sh",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/interact_agent.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -471,14 +485,14 @@
       "set": "scripts"
     },
     {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/hardened-shell-environment.sh",
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/demo_comprehensive.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
       "set": "scripts"
     },
     {
-      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scratch/plan.sh",
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/hardened-shell-environment.sh",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -1263,6 +1277,13 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/tools/near_duplicate.py",
+      "permissions": "0755",
+      "owner": "user",
+      "group": "user",
+      "set": "scripts"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/backend/agent_server.py",
       "permissions": "0755",
       "owner": "user",
       "group": "user",
@@ -11678,6 +11699,13 @@
       "set": "configs"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/agent_registry.json",
+      "permissions": "0644",
+      "owner": "root",
+      "group": "root",
+      "set": "configs"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/configs/pgp_security.json",
       "permissions": "0644",
       "owner": "root",
@@ -13414,6 +13442,13 @@
       "set": "data"
     },
     {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/scripts/README.md",
+      "permissions": "0644",
+      "owner": "user",
+      "group": "user",
+      "set": "data"
+    },
+    {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/README.md",
       "permissions": "0644",
       "owner": "user",
@@ -13646,6 +13681,13 @@
     },
     {
       "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/ENHANCED_DEVELOPMENT_ENVIRONMENT.md",
+      "permissions": "0644",
+      "owner": "user",
+      "group": "user",
+      "set": "data"
+    },
+    {
+      "file": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/docs/LOCAL_AGENT_SYSTEM.md",
       "permissions": "0644",
       "owner": "user",
       "group": "user",
@@ -14625,7 +14667,7 @@
       "set": "living_code_db"
     }
   ],
-  "total_files": 2089,
+  "total_files": 2095,
   "security_level": "maximum",
   "living_code_integrated": true
 }
