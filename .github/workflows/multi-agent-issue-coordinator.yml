@@ -1,0 +1,75 @@
+name: Multi-Agent Issue Coordinator
+on:
+  issues:
+    types: [opened, edited, labeled]
+  workflow_dispatch:
+    inputs:
+      issue_numbers:
+        description: 'Comma-separated issue numbers to assign agents to (e.g. 47,45,44,42)'
+        required: true
+        type: string
+      force_reassign:
+        description: 'Force reassignment even if already assigned'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: write
+
+concurrency:
+  group: multi-agent-coordinator-${{ github.event.issue.number || 'manual' }}
+  cancel-in-progress: false
+
+jobs:
+  coordinate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install PyYAML requests
+
+      - name: Setup issue processing
+        id: setup
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "issue_numbers=${{ inputs.issue_numbers }}" >> $GITHUB_OUTPUT
+            echo "force_reassign=${{ inputs.force_reassign }}" >> $GITHUB_OUTPUT
+          else
+            echo "issue_numbers=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
+            echo "force_reassign=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Multi-Agent Coordinator
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBERS: ${{ steps.setup.outputs.issue_numbers }}
+          FORCE_REASSIGN: ${{ steps.setup.outputs.force_reassign }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python3 tools/multi_agent_coordinator.py \
+            --issues "$ISSUE_NUMBERS" \
+            --force-reassign "$FORCE_REASSIGN" \
+            --repo "$GITHUB_REPOSITORY"
+
+      - name: Forensic log coordination
+        run: |
+          mkdir -p logs
+          cat >> logs/agent_coordination.jsonl << EOF
+          {"ts": "$(date -u +%Y-%m-%dT%H:%M:%SZ)", "event": "coordination_complete", "issues": "${{ steps.setup.outputs.issue_numbers }}", "trigger": "${{ github.event_name }}", "run_id": "${{ github.run_id }}"}
+          EOF
+
+      - name: Upload coordination logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-coordination-logs-${{ github.run_number }}
+          path: logs/agent_coordination.jsonl
