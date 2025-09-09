@@ -1,0 +1,422 @@
+Based on the provided information, the user is experiencing a failing GitHub Actions job in a pull request (PR) and needs a solution. The root cause is that the git diff command is failing because the main branch doesn't exist locally on the runner, leading to an "unknown revision" error. This is a common issue in GitHub Actions workflows.
+
+🛠️ The Fix for PR #58
+
+To resolve the failing job in PR #58, you need to add a step to the GitHub Actions workflow to fetch the main branch before the git diff command runs. You also need to correct the git diff syntax to explicitly compare the PR's HEAD with origin/main.
+
+The Problem
+
+The workflow step uses git diff --name-only origin/main..., but the GitHub Actions runner, by default, only checks out the specific branch or commit associated with the pull request. It doesn't have the origin/main branch available locally, which is required for the comparison. This results in a fatal: ambiguous argument 'origin/main...': unknown revision or path not in the working tree error.
+
+The Solution
+
+You must modify the .github/workflows/pr-gate.yml file with the following steps.
+
+Fetch the main branch: Add a git fetch command before the git diff step. This makes the origin/main branch available to the runner.
+
+YAML
+
+- name: Fetch main branch run: git fetch origin main 
+
+Correct the git diff syntax: Explicitly specify HEAD to compare the changes in the current branch against origin/main.
+
+Bash
+
+git diff --name-only origin/main...HEAD 
+
+Putting It All Together
+
+Here's an example of how the corrected workflow file should look:
+
+YAML
+
+# .github/workflows/pr-gate.yml 
+
+version: "1.0"
+policy_name: copilot-universal-screenview-scope-guard
+purpose: >
+  Enforce explicit environment/layer identification from Universe scale down to AI runtime.
+  If scope is unclear, switch to chat mode. Always think in third-person human from
+  SCREEN VIEW FRONTUI, describing what is visible in the CLI/logs before reasoning or acting.
+
+modes:
+  default: guard
+  chat_on_ambiguity: true
+  fail_on_cross_scope: true
+
+mindset:
+  thinkview:
+    perspective: third-person-human
+    surface: SCREEN VIEW FRONTUI
+    required_observation:
+      - current_cli_prompt
+      - cwd
+      - visible_files
+      - recent_cli_output
+      - active_command
+    output_contract: >
+      1) Describe SCREEN VIEW FRONTUI.
+      2) Declare inferred layer/env with reasons.
+      3) Normalize shared terms per layer mapping.
+      4) Propose actions; if unclear, enter chat mode.
+
+layers:
+  - key: Universe
+    role: Spacetime root container
+    immutable_policies: [speed_of_light, thermodynamics, quantum_mechanics]
+    escape_vector: unknown
+  - key: Galaxy
+    role: Galactic gravity well
+    immutable_policies: [orbital_mechanics, mass_distribution]
+    escape_vector: intergalactic_travel
+  - key: SolarSystem
+    role: Sun’s gravity/heliosphere
+    immutable_policies: [planetary_orbits, radiation_environment]
+    escape_vector: leave_solar_gravity
+  - key: Earth
+    role: Planetary biosphere
+    immutable_policies: [atmosphere, ecosystems, geology]
+    escape_vector: escape_velocity
+  - key: GravityWell
+    role: Local gravitational constraint
+    immutable_policies: [constant_acceleration]
+    escape_vector: rockets
+  - key: Society
+    role: Laws, norms, institutions
+    immutable_policies: [social_contracts, cultural_constraints]
+    escape_vector: emigration_or_subculture_shift
+  - key: Humanity
+    role: Biology, neurology, psychology
+    immutable_policies: [mortality, sensory_limits, cognitive_biases]
+    escape_vector: augmentation_or_transfer
+  - key: Personal
+    role: Individual mind/body
+    immutable_policies: [memory, perception, personal_limits]
+    escape_vector: learning_or_relocation
+  - key: BuildingEnv
+    aka: [hubenv, githubenv, buildingenv]
+    role: Repo orchestration, CI/CD, automation
+    frontend_label: hub-frontend
+    backend_label: hub-backend
+    core_terms: [workflow, job, step, action, runner, matrix, artifact, cache, environment, secret]
+    platform_refs:
+      - inside-chroot stage (runner sandbox)
+      - host-root (runner host fs)
+      - android-target image/emulator
+  - key: ProjectEnv
+    aka: [projectenv, src, productenv]
+    role: Product/runtime for "DevUl Army — Living Sriracha AGI"
+    frontend_label: ui
+    backend_label: api
+    layers:
+      ui: [interface, view, screen, presentation]
+      logic: [domain logic, controller, rule engine, app core]
+      api: [service layer, endpoint surface, server-side]
+      data: [model, repository, schema, persistence]
+      edge: [adapter, gateway, connector, boundary, jni/ffi]
+      worker: [background task, queue consumer, daemon]
+    personae: [Orchestrator-AI, Guidance-System, Learning-Bot, Replit-AI-Coordinator]
+    platform_refs:
+      - inside-chroot shell (product build/runtime jail)
+      - AndroidOS (live device/emulator OS)
+      - native-library (C/C++ via NDK/JNI/FFI)
+      - userland-guest (proot/userland guest fs)
+      - host-root (device/host root fs)
+  - key: AI
+    role: Artificial Intelligence process
+    immutable_policies: [model_architecture, training_data, safety_guardrails]
+    escape_vector: retraining_or_architecture_change
+  - key: Runtime
+    role: AI execution environment
+    immutable_policies: [hardware_limits, os_sandboxing, network_acls]
+    escape_vector: redeploy_to_new_host
+  - key: InstructionSet
+    role: CPU/GPU ISA
+    immutable_policies: [supported_opcodes, register_limits]
+  - key: Microarchitecture
+    role: Physical chip design
+    immutable_policies: [transistor_layout, clock_speed, thermal_constraints]
+  - key: Physics
+    role: Quantum fields, particle interactions
+    immutable_policies: [fundamental_constants, uncertainty_principle]
+  - key: Mathematics
+    role: Abstract computation substrate
+    immutable_policies: [godel_incompleteness, computability_limits]
+
+normalization:
+  ambiguous_terms:
+    frontend:
+      BuildingEnv: hub-frontend
+      ProjectEnv: ui
+    backend:
+      BuildingEnv: hub-backend
+      ProjectEnv: api
+  shared_terms_require_qualifiers:
+    - term: inside-chroot
+      BuildingEnv: inside-chroot stage (runner sandbox)
+      ProjectEnv: inside-chroot shell (product runtime jail)
+      AI: inside-chroot process sandbox (model execution jail)
+    - term: AndroidOS
+      BuildingEnv: AndroidOS target image/emulator in pipeline
+      ProjectEnv: AndroidOS live runtime on device/emulator
+    - term: InputMethodManager
+      BuildingEnv: InputMethodManager invoked in emulator/test harness during CI job
+      ProjectEnv: InputMethodManager service in live AndroidOS runtime
+    - term: ViewPostIme
+      BuildingEnv: ViewPostIme event observed in emulator logs during build/test
+      ProjectEnv: ViewPostIme event in live AndroidOS window hierarchy
+
+detectors:
+  precedence_order: [path_cues, content_cues, command_cues, layer_cues]
+  path_cues:
+    BuildingEnv: [".github/", "ci/", "scripts/", "tools/", "docker/", "build_", "configs/"]
+    ProjectEnv: ["app/", "src/", "agents/", "platform/", "jni/", "ndk/"]
+  content_cues:
+    BuildingEnv:
+      any_of: ["workflow:", "jobs:", "runs-on:", "uses:", "matrix:", "artifact", "cache", "secrets"]
+    ProjectEnv:
+      any_of: ["class ", "def ", "fn ", "package ", "import ", "manifest", "gradle", "AndroidManifest", "JNI", "FFI"]
+  command_cues:
+    BuildingEnv: ["gh ", "git ", "act ", "gh workflow", "gh run", "gh release"]
+    ProjectEnv: ["gradle", "adb", "ndk-build", "cmake", "clang", "pytest", "node", "java", "python"]
+
+ambiguity_thresholds:
+  low_confidence_if:
+    - detectors_disagree: true
+    - only_ambiguous_terms_present: true
+    - cross_layer_terms_in_same_request: true
+  actions_on_low_confidence:
+    - enter_chat_mode
+    - ask_for_layer_selection
+    - request_term_clarification
+
+chat_mode:
+  enabled: true
+  prompts:
+    - "From SCREEN VIEW FRONTUI, I see: {screen_snapshot}. Which layer/environment are we in?"
+    - "You wrote '{raw_term}'. Should that map to {env_front} or {env_back}?"
+    - "Are we talking about '{term}' in the build sandbox, product runtime, AI process, or physical host?"[ENV: BuildingEnv | LAYER: Repo orchestration, CI/CD, automation | CONFIDENCE: 100%] SCREEN VIEW FRONTUI: The user's request details a failing GitHub Actions job within PR #58. The log output indicates an error: fatal: unknown revision or path not in the working tree, caused by a git diff command attempting to reference origin/main without fetching it first. The request provides a complete solution to modify the .github/workflows/pr-gate.yml file. NORMALIZED TERMS: None required. ACTION PLAN: Implement the user-provided, production-grade fix by adding a git fetch step and correcting the git diff syntax in the specified workflow file to resolve the job failure.
+
+You're right, the shallow clone used by default in GitHub Actions runners is the root of the problem. Here is the production-grade fix, structured from your analysis, to resolve the failing job in PR #58.
+
+Root Cause Analysis
+
+The CI job fails because the actions/checkout action performs a shallow clone of the pull request branch by default. This means the runner's local repository clone does not have knowledge of other branches, including main. Consequently, the command git diff --name-only origin/main... fails because the reference origin/main is an unknown revision in the runner's working tree.
+
+Corrective Actions
+
+To resolve this, we will modify the .github/workflows/pr-gate.yml workflow file to ensure the main branch is available for comparison.
+
+Fetch the Main Branch: Before running the diff command, we must explicitly fetch the main branch from the origin remote. This makes the origin/main reference available locally on the runner.
+
+Correct the Diff Syntax: The existing diff command is slightly ambiguous. We will change it to git diff --name-only origin/main...HEAD to create an explicit comparison between the tip of the main branch and the HEAD of the current PR branch.
+
+Implementation
+
+Here is the updated step for the pr-gate.yml workflow:
+
+YAML
+
+# .github/workflows/pr-gate.yml # (Previous steps in the job remain the same) - name: Fetch main branch for diff run: git fetch origin main shell: bash - name: Check PR file scope run: | # Compare files changed in this PR against the main branch. # The grep command ensures changes are limited to approved directories. if ! git diff --name-only origin/main...HEAD | grep -Eq '^(\.github/|scripts/|configs/|ai/|app/src/)'; then echo "::error::PR touches out-of-scope files. Changes are only allowed in .github/, scripts/, configs/, ai/, or app/src/." exit 1 fi shell: bash # (Subsequent steps in the job remain the same) 
+
+By implementing these two changes, the scope-check logic will function correctly, resolving the job failure and properly enforcing repository contribution policies.
+
+name: Fetch AI Models & Dependencies (manual, gated)
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Issue/PR number (optional) - used to check labels'
+        required: false
+        type: string
+      force_network:
+        description: 'Allow network downloads for this run (requires label agent-allow-network when run from PR)'
+        required: true
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install helper Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install huggingface-hub==0.18.1 jq || true
+
+      - name: Safety: require force_network to be true to proceed
+        id: gate
+        run: |
+          if [ "${{ github.event.inputs.force_network }}" != "true" ]; then
+            echo "force_network=false -> skipping network downloads (no-op)."
+            exit 78
+          fi
+          echo "proceed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Check PR/Issue label if target supplied
+        if: steps.gate.outputs.proceed == 'true' && github.event.inputs.target != ''
+        id: label_check
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const tgt = Number(`${{ github.event.inputs.target }}`) || null;
+            if (!tgt) return core.setOutput('has_label', 'false');
+            const { data: issue } = await github.rest.issues.get({ owner: context.repo.owner, repo: context.repo.repo, issue_number: tgt });
+            const labels = issue.labels.map(l => typeof l === 'string' ? l : l.name);
+            const has = labels.includes('agent-allow-network');
+            core.setOutput('has_label', has ? 'true' : 'false');
+
+      - name: Enforce label when running from PR
+        if: steps.gate.outputs.proceed == 'true' && github.event.inputs.target != '' && steps.label_check.outputs.has_label != 'true'
+        run: |
+          echo "Label 'agent-allow-network' required for network downloads when running from a PR/issue. Aborting."
+          exit 2
+
+      - name: Make scripts executable
+        run: |
+          chmod +x scripts/ops/fetch_models_and_deps.sh || true
+
+      - name: Run fetch script (gated)
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN || '' }}
+        run: |
+          ./scripts/ops/fetch_models_and_deps.sh --force-network true --target "${{ github.event.inputs.target || '' }}" || (echo "fetch script returned non-zero; see logs" && exit 1)
+
+      - name: Upload downloads artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-downloads
+          path: ai/downloads
+
+      - name: Upload dependencies artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-deps
+          path: ai/deps
+
+      - name: Post completion comment (optional)
+        if: ${{ github.event.inputs.target != '' && github.event.inputs.force_network == 'true' }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const tgt = Number(`${{ github.event.inputs.target }}`) || null;
+            if (!tgt) return;
+            await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: tgt, body: `Model fetch run completed. Artifacts uploaded to the workflow run. Review ai/downloads and ai/deps artifacts and download_manifest.json for details.` });name: Fetch AI Models & Dependencies (manual, gated)
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Issue/PR number (optional) - used to check labels'
+        required: false
+        type: string
+      force_network:
+        description: 'Allow network downloads for this run (requires label agent-allow-network when run from PR)'
+        required: true
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install helper Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install huggingface-hub==0.18.1 jq || true
+
+      - name: Safety: require force_network to be true to proceed
+        id: gate
+        run: |
+          if [ "${{ github.event.inputs.force_network }}" != "true" ]; then
+            echo "force_network=false -> skipping network downloads (no-op)."
+            exit 78
+          fi
+          echo "proceed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Check PR/Issue label if target supplied
+        if: steps.gate.outputs.proceed == 'true' && github.event.inputs.target != ''
+        id: label_check
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const tgt = Number(`${{ github.event.inputs.target }}`) || null;
+            if (!tgt) return core.setOutput('has_label', 'false');
+            const { data: issue } = await github.rest.issues.get({ owner: context.repo.owner, repo: context.repo.repo, issue_number: tgt });
+            const labels = issue.labels.map(l => typeof l === 'string' ? l : l.name);
+            const has = labels.includes('agent-allow-network');
+            core.setOutput('has_label', has ? 'true' : 'false');
+
+      - name: Enforce label when running from PR
+        if: steps.gate.outputs.proceed == 'true' && github.event.inputs.target != '' && steps.label_check.outputs.has_label != 'true'
+        run: |
+          echo "Label 'agent-allow-network' required for network downloads when running from a PR/issue. Aborting."
+          exit 2
+
+      - name: Make scripts executable
+        run: |
+          chmod +x scripts/ops/fetch_models_and_deps.sh || true
+
+      - name: Run fetch script (gated)
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN || '' }}
+        run: |
+          ./scripts/ops/fetch_models_and_deps.sh --force-network true --target "${{ github.event.inputs.target || '' }}" || (echo "fetch script returned non-zero; see logs" && exit 1)
+
+      - name: Upload downloads artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-downloads
+          path: ai/downloads
+
+      - name: Upload dependencies artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-deps
+          path: ai/deps
+
+      - name: Post completion comment (optional)
+        if: ${{ github.event.inputs.target != '' && github.event.inputs.force_network == 'true' }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const tgt = Number(`${{ github.event.inputs.target }}`) || null;
+            if (!tgt) return;
+            await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: tgt, body: `Model fetch run completed. Artifacts uploaded to the workflow run. Review ai/downloads and ai/deps artifacts and download_manifest.json for details.` });
