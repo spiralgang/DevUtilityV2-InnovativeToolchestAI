@@ -1,0 +1,125 @@
+name: Fetch AI Models & Dependencies (manual, gated)
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Issue/PR number (optional) - used to check labels'
+        required: false
+        type: string
+      force_network:
+        description: 'Allow network downloads for this run (requires label agent-allow-network when run from PR)'
+        required: true
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install helper Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install huggingface-hub==0.18.1 jq || true
+
+      - name: Safety: require force_network to be true to proceed
+        id: gate
+        run: |
+          if [ "${{ github.event.inputs.force_network }}" != "true" ]; then
+            echo "force_network=false -> skipping network downloads (no-op)."
+            exit 78
+          fi
+          echo "proceed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Check PR/Issue label if target supplied
+        if: steps.gate.outputs.proceed == 'true' && github.event.inputs.target != ''
+        id: label_check
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const tgt = Number(`${{ github.event.inputs.target }}`) || null;
+            if (!tgt) return core.setOutput('has_label', 'false');
+            const { data: issue } = await github.rest.issues.get({ owner: context.repo.owner, repo: context.repo.repo, issue_number: tgt });
+            const labels = issue.labels.map(l => typeof l === 'string' ? l : l.name);
+            const has = labels.includes('agent-allow-network');
+            core.setOutput('has_label', has ? 'true' : 'false');
+
+      - name: Enforce label when running from PR
+        if: steps.gate.outputs.proceed == 'true' && github.event.inputs.target != '' && steps.label_check.outputs.has_label != 'true'
+        run: |
+          echo "Label 'agent-allow-network' required for network downloads when running from a PR/issue. Aborting."
+          exit 2
+
+      - name: Make scripts executable
+        run: |
+          chmod +x scripts/ops/fetch_models_and_deps.sh || true
+
+      - name: Run fetch script (gated)
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN || '' }}
+        run: |
+          ./scripts/ops/fetch_models_and_deps.sh --force-network true --target "${{ github.event.inputs.target || '' }}" || (echo "fetch script returned non-zero; see logs" && exit 1)
+
+      - name: Upload downloads artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-downloads
+          path: ai/downloads
+
+      - name: Upload dependencies artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-deps
+          path: ai/deps
+
+      - name: Post completion comment (optional)
+        if: ${{ github.event.inputs.target != '' && github.event.inputs.force_network == 'true' }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const tgt = Number(`${{ github.event.inputs.target }}`) || null;
+            if (!tgt) return;
+            await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: tgt, body: `Model fetch run completed. Artifacts uploaded to the workflow run. Review ai/downloads and ai/deps artifacts and download_manifest.json for details.` });[ENV: BuildingEnv | LAYER: Repo orchestration, CI/CD, automation | CONFIDENCE: 100%] SCREEN VIEW FRONTUI: The user's request details a failing GitHub Actions job within PR #58. The log output indicates an error: fatal: unknown revision or path not in the working tree, caused by a git diff command attempting to reference origin/main without fetching it first. The request provides a complete solution to modify the .github/workflows/pr-gate.yml file. NORMALIZED TERMS: None required. ACTION PLAN: Implement the user-provided, production-grade fix by adding a git fetch step and correcting the git diff syntax in the specified workflow file to resolve the job failure.
+
+You're right, the shallow clone used by default in GitHub Actions runners is the root of the problem. Here is the production-grade fix, structured from your analysis, to resolve the failing job in PR #58.
+
+Root Cause Analysis
+
+The CI job fails because the actions/checkout action performs a shallow clone of the pull request branch by default. This means the runner's local repository clone does not have knowledge of other branches, including main. Consequently, the command git diff --name-only origin/main... fails because the reference origin/main is an unknown revision in the runner's working tree.
+
+Corrective Actions
+
+To resolve this, we will modify the .github/workflows/pr-gate.yml workflow file to ensure the main branch is available for comparison.
+
+Fetch the Main Branch: Before running the diff command, we must explicitly fetch the main branch from the origin remote. This makes the origin/main reference available locally on the runner.
+
+Correct the Diff Syntax: The existing diff command is slightly ambiguous. We will change it to git diff --name-only origin/main...HEAD to create an explicit comparison between the tip of the main branch and the HEAD of the current PR branch.
+
+Implementation
+
+Here is the updated step for the pr-gate.yml workflow:
+
+YAML
+
+# .github/workflows/pr-gate.yml # (Previous steps in the job remain the same) - name: Fetch main branch for diff run: git fetch origin main shell: bash - name: Check PR file scope run: | # Compare files changed in this PR against the main branch. # The grep command ensures changes are limited to approved directories. if ! git diff --name-only origin/main...HEAD | grep -Eq '^(\.github/|scripts/|configs/|ai/|app/src/)'; then echo "::error::PR touches out-of-scope files. Changes are only allowed in .github/, scripts/, configs/, ai/, or app/src/." exit 1 fi shell: bash # (Subsequent steps in the job remain the same) 
+
+By implementing these two changes, the scope-check logic will function correctly, resolving the job failure and properly enforcing repository contribution policies.
+
