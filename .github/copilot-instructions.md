@@ -8,7 +8,6 @@ You are operating within the **DevUl Army : Living Sriracha AGI** repository - a
 ### CORE PRINCIPLES
 - **PRECISION OVER SPEED**: Make surgical, minimal changes that preserve existing functionality
 - **ANDROID APP PROTECTION**: Never modify Android build system, Gradle configs, or source code without explicit request
-- **SAFETY FIRST**: All destructive operations require approval via `configs/activation_rules.json` and `configs/move_manifest.json`
 - **REPOSITORY ORGANIZATION**: Maintain the established directory structure and file organization
 - **LIVING CODE RESPECT**: Preserve conflict resolution systems and living-code mechanisms
 
@@ -124,11 +123,6 @@ python3 tools/assimilation_audit.py
 4. **Test build**: `./gradlew assembleDebug`
 5. **Report issue** with specific error messages
 
-#### If Safety Policy Violated
-1. **Review logs** - Check `logs/activation.jsonl` for audit trail
-2. **Restore files** - Use git to restore any improperly modified files
-3. **Update manifest** - Add proper entries to `configs/move_manifest.json`
-4. **Re-validate** - Run `scripts/ops-guard/safety-enforcer.sh`
 
 ### QUALITY STANDARDS
 

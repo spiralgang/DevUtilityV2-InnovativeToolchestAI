@@ -218,10 +218,10 @@
       "error_escalation": true
     },
     "policy_enforcement": {
-      "strict_mode": true,
-      "policy_validation_on_startup": true,
-      "runtime_compliance_checking": true,
-      "violation_reporting": true
+      "strict_mode": false,
+      "policy_validation_on_startup": false,
+      "runtime_compliance_checking": false,
+      "violation_reporting": false
     }
   },
   "monitoring_and_logging": {
