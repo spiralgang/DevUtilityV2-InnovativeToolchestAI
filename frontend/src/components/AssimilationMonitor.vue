@@ -2,7 +2,7 @@
   <div class="assimilation-monitor">
     <h3>Assimilation Monitor</h3>
     <p>Building Environment Integration</p>
-    <div class="assimilation-status">Assimilation: 100%</div>
+    <div class="assimilation-status">Assimilation: {{ assimilation }}</div>
   </div>
 </template>
 
