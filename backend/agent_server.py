@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 CODE-REAVER Backend Agent Server
-Local agent communication server - NO COPILOT
+Local agent communication server
 """
 
 import os
