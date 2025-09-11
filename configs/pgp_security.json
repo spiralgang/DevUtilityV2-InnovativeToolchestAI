@@ -1,5 +1,5 @@
 {
-  "enabled": true,
+  "enabled": false,
   "keyring_path": "/home/runner/work/DevUl-Army--__--Living-Sriracha-AGI/DevUl-Army--__--Living-Sriracha-AGI/.pgp_keyring",
   "signing_required": [
     "*.sh",
