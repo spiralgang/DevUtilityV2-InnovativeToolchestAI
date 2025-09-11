@@ -1,0 +1,59 @@
+# Core dependencies
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.4.2
+httpx==0.25.1
+
+# AI and ML dependencies
+openai>=1.0.0
+anthropic>=0.7.0
+langchain>=0.0.340
+transformers>=4.35.0
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Additional utilities
+python-multipart==0.0.6
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+aiofiles==23.2.1
+
+# Logging and monitoring
+structlog==23.2.0
+prometheus-client==0.18.0
+
+# Development dependencies
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+black>=23.9.0
+isort>=5.12.0
+flake8>=6.1.0
+
+# Dockerfile for litellm_tools
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy source code
+COPY src/ ./src/
+COPY api_wrapper.py .
+
+# Expose port
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:8000/health || exit 1
+
+# Run the API wrapper
+CMD ["python", "api_wrapper.py"]

@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Run AI Review
-        uses: ai-review-manager@v1
+        uses: ai-review-manager@v4
         with:
-          reviewers: 'Gemini, Claude, Deepseek-Coder, BigModel.cn 3.5/4.0'
+          reviewers: 'Deepseek R1, PHI 2, Mistral, Ollama, Qwen'
           standards: 'vault'

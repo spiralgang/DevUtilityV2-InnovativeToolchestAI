@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub-Native Assimilation Agent - System Status</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background: #0d1117; color: #c9d1d9; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { color: #58a6ff; margin: 0; }
+        .header p { color: #8b949e; margin: 5px 0; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; }
+        .card h3 { margin: 0 0 15px 0; color: #f0f6fc; }
+        .status-ok { color: #3fb950; }
+        .status-warning { color: #d29922; }
+        .status-error { color: #f85149; }
+        .metric { display: flex; justify-content: space-between; margin: 8px 0; }
+        .metric-label { color: #8b949e; }
+        .metric-value { font-weight: bold; }
+        .progress-bar { width: 100%; height: 8px; background: #21262d; border-radius: 4px; overflow: hidden; margin: 5px 0; }
+        .progress-fill { height: 100%; transition: width 0.3s; }
+        .progress-ok { background: #3fb950; }
+        .progress-warning { background: #d29922; }
+        .progress-error { background: #f85149; }
+        .log-entry { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 12px; padding: 8px; background: #0d1117; border-radius: 4px; margin: 5px 0; border-left: 3px solid #30363d; }
+        .timestamp { color: #58a6ff; margin-right: 10px; }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+        .badge-ok { background: #238636; color: white; }
+        .badge-warning { background: #bf8700; color: white; }
+        .badge-error { background: #da3633; color: white; }
+        .footer { text-align: center; margin-top: 40px; color: #8b949e; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 GitHub-Native Assimilation Agent</h1>
+            <p>System Status Dashboard</p>
+            <p>Last Updated: <span id="lastUpdated">2025-09-11T18:23:57Z</span></p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3>🏥 System Health</h3>
+                <div class="metric">
+                    <span class="metric-label">Overall Score</span>
+                    <span class="metric-value" id="healthScore">9/10</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="healthProgress" class="progress-ok" style="width: 90%"></div>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Status</span>
+                    <span class="badge" id="healthStatus" class="badge badge-ok">Excellent</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🔄 Assimilation Status</h3>
+                <div class="metric">
+                    <span class="metric-label">Total Files</span>
+                    <span class="metric-value">37</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Integrated</span>
+                    <span class="metric-value status-ok">4</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Missing</span>
+                    <span class="metric-value status-error">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Unbound</span>
+                    <span class="metric-value status-warning">33</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-ok" style="width: 11%"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>⚙️ Workflows</h3>
+                <div class="metric">
+                    <span class="metric-label">Command Router</span>
+                    <span class="badge badge-ok">Active</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Assimilation Audit</span>
+                    <span class="badge badge-ok">Active</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Merge Gate</span>
+                    <span class="badge badge-ok">Enforced</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Orchestrator</span>
+                    <span class="badge badge-ok">Running</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🛡️ Safety Policies</h3>
+                <div class="metric">
+                    <span class="metric-label">Destructive Actions</span>
+                    <span class="badge badge-ok">Disabled</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Move Manifest</span>
+                    <span class="badge badge-ok">Protected</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Android Protection</span>
+                    <span class="badge badge-ok">Active</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Forensic Logging</span>
+                    <span class="badge badge-ok">Enabled</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📋 Recent Activity</h3>
+            <div id="recentLogs">
+                <div class="log-entry"><span class="timestamp">No recent activity</span> System monitoring initialized</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🤖 Autonomous GitHub-Native Assimilation Agent System</p>
+            <p>Forensic logs and detailed metrics available in workflow artifacts</p>
+        </div>
+    </div>
+
+    <script>
+        // Auto-refresh every 5 minutes
+        setTimeout(() => window.location.reload(), 300000);
+    </script>
+</body>
+</html>
