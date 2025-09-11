@@ -5,25 +5,18 @@
       "description": "Advanced reasoning and primary coding intelligence",
       "model_path": "models/deepseek-r1",
       "script_path": "ai/ollama/scripts/deepseek_r1_integration.py",
-      "capabilities": [
-        "advanced_reasoning",
-        "primary_coding",
-        "devutility_ai"
-      ],
+      "capabilities": ["advanced_reasoning", "primary_coding", "devutility_ai"],
       "color": "#00ff00",
-      "icon": "\ud83e\udde0",
+      "icon": "🧠",
       "priority": 1
     },
     "phi2": {
       "name": "Phi-2",
       "description": "Lightweight integration agent for frontend tasks",
       "model_path": "models/Phi-2",
-      "capabilities": [
-        "code_generation",
-        "frontend_integration"
-      ],
+      "capabilities": ["code_generation", "frontend_integration"],
       "color": "#0084ff",
-      "icon": "\ud83d\udd27",
+      "icon": "🔧",
       "priority": 2
     },
     "ollama": {
@@ -31,89 +24,28 @@
       "description": "Local model serving with REST API interface",
       "model_path": "models/ollama",
       "script_path": "ai/ollama/scripts/local_model_manager.py",
-      "capabilities": [
-        "local_serving",
-        "multiple_models"
-      ],
+      "capabilities": ["local_serving", "multiple_models"],
       "color": "#ff6b35",
-      "icon": "\ud83e\udd99",
+      "icon": "🦙",
       "priority": 3
     },
     "qwen": {
       "name": "Qwen 2.5",
       "description": "Multilingual glue code and integration logic",
       "model_path": "models/Qwen2.5-0.5B",
-      "capabilities": [
-        "multilingual",
-        "glue_code"
-      ],
+      "capabilities": ["multilingual", "glue_code"],
       "color": "#9c27b0",
-      "icon": "\ud83c\udf1f",
+      "icon": "🌟",
       "priority": 4
     },
     "mixtral": {
       "name": "Mixtral 8x7B",
       "description": "High-performance reasoning for complex tasks",
       "model_path": "models/Mixtral-8x7B",
-      "capabilities": [
-        "high_performance",
-        "complex_reasoning"
-      ],
+      "capabilities": ["high_performance", "complex_reasoning"],
       "color": "#ff4444",
-      "icon": "\ud83d\ude80",
+      "icon": "🚀",
       "priority": 5
-    }
-  },
-  "integration_targets": {
-    "AgentApiClient": {
-      "type": "android_client",
-      "path": "app/src/main/java/com/spiralgang/agents/AgentApiClient.kt",
-      "frontend_binding": "frontend/src/utils/agentApi.js"
-    },
-    "AgentDashboardActivity": {
-      "type": "android_activity",
-      "path": "app/src/main/java/com/spiralgang/ui/AgentDashboardActivity.kt",
-      "frontend_binding": "frontend/src/components/AgentDashboard.vue"
-    },
-    "AssimilationClient": {
-      "type": "android_client",
-      "path": "app/src/main/java/com/spiralgang/agents/AssimilationClient.kt",
-      "frontend_binding": "frontend/src/utils/assimilationClient.js"
-    },
-    "GitHubIntegrationService": {
-      "type": "android_service",
-      "path": "app/src/main/java/com/spiralgang/services/GitHubIntegrationService.kt",
-      "frontend_binding": "frontend/src/services/githubIntegration.js"
-    },
-    "agent_dashboard_bridge": {
-      "type": "backend_bridge",
-      "path": "backend/ui/agent_dashboard_bridge.py",
-      "frontend_binding": "frontend/src/components/AgentDashboard.vue"
-    },
-    "status_panel_bridge": {
-      "type": "backend_bridge",
-      "path": "backend/ui/status_panel_bridge.py",
-      "frontend_binding": "frontend/src/components/AgentStatusPanel.vue"
-    },
-    "assimilation_monitor_bridge": {
-      "type": "backend_bridge",
-      "path": "backend/ui/assimilation_monitor_bridge.py",
-      "frontend_binding": "frontend/src/components/AssimilationMonitor.vue"
-    },
-    "agent_api_bridge": {
-      "type": "backend_bridge",
-      "path": "backend/api/agent_api_bridge.py",
-      "frontend_binding": "frontend/src/utils/agentApi.js"
-    },
-    "agent_core_bridge": {
-      "type": "backend_bridge",
-      "path": "backend/services/agent_core_bridge.py",
-      "ai_binding": "ai/agent.py"
-    },
-    "github_bridge_adapter": {
-      "type": "backend_bridge",
-      "path": "backend/bridges/github_bridge_adapter.py",
-      "ai_binding": "ai/bridges/github_bridge.py"
     }
   },
   "settings": {
@@ -121,9 +53,5 @@
     "log_interactions": true,
     "offline_mode": true,
     "no_copilot": true
-  },
-  "bridge_references": [
-    "github_integration_bridge",
-    "providers"
-  ]
+  }
 }
