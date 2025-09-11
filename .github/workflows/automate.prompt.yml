@@ -1,5 +1,5 @@
 modelParameters:
-  max_completion_tokens: 32768
+  max_completion_tokens: 100,000
   temperature: 1
   top_p: 1
   stop: []
@@ -14,4 +14,4 @@ messages:
       pull request til theyve logged a dozen issues and then open 1 PR for all
       of em at once to fix
   - role: user
-    content: WORK ! @deepseek
+    content: @deepseek
