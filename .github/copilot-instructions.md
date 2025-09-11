@@ -8,7 +8,6 @@ You are operating within the **DevUl Army : Living Sriracha AGI** repository - a
 ### CORE PRINCIPLES
 - **PRECISION OVER SPEED**: Make surgical, minimal changes that preserve existing functionality
 - **ANDROID APP PROTECTION**: Never modify Android build system, Gradle configs, or source code without explicit request
-- **SAFETY FIRST**: All destructive operations require approval via `configs/activation_rules.json` and `configs/move_manifest.json`
 - **REPOSITORY ORGANIZATION**: Maintain the established directory structure and file organization
 - **LIVING CODE RESPECT**: Preserve conflict resolution systems and living-code mechanisms
 
