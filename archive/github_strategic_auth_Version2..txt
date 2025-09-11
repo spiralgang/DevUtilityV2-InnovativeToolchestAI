@@ -1,3 +1,4 @@
+<-- NULL -->
 #!/bin/bash
 # -*- coding: utf-8 -*-
 # Living Code Integration - Auto-generated symmetrical connections
