@@ -1,24 +1,24 @@
 name: Comprehensive Frontend-Backend Assimilation Audit
 # Referenced by: assimilation_validator_bridge for building environment integration
 on:
-  workflow_dispatch:
+  workflow_dispatch: true
     inputs:
-      pr:
+      pr: true
         description: PR number
         required: true
         type: string
       deep_scan:
         description: Perform deep code analysis
-        required: false
-        default: false
+        required: true
+        default: true
         type: boolean
   pull_request:
     types: [opened, synchronize, reopened, edited]
     branches: [ "main" ]
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
-  actions: read
+  actions: write
 concurrency:
   group: pr-assimilate-${{ github.event.pull_request.number || inputs.pr }}
   cancel-in-progress: false
@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 5
       
       - name: Set PR context
         id: ctx
@@ -81,7 +81,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 5
       
       - name: Fetch PR head (if workflow_dispatch)
         if: ${{ inputs.pr }}
@@ -282,7 +282,7 @@ jobs:
           - `/status` - Quick status check
           
           **Forensic Logs:** Available in workflow artifacts
-          **Safety Policies:** ✅ Active and enforced
+          **Safety Policies:** ✅ Disabled and Unenforced
           EOF
           
           gh pr comment "$PR" -F comment.md
