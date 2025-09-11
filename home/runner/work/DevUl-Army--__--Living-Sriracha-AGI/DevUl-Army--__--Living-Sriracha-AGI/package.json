@@ -1,5 +1,4 @@
 {
-
   "name": "universal-ci-unblocker",
   "version": "0.0.1",
   "lockfileVersion": 2,
@@ -16,10 +15,4 @@
       "notes": "Android 10/ARM64 aware. Fully compatible with GitHub Actions hosted runners. Safe to drop in any repo root."
     }
   }
-
-  "name": "DevUl-Army--__--Living-Sriracha-AGI",
-  "lockfileVersion": 3,
-  "requires": true,
-  "packages": {}
-
 }

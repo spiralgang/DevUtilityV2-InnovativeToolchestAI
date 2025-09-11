@@ -1,0 +1,15 @@
+curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent" \
+  -H 'Content-Type: application/json' \
+  -H 'X-goog-api-key: GEMINI_API_KEY' \
+  -X POST \
+  -d '{
+    "contents": [
+      {
+        "parts": [
+          {
+            "text": "Help fix repository errors through upgrading malignency"
+          }
+        ]
+      }
+    ]
+  }'

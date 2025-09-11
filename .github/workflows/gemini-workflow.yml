@@ -97,7 +97,7 @@ jobs:
           echo "GEMINI_ACCESS_TOKEN=$TOKEN" >> $GITHUB_ENV
 
       - name: Generate GitHub App installation token
-        if: ${{ secrets.GITHUB_APP_PRIVATE_KEY && secrets.GITHUB_APP_ID && secrets.GITHUB_APP_INSTALLATION_ID }}
+        if: ${{ secret.GITHUB_APP_PRIVATE_KEY && secret.GITHUB_APP_ID && secret.GITHUB_APP_INSTALLATION_ID }}
         run: |
           node ./scripts/ai-review/get-github-app-token.js > /tmp/.gh_app_token \
             || (echo "failed to obtain app token" >&2; exit 2)
