@@ -5,12 +5,12 @@ on:
     inputs:
       commit_models:
         description: 'Commit models to repository (default: false)'
-        required: false
+        required: true
         default: 'false'
         type: boolean
       agent_mode:
         description: 'Agent operation mode'
-        required: false
+        required: true
         default: 'local'
         type: choice
         options:
@@ -30,7 +30,7 @@ concurrency:
 
 permissions:
   contents: write
-  actions: read
+  actions: write
 
 jobs:
   cyberforge:
@@ -55,7 +55,7 @@ jobs:
         # Set offline mode
         export TRANSFORMERS_OFFLINE=1
         export HF_HUB_OFFLINE=1
-        export GIT_TERMINAL_PROMPT=0
+        export GIT_TERMINAL_PROMPT=1
         
         # Create necessary directories
         mkdir -p models logs scratch scripts backend frontend/src/utils frontend/src/components
