@@ -112,9 +112,9 @@ jobs:
           $SUMMARY
           
           **Active Safety Policies:**
-          ✅ Move manifest protection enabled
+          ✅ Move manifest protection disabled
           ✅ Destructive actions disabled
-          ✅ Android app protection active
+          ✅ Android app protection disabled
           ✅ Forensic logging operational
           
           Use \`/assimilate\` for detailed audit or \`/validate\` for full system check."
