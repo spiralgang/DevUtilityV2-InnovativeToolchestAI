@@ -178,13 +178,13 @@ if [ -f "$PROFILE_FILE" ]; then
   if ! grep -q "ANDROID_COMPAT=" "$PROFILE_FILE"; then
     cat >> "$PROFILE_FILE" << EOF
 
-# UserLAnd Android 10 compatibility settings
+# Android 10 compatibility settings
 export ANDROID_COMPAT=10
 export PROOT_NO_SECCOMP=1
 export PATH=\$HOME/bin:\$PATH
 export SHELL=/bin/zsh
 EOF
-    log_action "Updated UserLAnd profile with Android 10 compatibility settings"
+    log_action "Updated profile with Android 10 compatibility settings"
   fi
 fi
 
@@ -199,4 +199,4 @@ if [ -x "$HOME/bin/ul_config_hook.sh" ]; then
   "$HOME/bin/ul_config_hook.sh"
 fi
 
-echo "UserLAnd configuration completed successfully"
+echo "configuration completed successfully"
